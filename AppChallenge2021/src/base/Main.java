@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	
 	public static void main(String[] args) {
+		
 		Application.launch(args);
 	}
 
@@ -18,7 +19,6 @@ public class Main extends Application {
 		StackPane root = new StackPane();
 		
 		Scene scene = new Scene(root);
-		
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
