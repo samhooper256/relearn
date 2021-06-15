@@ -89,6 +89,11 @@ record ComplexImpl(BigDecimal real, BigDecimal imaginary) implements Complex {
 	}
 	
 	@Override
+	public boolean isZero() {
+		return BigUtils.isZero(real()) && BigUtils.isZero(imaginary());
+	}
+
+	@Override
 	public String toString() {
 		return String.format("%f+%fi", real(), imaginary());
 	}

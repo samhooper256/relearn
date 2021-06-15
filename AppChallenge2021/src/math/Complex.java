@@ -42,8 +42,11 @@ public interface Complex {
 	
 	/** Returns the absolute value of this complex number, squared. This will always be a real number.
 	 * This is equivalent to {@code this} times its {@link #conjugate()}.*/
-	BigDecimal abs2();
+	default BigDecimal abs2() {
+		return abs().pow(2);
+	}
 	
 	BigDecimal abs();
 	
+	boolean isZero();
 }
