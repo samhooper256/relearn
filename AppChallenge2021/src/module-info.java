@@ -7,6 +7,7 @@ open module appchallenge2021 {
 	requires transitive jlatexmath;
 	requires transitive org.jfree.fxgraphics2d;
 	requires transitive javafx.swing;
+	requires javafx.controls;
 
 	exports base;
 	
