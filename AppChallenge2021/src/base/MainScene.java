@@ -21,6 +21,7 @@ public class MainScene extends Scene {
 	private final StackPane root;
 	private final Button setsButton, statsButton, settingsButton;
 	private final Label titleLabel;
+	private final SetsPane setsPane;
 	
 	private MainScene(StackPane root, double width, double height) {
 		super(root, width, height);
@@ -29,9 +30,21 @@ public class MainScene extends Scene {
 		setsButton = new Button("Sets");
 		statsButton = new Button("Stats");
 		settingsButton = new Button("Settings");
+		setsPane = new SetsPane();
+		initButtons();
 		VBox vBox = new VBox(5, titleLabel, setsButton, statsButton, settingsButton);
 		vBox.setAlignment(Pos.CENTER);
 		root.getChildren().add(vBox);
+	}
+	
+	private void initButtons() {
+		setsButton.setOnAction(e -> setRoot(setsPane));
+	}
+	
+	private void setRoot(Pane newRoot) {
+		if(newRoot != setsPane)
+			throw new IllegalArgumentException(String.format("Cannot change root to: %s", newRoot));
+		super.setRoot(newRoot);
 	}
 	
 }
