@@ -108,4 +108,13 @@ public final class BigUtils {
 		return containsOnlyDigits(str, startInclusive, endExclusive);
 	}
 	
+	public static String toPrettyString(BigDecimal bd) {
+		String str = bd.toPlainString();
+		if(Strings.contains(str, Parsing.DECIMAL_POINT)) {
+			str = Strings.stripTrailing(str, '0');
+			str = Strings.stripTrailing(str, '.');
+		}
+		return str;
+	}
+	
 }

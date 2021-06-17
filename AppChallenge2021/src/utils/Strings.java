@@ -27,7 +27,11 @@ public final class Strings {
 	}
 	
 	public static int indexOf(String str, CharPredicate predicate) {
-		for(int i = 0; i < str.length(); i++)
+		return indexOf(str, predicate, 0);
+	}
+	
+	public static int indexOf(String str, CharPredicate predicate, int fromIndex) {
+		for(int i = fromIndex; i < str.length(); i++)
 			if(predicate.test(str.charAt(i)))
 				return i;
 		return -1;
@@ -38,6 +42,14 @@ public final class Strings {
 			if(predicate.test(str.charAt(i)))
 				return i;
 		return -1;
+	}
+	
+	public static boolean contains(String str, CharPredicate predicate) {
+		return indexOf(str, predicate) >= 0;
+	}
+	
+	public static boolean contains(String str, char c) {
+		return str.indexOf(c) >= 0;
 	}
 	
 }

@@ -88,4 +88,9 @@ public interface Complex {
 	BigDecimal abs();
 	
 	boolean isZero();
+	
+	BigDecimal toBigDecimalExact();
+	
+	int intValueExact();
+	
 }

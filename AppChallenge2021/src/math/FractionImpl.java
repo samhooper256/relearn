@@ -8,16 +8,16 @@ import java.math.*;
  */
 final class FractionImpl implements Fraction {
 	
-	public static final FractionImpl ZERO = new FractionImpl(BigInteger.ZERO, BigInteger.ZERO, false);
+	public static final FractionImpl ZERO = new FractionImpl(BigInteger.ZERO, BigInteger.ONE, false);
 	
 	private final BigInteger numerator, denominator;
 	private final boolean isNegative;
 	
-	public static FractionImpl of(long numerator, long denominator) {
-		return of(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
+	static FractionImpl ofImpl(long numerator, long denominator) {
+		return ofImpl(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
 	}
 	
-	public static FractionImpl of(BigInteger numerator, BigInteger denominator) {
+	static FractionImpl ofImpl(BigInteger numerator, BigInteger denominator) {
 		if(BigUtils.isZero(numerator))
 			return ZERO;
 		if(BigUtils.isZero(denominator))
@@ -103,7 +103,7 @@ final class FractionImpl implements Fraction {
 		BigInteger right = f.numerator().multiply(denominator());
 		BigInteger num = left.add(right);
 		BigInteger denom = denominator().multiply(f.denominator());
-		return of(num, denom);
+		return ofImpl(num, denom);
 	}
 	
 	@Override
@@ -124,7 +124,7 @@ final class FractionImpl implements Fraction {
 	public Fraction multiply(Complex c) {
 		if(!(c instanceof Fraction f))
 			throw new IllegalArgumentException("Argument must be a Fraction");
-		return of(numerator().multiply(f.numerator()), denominator().multiply(f.denominator()));
+		return ofImpl(numerator().multiply(f.numerator()), denominator().multiply(f.denominator()));
 	}
 
 	@Override
@@ -154,5 +154,15 @@ final class FractionImpl implements Fraction {
 	@Override
 	public String toString() {
 		return String.format("%s%d/%d", isNegative ? "-" : "", numerator(), denominator());
+	}
+
+	@Override
+	public BigDecimal toBigDecimalExact() {
+		return toBigDecimal(MathContext.UNLIMITED);
+	}
+
+	@Override
+	public int intValueExact() {
+		return toBigDecimalExact().intValueExact();
 	}
 }

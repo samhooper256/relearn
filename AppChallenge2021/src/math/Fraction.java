@@ -14,6 +14,14 @@ public interface Fraction extends Complex {
 	
 	Fraction ZERO = FractionImpl.ZERO;
 	
+	static Fraction of(long numerator, long denominator) {
+		return FractionImpl.ofImpl(numerator, denominator);
+	}
+	
+	static Fraction of(BigInteger numerator, BigInteger denominator) {
+		return FractionImpl.ofImpl(numerator, denominator);
+	}
+	
 	/** Always non-negative.*/
 	BigInteger numerator();
 	

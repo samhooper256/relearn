@@ -83,4 +83,7 @@ public final class Parsing {
 		return isRealInDecimalFormWithoutSign(str, startInclusive, endExclusive); //TODO do without substring?
 	}
 	
+	public static boolean containsDigit(String str) {
+		return Strings.contains(str, Parsing::isDigit);
+	}
 }

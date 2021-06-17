@@ -90,12 +90,35 @@ record ComplexImpl(BigDecimal real, BigDecimal imaginary) implements Complex {
 	
 	@Override
 	public boolean isZero() {
-		return BigUtils.isZero(real()) && BigUtils.isZero(imaginary());
+		return isReal() && isImaginary();
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%f+%fi", real(), imaginary());
+		if(isZero())
+			return "0";		
+		if(isReal()) {
+			return BigUtils.toPrettyString(real());
+		}
+		if(isImaginary()) {
+			return String.format("%si", BigUtils.toPrettyString(imaginary()));
+		}
+		String real = BigUtils.toPrettyString(real());
+		String im = String.format("%si", BigUtils.toPrettyString(imaginary()));
+		if(BigUtils.isPositive(imaginary()))
+			im = String.format("+%s", im);
+		return real + im;
 	}
 
+	@Override
+	public BigDecimal toBigDecimalExact() {
+		if(!isReal())
+			throw new ArithmeticException("This number is not real.");
+		return real();
+	}
+	
+	@Override
+	public int intValueExact() {
+		return toBigDecimalExact().intValueExact();
+	}
 }
