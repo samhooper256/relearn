@@ -11,6 +11,11 @@ import java.util.Objects;
  */
 public final class Parsing {
 	
+	public static final char DECIMAL_POINT = '.';
+	
+	/** Returns {@code true} iff the given {@code String} could be passed to {@link Long#parseLong(String)} without
+	 * throwing a {@link NumberFormatException}.
+	 * @throws NullPointerException if {@code str} is {@code null}.*/
 	public static boolean islong(String str) {
 		Objects.requireNonNull(str);
 		//TODO do properly
@@ -21,6 +26,61 @@ public final class Parsing {
 		catch(Exception e) {
 			return false;
 		}
+	}
+	
+	public static boolean containsOnlyDigits(String str) {
+		return containsOnlyDigits(str, 0);
+	}
+	
+	public static boolean containsOnlyDigits(String str, int startInclusive) {
+		return containsOnlyDigits(str, startInclusive, str.length());
+	}
+	
+	/**
+	 * @throws IndexOutOfBoundsException if the indices are invalid.
+	 * */
+	public static boolean containsOnlyDigits(String str, int startInclusive, int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++)
+			if(!isDigit(str.charAt(i)))
+				return false;
+		return true;
+	}
+	
+	
+	public static boolean isDigit(char c) {
+		return c >= '0' && c <= '9';
+	}
+	
+	public static boolean isExponentIndicator(char c) {
+		return c == 'e' || c == 'E';
+	}
+	
+	public static boolean isSign(char c) {
+		return c == '+' || c == '-';
+	}
+	
+	public static boolean isDecimalPoint(char c) {
+		return c == DECIMAL_POINT;
+	}
+	
+	/** <p>Returns {@code true} if the given {@code String} is an unsigned real number in decimal form -
+	 * that is, a string of one or more digits, optionally followed by a decimal point and another string of
+	 * one or more digits.</p>
+	 * <p>This method does <b>not</b> accept a number with no digits after the decimal point.</p>
+	 * */
+	public static boolean isRealInDecimalFormWithoutSign(String str) {
+		int decimalIndex = str.indexOf(DECIMAL_POINT);
+		if(decimalIndex == str.length() - 1)
+			return false;
+		return containsOnlyDigits(str, 0, decimalIndex) && containsOnlyDigits(str, decimalIndex + 1);
+	}
+	
+	public static boolean isRealInDecimalFormWithoutSign(String str, int startInclusive) {
+		return isRealInDecimalFormWithoutSign(str, startInclusive, str.length()); //TODO do without substring?
+	}
+	
+	public static boolean isRealInDecimalFormWithoutSign(String str, int startInclusive, int endExclusive) {
+		return isRealInDecimalFormWithoutSign(str, startInclusive, endExclusive); //TODO do without substring?
 	}
 	
 }

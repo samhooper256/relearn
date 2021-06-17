@@ -1,6 +1,12 @@
 package math;
 
+import static math.BigUtils.isValidBigDecimal;
+import static math.BigUtils.isValidBigDecimalWithoutSign;
+
 import java.math.*;
+
+import utils.*;
+
 /** *
  * <p>A complex number.</p>
  * @author Sam Hooper
@@ -8,18 +14,33 @@ import java.math.*;
  */
 public interface Complex {
 	
+	String IMAGINARY_UNIT = "i";
+	char IMAGINARY_UNIT_CHAR = 'i';
+	
 	/** Returns {@code true} if the given {@code String} could be passed to {@link #of(String)} without throwing
-	 * an exception.*/
-	static boolean isValid(String num) {
-		return true; //TODO
+	 * an exception. The given {@code String} must not contain any whitespace.*/
+	static boolean isValid(String str) {
+		if(str.endsWith(IMAGINARY_UNIT)) {
+			int midSign = Strings.lastIndexOf(str, Parsing::isSign);
+			return isValidBigDecimal(str, 0, midSign)
+					&& isValidBigDecimalWithoutSign(str, midSign + 1, str.length() - 1);
+		}
+		return isValidBigDecimal(str);
 	}
 	
-	static Complex of(String num) {
-		if(num.contains("i"))
-			throw new UnsupportedOperationException("Parsing non-reals from Strings is unfinished"); //TODO
-		if(!isValid(num))
-			throw new IllegalArgumentException(String.format("Invalid Complex literal: %s", num));
-		return of(new BigDecimal(num));
+	static boolean isImaginaryUnit(char c) {
+		return c == IMAGINARY_UNIT_CHAR;
+	}
+	
+	static Complex of(String str) {
+		if(!isValid(str))
+			throw new IllegalArgumentException(String.format("Invalid Complex literal: %s", str));
+		if(str.endsWith(IMAGINARY_UNIT)) {
+			int midSign = Strings.lastIndexOf(str, Parsing::isSign);
+			return of(new BigDecimal(str.substring(0, midSign)),
+					new BigDecimal(str.substring(midSign, str.length() - 1)));
+		}
+		return of(new BigDecimal(str));
 	}
 	
 	static Complex of(BigDecimal real) {

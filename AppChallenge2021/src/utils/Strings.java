@@ -26,4 +26,18 @@ public final class Strings {
 		return str.substring(0, i);
 	}
 	
+	public static int indexOf(String str, CharPredicate predicate) {
+		for(int i = 0; i < str.length(); i++)
+			if(predicate.test(str.charAt(i)))
+				return i;
+		return -1;
+	}
+	
+	public static int lastIndexOf(String str, CharPredicate predicate) {
+		for(int i = str.length() - 1; i >= 0; i--)
+			if(predicate.test(str.charAt(i)))
+				return i;
+		return -1;
+	}
+	
 }
