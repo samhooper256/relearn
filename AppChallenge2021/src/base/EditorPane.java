@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import topics.Addition;
 
 /**
  * @author Sam Hooper
@@ -28,7 +29,7 @@ public class EditorPane extends StackPane {
 		headerLabel.setFont(Font.font(24));
 		topLayer.getChildren().addAll(backArrowView, headerLabel);
 		
-		outerBox = new VBox(topLayer);
+		outerBox = new VBox(topLayer, TopicPane.of(new Addition()));
 		
 		getChildren().add(outerBox);
 	}

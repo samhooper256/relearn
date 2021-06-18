@@ -13,6 +13,21 @@ public final class Parsing {
 	
 	public static final char DECIMAL_POINT = '.';
 	
+	/** Returns {@code true} iff the given {@code String} could be passed to {@link Integer#parseInt(String)} without
+	 * throwing a {@link NumberFormatException}.
+	 * @throws NullPointerException if {@code str} is {@code null}.*/
+	public static boolean isint(String str) {
+		Objects.requireNonNull(str);
+		//TODO do properly
+		try {
+			Integer.parseInt(str);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
+	
 	/** Returns {@code true} iff the given {@code String} could be passed to {@link Long#parseLong(String)} without
 	 * throwing a {@link NumberFormatException}.
 	 * @throws NullPointerException if {@code str} is {@code null}.*/
@@ -46,9 +61,20 @@ public final class Parsing {
 		return true;
 	}
 	
+	public static boolean containsAnyDigits(String str) {
+		for(int i = 0; i < str.length(); i++)
+			if(isDigit(str.charAt(i)))
+				return true;
+		return false;
+	}
+	
 	
 	public static boolean isDigit(char c) {
 		return c >= '0' && c <= '9';
+	}
+	
+	public static boolean isNonDigit(char c) {
+		return !isDigit(c);
 	}
 	
 	public static boolean isExponentIndicator(char c) {

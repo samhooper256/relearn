@@ -3,13 +3,15 @@
  */
 package base;
 
+import javafx.beans.property.*;
+
 /**
  * @author Sam Hooper
  *
  */
 public final class ProblemSet {
 	
-	private final String name;
+	private StringProperty name;
 	private final SetConfiguration config;
 	
 	public ProblemSet(String name) {
@@ -17,12 +19,20 @@ public final class ProblemSet {
 	}
 	
 	public ProblemSet(String name, SetConfiguration config) {
-		this.name = name;
+		this.name = new SimpleStringProperty(name);
 		this.config = config;
 	}
 	
-	public String name() {
+	public StringProperty nameProperty() {
 		return name;
+	}
+	
+	public String name() {
+		return nameProperty().get();
+	}
+	
+	public void setName(String name) {
+		nameProperty().set(name);
 	}
 	
 	public SetConfiguration config() {
