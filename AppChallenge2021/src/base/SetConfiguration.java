@@ -20,6 +20,7 @@ public final class SetConfiguration {
 	
 	public SetConfiguration() {
 		this.topics = new HashMap<>();
+		count = 0;
 	}
 	
 	public void putTopic(Topic topic, Integer count) {
