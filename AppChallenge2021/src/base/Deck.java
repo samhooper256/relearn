@@ -31,7 +31,12 @@ public final class Deck {
 		return Collections.unmodifiableList(problems);
 	}
 	
-	public Problem at(int index) {
+	public Problem get(int index) {
 		return problems.get(index);
 	}
+	
+	public int size() {
+		return problems.size();
+	}
+	
 }
