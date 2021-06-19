@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base;
+package fxutils;
 
 import java.util.function.UnaryOperator;
 
@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import utils.*;
 
 /**
+ * <p>A {@link TextField} that only allows numbers to be typed.</p>
  * @author Sam Hooper
  *
  */
@@ -53,6 +54,8 @@ public class IntField extends TextField {
 		return Parsing.isint(getText());
 	}
 	
-	
+	public int intValue() {
+		return Integer.parseInt(getText());
+	}
 	
 }

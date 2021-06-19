@@ -68,21 +68,19 @@ public final class Evaluator {
 		}
 	}
 	
-	private static final Set<String> NON_LITERAL_TOKENS = Set.of("+", "-", "/", "*", "^", "(", ")");
 	private static final String OPEN_PARENTHESIS = "(";
 	private static final String CLOSE_PARENTHESIS = ")";
+	private static final Set<String> NON_LITERAL_TOKENS =
+			Set.of("+", "-", "/", "*", "^", OPEN_PARENTHESIS, OPEN_PARENTHESIS);
 	
 	private Evaluator() {
 		
 	}
 	
 	public static ConstantExpression getTree(String expression) {
-		System.out.printf("making tree for: \"%s\"%n", expression);
 		expression = clean(expression);
 		List<Token> tokens = tokenize(expression);
-		System.out.printf("tokens are: %s%n", tokens);
 		ConstantExpression tree = TreeGenerator.generate(tokens);
-		System.out.printf("tree: %s%n", tree);
 		return tree;
 	}
 	
@@ -97,14 +95,12 @@ public final class Evaluator {
 	private static List<Token> tokenize(String input) {
 		List<Token> tokens = new ArrayList<>();
 		for(int i = 0; i < input.length(); ) {
-//			System.out.printf("(enter loop) i=%d%n", i);
 			char at = input.charAt(i);
 			int end;
 			if(isLiteralStart(at))
 				end = findEndOfLiteral(input, i);
 			else
 				end = findEndOfNonLiteral(input, i);
-//			System.out.printf("i=%d, end=%d%n", i, end);
 			Token t = new Token(input.substring(i, end + 1));
 			tokens.add(t);
 			i = end + 1;
@@ -217,7 +213,6 @@ public final class Evaluator {
 			ConstantExpression exp = parse(0);
 			while(index < tokens.size()) {
 				Token t = tokens.get(index);
-//				System.out.printf("calling from loop...%n");
 				index++;
 				exp = combineTerms(t, exp, parse(t.precedence()));
 			}
@@ -269,7 +264,6 @@ public final class Evaluator {
 	
 	private static ConstantExpression combineTerms
 			(Token binaryOperator, ConstantExpression left, ConstantExpression right) {
-//		System.out.printf("[enter] combineterms(op=%s, left=%s, right=%s)%n", binaryOperator, left, right);
 		String text = binaryOperator.text();
 		return switch(text) {
 			case "+" -> new AdditionExpression(left, right);

@@ -3,6 +3,7 @@
  */
 package base;
 
+import fxutils.IntField;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
@@ -28,7 +29,8 @@ public final class TopicPane extends TitledPane {
 	private TopicPane(Topic topic) {
 		this.topic = topic;
 		field = new IntField(INT_FIELD_WIDTH);
-		field.setText(String.valueOf(topic.count()));
+		initField();
+		
 		content = new StackPane();
 		vBox = new VBox();
 		initContent();
@@ -38,6 +40,14 @@ public final class TopicPane extends TitledPane {
 		setGraphic(this.field);
 	}
 	
+	private void initField() {
+		field.setText(String.valueOf(topic.count()));
+		field.textProperty().addListener(ov -> {
+			if(field.hasValidInt())
+				topic.setCount(field.intValue());
+		});
+	}
+
 	private void initContent() {
 		for(TopicSetting setting : topic.settings())
 			vBox.getChildren().add(TopicSetting.settingNodeFor(setting));

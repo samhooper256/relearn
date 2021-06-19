@@ -17,6 +17,8 @@ public interface Topic extends Named {
 	
 	int count();
 	
+	void setCount(int count);
+	
 	Problem generate();
 	
 	

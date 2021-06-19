@@ -28,6 +28,11 @@ abstract class AbstractTopic implements Topic {
 	}
 	
 	@Override
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	@Override
 	public boolean equals(Object o) {
 		return o instanceof Topic t && Objects.equals(name(), t.name());
 	}
