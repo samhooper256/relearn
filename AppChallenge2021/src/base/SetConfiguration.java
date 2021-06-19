@@ -19,8 +19,12 @@ public final class SetConfiguration {
 	private int count;
 	
 	public SetConfiguration() {
-		this.topics = new HashMap<>();
+		this.topics = new LinkedHashMap<>();
 		count = 0;
+	}
+	
+	public Set<Topic> topics() {
+		return topics.keySet();
 	}
 	
 	public void putTopic(Topic topic, Integer count) {
