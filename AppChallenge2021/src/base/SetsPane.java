@@ -49,7 +49,7 @@ public class SetsPane extends StackPane {
 		flow.setPadding(padding);
 		VBox.setVgrow(scroll, Priority.ALWAYS);
 		ProblemSet temp = new ProblemSet("My Fun Set");
-		temp.config().putTopic(new Addition(), 10);
+		temp.config().addTopic(new Addition(10));
 		flow.getChildren().addAll(new SetCard(temp), new SetCard(temp), new SetCard(temp), new SetCard(temp),
 				new SetCard(temp), new SetCard(temp), new SetCard(temp), new SetCard(temp));
 		flow.prefWrapLengthProperty().bind(vBox.widthProperty().subtract(padding.getLeft() + padding.getRight()));

@@ -24,6 +24,7 @@ public class IntField extends TextField {
 		if(center)
 			setAlignment(Pos.CENTER);
 		initFormatter();
+		
 	}
 
 	private void initFormatter() {
@@ -51,5 +52,7 @@ public class IntField extends TextField {
 	public boolean hasValidInt() {
 		return Parsing.isint(getText());
 	}
+	
+	
 	
 }

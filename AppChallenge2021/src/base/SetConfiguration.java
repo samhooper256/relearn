@@ -15,39 +15,34 @@ import utils.RNG;
  */
 public final class SetConfiguration {
 	
-	private final Map<Topic, Integer> topics;
-	private int count;
+	private final Set<Topic> topics;
+	private int total;
 	
 	public SetConfiguration() {
-		this.topics = new LinkedHashMap<>();
-		count = 0;
+		this.topics = new LinkedHashSet<>();
+		total = 0;
 	}
 	
 	public Set<Topic> topics() {
-		return topics.keySet();
-	}
-	
-	public void putTopic(Topic topic, Integer count) {
-		if(count <= 0)
-			throw new IllegalArgumentException("count < 0");
-		if(topics.containsKey(topic)) {
-			int oldValue = topics.get(topic);
-			this.count -= oldValue;
-		}
-		topics.put(topic, count);
-		this.count += count;
+		return Collections.unmodifiableSet(topics);
 	}
 	
 	public boolean removeTopic(Topic topic) {
-		return topics.remove(topic) != null;
+		return topics.remove(topic);
+	}
+	
+	public void addTopic(Topic topic) {
+		if(topics.contains(topic))
+			throw new IllegalStateException(String.format("SetConfiguration already has topic: %s", topic));
+		topics.add(topic);
+		
 	}
 	
 	public Deck createDeck() {
 		List<Problem> list = new ArrayList<>();
-		for(Map.Entry<Topic, Integer> e : topics.entrySet()) {
-			Topic topic = e.getKey();
-			int value = e.getValue();
-			for(int i = 0; i < value; i++)
+		for(Topic topic : topics) {
+			int count = topic.count();
+			for(int i = 0; i < count; i++)
 				list.add(topic.generate());
 		}
 		Collections.shuffle(list, RNG.source());

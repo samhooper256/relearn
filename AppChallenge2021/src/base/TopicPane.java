@@ -28,6 +28,7 @@ public final class TopicPane extends TitledPane {
 	private TopicPane(Topic topic) {
 		this.topic = topic;
 		field = new IntField(INT_FIELD_WIDTH);
+		field.setText(String.valueOf(topic.count()));
 		content = new StackPane();
 		vBox = new VBox();
 		initContent();

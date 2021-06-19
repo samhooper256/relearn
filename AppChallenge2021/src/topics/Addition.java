@@ -12,12 +12,13 @@ import utils.RNG;
  * @author Sam Hooper
  *
  */
-public class Addition implements Topic {
+public class Addition extends AbstractTopic {
 	
 	private final IntSetting maxDigits;
 	private final List<TopicSetting> settings;
 	
-	public Addition() {
+	public Addition(int count) {
+		super(count);
 		this.maxDigits = new IntSetting("Digits", 1, 4, 1);
 		this.settings = List.of(maxDigits);
 	}

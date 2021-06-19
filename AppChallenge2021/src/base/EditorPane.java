@@ -48,13 +48,10 @@ public class EditorPane extends StackPane {
 	}
 	
 	public void edit(ProblemSet set) {
-		System.out.printf("EditorPane.edit(set=%s)%n", set);
 		topicPaneContainer.getChildren().clear();
 		this.set = set;
-		for(Topic t : set.config().topics()) {
-			System.out.printf("t=%s%n", t);
+		for(Topic t : set.config().topics())
 			topicPaneContainer.getChildren().add(TopicPane.of(t));
-		}
 	}
 	
 }
