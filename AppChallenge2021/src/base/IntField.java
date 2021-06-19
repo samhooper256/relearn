@@ -5,6 +5,7 @@ package base;
 
 import java.util.function.UnaryOperator;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import utils.*;
 
@@ -14,8 +15,18 @@ import utils.*;
  */
 public class IntField extends TextField {
 	
-	public IntField() {
-		super();
+	public IntField(int width) {
+		this(width, true);
+	}
+	
+	public IntField(int width, boolean center) {
+		setPrefWidth(width);
+		if(center)
+			setAlignment(Pos.CENTER);
+		initFormatter();
+	}
+
+	private void initFormatter() {
 		UnaryOperator<TextFormatter.Change> op = change -> {
 			int start = change.getRangeStart(), end = change.getRangeEnd();
 			boolean rangeIsEmpty = start == end;

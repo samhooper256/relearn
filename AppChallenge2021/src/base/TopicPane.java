@@ -4,6 +4,7 @@
 package base;
 
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.StackPane;
 import topics.Topic;
 
 /**
@@ -12,8 +13,11 @@ import topics.Topic;
  */
 public final class TopicPane extends TitledPane {
 	
+	private static final int INT_FIELD_WIDTH = 35;
+	
 	private final Topic topic;
 	private final IntField field;
+	private final StackPane content;
 	
 	public static TopicPane of(Topic topic) {
 		return new TopicPane(topic);
@@ -21,8 +25,11 @@ public final class TopicPane extends TitledPane {
 	
 	private TopicPane(Topic topic) {
 		this.topic = topic;
-		this.field = new IntField();
-		this.setText("TITLE TIME!");
+		field = new IntField(INT_FIELD_WIDTH);
+		content = new StackPane();
+		
+		setContent(content);
+		setText(topic.name());
 		setGraphic(this.field);
 	}
 	
