@@ -15,12 +15,14 @@ import utils.RNG;
 public class Addition extends AbstractTopic {
 	
 	private final IntSetting maxDigits;
+	private final IntSetting terms;
 	private final List<TopicSetting> settings;
 	
 	public Addition(int count) {
 		super(count);
-		this.maxDigits = new IntSetting("Digits", 1, 4, 1);
-		this.settings = List.of(maxDigits);
+		maxDigits = new IntSetting("Digits", 1, 4, 1);
+		terms = new IntSetting("Terms", 2, 4, 2);
+		settings = List.of(maxDigits, terms);
 	}
 	
 	@Override
