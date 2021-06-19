@@ -71,7 +71,7 @@ public final class Evaluator {
 	private static final String OPEN_PARENTHESIS = "(";
 	private static final String CLOSE_PARENTHESIS = ")";
 	private static final Set<String> NON_LITERAL_TOKENS =
-			Set.of("+", "-", "/", "*", "^", OPEN_PARENTHESIS, OPEN_PARENTHESIS);
+			Set.of("+", "-", "/", "*", "^", OPEN_PARENTHESIS, CLOSE_PARENTHESIS);
 	
 	private Evaluator() {
 		

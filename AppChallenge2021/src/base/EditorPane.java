@@ -36,7 +36,6 @@ public class EditorPane extends StackPane {
 		topLayer.getChildren().addAll(backArrowView, headerLabel);
 		
 		outerBox = new VBox(topLayer, topicPaneContainer);
-		topicPaneContainer.setBorder(Borders.of(Color.BLUE));
 		
 		getChildren().add(outerBox);
 	}

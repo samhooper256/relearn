@@ -6,7 +6,6 @@ package base;
 import java.util.IdentityHashMap;
 
 import fxutils.IntField;
-import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
 import topics.*;
