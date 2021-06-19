@@ -17,8 +17,8 @@ public final class Strings {
 		return str.substring(0, i);
 	}
 	
-	/** Removes the longest substring of the given string that contains only characters in {@code chars} and
-	 * ends at the end of the string. */
+	/** Removes the longest substring of the given string that contains only characters in {@code chars} and ends at
+	 * the end of the string.*/
 	public static String stripTrailing(String str, char... chars) {
 		int i = str.length();
 		while(i > 0 && Arrs.contains(chars, str.charAt(i - 1)))
