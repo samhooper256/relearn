@@ -3,6 +3,8 @@
  */
 package base;
 
+import java.util.IdentityHashMap;
+
 import fxutils.IntField;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
@@ -16,6 +18,11 @@ import topics.*;
 public final class TopicPane extends TitledPane {
 	
 	private static final int INT_FIELD_WIDTH = 35;
+	private static final IdentityHashMap<Topic, TopicPane> CACHE;
+	
+	static {
+		CACHE = new IdentityHashMap<>();
+	}
 	
 	private final Topic topic;
 	private final IntField field;
@@ -23,7 +30,12 @@ public final class TopicPane extends TitledPane {
 	private final VBox vBox;
 	
 	public static TopicPane of(Topic topic) {
-		return new TopicPane(topic);
+		TopicPane cached = CACHE.get(topic);
+		if(cached != null)
+			return cached;
+		TopicPane obj = new TopicPane(topic);
+		CACHE.put(topic, obj);
+		return obj;
 	}
 	
 	private TopicPane(Topic topic) {

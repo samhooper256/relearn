@@ -25,6 +25,7 @@ class IntSettingDisplay extends HBox {
 	}
 
 	private void initSlider() {
+		slider.setValue(setting.value());
 		slider.setMax(setting.max());
 		slider.setMin(setting.min());
 		slider.setSnapToTicks(true);
