@@ -3,6 +3,7 @@
  */
 package topics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import base.*;
@@ -24,8 +25,7 @@ public class Addition extends AbstractTopic {
 	private final List<TopicSetting> settings;
 	
 	public Addition() {
-		this(DEFAULT_COUNT);
-	}
+		this(DEFAULT_COUNT);	}
 	
 	public Addition(int count) {
 		super(count);
@@ -36,11 +36,16 @@ public class Addition extends AbstractTopic {
 	
 	@Override
 	public Problem generate() {
-		int left = RNG.intMaxDigits(maxDigits.value());
-		int right = RNG.intMaxDigits(maxDigits.value());
-		return MathProblem.fromExpression(String.format("%d+%d", left, right));
+		ArrayList<Integer> termList = termCreate();
+		if(termList.size() == 2)
+			return MathProblem.fromExpression(String.format("%d+%d", termList.get(0), termList.get(1)));
+		if(termList.size() == 3)
+			return MathProblem.fromExpression(String.format("%d+%d+%d", termList.get(0), termList.get(1), termList.get(2)));
+		if(termList.size() == 4)
+			return MathProblem.fromExpression(String.format("%d+%d+%d+%d", termList.get(0), termList.get(1), termList.get(2), termList.get(3)));
+		throw new IllegalStateException();
 	}
-
+	
 	@Override
 	public String name() {
 		return NAME;
@@ -49,6 +54,19 @@ public class Addition extends AbstractTopic {
 	@Override
 	public List<TopicSetting> settings() {
 		return settings;
+	}
+	
+	public ArrayList<Integer> termCreate()
+	{
+		int numTerms = terms.value();
+		ArrayList<Integer> termValues = new ArrayList<Integer>();
+		
+		for(int i = 0; i < numTerms; i++)
+		{
+			termValues.add(RNG.intMaxDigits(maxDigits.value()));
+		}
+		
+		return termValues;
 	}
 	
 }
