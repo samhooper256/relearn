@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.util.*;
 
 import javafx.beans.property.*;
-import topics.Addition;
+import topics.*;
 import utils.IO;
 
 /**
@@ -82,6 +82,14 @@ public final class ProblemSet {
 		return config().createDeck();
 	}
 	
+	public void addTopics(Collection<Topic> topics) {
+		config().addTopics(topics);
+	}
+	
+	private ProblemSetData data() {
+		return new ProblemSetData(name.get(), config());
+	}
+
 	public void saveToFile() {
 		saveToFile(name());
 	}
@@ -111,8 +119,5 @@ public final class ProblemSet {
 		}
 	}
 	
-	private ProblemSetData data() {
-		return new ProblemSetData(name.get(), config());
-	}
 	
 }

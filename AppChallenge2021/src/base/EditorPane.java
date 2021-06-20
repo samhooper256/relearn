@@ -3,6 +3,8 @@
  */
 package base;
 
+import java.util.*;
+
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -96,9 +98,7 @@ public class EditorPane extends StackPane {
 	}
 	
 	private void addTopicAction() {
-		System.out.printf("[enter] addTopicAction%n");
-		primaryLayer.setMouseTransparent(true);
-		getChildren().add(tsp);
+		showTopicSelectionPane();
 	}
 	
 	private void initNameLayer() {
@@ -112,11 +112,35 @@ public class EditorPane extends StackPane {
 		nameField.setText(nameOnOpening);
 		topicPaneContainer.getChildren().clear();
 		for(Topic t : set.config().topics())
-			topicPaneContainer.getChildren().add(TopicPane.of(t));
+			addTopicPaneFor(t);
 	}
 	
 	public void createFreshSet() {
 		edit(new ProblemSet());
+	}
+	
+	public void addTopics(Collection<Topic> topics) {
+		set.addTopics(topics);
+		addTopicPanesFor(topics);
+	}
+	
+	private void addTopicPanesFor(Collection<Topic> topics) {
+		for(Topic t : topics)
+			addTopicPaneFor(t);
+	}
+	
+	private void addTopicPaneFor(Topic topic) {
+		topicPaneContainer.getChildren().add(TopicPane.of(topic));
+	}
+	
+	private void showTopicSelectionPane() {
+		primaryLayer.setMouseTransparent(true);
+		getChildren().add(tsp);
+	}
+	
+	public void hideTopicSelectionPane() {
+		getChildren().remove(tsp);
+		primaryLayer.setMouseTransparent(false);
 	}
 	
 }

@@ -35,7 +35,12 @@ abstract class AbstractTopic implements Topic {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(name());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		return o instanceof Topic t && Objects.equals(name(), t.name());

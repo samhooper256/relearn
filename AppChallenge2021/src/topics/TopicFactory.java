@@ -13,7 +13,7 @@ import base.Named;
  * @author Sam Hooper
  *
  */
-record TopicFactory<T extends Topic>(String name, Supplier<T> generator) implements Named {
+public record TopicFactory<T extends Topic>(String name, Supplier<T> generator) implements Named {
 	
 	public T create() {
 		return generator.get();

@@ -40,7 +40,11 @@ public final class SetConfiguration implements Serializable {
 		if(topics.contains(topic))
 			throw new IllegalStateException(String.format("SetConfiguration already has topic: %s", topic));
 		topics.add(topic);
-		
+	}
+
+	public void addTopics(Collection<Topic> topics) {
+		for(Topic t : topics)
+			addTopic(t);
 	}
 	
 	public Deck createDeck() {
