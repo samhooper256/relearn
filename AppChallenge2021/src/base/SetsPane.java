@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import topics.Addition;
 
 /**
  * @author Sam Hooper
@@ -52,6 +51,7 @@ public class SetsPane extends StackPane {
 		scroll = new ScrollPane(flow);
 		vBox = new VBox(header, scroll);
 		initVBox();
+		ProblemSet.addOnRegisterAction(ps -> addCardForSafe(ps));
 		getChildren().add(vBox);
 	}
 	
@@ -93,13 +93,23 @@ public class SetsPane extends StackPane {
 		flow.setPadding(padding);
 		VBox.setVgrow(scroll, Priority.ALWAYS);
 		for(ProblemSet set : ProblemSet.allSets())
-			flow.getChildren().addAll(SetCard.of(set));
+			addCardForSafe(set);
 		flow.prefWrapLengthProperty().bind(vBox.widthProperty().subtract(padding.getLeft() + padding.getRight()));
 	}
+
 	
 	private void initScroll() {
 		initFlow();
 		scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+	}
+	
+	private void addCardForSafe(ProblemSet set) {
+		addCardSafe(SetCard.of(set));
+	}
+	
+	/** Assumes that the given {@link SetCard} is not already displayed by the {@link SetsPane}.*/
+	private void addCardSafe(SetCard card) {
+		flow.getChildren().addAll(card);
 	}
 	
 }

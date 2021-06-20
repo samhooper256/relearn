@@ -6,14 +6,10 @@ package base;
 import java.util.*;
 
 import javafx.geometry.*;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Popup;
 import topics.*;
 
 /**
@@ -83,6 +79,8 @@ public class EditorPane extends StackPane {
 	private void backArrowAction() {
 		set.setName(nameField.getText().strip());
 		set.saveToFile(nameOnOpening);
+		if(!set.isRegistered())
+			set.register();
 		Main.mainScene().showSets();
 	}
 	

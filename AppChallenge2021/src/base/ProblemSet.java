@@ -6,12 +6,14 @@ package base;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Consumer;
 
 import javafx.beans.property.*;
 import topics.*;
 import utils.IO;
 
 /**
+ * <p>The {@code equals} and {@code hashCode} methods are not overridden from {@code Object}.</p>
  * @author Sam Hooper
  *
  */
@@ -19,6 +21,7 @@ public final class ProblemSet {
 	
 	private static final Set<ProblemSet> SETS = new HashSet<>();
 	private static boolean loaded = false;
+	private static List<Consumer<ProblemSet>> onRegisterActions;
 	
 	static synchronized void loadSets() {
 		if(loaded)
@@ -45,6 +48,19 @@ public final class ProblemSet {
 		return Collections.unmodifiableSet(SETS);
 	}
 	
+	public static void addOnRegisterAction(Consumer<ProblemSet> action) {
+		if(onRegisterActions == null)
+			onRegisterActions = new ArrayList<>();
+		onRegisterActions.add(action);
+	}
+	
+	private static void runOnRegisterActions(ProblemSet set) {
+		if(onRegisterActions == null)
+			return;
+		for(Consumer<ProblemSet> action : onRegisterActions)
+			action.accept(set);
+	}
+
 	private StringProperty name;
 	private final SetConfiguration config;
 	
@@ -90,6 +106,20 @@ public final class ProblemSet {
 		return new ProblemSetData(name.get(), config());
 	}
 
+	public boolean isRegistered() {
+		return SETS.contains(this);
+	}
+	
+	/** Registers this {@link ProblemSet} so that it becomes {@link #isRegistered() registered} and will be in the
+	 * {@link Set} returned by {@link #allSets()}.
+	 * @throws IllegalStateException if this {@link ProblemSet} is already {@link #isRegistered() registered}.*/
+	public void register() {
+		if(isRegistered())
+			throw new IllegalStateException("This ProblemSet is already registered");
+		SETS.add(this);
+		runOnRegisterActions(this);
+	}
+	
 	public void saveToFile() {
 		saveToFile(name());
 	}
