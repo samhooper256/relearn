@@ -9,6 +9,7 @@ import java.util.*;
 
 import javafx.beans.property.*;
 import topics.Addition;
+import utils.IO;
 
 /**
  * @author Sam Hooper
@@ -65,7 +66,7 @@ public final class ProblemSet {
 	}
 	
 	public void setName(String name) {
-		nameProperty().set(name);
+		nameProperty().set(Objects.requireNonNull(name));
 	}
 	
 	public SetConfiguration config() {
@@ -83,29 +84,15 @@ public final class ProblemSet {
 	public void saveToFile(String oldName) {
 		System.out.printf("saving %s to file, oldName=%s, name()=%s%n", this, oldName, name());
 		File f = new File(Main.SETS_FOLDER, String.format("%s.dat", oldName));
-		if(f.exists() && !Objects.equals(name(), oldName)) {
-			Path path = f.toPath();
-			try {
+		try {
+			if(f.exists() && !name().equals(oldName)) {
+				Path path = f.toPath();
 				Path p = Files.move(path, path.resolveSibling(String.format("%s.dat", name())));
 				f = p.toFile();
-				System.out.printf("after p.toFile(), f=%s%n", f);
-			} catch (IOException e) {
-				e.printStackTrace(); //TODO better error handling?
 			}
-		}
-		ProblemSetData data = data();
-		if(!f.exists()) {
-			try {
+			if(!f.exists())
 				f.createNewFile();
-			} catch (IOException e) {
-				throw new RuntimeException(e); //TODO better error handling?
-			}
-		}
-		try {
-			FileOutputStream fileOut = new FileOutputStream(f, false);
-	        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-	        objectOut.writeObject(data);
-	        objectOut.close();
+			IO.writeObject(f, data());
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e); //TODO better error handling?
