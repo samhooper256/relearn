@@ -3,11 +3,10 @@
  */
 package base;
 
-import fxutils.Borders;
-import javafx.scene.control.Label;
+import javafx.geometry.*;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import topics.*;
 
@@ -18,38 +17,80 @@ import topics.*;
 public class EditorPane extends StackPane {
 	
 	private static final String HEADER = "Set Editor";
+	private static EditorPane INSTANCE = null;
 	
 	private ProblemSet set;
-	private final VBox outerBox;
-	private final HBox topLayer;
+	private String nameOnOpening;
+	private final VBox outerBox, topicPaneContainer;
+	private final HBox topLayer, nameLayer, topicLayer;
 	private final ImageView backArrowView;
-	private final VBox topicPaneContainer;
+	private final Button addTopicButton;
+	private final TextField nameField;
+	private final Label nameLabel;
 	
-	public EditorPane() {
+	public static EditorPane get() {
+		//double-checked locking pattern
+		if(INSTANCE == null){
+	        synchronized (EditorPane.class) {
+	            if(INSTANCE == null){
+	            	INSTANCE = new EditorPane();
+	            }
+	        }
+	    }
+	    return INSTANCE;
+	}
+	
+	private EditorPane() {
 		set = null;
-		topLayer = new HBox();
+		
+		//top layer:
 		backArrowView = new ImageView(Main.backArrowImage());
 		topicPaneContainer = new VBox();
 		initBackArrow();
 		Label headerLabel = new Label(HEADER);
 		headerLabel.setFont(Font.font(24));
-		topLayer.getChildren().addAll(backArrowView, headerLabel);
+		topLayer = new HBox(backArrowView, headerLabel);
 		
-		outerBox = new VBox(topLayer, topicPaneContainer);
+		//name layer:
+		nameLabel = new Label("Name:");
+		nameField = new TextField();
+		nameLayer = new HBox(nameLabel, nameField);
+		initNameLayer();
+		
+		//topic layer
+		addTopicButton = new Button("+ Add Topic");
+		topicLayer = new HBox(addTopicButton, topicPaneContainer);
+		initMidLayer();
+		
+		outerBox = new VBox(topLayer, nameLayer, topicLayer);
 		
 		getChildren().add(outerBox);
 	}
 	
 	private void initBackArrow() {
 		backArrowView.setOnMouseClicked(e -> {
-			set.saveToFile();
+			set.setName(nameField.getText().strip());
+			set.saveToFile(nameOnOpening);
 			Main.mainScene().showSets();
 		});
 	}
 	
+	private void initMidLayer() {
+		topicLayer.setSpacing(20);
+		topicLayer.setPadding(new Insets(25));
+		HBox.setHgrow(topicPaneContainer, Priority.ALWAYS);
+	}
+	
+	private void initNameLayer() {
+		nameLayer.setSpacing(20);
+		nameLayer.setAlignment(Pos.CENTER);
+	}
+	
 	public void edit(ProblemSet set) {
-		topicPaneContainer.getChildren().clear();
 		this.set = set;
+		nameOnOpening = set.name();
+		nameField.setText(nameOnOpening);
+		topicPaneContainer.getChildren().clear();
 		for(Topic t : set.config().topics())
 			topicPaneContainer.getChildren().add(TopicPane.of(t));
 	}

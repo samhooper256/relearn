@@ -17,11 +17,7 @@ import topics.*;
 public final class TopicPane extends TitledPane {
 	
 	private static final int INT_FIELD_WIDTH = 35;
-	private static final IdentityHashMap<Topic, TopicPane> CACHE;
-	
-	static {
-		CACHE = new IdentityHashMap<>();
-	}
+	private static final IdentityHashMap<Topic, TopicPane> CACHE = new IdentityHashMap<>();
 	
 	private final Topic topic;
 	private final IntField field;

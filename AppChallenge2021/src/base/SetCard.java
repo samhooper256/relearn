@@ -3,6 +3,8 @@
  */
 package base;
 
+import java.util.IdentityHashMap;
+
 import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -18,11 +20,17 @@ public class SetCard extends StackPane {
 	
 	private static final double PREF_WIDTH = 300;
 	private static final double PREF_HEIGHT = 150;
-	
 	private static final double PENCIL_SIZE = 30;
-
-	public static SetCard of(ProblemSet set) {
-		return new SetCard(set);
+	private static final IdentityHashMap<ProblemSet, SetCard> CACHE = new IdentityHashMap<>();
+	
+	
+	public static synchronized SetCard of(ProblemSet set) {
+		SetCard cached = CACHE.get(set);
+		if(cached != null)
+			return cached;
+		SetCard obj = new SetCard(set);
+		CACHE.put(set, obj);
+		return obj;
 	}
 	
 	private final ProblemSet set;
@@ -36,6 +44,9 @@ public class SetCard extends StackPane {
 		this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);
 		
 		Label title = new Label(set.name());
+		set.nameProperty().addListener(ov -> {
+			title.setText(set.name());
+		});
 		
 		practiceButton = new Button("Practice");
 		initPracticeButton();

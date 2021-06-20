@@ -4,6 +4,7 @@
 package base;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 import javafx.beans.property.*;
@@ -76,8 +77,22 @@ public final class ProblemSet {
 	}
 	
 	public void saveToFile() {
-		System.out.printf("saving %s to file%n", this);
-		File f = new File(Main.SETS_FOLDER, String.format("%s.dat", name()));
+		saveToFile(name());
+	}
+	
+	public void saveToFile(String oldName) {
+		System.out.printf("saving %s to file, oldName=%s, name()=%s%n", this, oldName, name());
+		File f = new File(Main.SETS_FOLDER, String.format("%s.dat", oldName));
+		if(f.exists() && !Objects.equals(name(), oldName)) {
+			Path path = f.toPath();
+			try {
+				Path p = Files.move(path, path.resolveSibling(String.format("%s.dat", name())));
+				f = p.toFile();
+				System.out.printf("after p.toFile(), f=%s%n", f);
+			} catch (IOException e) {
+				e.printStackTrace(); //TODO better error handling?
+			}
+		}
 		ProblemSetData data = data();
 		if(!f.exists()) {
 			try {
