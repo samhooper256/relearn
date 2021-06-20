@@ -38,15 +38,15 @@ public class SetsPane extends StackPane {
 	private final FlowPane flow;
 	private final VBox vBox;
 	private final Label headerLabel;
-	private final ImageView backArrowView;
+	private final BackArrow backArrow;
 	private final HBox header;
 	private final Button createButton;
 	
 	private SetsPane() {
 		headerLabel = new Label(HEADER);
-		backArrowView = new ImageView(Main.backArrowImage());
+		backArrow = new BackArrow();
 		createButton = new Button("+ Create");
-		header = new HBox(backArrowView, headerLabel, createButton);
+		header = new HBox(backArrow, headerLabel, createButton);
 		flow = new FlowPane();
 		scroll = new ScrollPane(flow);
 		vBox = new VBox(header, scroll);
@@ -70,7 +70,7 @@ public class SetsPane extends StackPane {
 	}
 	
 	private void initBackArrow() {
-		backArrowView.setOnMouseClicked(e -> backArrowAction());
+		backArrow.setOnAction(this::backArrowAction);
 	}
 	
 	private void backArrowAction() {

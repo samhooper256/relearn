@@ -7,7 +7,6 @@ import java.util.*;
 
 import javafx.geometry.*;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import topics.*;
@@ -25,7 +24,7 @@ public class EditorPane extends StackPane {
 	private String nameOnOpening;
 	private final VBox primaryLayer, topicPaneContainer;
 	private final HBox topLayer, nameLayer, topicLayer;
-	private final ImageView backArrowView;
+	private final BackArrow backArrow;
 	private final Button addTopicButton;
 	private final TextField nameField;
 	private final Label nameLabel;
@@ -47,12 +46,12 @@ public class EditorPane extends StackPane {
 		set = null;
 		
 		//top layer:
-		backArrowView = new ImageView(Main.backArrowImage());
+		backArrow = new BackArrow();
 		topicPaneContainer = new VBox();
 		initBackArrow();
 		Label headerLabel = new Label(HEADER);
 		headerLabel.setFont(Font.font(24));
-		topLayer = new HBox(backArrowView, headerLabel);
+		topLayer = new HBox(backArrow, headerLabel);
 		
 		//name layer:
 		nameLabel = new Label("Name:");
@@ -73,7 +72,7 @@ public class EditorPane extends StackPane {
 	}
 	
 	private void initBackArrow() {
-		backArrowView.setOnMouseClicked(e -> backArrowAction());
+		backArrow.setOnAction(this::backArrowAction);
 	}
 
 	private void backArrowAction() {
