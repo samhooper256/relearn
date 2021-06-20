@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import fxutils.Images;
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.*;
@@ -14,10 +13,10 @@ public class Main extends Application {
 	
 	public static final String TITLE = "ReLearn";
 	public static final double BACK_ARROW_SIZE = 40;
+	public static final double MIN_WIDTH = 600, MIN_HEIGHT = 400;
 	public static final File USER_FOLDER =
 			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
 	public static final File SETS_FOLDER = new File(USER_FOLDER, "Sets");
-	
 	private static final String RESOURCES_PREFIX = "/resources/";
 	
 	private static Image backArrowImage;
@@ -44,9 +43,7 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryScreen = Screen.getPrimary();
 		
-		Rectangle2D primaryBounds = primaryScreen.getBounds();
-		
-		mainScene = MainScene.create(primaryBounds.getWidth() / 2, primaryBounds.getHeight() / 2);
+		mainScene = MainScene.create(MIN_WIDTH, MIN_HEIGHT);
 		
 		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(mainScene);

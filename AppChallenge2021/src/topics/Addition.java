@@ -13,12 +13,19 @@ import utils.RNG;
  *
  */
 public class Addition extends AbstractTopic {
-	
+
 	private static final long serialVersionUID = 5163390070882430673L;
+	
+	public static final String NAME = "Addition";
+	public static final TopicFactory<Addition> FACTORY = new TopicFactory<>(NAME, Addition::new);
 	
 	private final IntSetting maxDigits;
 	private final IntSetting terms;
 	private final List<TopicSetting> settings;
+	
+	public Addition() {
+		this(DEFAULT_COUNT);
+	}
 	
 	public Addition(int count) {
 		super(count);
@@ -36,7 +43,7 @@ public class Addition extends AbstractTopic {
 
 	@Override
 	public String name() {
-		return "Addition";
+		return NAME;
 	}
 
 	@Override

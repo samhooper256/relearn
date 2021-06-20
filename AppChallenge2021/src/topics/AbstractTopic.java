@@ -13,6 +13,8 @@ abstract class AbstractTopic implements Topic {
 	
 	private static final long serialVersionUID = -3884983155589210552L;
 	
+	protected static final int DEFAULT_COUNT = 10;
+
 	private int count;
 	
 	/**

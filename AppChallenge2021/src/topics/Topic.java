@@ -9,6 +9,8 @@ import java.util.List;
 import base.*;
 
 /**
+ * <p>Every implementing concrete class should have a {@code public static final} field named {@code FACTORY} that has
+ * that is the {@link TopicFactory} for the {@code Topic}.</p>
  * @author Sam Hooper
  *
  */

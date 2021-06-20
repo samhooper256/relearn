@@ -4,10 +4,14 @@
 package base;
 
 import javafx.geometry.*;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.Popup;
 import topics.*;
 
 /**
@@ -21,12 +25,13 @@ public class EditorPane extends StackPane {
 	
 	private ProblemSet set;
 	private String nameOnOpening;
-	private final VBox outerBox, topicPaneContainer;
+	private final VBox primaryLayer, topicPaneContainer;
 	private final HBox topLayer, nameLayer, topicLayer;
 	private final ImageView backArrowView;
 	private final Button addTopicButton;
 	private final TextField nameField;
 	private final Label nameLabel;
+	private final TopicSelectionPane tsp;
 	
 	public static EditorPane get() {
 		//double-checked locking pattern
@@ -60,11 +65,13 @@ public class EditorPane extends StackPane {
 		//topic layer
 		addTopicButton = new Button("+ Add Topic");
 		topicLayer = new HBox(addTopicButton, topicPaneContainer);
-		initMidLayer();
+		initTopicLayer();
 		
-		outerBox = new VBox(topLayer, nameLayer, topicLayer);
+		primaryLayer = new VBox(topLayer, nameLayer, topicLayer);
 		
-		getChildren().add(outerBox);
+		tsp = new TopicSelectionPane();
+		
+		getChildren().add(primaryLayer);
 	}
 	
 	private void initBackArrow() {
@@ -77,10 +84,21 @@ public class EditorPane extends StackPane {
 		Main.mainScene().showSets();
 	}
 	
-	private void initMidLayer() {
+	private void initTopicLayer() {
 		topicLayer.setSpacing(20);
 		topicLayer.setPadding(new Insets(25));
 		HBox.setHgrow(topicPaneContainer, Priority.ALWAYS);
+		initAddTopicButton();
+	}
+	
+	private void initAddTopicButton() {
+		addTopicButton.setOnAction(e -> addTopicAction());
+	}
+	
+	private void addTopicAction() {
+		System.out.printf("[enter] addTopicAction%n");
+		primaryLayer.setMouseTransparent(true);
+		getChildren().add(tsp);
 	}
 	
 	private void initNameLayer() {

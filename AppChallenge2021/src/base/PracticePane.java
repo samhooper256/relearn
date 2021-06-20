@@ -3,7 +3,6 @@
  */
 package base;
 
-import javafx.event.EventType;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
