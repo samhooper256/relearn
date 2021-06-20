@@ -21,6 +21,7 @@ public class SetCard extends StackPane {
 	private static final double PREF_WIDTH = 300;
 	private static final double PREF_HEIGHT = 150;
 	private static final double PENCIL_SIZE = 30;
+	private static final Image PENCIL_IMAGE = Images.get("pencil.png", PENCIL_SIZE, PENCIL_SIZE, false, true);
 	private static final IdentityHashMap<ProblemSet, SetCard> CACHE = new IdentityHashMap<>();
 	
 	
@@ -37,34 +38,33 @@ public class SetCard extends StackPane {
 	private final VBox vBox;
 	private final Button practiceButton;
 	private final ImageView pencilView;
+	private final Label title;
 	
 	private SetCard(ProblemSet set) {
 		this.set = set;
 		this.setBorder(Borders.of(Color.GREEN));
 		this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);
 		
-		Label title = new Label(set.name());
-		set.nameProperty().addListener(ov -> {
-			title.setText(set.name());
-		});
+		title = new Label(set.name());
+		initTitle();
 		
 		practiceButton = new Button("Practice");
 		initPracticeButton();
 		
 		vBox = new VBox(title, practiceButton);
 		
-		pencilView = new ImageView();
+		pencilView = new ImageView(PENCIL_IMAGE);
 		initPencil();
 		
 		getChildren().addAll(vBox, pencilView);
 	}
-
+	
+	private void initTitle() {
+		title.textProperty().bind(set.nameProperty());
+	}
+	
 	private void initPencil() {
-		Image pencilImage = Images.get("pencil.png", PENCIL_SIZE, PENCIL_SIZE, false, true);
-		pencilView.setImage(pencilImage);
-		pencilView.setOnMouseClicked(e -> {
-			Main.mainScene().edit(set);
-		});
+		pencilView.setOnMouseClicked(e -> Main.mainScene().edit(set));
 		StackPane.setAlignment(pencilView, Pos.TOP_RIGHT);
 	}
 	

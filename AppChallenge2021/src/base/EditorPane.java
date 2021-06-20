@@ -68,11 +68,13 @@ public class EditorPane extends StackPane {
 	}
 	
 	private void initBackArrow() {
-		backArrowView.setOnMouseClicked(e -> {
-			set.setName(nameField.getText().strip());
-			set.saveToFile(nameOnOpening);
-			Main.mainScene().showSets();
-		});
+		backArrowView.setOnMouseClicked(e -> backArrowAction());
+	}
+
+	private void backArrowAction() {
+		set.setName(nameField.getText().strip());
+		set.saveToFile(nameOnOpening);
+		Main.mainScene().showSets();
 	}
 	
 	private void initMidLayer() {
