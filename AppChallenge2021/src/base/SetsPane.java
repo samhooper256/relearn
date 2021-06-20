@@ -4,7 +4,7 @@
 package base;
 
 import fxutils.Borders;
-import javafx.geometry.Insets;
+import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.ImageView;
@@ -41,21 +41,32 @@ public class SetsPane extends StackPane {
 	private final Label headerLabel;
 	private final ImageView backArrowView;
 	private final HBox header;
+	private final Button createButton;
 	
 	private SetsPane() {
 		headerLabel = new Label(HEADER);
 		backArrowView = new ImageView(Main.backArrowImage());
-		header = new HBox(backArrowView, headerLabel);
+		createButton = new Button("+ Create");
+		header = new HBox(backArrowView, headerLabel, createButton);
 		flow = new FlowPane();
 		scroll = new ScrollPane(flow);
 		vBox = new VBox(header, scroll);
 		initVBox();
 		getChildren().add(vBox);
 	}
-
+	
+	private void initVBox() {
+		initHeader();
+		initScroll();
+		vBox.setSpacing(10);
+	}
+	
 	private void initHeader() {
 		headerLabel.setFont(Font.font(24));
+		header.setSpacing(20);
+		header.setAlignment(Pos.CENTER_LEFT);
 		initBackArrow();
+		initCreateButton();
 	}
 	
 	private void initBackArrow() {
@@ -65,11 +76,13 @@ public class SetsPane extends StackPane {
 	private void backArrowAction() {
 		Main.mainScene().showMainMenu();
 	}
-
-	private void initVBox() {
-		initHeader();
-		initScroll();
-		vBox.setSpacing(10);
+	
+	private void initCreateButton() {
+		createButton.setOnAction(e -> createButtonAction());
+	}
+	
+	private void createButtonAction() {
+		Main.mainScene().createFreshSet();
 	}
 	
 	private void initFlow() {

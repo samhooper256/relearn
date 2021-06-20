@@ -41,28 +41,33 @@ public class MainScene extends Scene {
 		setsButton.setOnAction(e -> showSets());
 	}
 	
-	private void setRoot(Pane newRoot) {
+	private void setRootPrivate(Pane newRoot) {
 		if(newRoot != mainMenu && newRoot != SetsPane.get() && newRoot != practicePane && newRoot != EditorPane.get())
 			throw new IllegalArgumentException(String.format("Cannot change root to: %s", newRoot));
 		super.setRoot(newRoot);
 	}
 	
 	public void showMainMenu() {
-		setRoot(mainMenu);
+		setRootPrivate(mainMenu);
 	}
 	
 	public void showSets() {
-		setRoot(SetsPane.get());
+		setRootPrivate(SetsPane.get());
 	}
 	
 	public void startPractice(Deck deck) {
 		practicePane.start(deck);
-		setRoot(practicePane);
+		setRootPrivate(practicePane);
 	}
 	
 	public void edit(ProblemSet set) {
 		EditorPane.get().edit(set);
-		setRoot(EditorPane.get());
+		setRootPrivate(EditorPane.get());
+	}
+	
+	public void createFreshSet() {
+		EditorPane.get().createFreshSet();
+		setRootPrivate(EditorPane.get());
 	}
 	
 }

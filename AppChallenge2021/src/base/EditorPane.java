@@ -97,4 +97,8 @@ public class EditorPane extends StackPane {
 			topicPaneContainer.getChildren().add(TopicPane.of(t));
 	}
 	
+	public void createFreshSet() {
+		edit(new ProblemSet());
+	}
+	
 }
