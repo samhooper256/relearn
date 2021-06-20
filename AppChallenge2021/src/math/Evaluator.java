@@ -221,9 +221,7 @@ public final class Evaluator {
 		
 		/** Leaves {@link #index} on a binary operator or the end of the input.*/
 		public ConstantExpression parse(int precedence) {
-			System.out.printf("[enter] parse(precedence=%d), index=%d%n", precedence, index);
 			Token t = tokens.get(index);
-			System.out.printf("\tt=%s%n", t);
 			String text = t.text();
 			TokenType ty = t.type();
 			if(ty == TokenType.LITERAL) {

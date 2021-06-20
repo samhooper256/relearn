@@ -9,6 +9,8 @@ package topics;
  */
 public final class IntSetting implements TopicSetting {
 	
+	private static final long serialVersionUID = -8350093090440983667L;
+	
 	private final String name;
 	private final int max, min;
 	private int value;

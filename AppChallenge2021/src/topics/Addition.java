@@ -14,6 +14,8 @@ import utils.RNG;
  */
 public class Addition extends AbstractTopic {
 	
+	private static final long serialVersionUID = 5163390070882430673L;
+	
 	private final IntSetting maxDigits;
 	private final IntSetting terms;
 	private final List<TopicSetting> settings;

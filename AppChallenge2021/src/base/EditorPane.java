@@ -42,6 +42,7 @@ public class EditorPane extends StackPane {
 	
 	private void initBackArrow() {
 		backArrowView.setOnMouseClicked(e -> {
+			set.saveToFile();
 			Main.mainScene().showSets();
 		});
 	}

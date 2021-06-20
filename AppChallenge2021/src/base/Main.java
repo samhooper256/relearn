@@ -1,6 +1,6 @@
 package base;
 
-import java.io.InputStream;
+import java.io.*;
 import java.util.Optional;
 
 import fxutils.Images;
@@ -14,6 +14,9 @@ public class Main extends Application {
 	
 	public static final String TITLE = "ReLearn";
 	public static final double BACK_ARROW_SIZE = 40;
+	public static final File USER_FOLDER =
+			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
+	public static final File SETS_FOLDER = new File(USER_FOLDER, "Sets");
 	
 	private static final String RESOURCES_PREFIX = "/resources/";
 	
@@ -23,7 +26,16 @@ public class Main extends Application {
 	private static MainScene mainScene;
 	
 	public static void main(String[] args) {
+		preLaunchInit();
 		Application.launch(args);
+	}
+
+	private static void preLaunchInit() {
+		if(!USER_FOLDER.exists())
+			USER_FOLDER.mkdir();
+		if(!SETS_FOLDER.exists())
+			SETS_FOLDER.mkdir();
+		ProblemSet.loadSets();
 	}
 
 	@Override

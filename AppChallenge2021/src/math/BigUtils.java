@@ -19,11 +19,6 @@ import utils.*;
  */
 public final class BigUtils {
 	
-	public static void main(String[] args) {
-		BigDecimal bd = new BigDecimal("+32e3");
-		System.out.printf("bd=%f%n", bd);
-	}
-	
 	public static boolean isZero(BigDecimal bd) {
 		return bd.compareTo(BigDecimal.ZERO) == 0;
 	}

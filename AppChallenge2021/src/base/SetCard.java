@@ -20,13 +20,17 @@ public class SetCard extends StackPane {
 	private static final double PREF_HEIGHT = 150;
 	
 	private static final double PENCIL_SIZE = 30;
+
+	public static SetCard of(ProblemSet set) {
+		return new SetCard(set);
+	}
 	
 	private final ProblemSet set;
 	private final VBox vBox;
 	private final Button practiceButton;
 	private final ImageView pencilView;
 	
-	public SetCard(ProblemSet set) {
+	private SetCard(ProblemSet set) {
 		this.set = set;
 		this.setBorder(Borders.of(Color.GREEN));
 		this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);

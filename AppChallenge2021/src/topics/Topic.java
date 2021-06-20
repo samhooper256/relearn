@@ -3,6 +3,7 @@
  */
 package topics;
 
+import java.io.Serializable;
 import java.util.List;
 
 import base.*;
@@ -11,7 +12,7 @@ import base.*;
  * @author Sam Hooper
  *
  */
-public interface Topic extends Named {
+public interface Topic extends Named, Serializable {
 	
 	List<TopicSetting> settings();
 	

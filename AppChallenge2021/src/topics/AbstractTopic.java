@@ -11,6 +11,8 @@ import java.util.Objects;
  */
 abstract class AbstractTopic implements Topic {
 	
+	private static final long serialVersionUID = -3884983155589210552L;
+	
 	private int count;
 	
 	/**

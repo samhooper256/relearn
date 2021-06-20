@@ -3,6 +3,7 @@
  */
 package base;
 
+import java.io.Serializable;
 import java.util.*;
 
 import topics.Topic;
@@ -13,13 +14,17 @@ import utils.RNG;
  * @author Sam Hooper
  *
  */
-public final class SetConfiguration {
+public final class SetConfiguration implements Serializable {
+	
+	private static final long serialVersionUID = -8580472330700911391L;
 	
 	private final Set<Topic> topics;
 	private int total;
 	
-	public SetConfiguration() {
+	public SetConfiguration(Topic... topics) {
 		this.topics = new LinkedHashSet<>();
+		for(Topic t : topics)
+			addTopic(t);
 		total = 0;
 	}
 	
