@@ -24,8 +24,8 @@ public class AccuracyPie extends PieChart {
 		
 		getData().addAll(correctData, incorrectData);
 		
-		correctData.getNode().setStyle("-fx-pie-color: green;");
-		incorrectData.getNode().setStyle("-fx-pie-color: red;");
+		correctData.getNode().getStyleClass().add("correct-pie-slice");
+		incorrectData.getNode().getStyleClass().add("incorrect-pie-slice");
 		
 		this.setLegendVisible(false);
 	}

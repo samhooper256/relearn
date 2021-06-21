@@ -17,7 +17,7 @@ public class Main extends Application {
 	public static final File USER_FOLDER =
 			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
 	public static final File SETS_FOLDER = new File(USER_FOLDER, "Sets");
-	private static final String RESOURCES_PREFIX = "/resources/";
+	public static final String RESOURCES_PREFIX = "/resources/";
 	
 	private static Image backArrowImage;
 	private static Stage primaryStage;

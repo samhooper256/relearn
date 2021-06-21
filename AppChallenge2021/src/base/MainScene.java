@@ -35,6 +35,7 @@ public class MainScene extends Scene {
 		VBox vBox = new VBox(5, titleLabel, setsButton, statsButton, settingsButton);
 		vBox.setAlignment(Pos.CENTER);
 		root.getChildren().add(vBox);
+		getStylesheets().add(Main.class.getResource(Main.RESOURCES_PREFIX + "style.css").toExternalForm());
 	}
 	
 	private void initButtons() {

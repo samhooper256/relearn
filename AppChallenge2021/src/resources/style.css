@@ -1,0 +1,7 @@
+.correct-pie-slice {
+	-fx-pie-color: green;
+}
+
+.incorrect-pie-slice {
+	-fx-pie-color: red;
+}
