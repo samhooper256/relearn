@@ -23,7 +23,8 @@ public final class TopicUtils {
 		Collections.addAll(FACTORIES, 
 				Addition.FACTORY,
 				Subtraction.FACTORY,
-				Multiplication.FACTORY
+				Multiplication.FACTORY,
+				Division.FACTORY
 		);
 	}
 	

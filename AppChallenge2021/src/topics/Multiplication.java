@@ -31,7 +31,7 @@ public class Multiplication extends AbstractTopic {
 	public Multiplication(int count) {
 		super(count);
 		minNumber = new IntSetting("Minimum Number", 0, 12, 1);
-		maxNumber = new IntSetting("Maximum Number", 0, 12, 1);
+		maxNumber = new IntSetting("Maximum Number", 0, 12, 12);
 		terms = new IntSetting("Terms", 2, 3, 2);
 		settings = List.of(minNumber, maxNumber, terms);
 	}
