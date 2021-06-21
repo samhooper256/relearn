@@ -23,70 +23,12 @@ public class PracticePane extends StackPane {
 	private static final double FIELD_WIDTH = 400;
 	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
 	
-	private class FinishPane extends FadePopup {
-		
-		private final VBox vBox;
-		private final HBox buttonBar;
-		private final Button backToSetsButton, replayButton;
-		private final Label accuracyLabel;
-		
-		public FinishPane() {
-			setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-			
-			backToSetsButton = new Button("Back");
-			replayButton = new Button("Replay");
-			buttonBar = new HBox(backToSetsButton, replayButton);
-			
-			accuracyLabel = new Label();
-			
-			vBox = new VBox(accuracyLabel, buttonBar);
-			initVBox();
-			
-			setBackground(Backgrounds.of(Color.GOLD));
-			getChildren().add(vBox);
-		}
-		
-		private void initVBox() {
-			initButtonBar();
-			vBox.setAlignment(Pos.CENTER);
-		}
-		
-		private void initButtonBar() {
-			initBackToSetsButton();
-			initReplayButton();
-			buttonBar.setSpacing(20);
-			buttonBar.setAlignment(Pos.CENTER);
-		}
-		
-		private void initBackToSetsButton() {
-			backToSetsButton.setOnAction(e -> backToSetsAction());
-		}
-		
-		private void backToSetsAction() {
-			Main.mainScene().showSets();
-			hideFrom(PracticePane.this);
-		}
-		
-		private void initReplayButton() {
-			replayButton.setOnAction(e -> replayAction());
-		}
-		
-		private void replayAction() {
-			startDeck(currentSet().createDeck());
-			hideFinishPopup();
-		}
-		
-		public void updateAccuracyLabel() {
-			accuracyLabel.setText(String.format("%d / %d", correctProblems.size(), currentDeck.size()));
-		}
-	}
-	
 	private final VBox userArea;
 	private final TextField field;
 	private final Label problemDisplay, title;
 	private final HBox header, buttonBar;
 	private final BackArrow backArrow;
-	private final FinishPane finishPane;
+	private final FinishPracticePopup finishPopup;
 	private final Button submitButton;
 	private final List<Problem> correctProblems, incorrectProblems;
 	
@@ -113,7 +55,7 @@ public class PracticePane extends StackPane {
 		getChildren().addAll(header, userArea);
 		StackPane.setAlignment(userArea, Pos.CENTER);
 		
-		finishPane = new FinishPane();
+		finishPopup = new FinishPracticePopup(this);
 		
 		correctProblems = new ArrayList<>();
 		incorrectProblems = new ArrayList<>();
@@ -186,7 +128,7 @@ public class PracticePane extends StackPane {
 
 	private void deckFinished() {
 		cleanUpOnFinish();
-		finishPane.updateAccuracyLabel();
+		finishPopup.updateAccuracy(correctProblems.size(), incorrectProblems.size());
 		showFinishPopup();
 	}
 	
@@ -203,11 +145,11 @@ public class PracticePane extends StackPane {
 	}
 	
 	private void showFinishPopup() {
-		finishPane.fadeOnto(this);
+		finishPopup.fadeOnto(this);
 	}
 	
 	private void hideFinishPopup() {
-		finishPane.fadeOutFrom(this);
+		finishPopup.fadeOutFrom(this);
 	}
 	
 	public void start(ProblemSet set) {
@@ -229,6 +171,11 @@ public class PracticePane extends StackPane {
 		clearField();
 		setProblemText(problem.displayText());
 		
+	}
+	
+	public void replay() {
+		startDeck(currentSet().createDeck());
+		hideFinishPopup();
 	}
 	
 	private void setProblemText(String text) {
