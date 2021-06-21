@@ -60,6 +60,8 @@ public final class BigUtils {
 	}
 	
 	public static boolean isValidBigDecimal(String str) {
+		if(str.isBlank())
+			return false;
 		if(isSign(str.charAt(0)))
 			return isValidBigDecimalWithoutSign(str.substring(1));
 		else

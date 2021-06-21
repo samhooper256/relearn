@@ -3,7 +3,7 @@
  */
 package base;
 
-import fxutils.Backgrounds;
+import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
@@ -19,6 +19,7 @@ public class PracticePane extends StackPane {
 	
 	private static final String TITLE = "Practice";
 	private static final double FIELD_WIDTH = 400;
+	private static final Border WRONG_ANSWER_BORDER = Borders.of(Color.RED);
 	
 	private class FinishPane extends FadePopup {
 		
@@ -115,6 +116,7 @@ public class PracticePane extends StackPane {
 	
 	private void initField() {
 		field.setPrefWidth(FIELD_WIDTH);
+		field.setBorder(Border.EMPTY);
 		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
 			if(e.getCode() == KeyCode.ENTER) {
 				e.consume();
@@ -138,11 +140,17 @@ public class PracticePane extends StackPane {
 	}
 	
 	private void submitAction() {
-		if(currentProblem.isCorrect(fieldText().strip()))
+		String text = fieldText().strip();
+		if(text.isBlank())
+			return; //do nothing - the user clicked "Submit" when they hadn't entered anything.
+		if(currentProblem.isCorrect(text))
 			correctAnswerAction();
+		else
+			wrongAnswerAction();
 	}
 	
 	private void correctAnswerAction() {
+		field.setBorder(Border.EMPTY);
 		if(deckIndex < currentDeck.size() - 1) {
 			setupNext();
 		}
@@ -150,6 +158,10 @@ public class PracticePane extends StackPane {
 			cleanUpOnFinish();
 			showFinishPopup();
 		}
+	}
+	
+	private void wrongAnswerAction() {
+		field.setBorder(WRONG_ANSWER_BORDER);
 	}
 	
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
