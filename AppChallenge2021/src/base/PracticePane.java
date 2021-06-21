@@ -65,9 +65,10 @@ public class PracticePane extends StackPane {
 	private final VBox userArea;
 	private final TextField field;
 	private final Label problemDisplay, title;
-	private final HBox header;
+	private final HBox header, buttonBar;
 	private final BackArrow backArrow;
 	private final FinishPane finishPane;
+	private final Button submitButton;
 	
 	private ProblemSet currentSet;
 	private Deck currentDeck;
@@ -75,16 +76,16 @@ public class PracticePane extends StackPane {
 	private int deckIndex;
 	
 	public PracticePane() {
-		field = new TextField();
-		initializeField();
-		problemDisplay = new Label();
-
 		backArrow = new BackArrow();
 		title = new Label(TITLE);
 		header = new HBox(backArrow, title);
 		initHeader();
 		
-		userArea = new VBox(problemDisplay, field);
+		problemDisplay = new Label();
+		field = new TextField();
+		buttonBar = new HBox();
+		submitButton = new Button("Submit");
+		userArea = new VBox(problemDisplay, field, buttonBar);
 		initUserArea();
 		
 		getChildren().addAll(header, userArea);
@@ -94,16 +95,6 @@ public class PracticePane extends StackPane {
 		
 		deckIndex = -1;
 		currentProblem = null;
-	}
-	
-	private void initializeField() {
-		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-			if(e.getCode() == KeyCode.ENTER) {
-				e.consume();
-				submitAction();
-			}
-		});
-		
 	}
 	
 	private void initHeader() {
@@ -116,9 +107,30 @@ public class PracticePane extends StackPane {
 	}
 	
 	private void initUserArea() {
-		field.setPrefWidth(FIELD_WIDTH);
+		initField();
+		initButtonBar();
 		userArea.setFillWidth(false);
 		userArea.setAlignment(Pos.CENTER);
+	}
+	
+	private void initField() {
+		field.setPrefWidth(FIELD_WIDTH);
+		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+			if(e.getCode() == KeyCode.ENTER) {
+				e.consume();
+				submitAction();
+			}
+		});
+	}
+	
+	private void initButtonBar() {
+		buttonBar.getChildren().addAll(submitButton);
+		initSubmitButton();
+	}
+	
+	private void initSubmitButton() {
+		submitButton.setFocusTraversable(false);
+		submitButton.setOnAction(e -> submitAction());
 	}
 	
 	private String fieldText() {
@@ -143,7 +155,6 @@ public class PracticePane extends StackPane {
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
 	private void cleanUpOnFinish() {
 		clearField();
-		setProblemText("Done!");
 	}
 	
 	private void showFinishPopup() {
