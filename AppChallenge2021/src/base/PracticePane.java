@@ -36,6 +36,7 @@ public class PracticePane extends StackPane {
 		
 		private void initButtonBar() {
 			initBackToSetsButton();
+			initReplayButton();
 			buttonBar.setSpacing(20);
 			buttonBar.setAlignment(Pos.CENTER);
 		}
@@ -49,6 +50,15 @@ public class PracticePane extends StackPane {
 			hideFrom(PracticePane.this);
 		}
 		
+		private void initReplayButton() {
+			replayButton.setOnAction(e -> replayAction());
+		}
+		
+		private void replayAction() {
+			startDeck(currentSet().createDeck());
+			hideFinishPopup();
+		}
+		
 	}
 	
 	private final VBox vBox;
@@ -58,7 +68,8 @@ public class PracticePane extends StackPane {
 	private final BackArrow backArrow;
 	private final FinishPane finishPane;
 	
-	private Deck deck;
+	private ProblemSet currentSet;
+	private Deck currentDeck;
 	private Problem currentProblem;
 	private int deckIndex;
 	
@@ -110,7 +121,7 @@ public class PracticePane extends StackPane {
 	}
 	
 	private void correctAnswerAction() {
-		if(deckIndex < deck.size() - 1) {
+		if(deckIndex < currentDeck.size() - 1) {
 			setupNext();
 		}
 		else {
@@ -129,10 +140,19 @@ public class PracticePane extends StackPane {
 		finishPane.fadeOnto(this);
 	}
 	
-	public void start(Deck deck) {
-		this.deck = deck;
+	private void hideFinishPopup() {
+		finishPane.fadeOutFrom(this);
+	}
+	
+	public void start(ProblemSet set) {
+		currentSet = set;
+		startDeck(set.createDeck());
+	}
+	
+	private void startDeck(Deck deck) {
+		currentDeck = deck;
 		deckIndex = 0;
-		setup(deck.get(deckIndex));
+		setup(currentDeck.get(deckIndex));
 	}
 	
 	private void setup(Problem problem) {
@@ -152,7 +172,11 @@ public class PracticePane extends StackPane {
 	
 	private void setupNext() {
 		deckIndex++;
-		setup(deck.get(deckIndex));
+		setup(currentDeck.get(deckIndex));
+	}
+	
+	public ProblemSet currentSet() {
+		return currentSet;
 	}
 	
 }

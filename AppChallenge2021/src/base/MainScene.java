@@ -55,8 +55,8 @@ public class MainScene extends Scene {
 		setRootPrivate(SetsPane.get());
 	}
 	
-	public void startPractice(Deck deck) {
-		practicePane.start(deck);
+	public void startPractice(ProblemSet set) {
+		practicePane.start(set);
 		setRootPrivate(practicePane);
 	}
 	

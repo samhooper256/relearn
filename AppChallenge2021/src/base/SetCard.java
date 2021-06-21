@@ -69,7 +69,7 @@ public class SetCard extends StackPane {
 	}
 	
 	private void initPracticeButton() {
-		practiceButton.setOnAction(e -> Main.mainScene().startPractice(getSet().createDeck()));
+		practiceButton.setOnAction(e -> Main.mainScene().startPractice(getSet()));
 	}
 	
 	public ProblemSet getSet() {
