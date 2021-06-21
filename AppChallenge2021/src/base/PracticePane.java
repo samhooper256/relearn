@@ -3,6 +3,8 @@
  */
 package base;
 
+import java.util.*;
+
 import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -23,17 +25,30 @@ public class PracticePane extends StackPane {
 	
 	private class FinishPane extends FadePopup {
 		
+		private final VBox vBox;
 		private final HBox buttonBar;
 		private final Button backToSetsButton, replayButton;
+		private final Label accuracyLabel;
 		
 		public FinishPane() {
 			setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+			
 			backToSetsButton = new Button("Back");
 			replayButton = new Button("Replay");
 			buttonBar = new HBox(backToSetsButton, replayButton);
-			initButtonBar();
+			
+			accuracyLabel = new Label();
+			
+			vBox = new VBox(accuracyLabel, buttonBar);
+			initVBox();
+			
 			setBackground(Backgrounds.of(Color.GOLD));
-			getChildren().add(buttonBar);
+			getChildren().add(vBox);
+		}
+		
+		private void initVBox() {
+			initButtonBar();
+			vBox.setAlignment(Pos.CENTER);
 		}
 		
 		private void initButtonBar() {
@@ -61,6 +76,9 @@ public class PracticePane extends StackPane {
 			hideFinishPopup();
 		}
 		
+		public void updateAccuracyLabel() {
+			accuracyLabel.setText(String.format("%d / %d", correctProblems.size(), currentDeck.size()));
+		}
 	}
 	
 	private final VBox userArea;
@@ -70,11 +88,14 @@ public class PracticePane extends StackPane {
 	private final BackArrow backArrow;
 	private final FinishPane finishPane;
 	private final Button submitButton;
+	private final List<Problem> correctProblems, incorrectProblems;
 	
 	private ProblemSet currentSet;
 	private Deck currentDeck;
 	private Problem currentProblem;
 	private int deckIndex;
+	/** {@code true} if an incorrect answer has been given to the {@link #currentProblem()}.*/
+	private boolean incorrectAnswerGiven;
 	
 	public PracticePane() {
 		backArrow = new BackArrow();
@@ -94,8 +115,12 @@ public class PracticePane extends StackPane {
 		
 		finishPane = new FinishPane();
 		
+		correctProblems = new ArrayList<>();
+		incorrectProblems = new ArrayList<>();
+		
 		deckIndex = -1;
 		currentProblem = null;
+		incorrectAnswerGiven = false;
 	}
 	
 	private void initHeader() {
@@ -151,16 +176,24 @@ public class PracticePane extends StackPane {
 	
 	private void correctAnswerAction() {
 		field.setBorder(Border.EMPTY);
-		if(deckIndex < currentDeck.size() - 1) {
+		if(!incorrectAnswerGiven)
+			correctProblems.add(currentProblem);
+		if(deckIndex < currentDeck.size() - 1)
 			setupNext();
-		}
-		else {
-			cleanUpOnFinish();
-			showFinishPopup();
-		}
+		else
+			deckFinished();
+	}
+
+	private void deckFinished() {
+		cleanUpOnFinish();
+		finishPane.updateAccuracyLabel();
+		showFinishPopup();
 	}
 	
 	private void incorrectAnswerAction() {
+		if(!incorrectAnswerGiven)
+			incorrectProblems.add(currentProblem);
+		incorrectAnswerGiven = true;
 		field.setBorder(INCORRECT_ANSWER_BORDER);
 	}
 	
@@ -185,11 +218,14 @@ public class PracticePane extends StackPane {
 	private void startDeck(Deck deck) {
 		currentDeck = deck;
 		deckIndex = 0;
+		correctProblems.clear();
+		incorrectProblems.clear();
 		setup(currentDeck.get(deckIndex));
 	}
 	
 	private void setup(Problem problem) {
-		this.currentProblem = problem;
+		currentProblem = problem;
+		incorrectAnswerGiven = false;
 		clearField();
 		setProblemText(problem.displayText());
 		
@@ -210,6 +246,10 @@ public class PracticePane extends StackPane {
 	
 	public ProblemSet currentSet() {
 		return currentSet;
+	}
+	
+	public Problem currentProblem() {
+		return currentProblem;
 	}
 	
 }
