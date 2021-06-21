@@ -38,11 +38,11 @@ public class Addition extends AbstractTopic {
 	public Problem generate() {
 		ArrayList<Integer> termList = termCreate();
 		if(termList.size() == 2)
-			return MathProblem.fromExpression(String.format("%d+%d", termList.get(0), termList.get(1)));
+			return MathProblem.fromExpression(this, String.format("%d+%d", termList.get(0), termList.get(1)));
 		if(termList.size() == 3)
-			return MathProblem.fromExpression(String.format("%d+%d+%d", termList.get(0), termList.get(1), termList.get(2)));
+			return MathProblem.fromExpression(this, String.format("%d+%d+%d", termList.get(0), termList.get(1), termList.get(2)));
 		if(termList.size() == 4)
-			return MathProblem.fromExpression(String.format("%d+%d+%d+%d", termList.get(0), termList.get(1), termList.get(2), termList.get(3)));
+			return MathProblem.fromExpression(this, String.format("%d+%d+%d+%d", termList.get(0), termList.get(1), termList.get(2), termList.get(3)));
 		throw new IllegalStateException();
 	}
 	

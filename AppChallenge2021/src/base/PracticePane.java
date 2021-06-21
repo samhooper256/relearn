@@ -19,7 +19,7 @@ public class PracticePane extends StackPane {
 	
 	private static final String TITLE = "Practice";
 	private static final double FIELD_WIDTH = 400;
-	private static final Border WRONG_ANSWER_BORDER = Borders.of(Color.RED);
+	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
 	
 	private class FinishPane extends FadePopup {
 		
@@ -146,7 +146,7 @@ public class PracticePane extends StackPane {
 		if(currentProblem.isCorrect(text))
 			correctAnswerAction();
 		else
-			wrongAnswerAction();
+			incorrectAnswerAction();
 	}
 	
 	private void correctAnswerAction() {
@@ -160,8 +160,8 @@ public class PracticePane extends StackPane {
 		}
 	}
 	
-	private void wrongAnswerAction() {
-		field.setBorder(WRONG_ANSWER_BORDER);
+	private void incorrectAnswerAction() {
+		field.setBorder(INCORRECT_ANSWER_BORDER);
 	}
 	
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
