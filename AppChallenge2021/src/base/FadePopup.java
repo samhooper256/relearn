@@ -13,12 +13,13 @@ import javafx.util.Duration;
  */
 public class FadePopup extends StackPane {
 	
-	private static final double RISING_DURATION = 200, FALLING_DURATION = 30; //millis
+	private static final double RISING_DURATION = 200, FALLING_DURATION = 30, OUT_DURATON = 180; //millis
 	private static final double STARTING_OPACITY = 0;
 	private static final double START_SIZE_PERCENT = 0.70, PEAK_SIZE_PERCENT = 1.02;
 	
 
 	public void fadeOnto(StackPane pane) {
+		pane.getChildren().get(pane.getChildren().size() - 1).setMouseTransparent(true);
 		this.setMouseTransparent(true);
 		
 		FadeTransition ft = new FadeTransition(Duration.millis(RISING_DURATION), this);
@@ -48,4 +49,27 @@ public class FadePopup extends StackPane {
 		st.play();
 	}
 	
+	public void fadeOutFrom(StackPane pane) {
+		FadeTransition ft = new FadeTransition(Duration.millis(OUT_DURATON), this);
+		ft.setFromValue(1);
+		ft.setToValue(0);
+		
+		ScaleTransition st = new ScaleTransition(Duration.millis(OUT_DURATON), this);
+		st.setFromX(1);
+		st.setFromY(1);
+		st.setToX(START_SIZE_PERCENT);
+		st.setToY(START_SIZE_PERCENT);
+		
+		
+		int thisIndex = pane.getChildren().indexOf(this);
+		
+		st.setOnFinished(e -> {
+			pane.getChildren().remove(thisIndex);
+			pane.getChildren().get(thisIndex - 1).setMouseTransparent(false);
+		});
+		
+		ft.play();
+		st.play();
+		
+	}
 }

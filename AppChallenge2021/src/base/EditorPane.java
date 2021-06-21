@@ -99,7 +99,6 @@ public class EditorPane extends StackPane {
 	}
 	
 	private void showTopicSelectionPane() {
-		primaryLayer.setMouseTransparent(true);
 		tsp.fadeOnto(this);
 	}
 	
@@ -136,8 +135,7 @@ public class EditorPane extends StackPane {
 	}
 	
 	public void hideTopicSelectionPane() {
-		getChildren().remove(tsp);
-		primaryLayer.setMouseTransparent(false);
+		tsp.fadeOutFrom(this);
 	}
 	
 }

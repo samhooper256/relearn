@@ -76,11 +76,11 @@ public class TopicSelectionPane extends FadePopup {
 	}
 	
 	private void addSelectedAction() {
+		EditorPane.get().addTopics(getSelectedTopics());
 		hide();
 	}
 	
 	private void hide() {
-		EditorPane.get().addTopics(getSelectedTopics());
 		EditorPane.get().hideTopicSelectionPane();
 	}
 	
