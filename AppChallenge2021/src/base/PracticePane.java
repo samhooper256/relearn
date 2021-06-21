@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 public class PracticePane extends StackPane {
 	
 	private static final String TITLE = "Practice";
+	private static final double FIELD_WIDTH = 400;
 	
 	private class FinishPane extends FadePopup {
 		
@@ -61,7 +62,7 @@ public class PracticePane extends StackPane {
 		
 	}
 	
-	private final VBox vBox;
+	private final VBox userArea;
 	private final TextField field;
 	private final Label problemDisplay, title;
 	private final HBox header;
@@ -83,8 +84,11 @@ public class PracticePane extends StackPane {
 		header = new HBox(backArrow, title);
 		initHeader();
 		
-		vBox = new VBox(header, problemDisplay, field);
-		getChildren().add(vBox);
+		userArea = new VBox(problemDisplay, field);
+		initUserArea();
+		
+		getChildren().addAll(header, userArea);
+		StackPane.setAlignment(userArea, Pos.CENTER);
 		
 		finishPane = new FinishPane();
 		
@@ -109,6 +113,12 @@ public class PracticePane extends StackPane {
 	
 	private void backArrowAction() {
 		Main.mainScene().showSets();
+	}
+	
+	private void initUserArea() {
+		field.setPrefWidth(FIELD_WIDTH);
+		userArea.setFillWidth(false);
+		userArea.setAlignment(Pos.CENTER);
 	}
 	
 	private String fieldText() {

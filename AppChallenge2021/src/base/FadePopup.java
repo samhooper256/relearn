@@ -3,10 +3,8 @@
  */
 package base;
 
-import fxutils.Borders;
 import javafx.animation.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
