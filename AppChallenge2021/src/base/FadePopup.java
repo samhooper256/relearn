@@ -3,8 +3,10 @@
  */
 package base;
 
+import fxutils.Borders;
 import javafx.animation.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
@@ -13,13 +15,22 @@ import javafx.util.Duration;
  */
 public class FadePopup extends StackPane {
 	
+	public static final double DEFAULT_WIDTH = 400, DEFAULT_HEIGHT = 300;
+	
 	private static final double RISING_DURATION = 200, FALLING_DURATION = 30, OUT_DURATON = 180; //millis
 	private static final double STARTING_OPACITY = 0;
 	private static final double START_SIZE_PERCENT = 0.70, PEAK_SIZE_PERCENT = 1.02;
 	
-
+	private final StackPane glassPane;
+	
+	protected FadePopup() {
+		glassPane = new StackPane();
+		glassPane.setPickOnBounds(true);
+	}
+	
 	public void fadeOnto(StackPane pane) {
-		pane.getChildren().get(pane.getChildren().size() - 1).setMouseTransparent(true);
+//		pane.getChildren().get(pane.getChildren().size() - 1).setMouseTransparent(true);
+		pane.getChildren().add(glassPane);
 		this.setMouseTransparent(true);
 		
 		FadeTransition ft = new FadeTransition(Duration.millis(RISING_DURATION), this);
@@ -60,16 +71,16 @@ public class FadePopup extends StackPane {
 		st.setToX(START_SIZE_PERCENT);
 		st.setToY(START_SIZE_PERCENT);
 		
-		
-		int thisIndex = pane.getChildren().indexOf(this);
-		
-		st.setOnFinished(e -> {
-			pane.getChildren().remove(thisIndex);
-			pane.getChildren().get(thisIndex - 1).setMouseTransparent(false);
-		});
+		st.setOnFinished(e -> hideFrom(pane));
 		
 		ft.play();
 		st.play();
 		
 	}
+	
+	public void hideFrom(StackPane pane) {
+		pane.getChildren().remove(this);
+		pane.getChildren().remove(glassPane);
+	}
+	
 }

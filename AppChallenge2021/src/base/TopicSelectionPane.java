@@ -46,15 +46,13 @@ public class TopicSelectionPane extends FadePopup {
 		
 	}
 	
-	private static final double MAX_WIDTH = 400, MAX_HEIGHT = 300;
-	
 	private final VBox outerVBox, selectorBox;
 	private final Button addSelectedButton;
 	private final HBox buttonBar;
 	private final List<TopicSelector> selectors;
 	
 	public TopicSelectionPane() {
-		setMaxSize(MAX_WIDTH, MAX_HEIGHT);
+		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setBackground(Backgrounds.of(Color.LIGHTBLUE));
 		selectorBox = new VBox();
 		selectors = new ArrayList<>();
