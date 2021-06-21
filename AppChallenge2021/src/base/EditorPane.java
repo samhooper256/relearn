@@ -17,9 +17,9 @@ import topics.*;
  */
 public class EditorPane extends StackPane {
 	
-	private static final String HEADER = "Set Editor";
-	private static EditorPane INSTANCE = null;
+	private static final String TITLE = "Set Editor";
 	
+	private static EditorPane INSTANCE = null;
 	private ProblemSet set;
 	private String nameOnOpening;
 	private final VBox primaryLayer, topicPaneContainer;
@@ -49,7 +49,7 @@ public class EditorPane extends StackPane {
 		backArrow = new BackArrow();
 		topicPaneContainer = new VBox();
 		initBackArrow();
-		Label headerLabel = new Label(HEADER);
+		Label headerLabel = new Label(TITLE);
 		headerLabel.setFont(Font.font(24));
 		topLayer = new HBox(backArrow, headerLabel);
 		
@@ -98,6 +98,11 @@ public class EditorPane extends StackPane {
 		showTopicSelectionPane();
 	}
 	
+	private void showTopicSelectionPane() {
+		primaryLayer.setMouseTransparent(true);
+		tsp.fadeOnto(this);
+	}
+	
 	private void initNameLayer() {
 		nameLayer.setSpacing(20);
 		nameLayer.setAlignment(Pos.CENTER);
@@ -128,11 +133,6 @@ public class EditorPane extends StackPane {
 	
 	private void addTopicPaneFor(Topic topic) {
 		topicPaneContainer.getChildren().add(TopicPane.of(topic));
-	}
-	
-	private void showTopicSelectionPane() {
-		primaryLayer.setMouseTransparent(true);
-		getChildren().add(tsp);
 	}
 	
 	public void hideTopicSelectionPane() {

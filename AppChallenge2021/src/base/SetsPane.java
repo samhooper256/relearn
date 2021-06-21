@@ -18,7 +18,7 @@ import javafx.scene.text.Font;
  */
 public class SetsPane extends StackPane {
 	
-	private static final String HEADER = "Your Sets";
+	private static final String TITLE = "Your Sets";
 	
 	private static SetsPane INSTANCE = null;
 	
@@ -43,7 +43,7 @@ public class SetsPane extends StackPane {
 	private final Button createButton;
 	
 	private SetsPane() {
-		headerLabel = new Label(HEADER);
+		headerLabel = new Label(TITLE);
 		backArrow = new BackArrow();
 		createButton = new Button("+ Create");
 		header = new HBox(backArrow, headerLabel, createButton);

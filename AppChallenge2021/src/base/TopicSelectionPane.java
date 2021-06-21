@@ -17,7 +17,7 @@ import topics.*;
  * @author Sam Hooper
  *
  */
-public class TopicSelectionPane extends StackPane {
+public class TopicSelectionPane extends FadePopup {
 	
 	private static class TopicSelector extends HBox {
 		
