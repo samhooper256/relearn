@@ -21,7 +21,6 @@ public class MainScene extends Scene {
 	private final StackPane mainMenu;
 	private final Button setsButton, statsButton, settingsButton;
 	private final Label titleLabel;
-	private final PracticePane practicePane;
 	
 	private MainScene(StackPane root, double width, double height) {
 		super(root, width, height);
@@ -30,7 +29,6 @@ public class MainScene extends Scene {
 		setsButton = new Button("Sets");
 		statsButton = new Button("Stats");
 		settingsButton = new Button("Settings");
-		practicePane = new PracticePane();
 		initButtons();
 		VBox vBox = new VBox(5, titleLabel, setsButton, statsButton, settingsButton);
 		vBox.setAlignment(Pos.CENTER);
@@ -43,7 +41,8 @@ public class MainScene extends Scene {
 	}
 	
 	private void setRootPrivate(Pane newRoot) {
-		if(newRoot != mainMenu && newRoot != SetsPane.get() && newRoot != practicePane && newRoot != EditorPane.get())
+		if(	newRoot != mainMenu && newRoot != SetsPane.get() &&
+			newRoot != PracticePane.get() && newRoot != EditorPane.get())
 			throw new IllegalArgumentException(String.format("Cannot change root to: %s", newRoot));
 		super.setRoot(newRoot);
 	}
@@ -57,8 +56,8 @@ public class MainScene extends Scene {
 	}
 	
 	public void startPractice(ProblemSet set) {
-		practicePane.start(set);
-		setRootPrivate(practicePane);
+		PracticePane.get().start(set);
+		setRootPrivate(PracticePane.get());
 	}
 	
 	public void edit(ProblemSet set) {

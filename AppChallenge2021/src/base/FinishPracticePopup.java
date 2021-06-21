@@ -13,19 +13,22 @@ import javafx.scene.paint.Color;
  * @author Sam Hooper
  *
  */
-public class FinishPracticePopup extends FadePopup {
+public final class FinishPracticePopup extends FadePopup {
 	
 	private static final double PIE_HEIGHT = 200, PIE_WIDTH = 300;
+	private static final FinishPracticePopup INSTANCE = new FinishPracticePopup();
+	
+	public static FinishPracticePopup get() {
+		return INSTANCE;
+	}
 	
 	private final VBox vBox;
 	private final HBox buttonBar;
 	private final Button backToSetsButton, replayButton;
 	private final AccuracyPie pie;
-	private final PracticePane practicePane;
 	
-	public FinishPracticePopup(final PracticePane practicePane) {
-		this.practicePane = practicePane;
-		
+	
+	private FinishPracticePopup() {
 		backToSetsButton = new Button("Back");
 		replayButton = new Button("Replay");
 		buttonBar = new HBox(backToSetsButton, replayButton);
@@ -59,7 +62,7 @@ public class FinishPracticePopup extends FadePopup {
 	
 	private void backToSetsAction() {
 		Main.mainScene().showSets();
-		hideFrom(practicePane);
+		hideFrom(PracticePane.get());
 	}
 	
 	private void initReplayButton() {
@@ -67,7 +70,7 @@ public class FinishPracticePopup extends FadePopup {
 	}
 	
 	private void replayAction() {
-		practicePane.replay();
+		PracticePane.get().replay();
 	}
 	
 	private void initPie() {

@@ -17,18 +17,22 @@ import javafx.scene.text.Font;
  * @author Sam Hooper
  *
  */
-public class PracticePane extends StackPane {
+public final class PracticePane extends StackPane {
 	
 	private static final String TITLE = "Practice";
 	private static final double FIELD_WIDTH = 400;
 	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
+	private static final PracticePane INSTANCE = new PracticePane();
+	
+	public static PracticePane get() {
+		return INSTANCE;
+	}
 	
 	private final VBox userArea;
 	private final TextField field;
 	private final Label problemDisplay, title;
 	private final HBox header, buttonBar;
 	private final BackArrow backArrow;
-	private final FinishPracticePopup finishPopup;
 	private final Button submitButton;
 	private final List<Problem> correctProblems, incorrectProblems;
 	
@@ -39,7 +43,7 @@ public class PracticePane extends StackPane {
 	/** {@code true} if an incorrect answer has been given to the {@link #currentProblem()}.*/
 	private boolean incorrectAnswerGiven;
 	
-	public PracticePane() {
+	private PracticePane() {
 		backArrow = new BackArrow();
 		title = new Label(TITLE);
 		header = new HBox(backArrow, title);
@@ -54,8 +58,6 @@ public class PracticePane extends StackPane {
 		
 		getChildren().addAll(header, userArea);
 		StackPane.setAlignment(userArea, Pos.CENTER);
-		
-		finishPopup = new FinishPracticePopup(this);
 		
 		correctProblems = new ArrayList<>();
 		incorrectProblems = new ArrayList<>();
@@ -128,7 +130,7 @@ public class PracticePane extends StackPane {
 
 	private void deckFinished() {
 		cleanUpOnFinish();
-		finishPopup.updateAccuracy(correctProblems.size(), incorrectProblems.size());
+		FinishPracticePopup.get().updateAccuracy(correctProblems.size(), incorrectProblems.size());
 		showFinishPopup();
 	}
 	
@@ -145,11 +147,11 @@ public class PracticePane extends StackPane {
 	}
 	
 	private void showFinishPopup() {
-		finishPopup.fadeOnto(this);
+		FinishPracticePopup.get().fadeOnto(this);
 	}
 	
 	private void hideFinishPopup() {
-		finishPopup.fadeOutFrom(this);
+		FinishPracticePopup.get().fadeOutFrom(this);
 	}
 	
 	public void start(ProblemSet set) {
