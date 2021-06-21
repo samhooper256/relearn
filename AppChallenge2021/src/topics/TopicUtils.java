@@ -20,7 +20,8 @@ public final class TopicUtils {
 	static {
 		FACTORIES = new LinkedHashSet<>();
 		Collections.addAll(FACTORIES, 
-				Addition.FACTORY
+				Addition.FACTORY,
+				Subtraction.FACTORY
 		);
 	}
 	
