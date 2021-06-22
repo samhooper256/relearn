@@ -24,7 +24,8 @@ public final class TopicUtils {
 				Addition.FACTORY,
 				Subtraction.FACTORY,
 				Multiplication.FACTORY,
-				Division.FACTORY
+				Division.FACTORY,
+				PEMDAS.FACTORY
 		);
 	}
 	
