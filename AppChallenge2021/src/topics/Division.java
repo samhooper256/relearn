@@ -3,7 +3,6 @@
  */
 package topics;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import base.*;
