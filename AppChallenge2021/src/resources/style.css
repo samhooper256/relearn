@@ -6,6 +6,10 @@
 	-fx-pie-color: red;
 }
 
+.dead-pie-slice {
+	-fx-pie-color: grey;
+}
+
 .problem-display {
 	-fx-font: 30 "Yu Gothic";
 }
