@@ -5,3 +5,7 @@
 .incorrect-pie-slice {
 	-fx-pie-color: red;
 }
+
+.problem-display {
+	-fx-font: 30 "Yu Gothic";
+}

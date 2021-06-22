@@ -23,6 +23,7 @@ public final class PracticePane extends StackPane {
 	private static final double FIELD_WIDTH = 400;
 	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
 	private static final PracticePane INSTANCE = new PracticePane();
+	private static final String PROBLEM_DISPLAY_CSS = "problem-display";
 	
 	public static PracticePane get() {
 		return INSTANCE;
@@ -41,7 +42,7 @@ public final class PracticePane extends StackPane {
 	private Problem currentProblem;
 	private int deckIndex;
 	/** {@code true} if an incorrect answer has been given to the {@link #currentProblem()}.*/
-	private boolean incorrectAnswerGiven;
+	private boolean incorrectAnswerGiven, answerShown;
 	
 	private PracticePane() {
 		backArrow = new BackArrow();
@@ -66,6 +67,7 @@ public final class PracticePane extends StackPane {
 		deckIndex = -1;
 		currentProblem = null;
 		incorrectAnswerGiven = false;
+		answerShown = false;
 	}
 	
 	private void initHeader() {
@@ -78,10 +80,15 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void initUserArea() {
+		initProblemDisplay();
 		initField();
 		initButtonBar();
 		userArea.setFillWidth(false);
 		userArea.setAlignment(Pos.CENTER);
+	}
+	
+	private void initProblemDisplay() {
+		problemDisplay.getStyleClass().add(PROBLEM_DISPLAY_CSS);
 	}
 	
 	private void initField() {
@@ -115,6 +122,8 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void showAnswerAction() {
+		answerShown = true;
+		incorrectProblems.add(currentProblem());
 		field.setText(currentProblem().sampleAnswer());
 	}
 	
@@ -130,7 +139,7 @@ public final class PracticePane extends StackPane {
 	
 	private void correctAnswerAction() {
 		field.setBorder(Border.EMPTY);
-		if(!incorrectAnswerGiven)
+		if(!incorrectAnswerGiven && !answerShown)
 			correctProblems.add(currentProblem);
 		if(deckIndex < currentDeck.size() - 1)
 			setupNext();

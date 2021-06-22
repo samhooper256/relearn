@@ -7,6 +7,7 @@ import fxutils.Images;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.*;
 
 public class Main extends Application {
@@ -24,6 +25,7 @@ public class Main extends Application {
 	private static Screen primaryScreen;
 	
 	public static void main(String[] args) {
+		Font.getFamilies().forEach(System.out::println);
 		preLaunchInit();
 		Application.launch(args);
 	}
