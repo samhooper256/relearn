@@ -64,12 +64,12 @@ public class SetCard extends StackPane {
 	}
 	
 	private void initPencil() {
-		pencilView.setOnMouseClicked(e -> Main.mainScene().edit(set));
+		pencilView.setOnMouseClicked(e -> Main.scene().edit(set));
 		StackPane.setAlignment(pencilView, Pos.TOP_RIGHT);
 	}
 	
 	private void initPracticeButton() {
-		practiceButton.setOnAction(e -> Main.mainScene().startPractice(getSet()));
+		practiceButton.setOnAction(e -> Main.scene().startPractice(getSet()));
 	}
 	
 	public ProblemSet getSet() {

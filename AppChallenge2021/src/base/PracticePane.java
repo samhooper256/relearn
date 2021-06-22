@@ -73,7 +73,7 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void backArrowAction() {
-		Main.mainScene().showSets();
+		Main.scene().showSets();
 	}
 	
 	private void initUserArea() {

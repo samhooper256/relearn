@@ -22,7 +22,6 @@ public class Main extends Application {
 	private static Image backArrowImage;
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
-	private static MainScene mainScene;
 	
 	public static void main(String[] args) {
 		preLaunchInit();
@@ -43,10 +42,8 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryScreen = Screen.getPrimary();
 		
-		mainScene = MainScene.create(MIN_WIDTH, MIN_HEIGHT);
-		
 		primaryStage.setTitle(TITLE);
-		primaryStage.setScene(mainScene);
+		primaryStage.setScene(MainScene.get());
 		primaryStage.initStyle(StageStyle.DECORATED);
 		primaryStage.show();
 	}
@@ -67,8 +64,8 @@ public class Main extends Application {
 		return stage().getScene();
 	}
 	
-	public static MainScene mainScene() {
-		return mainScene;
+	public static MainScene scene() {
+		return MainScene.get();
 	}
 	
 	public static Image backArrowImage() {

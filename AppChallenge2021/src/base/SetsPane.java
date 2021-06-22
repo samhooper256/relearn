@@ -73,7 +73,7 @@ public class SetsPane extends StackPane {
 	}
 	
 	private void backArrowAction() {
-		Main.mainScene().showMainMenu();
+		Main.scene().showMainMenu();
 	}
 	
 	private void initCreateButton() {
@@ -81,7 +81,7 @@ public class SetsPane extends StackPane {
 	}
 	
 	private void createButtonAction() {
-		Main.mainScene().createFreshSet();
+		Main.scene().createFreshSet();
 	}
 	
 	private void initFlow() {

@@ -80,7 +80,7 @@ public class EditorPane extends StackPane {
 		set.saveToFile(nameOnOpening);
 		if(!set.isRegistered())
 			set.register();
-		Main.mainScene().showSets();
+		Main.scene().showSets();
 	}
 	
 	private void initTopicLayer() {

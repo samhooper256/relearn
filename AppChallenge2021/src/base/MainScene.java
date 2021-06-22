@@ -12,10 +12,12 @@ import javafx.scene.layout.*;
  * @author Sam Hooper
  *
  */
-public class MainScene extends Scene {
+public final class MainScene extends Scene {
 	
-	public static MainScene create(double width, double height) {
-		return new MainScene(new StackPane(), width, height);
+	private static final MainScene INSTANCE = new MainScene(new StackPane(), Main.MIN_WIDTH, Main.MIN_HEIGHT);
+	
+	public static MainScene get() {
+		return INSTANCE;
 	}
 	
 	private final StackPane mainMenu;
