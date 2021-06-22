@@ -21,16 +21,16 @@ public class Division extends AbstractTopic {
 	
 	private final IntSetting minDivisor;
 	private final IntSetting maxDivisor;
-	private final List<TopicSetting> settings;
 	
 	public Division() {
-		this(DEFAULT_COUNT);	}
+		this(DEFAULT_COUNT);
+	}
 	
 	public Division(int count) {
 		super(count);
 		minDivisor = new IntSetting("Minimum Divisor", 1, 12, 1);
 		maxDivisor = new IntSetting("Maximum Divisor", 1, 12, 12);
-		settings = List.of(minDivisor, maxDivisor);
+		createSettings(minDivisor, maxDivisor);
 	}
 	
 	@Override
@@ -44,14 +44,9 @@ public class Division extends AbstractTopic {
 	public String name() {
 		return NAME;
 	}
-
-	@Override
-	public List<TopicSetting> settings() {
-		return settings;
-	}
 	
-	public int createDivisor()
-	{
+	public int createDivisor() {
 		return RNG.intInclusive(minDivisor.value(), maxDivisor.value());
 	}
+	
 }

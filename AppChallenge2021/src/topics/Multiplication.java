@@ -4,7 +4,6 @@
 package topics;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import base.*;
 import utils.RNG;
@@ -23,17 +22,17 @@ public class Multiplication extends AbstractTopic {
 	private final IntSetting minNumber;
 	private final IntSetting maxNumber;
 	private final IntSetting terms;
-	private final List<TopicSetting> settings;
 	
 	public Multiplication() {
-		this(DEFAULT_COUNT);	}
+		this(DEFAULT_COUNT);
+	}
 	
 	public Multiplication(int count) {
 		super(count);
 		minNumber = new IntSetting("Minimum Number", 0, 12, 1);
 		maxNumber = new IntSetting("Maximum Number", 0, 12, 12);
 		terms = new IntSetting("Terms", 2, 3, 2);
-		settings = List.of(minNumber, maxNumber, terms);
+		createSettings(minNumber, maxNumber, terms);
 	}
 	
 	@Override
@@ -51,14 +50,8 @@ public class Multiplication extends AbstractTopic {
 	public String name() {
 		return NAME;
 	}
-
-	@Override
-	public List<TopicSetting> settings() {
-		return settings;
-	}
 	
-	public ArrayList<Integer> termCreate()
-	{
+	public ArrayList<Integer> termCreate() {
 		int numTerms = terms.value();
 		ArrayList<Integer> termValues = new ArrayList<Integer>();
 		

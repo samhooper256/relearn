@@ -4,7 +4,6 @@
 package topics;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import base.*;
 import utils.RNG;
@@ -22,16 +21,16 @@ public class Addition extends AbstractTopic {
 	
 	private final IntSetting maxDigits;
 	private final IntSetting terms;
-	private final List<TopicSetting> settings;
 	
 	public Addition() {
-		this(DEFAULT_COUNT);	}
+		this(DEFAULT_COUNT);
+	}
 	
 	public Addition(int count) {
 		super(count);
 		maxDigits = new IntSetting("Digits", 1, 4, 1);
 		terms = new IntSetting("Terms", 2, 4, 2);
-		settings = List.of(maxDigits, terms);
+		createSettings(maxDigits, terms);
 	}
 	
 	@Override
@@ -50,14 +49,8 @@ public class Addition extends AbstractTopic {
 	public String name() {
 		return NAME;
 	}
-
-	@Override
-	public List<TopicSetting> settings() {
-		return settings;
-	}
 	
-	public ArrayList<Integer> termCreate()
-	{
+	public ArrayList<Integer> termCreate() {
 		int numTerms = terms.value();
 		ArrayList<Integer> termValues = new ArrayList<Integer>();
 		
