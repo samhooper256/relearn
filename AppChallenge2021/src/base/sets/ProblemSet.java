@@ -72,7 +72,7 @@ public final class ProblemSet implements Serializable {
 	}
 	
 	public ProblemSet(String name, SetConfiguration config) {
-		this.name = name;
+		this.name = Objects.requireNonNull(name);
 		this.config = config;
 	}
 	
@@ -81,6 +81,8 @@ public final class ProblemSet implements Serializable {
 	}
 	
 	public void setName(String newName) {
+		if(name().equals(newName))
+			return;
 		if(SET_NAMES.contains(newName))
 			throw new IllegalStateException(String.format("Name already used: %s", newName));
 		SET_NAMES.remove(name);

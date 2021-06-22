@@ -55,6 +55,7 @@ public final class MainScene extends Scene {
 	}
 	
 	public void showStats() {
+		StatsPane.get().updateAllStats();
 		setRoot(StatsPane.get());
 	}
 	

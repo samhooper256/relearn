@@ -30,13 +30,14 @@ public final class Data {
 		}
 
 		/** Creates a new {@link Stats} if one is not present.*/
-		private Stats getStats(String topicName) {
-			final Stats stats;
+		public Stats getStats(String topicName) {
+			ensurePresent(topicName);
+			return get(topicName);
+		}
+
+		public void ensurePresent(String topicName) {
 			if(!containsKey(topicName))
-				put(topicName, stats = new Stats());
-			else
-				stats = get(topicName);
-			return stats;
+				put(topicName, new Stats());
 		}
 		
 	}
@@ -98,6 +99,8 @@ public final class Data {
 		for(DataMap m : MAP_BY_SETS.values())
 			for(Map.Entry<String, Stats> e : m.entrySet())
 				MAP_BY_TOPICS.getStats(e.getKey()).addStats(e.getValue());
+		for(String name : TopicUtils.allNames())
+			MAP_BY_TOPICS.ensurePresent(name);
 	}
 	
 	private static Stats statsForTopicTrusted(String topicName) {

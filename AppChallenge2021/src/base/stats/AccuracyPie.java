@@ -11,7 +11,7 @@ import javafx.scene.chart.PieChart;
  */
 public class AccuracyPie extends PieChart {
 	
-	private final Data correctData, incorrectData;
+	private final PieChart.Data correctData, incorrectData;
 	
 	private int correct, incorrect;
 	
@@ -43,9 +43,18 @@ public class AccuracyPie extends PieChart {
 	}
 	
 	public void setAccuracy(int correct, int incorrect) {
+		setCorrect(correct);
+		setIncorrect(incorrect);
+	}
+
+	private void setCorrect(int correct) {
 		correctData.setPieValue(correct);
 		correctData.setName(String.valueOf(correct));
+	}
+	
+	private void setIncorrect(int incorrect) {
 		incorrectData.setPieValue(incorrect);
 		incorrectData.setName(String.valueOf(incorrect));
 	}
+	
 }

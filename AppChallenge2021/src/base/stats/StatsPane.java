@@ -43,4 +43,7 @@ public final class StatsPane extends StackPane {
 		Main.scene().showMainMenu();
 	}
 	
+	public void updateAllStats() {
+		TopicTabPane.get().updateAllStats();
+	}
 }

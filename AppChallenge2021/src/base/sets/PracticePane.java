@@ -87,6 +87,7 @@ public final class PracticePane extends StackPane {
 		initButtonBar();
 		userArea.setFillWidth(false);
 		userArea.setAlignment(Pos.CENTER);
+		userArea.setPickOnBounds(false);
 	}
 	
 	private void initProblemDisplay() {
