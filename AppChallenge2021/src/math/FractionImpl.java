@@ -165,4 +165,5 @@ final class FractionImpl implements Fraction {
 	public int intValueExact() {
 		return toBigDecimalExact().intValueExact();
 	}
+	
 }

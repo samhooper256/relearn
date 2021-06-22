@@ -13,6 +13,8 @@ public interface Problem {
 	
 	String displayText();
 	
+	String sampleAnswer();
+	
 	boolean isCorrect(String answer);
 	
 	Topic topic();

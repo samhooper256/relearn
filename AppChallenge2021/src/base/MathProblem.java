@@ -43,5 +43,10 @@ public class MathProblem implements Problem {
 	public Topic topic() {
 		return topic;
 	}
+
+	@Override
+	public String sampleAnswer() {
+		return answer.toString();
+	}
 	
 }

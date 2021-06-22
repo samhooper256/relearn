@@ -33,7 +33,7 @@ public final class PracticePane extends StackPane {
 	private final Label problemDisplay, title;
 	private final HBox header, buttonBar;
 	private final BackArrow backArrow;
-	private final Button submitButton;
+	private final Button submitButton, showAnswerButton;
 	private final List<Problem> correctProblems, incorrectProblems;
 	
 	private ProblemSet currentSet;
@@ -51,8 +51,9 @@ public final class PracticePane extends StackPane {
 		
 		problemDisplay = new Label();
 		field = new TextField();
-		buttonBar = new HBox();
 		submitButton = new Button("Submit");
+		showAnswerButton = new Button("Show Answer");
+		buttonBar = new HBox(showAnswerButton, submitButton);
 		userArea = new VBox(problemDisplay, field, buttonBar);
 		initUserArea();
 		
@@ -95,8 +96,8 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void initButtonBar() {
-		buttonBar.getChildren().addAll(submitButton);
 		initSubmitButton();
+		initShowAnswerButton();
 	}
 	
 	private void initSubmitButton() {
@@ -104,8 +105,17 @@ public final class PracticePane extends StackPane {
 		submitButton.setOnAction(e -> submitAction());
 	}
 	
+	private void initShowAnswerButton() {
+		showAnswerButton.setFocusTraversable(false);
+		showAnswerButton.setOnAction(e -> showAnswerAction());
+	}
+	
 	private String fieldText() {
 		return field.getText();
+	}
+	
+	private void showAnswerAction() {
+		field.setText(currentProblem().sampleAnswer());
 	}
 	
 	private void submitAction() {
