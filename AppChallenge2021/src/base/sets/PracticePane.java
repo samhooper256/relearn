@@ -1,10 +1,12 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.util.*;
 
+import base.*;
+import base.stats.Data;
 import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -12,7 +14,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import topics.Data;
 
 /**
  * @author Sam Hooper

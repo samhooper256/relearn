@@ -1,13 +1,14 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.function.Consumer;
 
+import base.Main;
 import topics.*;
 import utils.IO;
 
@@ -24,7 +25,7 @@ public final class ProblemSet implements Serializable {
 	private static boolean loaded = false;
 	private static List<Consumer<ProblemSet>> onRegisterActions;
 	
-	static synchronized void loadSets() {
+	public static synchronized void loadSets() {
 		if(loaded)
 			return; //don't load if we've already done it earlier.
 		loaded = true;

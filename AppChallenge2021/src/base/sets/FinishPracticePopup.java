@@ -1,8 +1,10 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
+import base.*;
+import base.stats.AccuracyPie;
 import fxutils.Backgrounds;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

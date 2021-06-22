@@ -1,11 +1,12 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.io.Serializable;
 import java.util.*;
 
+import base.Problem;
 import topics.Topic;
 import utils.RNG;
 

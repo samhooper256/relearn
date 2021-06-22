@@ -10,6 +10,7 @@ open module appchallenge2021 {
 	requires javafx.controls;
 	
 	exports base;
+	exports base.sets;
 	exports topics;
 	exports math;
 	

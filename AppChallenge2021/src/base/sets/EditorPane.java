@@ -1,10 +1,11 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.util.*;
 
+import base.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;

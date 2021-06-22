@@ -1,10 +1,11 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.util.IdentityHashMap;
 
+import base.Main;
 import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

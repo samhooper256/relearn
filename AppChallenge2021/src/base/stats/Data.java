@@ -1,12 +1,14 @@
 /**
  * 
  */
-package topics;
+package base.stats;
 
 import java.io.*;
 import java.util.*;
 
 import base.*;
+import base.sets.ProblemSet;
+import topics.TopicUtils;
 import utils.IO;
 
 /**
@@ -14,62 +16,6 @@ import utils.IO;
  *
  */
 public final class Data {
-	
-	public static final class Stats implements Serializable {
-		
-		private static final long serialVersionUID = -4346811725723203551L;
-		
-		private int correct;
-		private int incorrect;
-		
-		public Stats() {
-			this(0, 0);
-		}
-		
-		public Stats(int correct, int incorrect) {
-			this.correct = correct;
-			this.incorrect = incorrect;
-		}
-		
-		public int correct() {
-			return correct;
-		}
-		
-		public int incorrect() {
-			return incorrect;
-		}
-		
-		public void addCorrect() {
-			correct++;
-		}
-		
-		public void addIncorrect() {
-			incorrect++;
-		}
-		
-		public void addCorrect(int n) {
-			correct += n;
-		}
-		
-		public void addIncorrect(int n) {
-			incorrect += n;
-		}
-		
-		public void addStats(Stats s) {
-			addCorrect(s.correct());
-			addIncorrect(s.incorrect());
-		}
-		
-		public int total() {
-			return correct() + incorrect();
-		}
-		
-		@Override
-		public String toString() {
-			return String.format("{%d, %d}", correct(), incorrect());
-		}
-		
-	}
 	
 	private static final class DataMap extends HashMap<String, Stats> {
 
@@ -154,8 +100,8 @@ public final class Data {
 				MAP_BY_TOPICS.getStats(e.getKey()).addStats(e.getValue());
 	}
 	
-	private static Stats topicStats(String topicName) {
-		return MAP_BY_TOPICS.get(topicName);
+	private static Stats statsForTopicTrusted(String topicName) {
+		return MAP_BY_TOPICS.getStats(topicName);
 	}
 	
 	private static DataMap dataMapForSet(ProblemSet set) {
@@ -164,7 +110,7 @@ public final class Data {
 	
 	public static void addCorrect(ProblemSet set, String topicName) {
 		dataMapForSet(set).addCorrect(topicName);
-		topicStats(topicName).addCorrect();
+		statsForTopicTrusted(topicName).addCorrect();
 	}
 	
 	public static void addCorrect(ProblemSet set, Problem problem) {
@@ -173,7 +119,7 @@ public final class Data {
 	
 	public static void addIncorrect(ProblemSet set, String topicName) {
 		dataMapForSet(set).addIncorrect(topicName);
-		topicStats(topicName).addIncorrect();
+		statsForTopicTrusted(topicName).addIncorrect();
 	}
 	
 	public static void addIncorrect(ProblemSet set, Problem problem) {
@@ -185,6 +131,14 @@ public final class Data {
 			addCorrect(set, p);
 		for(Problem p : incorrectProblems)
 			addIncorrect(set, p);
+	}
+	
+	public static ReadOnlyStats statsForTopic(String topicName) {
+		return statsForTopicTrusted(topicName);
+	}
+	
+	public static boolean hasDoneProblemFromTopic(String topicName) {
+		return !statsForTopic(topicName).isEmpty();
 	}
 	
 	public static void debugPrint() {

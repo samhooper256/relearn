@@ -1,8 +1,9 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
+import base.*;
 import fxutils.Borders;
 import javafx.geometry.*;
 import javafx.scene.control.*;

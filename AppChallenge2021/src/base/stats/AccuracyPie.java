@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base;
+package base.stats;
 
 import javafx.scene.chart.PieChart;
 
@@ -14,6 +14,10 @@ public class AccuracyPie extends PieChart {
 	private final Data correctData, incorrectData;
 	
 	private int correct, incorrect;
+	
+	public AccuracyPie(ReadOnlyStats stats) {
+		this(stats.correct(), stats.incorrect());
+	}
 	
 	public AccuracyPie(int correct, int incorrect) {
 		this.correct = correct;

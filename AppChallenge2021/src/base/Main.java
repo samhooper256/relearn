@@ -3,12 +3,13 @@ package base;
 import java.io.*;
 import java.util.Optional;
 
+import base.sets.ProblemSet;
+import base.stats.Data;
 import fxutils.Images;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.*;
-import topics.Data;
 
 public class Main extends Application {
 	

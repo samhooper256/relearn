@@ -3,7 +3,9 @@
  */
 package base;
 
-import javafx.geometry.Pos;
+import base.sets.*;
+import base.stats.StatsPane;
+import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -32,6 +34,7 @@ public final class MainScene extends Scene {
 		statsButton = new Button("Stats");
 		settingsButton = new Button("Settings");
 		initButtons();
+		
 		VBox vBox = new VBox(5, titleLabel, setsButton, statsButton, settingsButton);
 		vBox.setAlignment(Pos.CENTER);
 		root.getChildren().add(vBox);
@@ -40,36 +43,34 @@ public final class MainScene extends Scene {
 	
 	private void initButtons() {
 		setsButton.setOnAction(e -> showSets());
-	}
-	
-	private void setRootPrivate(Pane newRoot) {
-		if(	newRoot != mainMenu && newRoot != SetsPane.get() &&
-			newRoot != PracticePane.get() && newRoot != EditorPane.get())
-			throw new IllegalArgumentException(String.format("Cannot change root to: %s", newRoot));
-		super.setRoot(newRoot);
+		statsButton.setOnAction(e -> showStats());
 	}
 	
 	public void showMainMenu() {
-		setRootPrivate(mainMenu);
+		setRoot(mainMenu);
 	}
 	
 	public void showSets() {
-		setRootPrivate(SetsPane.get());
+		setRoot(SetsPane.get());
+	}
+	
+	public void showStats() {
+		setRoot(StatsPane.get());
 	}
 	
 	public void startPractice(ProblemSet set) {
 		PracticePane.get().start(set);
-		setRootPrivate(PracticePane.get());
+		setRoot(PracticePane.get());
 	}
 	
 	public void edit(ProblemSet set) {
 		EditorPane.get().edit(set);
-		setRootPrivate(EditorPane.get());
+		setRoot(EditorPane.get());
 	}
 	
 	public void createFreshSet() {
 		EditorPane.get().createFreshSet();
-		setRootPrivate(EditorPane.get());
+		setRoot(EditorPane.get());
 	}
 	
 }

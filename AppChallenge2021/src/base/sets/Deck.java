@@ -1,9 +1,11 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.util.*;
+
+import base.Problem;
 
 /**
  * @author Sam Hooper

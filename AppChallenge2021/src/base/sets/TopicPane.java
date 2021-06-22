@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.util.IdentityHashMap;
 

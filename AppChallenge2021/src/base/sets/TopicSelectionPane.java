@@ -1,11 +1,12 @@
 /**
  * 
  */
-package base;
+package base.sets;
 
 import java.util.*;
 import java.util.stream.*;
 
+import base.FadePopup;
 import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
