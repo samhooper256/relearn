@@ -8,7 +8,6 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-import javafx.beans.property.*;
 import topics.*;
 import utils.IO;
 
@@ -17,9 +16,11 @@ import utils.IO;
  * @author Sam Hooper
  *
  */
-public final class ProblemSet {
+public final class ProblemSet implements Serializable {
 	
+	private static final long serialVersionUID = 415601596062566192L;
 	private static final Set<ProblemSet> SETS = new HashSet<>();
+	private static final Set<String> SET_NAMES = new HashSet<>();
 	private static boolean loaded = false;
 	private static List<Consumer<ProblemSet>> onRegisterActions;
 	
@@ -28,20 +29,16 @@ public final class ProblemSet {
 			return; //don't load if we've already done it earlier.
 		loaded = true;
 		for(File f : Main.SETS_FOLDER.listFiles()) {
-			ProblemSetData data = null;
 			try {
-				FileInputStream fileIn = new FileInputStream(f);
-				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-				data = (ProblemSetData) objectIn.readObject();
-				objectIn.close();
+				ProblemSet set = IO.readObject(f);
+				SETS.add(set);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			SETS.add(data.toProblemSet());
 		}
-		if(SETS.isEmpty()) //add pre-built set
-			SETS.add(new ProblemSet("Prebuilt Set", new SetConfiguration(new Addition(10))));
+		for(ProblemSet s : SETS)
+			SET_NAMES.add(s.name());
 	}
 	
 	public static Set<ProblemSet> allSets() {
@@ -61,7 +58,7 @@ public final class ProblemSet {
 			action.accept(set);
 	}
 
-	private StringProperty name;
+	private String name;
 	private final SetConfiguration config;
 	
 	/** <p>Creates a new {@link ProblemSet} whose {@link #name() name} is the empty string.</p> */
@@ -74,20 +71,21 @@ public final class ProblemSet {
 	}
 	
 	public ProblemSet(String name, SetConfiguration config) {
-		this.name = new SimpleStringProperty(name);
+		this.name = name;
 		this.config = config;
 	}
 	
-	public StringProperty nameProperty() {
+	public String name() {
 		return name;
 	}
 	
-	public String name() {
-		return nameProperty().get();
-	}
-	
-	public void setName(String name) {
-		nameProperty().set(Objects.requireNonNull(name));
+	public void setName(String newName) {
+		if(SET_NAMES.contains(newName))
+			throw new IllegalStateException(String.format("Name already used: %s", newName));
+		SET_NAMES.remove(name);
+		name = Objects.requireNonNull(newName);
+		SET_NAMES.add(name);
+		SetCard.of(this).updateName();
 	}
 	
 	public SetConfiguration config() {
@@ -100,10 +98,6 @@ public final class ProblemSet {
 	
 	public void addTopics(Collection<Topic> topics) {
 		config().addTopics(topics);
-	}
-	
-	private ProblemSetData data() {
-		return new ProblemSetData(name.get(), config());
 	}
 
 	public boolean isRegistered() {
@@ -142,7 +136,7 @@ public final class ProblemSet {
 			}
 			if(!f.exists())
 				f.createNewFile();
-			IO.writeObject(f, data());
+			IO.writeObject(f, this);
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e); //TODO better error handling?

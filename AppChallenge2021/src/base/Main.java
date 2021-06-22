@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.*;
+import topics.Data;
 
 public class Main extends Application {
 	
@@ -17,6 +18,8 @@ public class Main extends Application {
 	public static final File USER_FOLDER =
 			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
 	public static final File SETS_FOLDER = new File(USER_FOLDER, "Sets");
+	public static final File STATS_FOLDER = new File(USER_FOLDER, "Stats");
+	public static final File STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
 	private static Image backArrowImage;
@@ -25,6 +28,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		preLaunchInit();
+		Data.debugPrint();
 		Application.launch(args);
 	}
 
@@ -33,7 +37,10 @@ public class Main extends Application {
 			USER_FOLDER.mkdir();
 		if(!SETS_FOLDER.exists())
 			SETS_FOLDER.mkdir();
+		if(!STATS_FOLDER.exists())
+			STATS_FOLDER.mkdir();
 		ProblemSet.loadSets();
+		Data.load();
 	}
 
 	@Override
@@ -46,6 +53,12 @@ public class Main extends Application {
 		primaryStage.setScene(MainScene.get());
 		primaryStage.initStyle(StageStyle.DECORATED);
 		primaryStage.show();
+	}
+	
+	@Override
+	public void stop(){
+	    Data.debugPrint();
+	    Data.save();
 	}
 	
 	private static void initImages() {

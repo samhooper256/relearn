@@ -46,7 +46,6 @@ public class SetCard extends StackPane {
 		this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);
 		
 		title = new Label(set.name());
-		initTitle();
 		
 		practiceButton = new Button("Practice");
 		initPracticeButton();
@@ -57,10 +56,6 @@ public class SetCard extends StackPane {
 		initPencil();
 		
 		getChildren().addAll(vBox, pencilView);
-	}
-	
-	private void initTitle() {
-		title.textProperty().bind(set.nameProperty());
 	}
 	
 	private void initPencil() {
@@ -74,6 +69,10 @@ public class SetCard extends StackPane {
 	
 	public ProblemSet getSet() {
 		return set;
+	}
+	
+	void updateName() {
+		title.setText(set.name());
 	}
 	
 }

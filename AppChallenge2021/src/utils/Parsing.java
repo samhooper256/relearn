@@ -106,7 +106,7 @@ public final class Parsing {
 	}
 	
 	public static boolean isRealInDecimalFormWithoutSign(String str, int startInclusive, int endExclusive) {
-		return isRealInDecimalFormWithoutSign(str, startInclusive, endExclusive); //TODO do without substring?
+		return isRealInDecimalFormWithoutSign(str.substring(startInclusive, endExclusive)); //TODO do without substring?
 	}
 	
 	public static boolean containsDigit(String str) {

@@ -12,6 +12,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import topics.Data;
 
 /**
  * @author Sam Hooper
@@ -140,7 +141,7 @@ public final class PracticePane extends StackPane {
 	private void correctAnswerAction() {
 		field.setBorder(Border.EMPTY);
 		if(!incorrectAnswerGiven && !answerShown)
-			correctProblems.add(currentProblem);
+			recordCorrect();
 		if(deckIndex < currentDeck.size() - 1)
 			setupNext();
 		else
@@ -155,9 +156,19 @@ public final class PracticePane extends StackPane {
 	
 	private void incorrectAnswerAction() {
 		if(!incorrectAnswerGiven)
-			incorrectProblems.add(currentProblem);
+			recordIncorrect();
 		incorrectAnswerGiven = true;
 		field.setBorder(INCORRECT_ANSWER_BORDER);
+	}
+	
+	private void recordCorrect() {
+		correctProblems.add(currentProblem());
+		Data.addCorrect(currentSet(), currentProblem());
+	}
+	
+	private void recordIncorrect() {
+		incorrectProblems.add(currentProblem());
+		Data.addIncorrect(currentSet(), currentProblem());
 	}
 	
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
