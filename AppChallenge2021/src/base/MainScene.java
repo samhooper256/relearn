@@ -46,8 +46,12 @@ public final class MainScene extends Scene {
 		statsButton.setOnAction(e -> showStats());
 	}
 	
+	public StackPane mainMenu() {
+		return mainMenu;
+	}
+	
 	public void showMainMenu() {
-		setRoot(mainMenu);
+		setRoot(mainMenu());
 	}
 	
 	public void showSets() {

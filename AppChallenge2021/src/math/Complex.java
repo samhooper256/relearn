@@ -93,4 +93,16 @@ public interface Complex {
 	
 	int intValueExact();
 	
+	/** Returns {@code true} iff this {@link Complex} is exactly representable as a real terminating decimal.*/
+	default boolean isExactlyRepresentable() {
+		//TODO do properly:
+		try {
+			toBigDecimalExact();
+		}
+		catch(ArithmeticException e) {
+			return false;
+		}
+		return true;
+	}
+	
 }

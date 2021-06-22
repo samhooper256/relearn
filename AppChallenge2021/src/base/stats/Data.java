@@ -64,10 +64,10 @@ public final class Data {
 	public static synchronized void load() {
 		if(MAP_BY_SETS != null)
 			throw new IllegalStateException("MAP should be null if nothing is loaded");
+		MAP_BY_TOPICS = new DataMap();
 		File statsFile = new File(Main.STATS_FOLDER, "stats.dat");
 		if(!statsFile.exists()) {
 			MAP_BY_SETS = new SetMap();
-			MAP_BY_TOPICS = new DataMap();
 			for(String name : TopicUtils.allNames())
 				MAP_BY_TOPICS.put(name, new Stats());
 		}
@@ -78,15 +78,13 @@ public final class Data {
 			catch(Exception e) {
 				e.printStackTrace(); //TODO better error handling?
 			}
-			buildMapByTopicsFromMapBySets();
+			fillMapByTopicsFromMapBySets();
 		}
 	}
 	
 	public static synchronized void save() {
-		
 		try {
-			if(Main.STATS_FILE.exists())
-				Main.STATS_FILE.createNewFile();
+			Main.STATS_FILE.createNewFile();
 			IO.writeObject(Main.STATS_FILE, MAP_BY_SETS);
 		} catch (IOException e) {
 			System.err.println("Could not save stats.");
@@ -94,25 +92,22 @@ public final class Data {
 		}
 	}
 	
-	private static void buildMapByTopicsFromMapBySets() {
-		MAP_BY_TOPICS = new DataMap();
+	private static void fillMapByTopicsFromMapBySets() {
 		for(DataMap m : MAP_BY_SETS.values())
-			for(Map.Entry<String, Stats> e : m.entrySet())
-				MAP_BY_TOPICS.getStats(e.getKey()).addStats(e.getValue());
-		for(String name : TopicUtils.allNames())
-			MAP_BY_TOPICS.ensurePresent(name);
+			m.forEach((topicName, stats) -> MAP_BY_TOPICS.getStats(topicName).addStats(stats));
+		TopicUtils.allNames().forEach(name -> MAP_BY_TOPICS.ensurePresent(name));
 	}
 	
 	private static Stats statsForTopicTrusted(String topicName) {
 		return MAP_BY_TOPICS.getStats(topicName);
 	}
 	
-	private static DataMap dataMapForSet(ProblemSet set) {
+	private static DataMap dataMapFor(ProblemSet set) {
 		return MAP_BY_SETS.getDataMap(set);
 	}
 	
 	public static void addCorrect(ProblemSet set, String topicName) {
-		dataMapForSet(set).addCorrect(topicName);
+		dataMapFor(set).addCorrect(topicName);
 		statsForTopicTrusted(topicName).addCorrect();
 	}
 	
@@ -121,7 +116,7 @@ public final class Data {
 	}
 	
 	public static void addIncorrect(ProblemSet set, String topicName) {
-		dataMapForSet(set).addIncorrect(topicName);
+		dataMapFor(set).addIncorrect(topicName);
 		statsForTopicTrusted(topicName).addIncorrect();
 	}
 	
@@ -152,4 +147,5 @@ public final class Data {
 		for(Map.Entry<String, Stats> e : MAP_BY_TOPICS.entrySet())
 			System.out.printf("\t%s = %s%n", e.getKey(), e.getValue());
 	}
+	
 }

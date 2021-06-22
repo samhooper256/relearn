@@ -1,6 +1,7 @@
 package math;
 
 import java.math.*;
+import java.util.Objects;
 
 /**
  * @author Sam Hooper
@@ -164,6 +165,23 @@ final class FractionImpl implements Fraction {
 	@Override
 	public int intValueExact() {
 		return toBigDecimalExact().intValueExact();
+	}
+
+	@Override
+	public int hashCode() {
+		return real().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if(obj instanceof Fraction f)
+			return Objects.equals(denominator(), f.denominator()) && isNegative() == f.isNegative() &&
+					Objects.equals(numerator(), f.numerator());
+		else if(obj instanceof Complex c)
+			return c.isReal() && isExactlyRepresentable() && toBigDecimalExact().equals(c.real());
+		return false;
 	}
 	
 }

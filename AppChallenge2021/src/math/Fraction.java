@@ -5,6 +5,8 @@ package math;
 
 import java.math.*;
 
+import utils.Parsing;
+
 /**
  * <p>A real-valued fraction, represented as a non-negative numerator, a positive denominator, and a sign.</p>
  * @author Sam Hooper
@@ -13,7 +15,32 @@ import java.math.*;
 public interface Fraction extends Complex {
 	
 	Fraction ZERO = FractionImpl.ZERO;
+	char FRACTION_BAR_CHAR = '/';
 	
+	/** Leading and trailing whitespace is allowed. The numerator and denominator must be non-negative integers.
+	 * A leading '+' or '-' is allowed.*/
+	static boolean isValid(String str) {
+		str = str.strip();
+		if(str.isEmpty())
+			return false;
+		int numStart = Parsing.isSign(str.charAt(0)) ? 1 : 0;
+		int barIndex = str.indexOf(FRACTION_BAR_CHAR);
+		if(barIndex >= 0)
+			return 	barIndex < str.length() - 1 && barIndex > numStart &&
+					Parsing.containsOnlyDigits(str, numStart, barIndex) &&
+					Parsing.containsOnlyDigits(str, barIndex + 1);
+		else
+			return Parsing.containsOnlyDigits(str, numStart);
+	}
+	
+	static Fraction of(String str) {
+		str = str.strip();
+		int barIndex = str.indexOf(FRACTION_BAR_CHAR);
+		if(barIndex >= 0)
+			return of(new BigInteger(str.substring(0, barIndex)), new BigInteger(str.substring(barIndex + 1)));
+		else
+			return of(new BigInteger(str), BigInteger.ONE);
+	}
 	static Fraction of(long numerator, long denominator) {
 		return FractionImpl.ofImpl(numerator, denominator);
 	}

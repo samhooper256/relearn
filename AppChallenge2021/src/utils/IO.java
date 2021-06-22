@@ -4,6 +4,7 @@
 package utils;
 
 import java.io.*;
+import java.nio.file.*;
 
 /**
  * @author Sam Hooper
@@ -32,5 +33,12 @@ public final class IO {
 		objectIn.close();
 		return obj;
 	}
+	
+	public static File renamed(File f, String newFilename) throws IOException {
+		Path path = f.toPath();
+		Path newPath = Files.move(path, path.resolveSibling(newFilename));
+		return newPath.toFile();
+	}
+	
 	
 }

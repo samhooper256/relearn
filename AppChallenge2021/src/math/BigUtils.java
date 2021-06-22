@@ -114,4 +114,18 @@ public final class BigUtils {
 		return str;
 	}
 	
+	public static boolean equalWithinTolerance(BigDecimal b1, BigDecimal b2, BigDecimal tolerance) {
+		return b1.subtract(b2).abs().compareTo(tolerance) <= 0;
+	}
+	
+	public static boolean equalWithinTolerancePercent(BigDecimal b1, BigDecimal b2, BigDecimal tolerancePercent) {
+		BigDecimal abs1 = b1.abs(), abs2 = b2.abs();
+		final BigDecimal tolerance;
+		if(abs1.compareTo(abs2) >= 0)
+			tolerance = abs1.multiply(tolerancePercent);
+		else
+			tolerance = abs2.multiply(tolerancePercent);
+		return equalWithinTolerance(b1, b2, tolerance);
+	}
+	
 }

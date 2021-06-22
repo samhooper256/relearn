@@ -13,7 +13,7 @@ import topics.*;
 import utils.IO;
 
 /**
- * <p>The {@code equals} and {@code hashCode} methods are not overridden from {@code Object}.</p>
+ * <p>The {@code equals} and {@code hashCode} methods are deliberately not overridden from {@code Object}.</p>
  * @author Sam Hooper
  *
  */
@@ -21,7 +21,8 @@ public final class ProblemSet implements Serializable {
 	
 	private static final long serialVersionUID = 415601596062566192L;
 	private static final Set<ProblemSet> SETS = new HashSet<>();
-	private static final Set<String> SET_NAMES = new HashSet<>();
+	private static final Set<String> NAMES = new HashSet<>();
+	
 	private static boolean loaded = false;
 	private static List<Consumer<ProblemSet>> onRegisterActions;
 	
@@ -38,8 +39,7 @@ public final class ProblemSet implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		for(ProblemSet s : SETS)
-			SET_NAMES.add(s.name());
+		SETS.forEach(s -> NAMES.add(s.name()));
 	}
 	
 	public static Set<ProblemSet> allSets() {
@@ -59,8 +59,9 @@ public final class ProblemSet implements Serializable {
 			action.accept(set);
 	}
 
-	private String name;
 	private final SetConfiguration config;
+	
+	private String name;
 	
 	/** <p>Creates a new {@link ProblemSet} whose {@link #name() name} is the empty string.</p> */
 	public ProblemSet() {
@@ -83,11 +84,11 @@ public final class ProblemSet implements Serializable {
 	public void setName(String newName) {
 		if(name().equals(newName))
 			return;
-		if(SET_NAMES.contains(newName))
+		if(NAMES.contains(newName))
 			throw new IllegalStateException(String.format("Name already used: %s", newName));
-		SET_NAMES.remove(name);
+		NAMES.remove(name);
 		name = Objects.requireNonNull(newName);
-		SET_NAMES.add(name);
+		NAMES.add(name);
 		SetCard.of(this).updateName();
 	}
 	
@@ -125,23 +126,17 @@ public final class ProblemSet implements Serializable {
 		System.out.printf("saving %s to file, oldName=%s, name()=%s%n", this, oldName, name());
 		File f = new File(Main.SETS_FOLDER, String.format("%s.dat", oldName));
 		try {
-			if(!name().equals(oldName)) {
-				if(f.exists()) {
-					//rename the file to its new name:
-					Path path = f.toPath();
-					Path p = Files.move(path, path.resolveSibling(String.format("%s.dat", name())));
-					f = p.toFile();
-				}
-				else {
-					//nothing to do except change the file object to one with the new name:
+			if(!name().equals(oldName))
+				if(f.exists())
+					f = IO.renamed(f, String.format("%s.dat", name()));
+				else
 					f = new File(Main.SETS_FOLDER, String.format("%s.dat", name()));
-				}
-			}
 			if(!f.exists())
 				f.createNewFile();
 			IO.writeObject(f, this);
 		}
 		catch(Exception e) {
+			System.err.printf("Could not save set \"%s\" to file.%n", name());
 			throw new RuntimeException(e); //TODO better error handling?
 		}
 	}

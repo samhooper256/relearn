@@ -7,8 +7,8 @@ import base.sets.ProblemSet;
 import base.stats.Data;
 import fxutils.Images;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.stage.*;
 
 public class Main extends Application {
@@ -23,7 +23,8 @@ public class Main extends Application {
 	public static final File STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
-	private static Image backArrowImage;
+	private static final Image BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true);
+	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
 	
@@ -34,36 +35,27 @@ public class Main extends Application {
 	}
 
 	private static void preLaunchInit() {
-		if(!USER_FOLDER.exists())
-			USER_FOLDER.mkdir();
-		if(!SETS_FOLDER.exists())
-			SETS_FOLDER.mkdir();
-		if(!STATS_FOLDER.exists())
-			STATS_FOLDER.mkdir();
+		USER_FOLDER.mkdir();
+		SETS_FOLDER.mkdir();
+		STATS_FOLDER.mkdir();
 		ProblemSet.loadSets();
 		Data.load();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		initImages();
 		Main.primaryStage = primaryStage;
 		Main.primaryScreen = Screen.getPrimary();
 		
 		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(MainScene.get());
-		primaryStage.initStyle(StageStyle.DECORATED);
 		primaryStage.show();
 	}
 	
 	@Override
-	public void stop(){
+	public void stop() {
 	    Data.debugPrint();
 	    Data.save();
-	}
-	
-	private static void initImages() {
-		backArrowImage = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true);
 	}
 	
 	public static Stage stage() {
@@ -74,16 +66,16 @@ public class Main extends Application {
 		return primaryScreen;
 	}
 	
-	public static Scene currentScene() {
-		return stage().getScene();
-	}
-	
 	public static MainScene scene() {
 		return MainScene.get();
 	}
 	
+	public static StackPane menu() {
+		return MainScene.get().mainMenu();
+	}
+	
 	public static Image backArrowImage() {
-		return backArrowImage;
+		return BACK_ARROW_IMAGE;
 	}
 	
 	/**

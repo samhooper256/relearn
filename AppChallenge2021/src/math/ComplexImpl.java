@@ -4,6 +4,7 @@
 package math;
 
 import java.math.*;
+import java.util.Objects;
 
 /**
  * <p>Implementation of {@link Complex}. Real and imaginary parts are represented with
@@ -12,14 +13,16 @@ import java.math.*;
  * @author Sam Hooper
  *
  */
-record ComplexImpl(BigDecimal real, BigDecimal imaginary) implements Complex {
+class ComplexImpl implements Complex {
 	
 	private static final MathContext EXTERNAL_CONTEXT = MathContext.DECIMAL32;
 	private static final MathContext INTERNAL_CONTEXT = MathContext.DECIMAL64;
 	
-	public ComplexImpl {
-		real = real.round(EXTERNAL_CONTEXT);
-		imaginary = imaginary.round(EXTERNAL_CONTEXT);
+	final BigDecimal real, imaginary;
+	
+	public ComplexImpl(BigDecimal real, BigDecimal imaginary) {
+		this.real = real.round(EXTERNAL_CONTEXT);
+		this.imaginary = imaginary.round(EXTERNAL_CONTEXT);
 	}
 	
 	@Override
@@ -121,4 +124,34 @@ record ComplexImpl(BigDecimal real, BigDecimal imaginary) implements Complex {
 	public int intValueExact() {
 		return toBigDecimalExact().intValueExact();
 	}
+
+	@Override
+	public BigDecimal real() {
+		return real;
+	}
+
+	@Override
+	public BigDecimal imaginary() {
+		return imaginary;
+	}
+
+	@Override
+	public int hashCode() {
+		if(isReal())
+			return Objects.hashCode(real());
+		else
+			return Objects.hash(real(), imaginary());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj instanceof Fraction f)
+			return isReal() && f.isExactlyRepresentable() && Objects.equals(f.toBigDecimalExact(), real());
+		return obj instanceof Complex c && Objects.equals(real(), c.real()) &&
+				Objects.equals(imaginary(), c.imaginary());
+	}
+	
+	
 }

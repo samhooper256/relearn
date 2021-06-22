@@ -112,4 +112,9 @@ public final class Parsing {
 	public static boolean containsDigit(String str) {
 		return Strings.contains(str, Parsing::isDigit);
 	}
+	
+	public static String withoutWhitespace(String str) {
+		return Regex.WHITESPACE.matcher(str).replaceAll("");
+	}
+	
 }
