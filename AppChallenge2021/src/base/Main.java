@@ -19,6 +19,7 @@ public class Main extends Application {
 	public static final File USER_FOLDER =
 			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
 	public static final File SETS_FOLDER = new File(USER_FOLDER, "Sets");
+	public static final File SET_UID_FILE = new File(SETS_FOLDER, "uid.dat");
 	public static final File STATS_FOLDER = new File(USER_FOLDER, "Stats");
 	public static final File STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
 	public static final String RESOURCES_PREFIX = "/resources/";
@@ -38,6 +39,11 @@ public class Main extends Application {
 		USER_FOLDER.mkdir();
 		SETS_FOLDER.mkdir();
 		STATS_FOLDER.mkdir();
+		try {
+			SET_UID_FILE.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace(); //TODO better error handling?
+		}
 		ProblemSet.loadSets();
 		Data.load();
 	}
@@ -54,6 +60,7 @@ public class Main extends Application {
 	
 	@Override
 	public void stop() {
+		ProblemSet.saveUID();
 	    Data.debugPrint();
 	    Data.save();
 	}

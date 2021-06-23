@@ -4,7 +4,8 @@
 package base.sets;
 
 import java.io.*;
-import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -13,7 +14,10 @@ import topics.*;
 import utils.IO;
 
 /**
- * <p>The {@code equals} and {@code hashCode} methods are deliberately not overridden from {@code Object}.</p>
+ * <p>{@code ProblemSet} {@link #equals(Object) equality} is based solely on each set's unique {@link #id() identifier},
+ * without regard to the set's {@link #name() name}, which may {@link #setName(String) change}, or its
+ * {@link #config() configuration}. Upon creation, each {@code ProblemSet} is given a unique ID. A unique ID is
+ * needed so that two sets can still be considered equal even after being serialized and deserialized.</p>
  * @author Sam Hooper
  *
  */
@@ -22,6 +26,7 @@ public final class ProblemSet implements Serializable {
 	private static final long serialVersionUID = 415601596062566192L;
 	private static final Set<ProblemSet> SETS = new HashSet<>();
 	private static final Set<String> NAMES = new HashSet<>();
+	private static int NEXT_ID = readUID();
 	
 	private static boolean loaded = false;
 	private static List<Consumer<ProblemSet>> onRegisterActions;
@@ -31,6 +36,8 @@ public final class ProblemSet implements Serializable {
 			return; //don't load if we've already done it earlier.
 		loaded = true;
 		for(File f : Main.SETS_FOLDER.listFiles()) {
+			if(f.getName().equals(Main.SET_UID_FILE.getName()))
+				continue;
 			try {
 				ProblemSet set = IO.readObject(f);
 				SETS.add(set);
@@ -58,8 +65,36 @@ public final class ProblemSet implements Serializable {
 		for(Consumer<ProblemSet> action : onRegisterActions)
 			action.accept(set);
 	}
+	
+	private static int readUID() {
+		int nextID;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(Main.SET_UID_FILE));
+			String line = br.readLine();
+			br.close();
+			if(line == null)
+				nextID = 0;
+			else
+				nextID = Integer.parseInt(line);
+			
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.printf("read nextID=%d%n", nextID);
+		return nextID;
+	}
+	
+	public static void saveUID() {
+		System.out.printf("Saving NEXT_ID=%d%n", NEXT_ID);
+		try {
+			Files.write(Main.SET_UID_FILE.toPath(), List.of(String.valueOf(NEXT_ID)), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private final SetConfiguration config;
+	private final int id;
 	
 	private String name;
 	
@@ -73,8 +108,10 @@ public final class ProblemSet implements Serializable {
 	}
 	
 	public ProblemSet(String name, SetConfiguration config) {
+		this.id = NEXT_ID++;
 		this.name = Objects.requireNonNull(name);
 		this.config = config;
+		System.out.printf("%s created%n", this);
 	}
 	
 	public String name() {
@@ -94,6 +131,10 @@ public final class ProblemSet implements Serializable {
 	
 	public SetConfiguration config() {
 		return config;
+	}
+	
+	public int id() {
+		return id;
 	}
 	
 	public Deck createDeck() {
@@ -124,13 +165,13 @@ public final class ProblemSet implements Serializable {
 	
 	public void saveToFile(String oldName) {
 		System.out.printf("saving %s to file, oldName=%s, name()=%s%n", this, oldName, name());
-		File f = new File(Main.SETS_FOLDER, String.format("%s.dat", oldName));
+		File f = new File(Main.SETS_FOLDER, String.format("%s.set", oldName));
 		try {
 			if(!name().equals(oldName))
 				if(f.exists())
-					f = IO.renamed(f, String.format("%s.dat", name()));
+					f = IO.renamed(f, String.format("%s.set", name()));
 				else
-					f = new File(Main.SETS_FOLDER, String.format("%s.dat", name()));
+					f = new File(Main.SETS_FOLDER, String.format("%s.set", name()));
 			if(!f.exists())
 				f.createNewFile();
 			IO.writeObject(f, this);
@@ -140,6 +181,20 @@ public final class ProblemSet implements Serializable {
 			throw new RuntimeException(e); //TODO better error handling?
 		}
 	}
+
+	@Override
+	public String toString() {
+		return String.format("ProblemSet[id=%d, name=%s]", id(), name());
+	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this == obj || obj instanceof ProblemSet p && id() == p.id();
+	}
 	
 }
