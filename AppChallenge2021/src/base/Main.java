@@ -73,6 +73,14 @@ public class Main extends Application {
 		return primaryScreen;
 	}
 	
+	public static double screenWidth() {
+		return primaryScreen().getVisualBounds().getWidth();
+	}
+	
+	public static double screenHeight() {
+		return primaryScreen().getVisualBounds().getHeight();
+	}
+	
 	public static MainScene scene() {
 		return MainScene.get();
 	}

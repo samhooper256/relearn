@@ -22,7 +22,7 @@ import utils.IO;
  *
  */
 public final class ProblemSet implements Serializable {
-	
+	//TODO make transitive ReadOnlyStringProperty
 	private static final long serialVersionUID = 415601596062566192L;
 	private static final Set<ProblemSet> SETS = new HashSet<>();
 	private static final Set<String> NAMES = new HashSet<>();

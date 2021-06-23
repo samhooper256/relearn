@@ -3,6 +3,7 @@
  */
 package base;
 
+import base.graphics.Growth;
 import base.sets.*;
 import base.stats.StatsPane;
 import javafx.geometry.*;
@@ -25,10 +26,16 @@ public final class MainScene extends Scene {
 	private final StackPane mainMenu;
 	private final Button setsButton, statsButton, settingsButton;
 	private final Label titleLabel;
+	private final Growth growth;
 	
 	private MainScene(StackPane root, double width, double height) {
 		super(root, width, height);
-		this.mainMenu = (StackPane) root;
+		this.mainMenu = root;
+		
+		growth = new Growth();
+		Pane growthPane = new Pane(growth);
+		growth.layoutXProperty().bind(mainMenu.widthProperty());
+		
 		titleLabel = new Label(Main.TITLE);
 		setsButton = new Button("Sets");
 		statsButton = new Button("Stats");
@@ -36,8 +43,11 @@ public final class MainScene extends Scene {
 		initButtons();
 		
 		VBox vBox = new VBox(5, titleLabel, setsButton, statsButton, settingsButton);
-		vBox.setAlignment(Pos.CENTER);
-		root.getChildren().add(vBox);
+		vBox.setPickOnBounds(false);
+		vBox.setAlignment(Pos.CENTER_LEFT);
+		
+		mainMenu.getChildren().addAll(growthPane, vBox);
+		
 		getStylesheets().add(Main.class.getResource(Main.RESOURCES_PREFIX + "style.css").toExternalForm());
 	}
 	

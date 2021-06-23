@@ -45,9 +45,16 @@ public final class RNG {
 		return intExclusive(0, MathUtils.pow10int(maxDigits));
 	}
 	
-	public static double next()
-	{
+	public static double next() {
 		return source().nextDouble();
+	}
+	
+	public static double high() {
+		return 0.5 + low();
+	}
+	
+	public static double low() {
+		return next() / 2;
 	}
 	
 }
