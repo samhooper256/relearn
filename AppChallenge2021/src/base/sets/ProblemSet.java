@@ -10,6 +10,8 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import base.Main;
+import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
 import topics.*;
 import utils.IO;
 
@@ -80,12 +82,10 @@ public final class ProblemSet implements Serializable {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		System.out.printf("read nextID=%d%n", nextID);
 		return nextID;
 	}
 	
 	public static void saveUID() {
-		System.out.printf("Saving NEXT_ID=%d%n", NEXT_ID);
 		try {
 			Files.write(Main.SET_UID_FILE.toPath(), List.of(String.valueOf(NEXT_ID)), StandardCharsets.UTF_8);
 		} catch (IOException e) {
@@ -93,6 +93,8 @@ public final class ProblemSet implements Serializable {
 		}
 	}
 
+	private transient StringProperty nameProperty;
+	
 	private final SetConfiguration config;
 	private final int id;
 	
@@ -108,14 +110,20 @@ public final class ProblemSet implements Serializable {
 	}
 	
 	public ProblemSet(String name, SetConfiguration config) {
-		this.id = NEXT_ID++;
+		id = NEXT_ID++;
 		this.name = Objects.requireNonNull(name);
+		nameProperty = new SimpleStringProperty(name);
 		this.config = config;
-		System.out.printf("%s created%n", this);
 	}
 	
 	public String name() {
 		return name;
+	}
+	
+	/** The property returned by this method is read-only. The {@link #setName(String)} method can be used to set the
+	 * {@link #name() name} of this {@link ProblemSet}, and the changes will be reflected through this property. */
+	public ReadOnlyStringProperty nameProperty() {
+		return nameProperty();
 	}
 	
 	public void setName(String newName) {
@@ -125,8 +133,8 @@ public final class ProblemSet implements Serializable {
 			throw new IllegalStateException(String.format("Name already used: %s", newName));
 		NAMES.remove(name);
 		name = Objects.requireNonNull(newName);
+		nameProperty.set(name);
 		NAMES.add(name);
-		SetCard.of(this).updateName();
 	}
 	
 	public SetConfiguration config() {
@@ -182,6 +190,11 @@ public final class ProblemSet implements Serializable {
 		}
 	}
 
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		nameProperty = new SimpleStringProperty(name);
+	}
+	 
 	@Override
 	public String toString() {
 		return String.format("ProblemSet[id=%d, name=%s]", id(), name());

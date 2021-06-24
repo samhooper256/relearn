@@ -46,7 +46,8 @@ public class SetCard extends StackPane {
 		this.setBorder(Borders.of(Color.GREEN));
 		this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);
 		
-		title = new Label(set.name());
+		title = new Label();
+		initTitle(set);
 		
 		practiceButton = new Button("Practice");
 		initPracticeButton();
@@ -57,6 +58,10 @@ public class SetCard extends StackPane {
 		initPencil();
 		
 		getChildren().addAll(vBox, pencilView);
+	}
+
+	private void initTitle(ProblemSet set) {
+		title.textProperty().bind(set.nameProperty());
 	}
 	
 	private void initPencil() {
