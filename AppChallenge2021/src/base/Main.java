@@ -55,7 +55,10 @@ public class Main extends Application {
 		
 		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(MainScene.get());
+		primaryStage.setMaximized(true);
 		primaryStage.show();
+		
+		MainScene.get().growth().drawIn3();
 	}
 	
 	@Override

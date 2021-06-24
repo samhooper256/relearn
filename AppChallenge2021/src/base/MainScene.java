@@ -88,4 +88,8 @@ public final class MainScene extends Scene {
 		setRoot(EditorPane.get());
 	}
 	
+	public Growth growth() {
+		return growth;
+	}
+	
 }
