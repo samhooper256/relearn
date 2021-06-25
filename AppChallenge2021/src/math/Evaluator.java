@@ -17,6 +17,7 @@ public final class Evaluator {
 		
 		private final String text;
 		private TokenType type;
+		private Associativity associativity;
 		
 		public Token(String text) {
 			this.text = text;
@@ -31,10 +32,16 @@ public final class Evaluator {
 			return type;
 		}
 		
-		public void setType(TokenType type) {
-			if(type == null)
+		public void setType(TokenType newType) {
+			if(type != null)
 				throw new IllegalStateException("TokenType already set");
-			this.type = type;
+			this.type = newType;
+		}
+		
+		public void setAssociativity(Associativity newAssociativity) {
+			if(associativity != null)
+				throw new IllegalStateException("Associativity already set");
+			this.associativity = newAssociativity;
 		}
 		
 		public int precedence() {
@@ -53,6 +60,40 @@ public final class Evaluator {
 			return type().isOperator();
 		}
 		
+		public boolean isUnaryOperator() {
+			return type() == TokenType.UNARY_OPERATOR;
+		}
+		
+		public boolean isBinaryOperator() {
+			return type() == TokenType.BINARY_OPERATOR;
+		}
+		
+		public boolean isLiteral() {
+			return type() == TokenType.LITERAL;
+		}
+		
+		public boolean isOpenParenthesis() {
+			return type() == TokenType.OPEN_PARENTHESIS;
+		}
+		
+		public boolean isCloseParenthesis() {
+			return type() == TokenType.CLOSE_PARENTHESIS;
+		}
+		
+		public Associativity associativity() {
+			if(!isOperator())
+				System.out.printf("this token ('%s') is not an operator.%n", text());
+			return associativity;
+		}
+		
+		public boolean isLeftAssociative() {
+			return associativity().isLeft();
+		}
+		
+		public boolean isRightAssociative() {
+			return associativity().isLeft();
+		}
+		
 		@Override
 		public String toString() {
 			return String.format("%s", text());
@@ -68,6 +109,19 @@ public final class Evaluator {
 		}
 	}
 	
+	private enum Associativity {
+		LEFT, RIGHT, BOTH;
+		
+		public boolean isLeft() {
+			return this == LEFT || this == BOTH;
+		}
+		
+		public boolean isRight() {
+			return this == RIGHT || this == BOTH;
+		}
+		
+	}
+	
 	private static final String OPEN_PARENTHESIS = "(";
 	private static final String CLOSE_PARENTHESIS = ")";
 	private static final Set<String> NON_LITERAL_TOKENS =
@@ -79,9 +133,13 @@ public final class Evaluator {
 	
 	public static ConstantExpression getTree(String expression) {
 		expression = clean(expression);
+		System.out.printf("expression=%s%n", expression);
 		List<Token> tokens = tokenize(expression);
-		ConstantExpression tree = TreeGenerator.generate(tokens);
-		return tree;
+		System.out.printf("\ttokens=%s%n", tokens);
+		List<Token> postfix = toPostfix(tokens);
+		System.out.printf("\tpostfix=%s%n", postfix);
+		ConstantExpression exp = treeFromPostfix(postfix);
+		return exp;
 	}
 	
 	public static Complex evaluate(String expression) {
@@ -105,12 +163,8 @@ public final class Evaluator {
 			tokens.add(t);
 			i = end + 1;
 		}
-		findTypes(tokens);
+		findTypesAndAssociativites(tokens);
 		return tokens;
-	}
-	
-	private static boolean isLiteralStart(char c) {
-		return Parsing.isDigit(c) || c == Parsing.DECIMAL_POINT || c == Complex.IMAGINARY_UNIT_CHAR;
 	}
 	
 	/** returns the index of the last character in the literal starting at {@code start}.*/
@@ -149,7 +203,7 @@ public final class Evaluator {
 		return start;
 	}
 	
-	private static void findTypes(List<Token> tokens) {
+	private static void findTypesAndAssociativites(List<Token> tokens) {
 		for(int i = 0; i < tokens.size(); i++) {
 			Token t = tokens.get(i);
 			String text = t.text();
@@ -163,7 +217,8 @@ public final class Evaluator {
 			else if(isCloseParenthesis(text)) {
 				type = TokenType.CLOSE_PARENTHESIS;
 			}
-			else {
+			else { //it must be an operator
+				final Associativity associativity;
 				if("-".equals(text)) {
 					if(i == 0) {
 						type = TokenType.UNARY_OPERATOR;
@@ -182,9 +237,97 @@ public final class Evaluator {
 				else {
 					type = TokenType.BINARY_OPERATOR;
 				}
+				associativity = findAssociativity(text, type);
+				t.setAssociativity(associativity);
 			}
 			t.setType(type);
 		}
+	}
+	
+	private static Associativity findAssociativity(String op, TokenType type) {
+		return switch(op) {
+			case "-" -> type == TokenType.UNARY_OPERATOR ? Associativity.RIGHT : Associativity.LEFT;
+			case "/" -> Associativity.LEFT;
+			case "^" -> Associativity.RIGHT;
+			case "+", "*" -> Associativity.BOTH;
+			default -> throw new UnsupportedOperationException("Unrecognized operator: " + op);
+		};
+	}
+	
+	private static List<Token> toPostfix(List<Token> infix) {
+		List<Token> postfix = new ArrayList<>();
+		Stack<Token> operatorStack = new Stack<>();
+		for(Token t : infix) {
+			if(t.isLiteral()) {
+				postfix.add(t);
+			}
+			else if(t.isOpenParenthesis()) {
+				operatorStack.push(t);
+			}
+			else if(t.isCloseParenthesis()) {
+				Token top = operatorStack.peek();
+				while(!top.isOpenParenthesis()) {
+					postfix.add(operatorStack.pop());
+					top = operatorStack.peek();
+				}
+				operatorStack.pop(); //get rid of open parenthesis.
+			}
+			else if(t.isOperator()) {
+				Token o1 = t;
+				Token o2;
+				while(!operatorStack.isEmpty() && !(o2 = operatorStack.peek()).isOpenParenthesis() &&
+					(
+						(o1.isLeftAssociative() && o1.precedence() <= o2.precedence()) ||
+						(o1.isRightAssociative() && o1.precedence() < o2.precedence())
+					)
+				) {
+					postfix.add(operatorStack.pop());
+				}
+				operatorStack.push(o1);
+			}
+		}
+		while(!operatorStack.isEmpty())
+			postfix.add(operatorStack.pop());
+		return postfix;
+	}
+	
+	private static ConstantExpression treeFromPostfix(List<Token> postfix) {
+		Stack<ConstantExpression> stack = new Stack<>();
+		for(Token t : postfix) {
+			if(t.isLiteral()) {
+				stack.add(new LiteralExpression(t.text()));
+			}
+			else {
+				if(t.isUnaryOperator()) {
+					stack.push(unaryExpressionFrom(t, stack.pop()));
+				}
+				else { //t must be binary operator
+					ConstantExpression right = stack.pop();
+					ConstantExpression left = stack.pop();
+					stack.push(binaryExpressionFrom(t, left, right));
+				}
+			}
+		}
+		return stack.pop();
+	}
+	
+	private static UnaryExpression unaryExpressionFrom(Token operator, ConstantExpression operand) {
+		if("-".equals(operator.text())) {
+			return new NegatedExpression(operand);
+		}
+		throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
+	}
+	
+	private static BinaryExpression binaryExpressionFrom
+			(Token operator, ConstantExpression left, ConstantExpression right) {
+		return switch(operator.text()) {
+			case "+" -> new AdditionExpression(left, right);
+			case "-" -> new SubtractionExpression(left, right);
+			case "*" -> new MultiplicationExpression(left, right);
+			case "/" -> new DivisionExpression(left, right);
+			case "^" -> new ExponentiationExpression(left, right);
+			default -> throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
+		};
 	}
 	
 	private static boolean isOpenParenthesis(String str) {
@@ -195,82 +338,7 @@ public final class Evaluator {
 		return CLOSE_PARENTHESIS.equals(str);
 	}
 	
-	private static final class TreeGenerator {
-		
-		private final List<Token> tokens;
-		private int index;
-		
-		public static ConstantExpression generate(List<Token> tokens) {
-			return new TreeGenerator(tokens).generate();
-		}
-		
-		public TreeGenerator(List<Token> tokens) {
-			this.tokens = tokens;
-		}
-		
-		public ConstantExpression generate() {
-			index = 0;
-			ConstantExpression exp = parse(0);
-			while(index < tokens.size()) {
-				Token t = tokens.get(index);
-				index++;
-				exp = combineTerms(t, exp, parse(t.precedence()));
-			}
-			return exp;
-		}
-		
-		/** Leaves {@link #index} on a binary operator or the end of the input.*/
-		public ConstantExpression parse(int precedence) {
-			Token t = tokens.get(index);
-			String text = t.text();
-			TokenType ty = t.type();
-			if(ty == TokenType.LITERAL) {
-				LiteralExpression lit = new LiteralExpression(t.text());
-				if(index == tokens.size() - 1) {
-					index++;
-					return lit;
-				}
-				Token next = tokens.get(index + 1);
-				if(next.type() == TokenType.BINARY_OPERATOR && next.precedence() > precedence) {
-					index += 2;
-					ConstantExpression nextExp = parse(next.precedence());
-					return combineTerms(next, lit, nextExp);
-				}
-				else {
-					index++;
-					return lit;
-				}
-			}
-			if(ty == TokenType.UNARY_OPERATOR) {
-				if(text.equals("-")) {
-					index++;
-					return new NegatedExpression(parse(t.precedence()));
-				}
-				else {
-					throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", text));
-				}
-			}
-			if(ty == TokenType.OPEN_PARENTHESIS) {
-				index++; //get past opening parenthesis
-				ConstantExpression exp = parse(0);
-				index++; //get past closing parenthesis
-				return exp;
-			}
-			throw new UnsupportedOperationException("oof");
-		}
-	}
-	
-	private static ConstantExpression combineTerms
-			(Token binaryOperator, ConstantExpression left, ConstantExpression right) {
-		String text = binaryOperator.text();
-		return switch(text) {
-			case "+" -> new AdditionExpression(left, right);
-			case "-" -> new SubtractionExpression(left, right);
-			case "*" -> new MultiplicationExpression(left, right);
-			case "/" -> new DivisionExpression(left, right);
-			case "^" -> new ExponentiationExpression(left, right);
-			default -> throw new UnsupportedOperationException(
-					String.format("Unrecognized operator: %s", text));
-		};
+	private static boolean isLiteralStart(char c) {
+		return Parsing.isDigit(c) || c == Parsing.DECIMAL_POINT || c == Complex.IMAGINARY_UNIT_CHAR;
 	}
 }
