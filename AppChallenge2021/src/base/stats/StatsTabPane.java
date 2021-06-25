@@ -4,7 +4,7 @@
 package base.stats;
 
 import javafx.geometry.Side;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 
 /**
  * @author Sam Hooper

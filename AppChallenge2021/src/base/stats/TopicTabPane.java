@@ -3,9 +3,7 @@
  */
 package base.stats;
 
-import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
 import topics.TopicUtils;
 
 /**
@@ -21,23 +19,14 @@ public final class TopicTabPane extends StatsTabPane {
 	}
 	
 	private TopicTabPane() {
-		super();
-		for(String name : TopicUtils.allNames()) {
-			TopicTab t = new TopicTab("");
-			initTab(name, t);
-			getTabs().add(t);
-		}
-		
+		for(String name : TopicUtils.allNames())
+			getTabs().add(createTab(name));
 	}
 
-	private void initTab(String name, TopicTab t) {
-		t.setClosable(false);
-		Label l = new Label(name);
-		l.setRotate(90);
-		StackPane sp = new StackPane(new Group(l));
-		sp.setRotate(90);
-		t.setGraphic(sp);
+	private TopicTab createTab(String name) {
+		TopicTab t = new TopicTab(name);
 		t.setContent(new TopicTabContent(name));
+		return t;
 	}
 	
 	public void updateAllStats() {

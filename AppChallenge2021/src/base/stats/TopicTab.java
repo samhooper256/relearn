@@ -3,17 +3,11 @@
  */
 package base.stats;
 
-import javafx.scene.control.Tab;
-
 /**
  * @author Sam Hooper
  *
  */
-public class TopicTab extends Tab {
-	
-	public TopicTab() {
-		super();
-	}
+public class TopicTab extends StatsTab {
 	
 	public TopicTab(String text) {
 		super(text);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base;
+package base.graphics;
 
 import javafx.animation.*;
 import javafx.scene.layout.*;

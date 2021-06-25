@@ -37,7 +37,6 @@ public class Main extends Application {
 	private static Screen primaryScreen;
 	
 	public static void main(String[] args) {
-		System.out.println();
 		preLaunchInit();
 		Data.debugPrint();
 		Application.launch(args);

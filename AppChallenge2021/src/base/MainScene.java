@@ -6,10 +6,8 @@ package base;
 import base.graphics.*;
 import base.sets.*;
 import base.stats.StatsPane;
-import fxutils.Images;
 import javafx.geometry.*;
 import javafx.scene.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 /**

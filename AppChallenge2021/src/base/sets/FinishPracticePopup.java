@@ -4,6 +4,7 @@
 package base.sets;
 
 import base.*;
+import base.graphics.FadePopup;
 import base.stats.AccuracyPie;
 import fxutils.Backgrounds;
 import javafx.geometry.Pos;
