@@ -13,3 +13,7 @@
 .problem-display {
 	-fx-font: 30 "Yu Gothic";
 }
+
+.title-character {
+	-fx-font: 72 "Yu Gothic";
+}

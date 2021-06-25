@@ -133,11 +133,8 @@ public final class Evaluator {
 	
 	public static ConstantExpression getTree(String expression) {
 		expression = clean(expression);
-		System.out.printf("expression=%s%n", expression);
 		List<Token> tokens = tokenize(expression);
-		System.out.printf("\ttokens=%s%n", tokens);
 		List<Token> postfix = toPostfix(tokens);
-		System.out.printf("\tpostfix=%s%n", postfix);
 		ConstantExpression exp = treeFromPostfix(postfix);
 		return exp;
 	}
