@@ -6,9 +6,10 @@ package base;
 import base.graphics.*;
 import base.sets.*;
 import base.stats.StatsPane;
+import fxutils.Images;
 import javafx.geometry.*;
 import javafx.scene.*;
-import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 /**
@@ -17,14 +18,19 @@ import javafx.scene.layout.*;
  */
 public final class MainScene extends Scene {
 	
+	private static final double BUTTON_WIDTH = 400, BUTTON_HEIGHT = 200;
 	private static final MainScene INSTANCE = new MainScene(new StackPane(), Main.MIN_WIDTH, Main.MIN_HEIGHT);
+	private static final Image
+			SETS_BUTTON_IMAGE = Images.get("back.png", 40, 40, false, true),
+			STATS_BUTTON_IMAGE = Images.get("statsbutton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, true),
+			SETTINGS_BUTTON_IMAGE = Images.get("settingsbutton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, true);
 	
 	public static MainScene get() {
 		return INSTANCE;
 	}
 	
 	private final StackPane mainMenu;
-	private final Button setsButton, statsButton, settingsButton;
+	private final MainMenuButton setsButton, statsButton, settingsButton;
 	private final TitleBox title;
 	private final Growth growth;
 	
@@ -37,9 +43,9 @@ public final class MainScene extends Scene {
 		growth.layoutXProperty().bind(mainMenu.widthProperty());
 		
 		title = new TitleBox(Main.TITLE);
-		setsButton = new Button("Sets");
-		statsButton = new Button("Stats");
-		settingsButton = new Button("Settings");
+		setsButton = new MainMenuButton(Main.setsButtonImage());
+		statsButton = new MainMenuButton(Main.statsButtonImage());
+		settingsButton = new MainMenuButton(Main.settingsButtonImage());
 		initButtons();
 		
 		VBox vBox = new VBox(5, title, setsButton, statsButton, settingsButton);
@@ -52,8 +58,8 @@ public final class MainScene extends Scene {
 	}
 	
 	private void initButtons() {
-		setsButton.setOnAction(e -> showSets());
-		statsButton.setOnAction(e -> showStats());
+		setsButton.setOnAction(this::showSets);
+		statsButton.setOnAction(this::showStats);
 	}
 	
 	public StackPane mainMenu() {

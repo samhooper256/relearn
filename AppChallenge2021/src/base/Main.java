@@ -10,12 +10,11 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.*;
-import math.Evaluator;
 
 public class Main extends Application {
 	
 	public static final String TITLE = "ReLearn";
-	public static final double BACK_ARROW_SIZE = 40;
+	public static final double BACK_ARROW_SIZE = 40, MAIN_MENU_BUTTON_WIDTH = 320, MAIN_MENU_BUTTON_HEIGHT = 180;
 	public static final double MIN_WIDTH = 600, MIN_HEIGHT = 400;
 	public static final File USER_FOLDER =
 			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
@@ -26,6 +25,13 @@ public class Main extends Application {
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
 	private static final Image BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true);
+	private static final Image 
+			SETS_BUTTON_IMAGE =
+					Images.get("setsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
+			STATS_BUTTON_IMAGE =
+					Images.get("statsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
+			SETTINGS_BUTTON_IMAGE =
+					Images.get("settingsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true);
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
@@ -96,6 +102,18 @@ public class Main extends Application {
 	
 	public static Image backArrowImage() {
 		return BACK_ARROW_IMAGE;
+	}
+	
+	public static Image setsButtonImage() {
+		return SETS_BUTTON_IMAGE;
+	}
+	
+	public static Image statsButtonImage() {
+		return STATS_BUTTON_IMAGE;
+	}
+	
+	public static Image settingsButtonImage() {
+		return SETTINGS_BUTTON_IMAGE;
 	}
 	
 	/**
