@@ -25,7 +25,8 @@ public final class TopicUtils {
 				Subtraction.FACTORY,
 				Multiplication.FACTORY,
 				Division.FACTORY,
-				PEMDAS.FACTORY
+				PEMDAS.FACTORY,
+				Percentages.FACTORY
 		);
 	}
 	
