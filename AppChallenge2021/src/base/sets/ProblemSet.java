@@ -123,7 +123,7 @@ public final class ProblemSet implements Serializable {
 	/** The property returned by this method is read-only. The {@link #setName(String)} method can be used to set the
 	 * {@link #name() name} of this {@link ProblemSet}, and the changes will be reflected through this property. */
 	public ReadOnlyStringProperty nameProperty() {
-		return nameProperty();
+		return nameProperty;
 	}
 	
 	public void setName(String newName) {
