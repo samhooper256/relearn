@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  * @author Sam Hooper
@@ -73,7 +72,6 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void initHeader() {
-		title.setFont(Font.font(24));
 		backArrow.setOnAction(this::backArrowAction);
 	}
 	

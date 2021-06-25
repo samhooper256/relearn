@@ -19,12 +19,12 @@ import javafx.scene.paint.Color;
  */
 public class SetCard extends StackPane {
 	
+	private static final String SET_CARD_CSS = "set-card";
 	private static final double PREF_WIDTH = 300;
 	private static final double PREF_HEIGHT = 150;
 	private static final double PENCIL_SIZE = 30;
 	private static final Image PENCIL_IMAGE = Images.get("pencil.png", PENCIL_SIZE, PENCIL_SIZE, false, true);
 	private static final IdentityHashMap<ProblemSet, SetCard> CACHE = new IdentityHashMap<>();
-	
 	
 	public static synchronized SetCard of(ProblemSet set) {
 		SetCard cached = CACHE.get(set);
@@ -47,20 +47,25 @@ public class SetCard extends StackPane {
 		this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);
 		
 		title = new Label();
-		initTitle(set);
 		
 		practiceButton = new Button("Practice");
-		initPracticeButton();
 		
 		vBox = new VBox(title, practiceButton);
+		initVBox();
 		
 		pencilView = new ImageView(PENCIL_IMAGE);
 		initPencil();
 		
+		getStyleClass().add(SET_CARD_CSS);
 		getChildren().addAll(vBox, pencilView);
 	}
 
-	private void initTitle(ProblemSet set) {
+	private void initVBox() {
+		initTitle();
+		initPracticeButton();
+	}
+	
+	private void initTitle() {
 		title.textProperty().bind(set.nameProperty());
 	}
 	

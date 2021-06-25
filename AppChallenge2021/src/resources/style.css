@@ -17,3 +17,71 @@
 .title-character {
 	-fx-font: 72 "Yu Gothic";
 }
+
+.sets-pane {
+	-fx-background-color: bisque;
+}
+.sets-pane .back-arrow-box {
+	-fx-background-color: gold;
+	-fx-padding: 10px;
+}
+.sets-pane .header {
+	-fx-background-color: gold;
+	-fx-spacing: 20px;
+	-fx-alignment: center;
+	-fx-font: 48 "Georgia";
+	-fx-font-weight: 600;
+	-fx-padding: 0px 0px 10px 0px;
+	-fx-border-color: orange;
+	-fx-border-width: 0px 0px 4px 0px;
+}
+
+.sets-pane .header .create-button {
+	-fx-background-color: lime;
+	-fx-background-radius: 16px;
+	-fx-border-color: green;
+	-fx-border-radius: 10px;
+	-fx-border-width: 4px;
+	-fx-font: 30 "Georgia";
+	-fx-font-weight: 600;
+}
+
+.sets-pane .scroll {
+	-fx-hbar-policy: never;
+}
+
+.sets-pane .scroll .viewport {
+	-fx-background-color: bisque;
+}
+
+.sets-pane .flow {
+	-fx-background-color: bisque;
+	-fx-hgap: 10px;
+	-fx-vgap: 10px;
+	-fx-padding: 20;
+}
+
+.sets-pane .root-layer {
+	-fx-background-color: bisque;
+}
+
+.set-card {
+	-fx-background-color: lightblue;
+	-fx-background-radius: 8px;
+	-fx-border-color: orange;
+	-fx-border-width: 3px;
+	-fx-border-radius: 8px;
+	-fx-padding: 10px;
+}
+
+.set-card VBox {
+	-fx-spacing: 5px;
+}
+
+.set-card Label {
+	-fx-font: 24 "Georgia";
+}
+
+.set-card Button {
+	-fx-font: 16 "Georgia";
+}
