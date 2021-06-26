@@ -22,27 +22,29 @@
 	-fx-background-color: bisque;
 }
 .sets-pane .back-arrow-box {
-	-fx-background-color: gold;
+	-fx-background-color: #29527B;
 	-fx-padding: 10px;
 }
 .sets-pane .header {
-	-fx-background-color: gold;
+	-fx-background-color: #A7C7E7;
 	-fx-spacing: 20px;
 	-fx-alignment: center;
 	-fx-font: 48 "Georgia";
+	-fx-font-fill: #A1B2C3;
 	-fx-font-weight: 600;
 	-fx-padding: 0px 0px 10px 0px;
-	-fx-border-color: orange;
+	-fx-border-color: #29527B;
 	-fx-border-width: 0px 0px 4px 0px;
 }
 
 .sets-pane .header .create-button {
-	-fx-background-color: lime;
+-fx-background-color: #77DD77; /*rgb(0, 0, 0); #hexcode*/
 	-fx-background-radius: 16px;
 	-fx-border-color: green;
 	-fx-border-radius: 10px;
 	-fx-border-width: 4px;
-	-fx-font: 30 "Georgia";
+	-fx-font: 30 "Impact";
+	-fx-text-fill: #FFFFFF;
 	-fx-font-weight: 600;
 }
 
@@ -51,24 +53,24 @@
 }
 
 .sets-pane .scroll .viewport {
-	-fx-background-color: bisque;
+	-fx-background-color: #DCE3F1;
 }
 
 .sets-pane .flow {
-	-fx-background-color: bisque;
+	-fx-background-color: #DCE3F1;
 	-fx-hgap: 10px;
 	-fx-vgap: 10px;
 	-fx-padding: 20;
 }
 
 .sets-pane .root-layer {
-	-fx-background-color: bisque;
+	-fx-background-color: #DCE3F1;
 }
 
 .set-card {
-	-fx-background-color: lightblue;
+	-fx-background-color: #F1F1F1;
 	-fx-background-radius: 8px;
-	-fx-border-color: orange;
+	-fx-border-color: #29527B;
 	-fx-border-width: 3px;
 	-fx-border-radius: 8px;
 	-fx-padding: 10px;
