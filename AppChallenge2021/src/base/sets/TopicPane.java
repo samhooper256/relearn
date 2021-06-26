@@ -49,9 +49,9 @@ public final class TopicPane extends TitledPane {
 	
 	private void initField() {
 		field.setText(String.valueOf(topic.count()));
-		field.textProperty().addListener(ov -> {
-			if(field.hasValidInt())
-				topic.setCount(field.intValue());
+		topic.countProperty().bind(field.valueProperty());
+		field.valueProperty().addListener((x, y, z) -> {
+			TopicPortionBar.get().update(EditorPane.get().currentSet().config().topics());
 		});
 	}
 

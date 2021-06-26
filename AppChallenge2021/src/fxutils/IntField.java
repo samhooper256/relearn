@@ -5,6 +5,7 @@ package fxutils;
 
 import java.util.function.UnaryOperator;
 
+import javafx.beans.property.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import utils.*;
@@ -16,16 +17,14 @@ import utils.*;
  */
 public class IntField extends TextField {
 	
-	public IntField(int width) {
-		this(width, true);
-	}
+	private final SimpleIntegerProperty valueProperty;
 	
-	public IntField(int width, boolean center) {
+	public IntField(int width) {
 		setPrefWidth(width);
-		if(center)
-			setAlignment(Pos.CENTER);
+		setAlignment(Pos.CENTER);
 		initFormatter();
-		
+		valueProperty = new SimpleIntegerProperty();
+		initValueProperty();
 	}
 
 	private void initFormatter() {
@@ -50,12 +49,27 @@ public class IntField extends TextField {
 		this.setTextFormatter(new TextFormatter<>(op));
 	}
 	
-	public boolean hasValidInt() {
+	private void initValueProperty() {
+		textProperty().addListener((x, y, z) -> {
+			if(hasValidInt())
+				valueProperty.set(parseText());
+		});
+	}
+	
+	private boolean hasValidInt() {
 		return Parsing.isint(getText());
 	}
 	
-	public int intValue() {
+	private int parseText() {
 		return Integer.parseInt(getText());
+	}
+	
+	public int intValue() {
+		return valueProperty().get();
+	}
+	
+	public ReadOnlyIntegerProperty valueProperty() {
+		return valueProperty;
 	}
 	
 }

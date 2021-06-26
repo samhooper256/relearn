@@ -22,17 +22,17 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	private static final String TITLE = "Set Editor";
 	private static final EditorPane INSTANCE = new EditorPane();
+	private static final double PORTION_BAR_HEIGHT = 200;
 	
 	private ProblemSet set;
 	private String nameOnOpening;
-	private final VBox primaryLayer, topicPaneContainer, nameLayer;
-	private final HBox topLayer, nameRow, topicLayer;
+	private final VBox primaryZLayer, topicPaneContainer, nameLayer;
+	private final HBox topLayer, nameRow, topicLayer, portionLayer;
 	private final BackArrow backArrow;
 	private final Button addTopicButton;
 	private final NameInputField nameField;
 	private final Label nameLabel;
 	private final ErrorMessage noTopicError, nameError;
-	
 	public static EditorPane get() {
 		return INSTANCE;
 	}
@@ -43,7 +43,6 @@ public class EditorPane extends StackPane implements Verifiable {
 		//top layer:
 		backArrow = new BackArrow();
 		topicPaneContainer = new VBox();
-		initBackArrow();
 		Label headerLabel = new Label(TITLE);
 		headerLabel.setFont(Font.font(24));
 		topLayer = new HBox(backArrow, headerLabel);
@@ -54,17 +53,26 @@ public class EditorPane extends StackPane implements Verifiable {
 		nameRow = new HBox(nameLabel, nameField);
 		nameError = new ErrorMessage("");
 		nameLayer = new VBox(nameRow, nameError);
-		initNameLayer();
 		
 		//topic layer
 		noTopicError = new ErrorMessage("No topics selected.");
 		addTopicButton = new Button("+ Add Topic");
 		topicLayer = new HBox(addTopicButton, topicPaneContainer);
+		
+		//portionLayer
+		portionLayer = new HBox(TopicPortionBar.get());
+		primaryZLayer = new VBox(topLayer, nameLayer, topicLayer, portionLayer);
+		initPrimaryZLayer();
+		
+		getChildren().add(primaryZLayer);
+	}
+	
+	private void initPrimaryZLayer() {
+		initBackArrow();
+		initNameLayer();
 		initTopicLayer();
-		
-		primaryLayer = new VBox(topLayer, nameLayer, topicLayer);
-		
-		getChildren().add(primaryLayer);
+		initPortionLayer();
+		VBox.setVgrow(topicLayer, Priority.ALWAYS);
 	}
 	
 	private void initBackArrow() {
@@ -113,6 +121,11 @@ public class EditorPane extends StackPane implements Verifiable {
 		nameField.setOnChange(this::hideNameError);
 	}
 	
+	private void initPortionLayer() {
+		portionLayer.setPrefHeight(PORTION_BAR_HEIGHT);
+		HBox.setHgrow(TopicPortionBar.get(), Priority.ALWAYS);
+	}
+	
 	public void edit(ProblemSet set) {
 		this.set = set;
 		nameOnOpening = set.name();
@@ -129,6 +142,11 @@ public class EditorPane extends StackPane implements Verifiable {
 	public void addTopics(Collection<Topic> topics) {
 		set.addTopics(topics);
 		addTopicPanesFor(topics);
+		updatePortions();
+	}
+
+	private void updatePortions() {
+		TopicPortionBar.get().update(set.config().topics());
 	}
 	
 	private void addTopicPanesFor(Collection<Topic> topics) {
@@ -180,6 +198,10 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	private void hideNameError() {
 		nameError.setVisible(false);
+	}
+	
+	public ProblemSet currentSet() {
+		return set;
 	}
 	
 }

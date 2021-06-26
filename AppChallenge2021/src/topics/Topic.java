@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import base.*;
+import javafx.beans.property.*;
 
 /**
  * <p>Every implementing concrete class should have a {@code public static final} field named {@code FACTORY} that has
@@ -18,9 +19,11 @@ public interface Topic extends Named, Serializable {
 	
 	List<TopicSetting> settings();
 	
+	IntegerProperty countProperty();
+	
 	int count();
 	
-	void setCount(int count);
+	void setCount(int newCount);
 	
 	Problem generate();
 	
