@@ -4,8 +4,6 @@
 package base.sets;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -23,31 +21,41 @@ import utils.*;
  *
  */
 public final class ProblemSet implements Serializable {
-	//TODO make transitive ReadOnlyStringProperty
 	private static final long serialVersionUID = 415601596062566192L;
-	private static final AudibleSet<ProblemSet> SETS = AudibleSet.create(HashSet::new);
+	private static final AudibleSet<ProblemSet> SETS = AudibleSet.create(LinkedHashSet::new);
 	private static final Set<String> NAMES = new HashSet<>();
-	private static int NEXT_ID = readUID();
+	private static int NEXT_ID;
 	
 	private static boolean loaded = false;
 	private static List<Consumer<ProblemSet>> onRegisterActions;
 	
-	public static synchronized void loadSets() {
+	public static synchronized void load() {
 		if(loaded)
 			return; //don't load if we've already done it earlier.
 		loaded = true;
-		for(File f : Main.SETS_FOLDER.listFiles()) {
-			if(f.getName().equals(Main.SET_UID_FILE.getName()))
-				continue;
-			try {
-				ProblemSet set = IO.readObject(f);
-				SETS.add(set);
+		try {
+			if(IO.isEmpty(Main.SETS_FILE)) {
+				NEXT_ID = 0;
 			}
-			catch(Exception e) {
-				e.printStackTrace();
+			else {
+				ProblemSetData data = IO.readObject(Main.SETS_FILE);
+				SETS.addAll(data.sets());
+				NEXT_ID = data.nextUID();
 			}
 		}
+		catch(Exception e) {
+			e.printStackTrace(); //TODO better error handling?
+		}
 		SETS.forEach(s -> NAMES.add(s.name()));
+	}
+	
+	public static synchronized void save() {
+		ProblemSetData data = new ProblemSetData(new LinkedHashSet<>(SETS), NEXT_ID);
+		try {
+			IO.writeObject(Main.SETS_FILE, data);
+		} catch (IOException e) {
+			e.printStackTrace(); //TODO better error handling?
+		}
 	}
 	
 	public static ReadOnlyAudibleSet<ProblemSet> all() {
@@ -59,31 +67,6 @@ public final class ProblemSet implements Serializable {
 			return;
 		for(Consumer<ProblemSet> action : onRegisterActions)
 			action.accept(set);
-	}
-	
-	private static int readUID() {
-		int nextID;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(Main.SET_UID_FILE));
-			String line = br.readLine();
-			br.close();
-			if(line == null)
-				nextID = 0;
-			else
-				nextID = Integer.parseInt(line);
-			
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		return nextID;
-	}
-	
-	public static void saveUID() {
-		try {
-			Files.write(Main.SET_UID_FILE.toPath(), List.of(String.valueOf(NEXT_ID)), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private transient StringProperty nameProperty;
@@ -158,29 +141,6 @@ public final class ProblemSet implements Serializable {
 			throw new IllegalStateException("This ProblemSet is already registered");
 		SETS.add(this);
 		runOnRegisterActions(this);
-	}
-	
-	public void saveToFile() {
-		saveToFile(name());
-	}
-	
-	public void saveToFile(String oldName) {
-		System.out.printf("saving %s to file, oldName=%s, name()=%s%n", this, oldName, name());
-		File f = new File(Main.SETS_FOLDER, String.format("%s.set", oldName));
-		try {
-			if(!name().equals(oldName))
-				if(f.exists())
-					f = IO.renamed(f, String.format("%s.set", name()));
-				else
-					f = new File(Main.SETS_FOLDER, String.format("%s.set", name()));
-			if(!f.exists())
-				f.createNewFile();
-			IO.writeObject(f, this);
-		}
-		catch(Exception e) {
-			System.err.printf("Could not save set \"%s\" to file.%n", name());
-			throw new RuntimeException(e); //TODO better error handling?
-		}
 	}
 
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {

@@ -40,5 +40,11 @@ public final class IO {
 		return newPath.toFile();
 	}
 	
+	public static boolean isEmpty(File f) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(f));     
+		boolean result = br.readLine() == null && f.length() == 0;
+		br.close();
+		return result;
+	}
 	
 }

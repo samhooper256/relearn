@@ -78,7 +78,6 @@ public class EditorPane extends StackPane {
 
 	private void backArrowAction() {
 		set.setName(nameField.getText().strip());
-		set.saveToFile(nameOnOpening);
 		if(!set.isRegistered())
 			set.register();
 		Main.scene().showSets();
