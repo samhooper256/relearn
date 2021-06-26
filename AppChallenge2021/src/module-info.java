@@ -8,6 +8,7 @@ open module appchallenge2021 {
 	requires transitive org.jfree.fxgraphics2d;
 	requires transitive javafx.swing;
 	requires javafx.controls;
+	requires org.controlsfx.controls;
 	
 	exports base;
 	exports base.sets;
