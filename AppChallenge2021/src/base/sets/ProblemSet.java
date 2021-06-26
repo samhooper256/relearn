@@ -25,7 +25,7 @@ import utils.*;
 public final class ProblemSet implements Serializable {
 	//TODO make transitive ReadOnlyStringProperty
 	private static final long serialVersionUID = 415601596062566192L;
-	private static final AudibleSet<ProblemSet> SETS = new AudibleSet<>(HashSet::new);
+	private static final AudibleSet<ProblemSet> SETS = AudibleSet.create(HashSet::new);
 	private static final Set<String> NAMES = new HashSet<>();
 	private static int NEXT_ID = readUID();
 	

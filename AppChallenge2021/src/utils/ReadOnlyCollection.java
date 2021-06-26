@@ -17,12 +17,7 @@ public interface ReadOnlyCollection<E> extends Iterable<E> {
 	
 	int size();
 	
-	default boolean containsAll(Collection<?> objects) {
-		for(Object o : objects)
-			if(!contains(o))
-				return false;
-		return true;
-	}
+	boolean containsAll(Collection<?> objects);
 	
 	default boolean containsAll(Object... objects) {
 		for(Object o : objects)
@@ -31,8 +26,6 @@ public interface ReadOnlyCollection<E> extends Iterable<E> {
 		return true;
 	}
 	
-	default boolean isEmpty() {
-		return size() == 0;
-	}
+	boolean isEmpty();
 	
 }
