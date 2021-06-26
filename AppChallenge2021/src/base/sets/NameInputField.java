@@ -15,7 +15,7 @@ public class NameInputField extends TextField implements Verifiable {
 	@Override
 	public VerificationResult verify() {
 		if(getText().isBlank())
-			return VerificationResult.failure("Name must not be blank.");
+			return VerificationResult.failure("Name must not be blank");
 		return VerificationResult.success();
 	}
 	

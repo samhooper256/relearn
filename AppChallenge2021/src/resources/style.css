@@ -87,3 +87,16 @@
 .set-card Button {
 	-fx-font: 16 "Georgia";
 }
+
+.error-message {
+	-fx-font: 14 "Georgia";
+	-fx-text-fill: red;
+}
+
+.editor-pane .name-layer {
+	-fx-alignment: center;
+}
+
+.editor-pane .portion-layer {
+	-fx-padding: 20px 40px 40px 40px;
+}

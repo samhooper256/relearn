@@ -21,6 +21,10 @@ import topics.*;
 public class EditorPane extends StackPane implements Verifiable {
 	
 	private static final String TITLE = "Set Editor";
+	private static final String 
+			EDITOR_PANE_CSS = "editor-pane",
+			NAME_LAYER_CSS = "name-layer",
+			PORTION_LAYER_CSS = "portion-layer";
 	private static final EditorPane INSTANCE = new EditorPane();
 	private static final double PORTION_BAR_HEIGHT = 200;
 	
@@ -59,12 +63,13 @@ public class EditorPane extends StackPane implements Verifiable {
 		addTopicButton = new Button("+ Add Topic");
 		topicLayer = new HBox(addTopicButton, topicPaneContainer);
 		
-		//portionLayer
+		//portion layer
 		portionLayer = new HBox(TopicPortionBar.get());
 		primaryZLayer = new VBox(topLayer, nameLayer, topicLayer, portionLayer);
 		initPrimaryZLayer();
 		
 		getChildren().add(primaryZLayer);
+		getStyleClass().add(EDITOR_PANE_CSS);
 	}
 	
 	private void initPrimaryZLayer() {
@@ -112,7 +117,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	private void initNameLayer() {
 		initNameRow();
 		nameError.setVisible(false);
-		nameLayer.setAlignment(Pos.CENTER);
+		nameLayer.getStyleClass().add(NAME_LAYER_CSS);
 	}
 	
 	private void initNameRow() {
@@ -124,6 +129,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	private void initPortionLayer() {
 		portionLayer.setPrefHeight(PORTION_BAR_HEIGHT);
 		HBox.setHgrow(TopicPortionBar.get(), Priority.ALWAYS);
+		portionLayer.getStyleClass().add(PORTION_LAYER_CSS);
 	}
 	
 	public void edit(ProblemSet set) {

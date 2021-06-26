@@ -8,7 +8,6 @@ import java.util.*;
 import fxutils.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import topics.*;
 
 /**
@@ -50,7 +49,6 @@ public class TopicPortionBar extends GridPane {
 	}
 	
 	private TopicPortionBar() {
-		setBorder(Borders.of(Color.RED));
 		RowConstraints r = new RowConstraints();
 		r.setPercentHeight(100);
 		getRowConstraints().add(r);
