@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
  */
 public final class TopicUtils {
 
-	private static final long COLOR_GENERATOR_SEED = 0xFAB399AF339C72CDL;
+	private static final long COLOR_GENERATOR_SEED = 0xFAB399AF339C72CDL; //random number
 
 	private TopicUtils() {
 		

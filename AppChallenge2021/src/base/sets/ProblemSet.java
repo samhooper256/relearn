@@ -58,7 +58,7 @@ public final class ProblemSet implements Serializable {
 		}
 	}
 	
-	public static ReadOnlyAudibleSet<ProblemSet> all() {
+	public static ReadOnlyAudibleCollection<ProblemSet> all() {
 		return SETS;
 	}	
 	
