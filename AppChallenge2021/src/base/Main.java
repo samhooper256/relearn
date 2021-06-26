@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.*;
+import utils.Assertions;
 
 public class Main extends Application {
 	
@@ -37,6 +38,7 @@ public class Main extends Application {
 	private static Screen primaryScreen;
 	
 	public static void main(String[] args) {
+		Assertions.require();
 		preLaunchInit();
 		Data.debugPrint();
 		Application.launch(args);

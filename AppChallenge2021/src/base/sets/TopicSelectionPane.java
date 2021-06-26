@@ -20,7 +20,7 @@ import topics.*;
  */
 public class TopicSelectionPane extends FadePopup {
 	
-	private static class TopicSelector extends HBox {
+	private static final class TopicSelector extends HBox {
 		
 		private final TopicFactory<?> factory;
 		private final Label label;
@@ -47,12 +47,18 @@ public class TopicSelectionPane extends FadePopup {
 		
 	}
 	
+	private static final TopicSelectionPane INSTANCE = new TopicSelectionPane();
+	
+	public static final TopicSelectionPane get() {
+		return INSTANCE;
+	}
+	
 	private final VBox outerVBox, selectorBox;
 	private final Button addSelectedButton;
 	private final HBox buttonBar;
 	private final List<TopicSelector> selectors;
 	
-	public TopicSelectionPane() {
+	private TopicSelectionPane() {
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setBackground(Backgrounds.of(Color.LIGHTBLUE));
 		selectorBox = new VBox();

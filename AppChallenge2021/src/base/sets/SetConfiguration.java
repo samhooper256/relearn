@@ -27,6 +27,7 @@ public final class SetConfiguration implements Serializable {
 			addTopic(t);
 	}
 	
+	/** The returned {@link Set} is unmodifiable. */
 	public Set<Topic> topics() {
 		return Collections.unmodifiableSet(topics);
 	}

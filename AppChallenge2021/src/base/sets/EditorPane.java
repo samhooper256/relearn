@@ -6,7 +6,9 @@ package base.sets;
 import java.util.*;
 
 import base.*;
+import javafx.collections.ObservableList;
 import javafx.geometry.*;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -16,31 +18,23 @@ import topics.*;
  * @author Sam Hooper
  *
  */
-public class EditorPane extends StackPane {
+public class EditorPane extends StackPane implements Verifiable {
 	
 	private static final String TITLE = "Set Editor";
+	private static final EditorPane INSTANCE = new EditorPane();
 	
-	private static EditorPane INSTANCE = null;
 	private ProblemSet set;
 	private String nameOnOpening;
-	private final VBox primaryLayer, topicPaneContainer;
-	private final HBox topLayer, nameLayer, topicLayer;
+	private final VBox primaryLayer, topicPaneContainer, nameLayer;
+	private final HBox topLayer, nameRow, topicLayer;
 	private final BackArrow backArrow;
 	private final Button addTopicButton;
-	private final TextField nameField;
+	private final NameInputField nameField;
 	private final Label nameLabel;
-	private final TopicSelectionPane tsp;
+	private final ErrorMessage noTopicError, nameError;
 	
 	public static EditorPane get() {
-		//double-checked locking pattern
-		if(INSTANCE == null){
-	        synchronized (EditorPane.class) {
-	            if(INSTANCE == null){
-	            	INSTANCE = new EditorPane();
-	            }
-	        }
-	    }
-	    return INSTANCE;
+		return INSTANCE;
 	}
 	
 	private EditorPane() {
@@ -56,18 +50,19 @@ public class EditorPane extends StackPane {
 		
 		//name layer:
 		nameLabel = new Label("Name:");
-		nameField = new TextField();
-		nameLayer = new HBox(nameLabel, nameField);
+		nameField = new NameInputField();
+		nameRow = new HBox(nameLabel, nameField);
+		nameError = new ErrorMessage("");
+		nameLayer = new VBox(nameRow, nameError);
 		initNameLayer();
 		
 		//topic layer
+		noTopicError = new ErrorMessage("No topics selected.");
 		addTopicButton = new Button("+ Add Topic");
 		topicLayer = new HBox(addTopicButton, topicPaneContainer);
 		initTopicLayer();
 		
 		primaryLayer = new VBox(topLayer, nameLayer, topicLayer);
-		
-		tsp = new TopicSelectionPane();
 		
 		getChildren().add(primaryLayer);
 	}
@@ -77,10 +72,13 @@ public class EditorPane extends StackPane {
 	}
 
 	private void backArrowAction() {
-		set.setName(nameField.getText().strip());
-		if(!set.isRegistered())
-			set.register();
-		Main.scene().showSets();
+		if(verify().isSuccess()) {
+			set.setName(nameField.getText().strip());
+			if(!set.isRegistered())
+				set.register();
+			Main.scene().showSets();
+			hideNameError();
+		}
 	}
 	
 	private void initTopicLayer() {
@@ -95,16 +93,24 @@ public class EditorPane extends StackPane {
 	}
 	
 	private void addTopicAction() {
+		hideNoTopicsErrorMessage();
 		showTopicSelectionPane();
 	}
 	
 	private void showTopicSelectionPane() {
-		tsp.fadeOnto(this);
+		TopicSelectionPane.get().fadeOnto(this);
 	}
 	
 	private void initNameLayer() {
-		nameLayer.setSpacing(20);
+		initNameRow();
+		nameError.setVisible(false);
 		nameLayer.setAlignment(Pos.CENTER);
+	}
+	
+	private void initNameRow() {
+		nameRow.setSpacing(20);
+		nameRow.setAlignment(Pos.CENTER);
+		nameField.setOnChange(this::hideNameError);
 	}
 	
 	public void edit(ProblemSet set) {
@@ -135,7 +141,45 @@ public class EditorPane extends StackPane {
 	}
 	
 	public void hideTopicSelectionPane() {
-		tsp.fadeOutFrom(this);
+		TopicSelectionPane.get().fadeOutFrom(this);
+	}
+	
+	@Override
+	public VerificationResult verify() {
+		boolean hasTopic = set.config().topics().size() > 0;
+		if(!hasTopic)
+			notifyNoTopic();
+		VerificationResult nameResult = nameField.verify();
+		if(nameResult.isFailure())
+			showNameError(nameResult.errorMessage());
+		return VerificationResult.of(hasTopic && nameResult.isSuccess());
+	}
+	
+	private void notifyNoTopic() {
+		showNoTopicsErrorMessage();
+	}
+	
+	private void showNoTopicsErrorMessage() {
+		assert topicPaneContainer.getChildren().isEmpty();
+		topicPaneContainer.getChildren().add(noTopicError);
+	}
+	
+	/** Hides {@link #noTopicError} iff it is present; otherwise, does nothing.*/
+	private void hideNoTopicsErrorMessage() {
+		ObservableList<Node> children = topicPaneContainer.getChildren();
+		if(children.contains(noTopicError)) {
+			assert children.size() == 1;
+			children.clear();
+		}
+	}
+	
+	private void showNameError(String message) {
+		nameError.setText(message);
+		nameError.setVisible(true);
+	}
+	
+	private void hideNameError() {
+		nameError.setVisible(false);
 	}
 	
 }
