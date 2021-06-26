@@ -58,7 +58,7 @@ public class SetsPane extends StackPane {
 		scroll = new ScrollPane(flow);
 		rootLayer = new VBox(backArrowBox, header, scroll);
 		initVBox();
-		ProblemSet.addOnRegisterAction(ps -> addCardForSafe(ps)); //TODO better?
+		ProblemSet.all().addAddListener(ps -> addCardForSafe(ps));
 		getStyleClass().add(SETS_PANE_CSS);
 		getChildren().add(rootLayer);
 	}
@@ -100,7 +100,7 @@ public class SetsPane extends StackPane {
 	private void initFlow() {
 		flow.getStyleClass().add(FLOW_CSS);
 		VBox.setVgrow(scroll, Priority.ALWAYS);
-		for(ProblemSet set : ProblemSet.allSets())
+		for(ProblemSet set : ProblemSet.all())
 			addCardForSafe(set);
 		flow.prefWrapLengthProperty().bind(rootLayer.widthProperty()
 				.subtract(FLOW_PADDING * 2));

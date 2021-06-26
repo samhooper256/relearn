@@ -11,9 +11,8 @@ import java.util.function.Consumer;
 
 import base.Main;
 import javafx.beans.property.*;
-import javafx.beans.value.ObservableValue;
 import topics.*;
-import utils.IO;
+import utils.*;
 
 /**
  * <p>{@code ProblemSet} {@link #equals(Object) equality} is based solely on each set's unique {@link #id() identifier},
@@ -26,7 +25,7 @@ import utils.IO;
 public final class ProblemSet implements Serializable {
 	//TODO make transitive ReadOnlyStringProperty
 	private static final long serialVersionUID = 415601596062566192L;
-	private static final Set<ProblemSet> SETS = new HashSet<>();
+	private static final AudibleSet<ProblemSet> SETS = new AudibleSet<>(HashSet::new);
 	private static final Set<String> NAMES = new HashSet<>();
 	private static int NEXT_ID = readUID();
 	
@@ -51,15 +50,9 @@ public final class ProblemSet implements Serializable {
 		SETS.forEach(s -> NAMES.add(s.name()));
 	}
 	
-	public static Set<ProblemSet> allSets() {
-		return Collections.unmodifiableSet(SETS);
-	}
-	
-	public static void addOnRegisterAction(Consumer<ProblemSet> action) {
-		if(onRegisterActions == null)
-			onRegisterActions = new ArrayList<>();
-		onRegisterActions.add(action);
-	}
+	public static ReadOnlyAudibleSet<ProblemSet> all() {
+		return SETS;
+	}	
 	
 	private static void runOnRegisterActions(ProblemSet set) {
 		if(onRegisterActions == null)
@@ -158,7 +151,7 @@ public final class ProblemSet implements Serializable {
 	}
 	
 	/** Registers this {@link ProblemSet} so that it becomes {@link #isRegistered() registered} and will be in the
-	 * {@link Set} returned by {@link #allSets()}.
+	 * {@link Set} returned by {@link #all()}.
 	 * @throws IllegalStateException if this {@link ProblemSet} is already {@link #isRegistered() registered}.*/
 	public void register() {
 		if(isRegistered())

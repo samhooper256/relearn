@@ -19,7 +19,7 @@ public final class SetsTabPane extends StatsTabPane {
 	}
 	
 	private SetsTabPane() {
-		for(ProblemSet set : ProblemSet.allSets())
+		for(ProblemSet set : ProblemSet.all())
 			getTabs().add(createTab(set));
 	}
 	
