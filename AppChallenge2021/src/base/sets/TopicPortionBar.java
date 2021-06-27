@@ -5,9 +5,11 @@ package base.sets;
 
 import java.util.*;
 
+import base.Named;
 import fxutils.*;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import topics.*;
 
 /**
@@ -16,7 +18,7 @@ import topics.*;
  */
 public class TopicPortionBar extends GridPane {
 	
-	private static final class Segment extends StackPane {
+	private static final class Segment extends StackPane implements Named {
 		
 		public static final Map<String, Segment> CACHE = new HashMap<>();
 		
@@ -29,11 +31,23 @@ public class TopicPortionBar extends GridPane {
 		}
 		
 		private final String topicName;
+		private final Tooltip tooltip;
+		private final Label label;
 		
 		private Segment(String topicName) {
 			this.topicName = topicName;
+			tooltip = new Tooltip(topicName);
+			tooltip.setShowDelay(Duration.ZERO);
+			label = new Label(topicName);
+			label.visibleProperty().bind(this.widthProperty().greaterThan(label.widthProperty()));
+			Tooltip.install(this, tooltip);
 			this.setBackground(Backgrounds.of(TopicUtils.colorOf(topicName)));
-			getChildren().add(new Label(topicName));
+			getChildren().add(label);
+		}
+
+		@Override
+		public String name() {
+			return topicName;
 		}
 		
 	}
