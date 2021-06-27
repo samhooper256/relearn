@@ -24,7 +24,9 @@ public final class PracticePane extends StackPane {
 	private static final double FIELD_WIDTH = 400;
 	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
 	private static final PracticePane INSTANCE = new PracticePane();
-	private static final String PROBLEM_DISPLAY_CSS = "problem-display";
+	private static final String
+			PRACTICE_PANE_CSS = "practice-pane",
+			PROBLEM_DISPLAY_CSS = "problem-display";
 	
 	public static PracticePane get() {
 		return INSTANCE;
@@ -33,7 +35,7 @@ public final class PracticePane extends StackPane {
 	private final VBox userArea;
 	private final TextField field;
 	private final Label problemDisplay, title;
-	private final HBox header, buttonBar;
+	private final HBox header, buttonBar, backArrowBox;
 	private final BackArrow backArrow;
 	private final Button submitButton, showAnswerButton;
 	private final List<Problem> correctProblems, incorrectProblems;
@@ -47,8 +49,10 @@ public final class PracticePane extends StackPane {
 	
 	private PracticePane() {
 		backArrow = new BackArrow();
+		backArrowBox = new HBox(backArrow);
+		
 		title = new Label(TITLE);
-		header = new HBox(backArrow, title);
+		header = new HBox(title);
 		initHeader();
 		
 		problemDisplay = new Label();
@@ -59,7 +63,7 @@ public final class PracticePane extends StackPane {
 		userArea = new VBox(problemDisplay, field, buttonBar);
 		initUserArea();
 		
-		getChildren().addAll(header, userArea);
+		getChildren().addAll(backArrowBox, header, userArea);
 		StackPane.setAlignment(userArea, Pos.CENTER);
 		
 		correctProblems = new ArrayList<>();
@@ -73,6 +77,7 @@ public final class PracticePane extends StackPane {
 	
 	private void initHeader() {
 		backArrow.setOnAction(this::backArrowAction);
+		header.setAlignment(Pos.CENTER);
 	}
 	
 	private void backArrowAction() {
