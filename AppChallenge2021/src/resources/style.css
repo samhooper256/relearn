@@ -1,6 +1,7 @@
 .root {
 	-app-white: #F1F1F1;
 	-app-base: #DCE3F1;
+	-app-light-accent: #CBE0F5;
 	-app-accent: #A7C7E7;
 	-app-light: #A1B2C3;
 	-app-dark: #29527B;
@@ -57,7 +58,7 @@
 	-fx-border-radius: 10px;
 	-fx-border-width: 4px;
 	-fx-font: 30 "Impact";
-	-fx-text-fill: #FFFFFF;
+	-fx-text-fill: -app-white;
 	-fx-font-weight: 600;
 }
 
@@ -127,7 +128,7 @@
 }
 
 .topic-pane > *.content {
-	-fx-background-color: transparent;
+	-fx-background-color: -app-light-accent;
 	-fx-border-width: 0;
 	-fx-background-insets: 0;
 	-fx-padding: 2 0 0 18;
