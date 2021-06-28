@@ -78,6 +78,7 @@ public final class TopicPane extends TitledPane {
 	}
 	
 	private void initTrashCan() {
+		trashCan.setVisible(false);
 		trashCan.setOnAction(this::trashCanAction);
 	}
 	
@@ -89,6 +90,13 @@ public final class TopicPane extends TitledPane {
 		for(TopicSetting setting : topic.settings())
 			vBox.getChildren().add(TopicSetting.settingNodeFor(setting));
 		content.getChildren().add(vBox);
+	}
+	
+	public void setTrashCanVisible(boolean visible) {
+		if(visible)
+			showTrashCan();
+		else
+			hideTrashCan();
 	}
 	
 	public void showTrashCan() {

@@ -4,6 +4,7 @@
 package base.sets;
 
 import base.*;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 /**
@@ -57,6 +58,20 @@ public class TopicPaneContainer extends VBox implements Verifiable {
 	public void removeTopicPane(TopicPane tp) {
 		boolean removed = getChildren().remove(tp);
 		assert removed;
+	}
+	
+	public void showTrashCans() {
+		setTrashCanVisibilities(true);
+	}
+	
+	public void hideTrashCans() {
+		setTrashCanVisibilities(false);
+	}
+	
+	private void setTrashCanVisibilities(boolean visible) {
+		for(Node n : getChildren())
+			if(n instanceof TopicPane p)
+				p.setTrashCanVisible(visible);
 	}
 	
 }

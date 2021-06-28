@@ -18,7 +18,15 @@ import topics.*;
  */
 public class EditorPane extends StackPane implements Verifiable {
 	
-	private static final String TITLE = "Set Editor";
+	public enum Mode {
+		NORMAL, REMOVAL;
+	}
+	
+	private static final String
+			TITLE = "Set Editor",
+			ADD_TEXT = "+ Add Topic",
+			NORMAL_MODE_REMOVE_TEXT = "- Remove",
+			REMOVAL_MODE_REMOVE_TEXT = "Done";
 	private static final String 
 			EDITOR_PANE_CSS = "editor-pane",
 			NAME_LAYER_CSS = "name-layer",
@@ -41,9 +49,11 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	private ProblemSet set;
 	private String nameOnOpening;
+	private Mode mode;
 	
 	private EditorPane() {
 		set = null;
+		mode = Mode.NORMAL;
 		
 		//top layer:
 		backArrow = new BackArrow();
@@ -60,8 +70,8 @@ public class EditorPane extends StackPane implements Verifiable {
 		nameLayer = new VBox(nameRow, nameError);
 		
 		//topic layer
-		addTopicButton = new Button("+ Add Topic");
-		removeTopicButton = new Button("- Remove Topic");
+		addTopicButton = new Button(ADD_TEXT);
+		removeTopicButton = new Button(NORMAL_MODE_REMOVE_TEXT);
 		topicManagementBox = new VBox(addTopicButton, removeTopicButton);
 		topicLayer = new HBox(topicManagementBox, topicPaneContainer);
 		
@@ -122,7 +132,11 @@ public class EditorPane extends StackPane implements Verifiable {
 	}
 	
 	private void removeTopicAction() {
-		
+		switch(mode()) {
+			case NORMAL -> setToRemovalMode();
+			case REMOVAL -> setToNormalMode();
+			default -> unsupported(mode);
+		}
 	}
 	
 	private void initNameLayer() {
@@ -210,6 +224,38 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	public ProblemSet currentSet() {
 		return set;
+	}
+	
+	public Mode mode() {
+		return mode;
+	}
+	
+	public void setMode(Mode newMode) {
+		switch(newMode) {
+			case REMOVAL -> setToRemovalMode();
+			case NORMAL -> setToNormalMode();
+			default -> unsupported(newMode);
+		}
+	}
+
+	private void unsupported(Mode newMode) {
+		throw new UnsupportedOperationException(String.format("Unsupported mode: %s", newMode));
+	}
+	
+	private void setToRemovalMode() {
+		if(mode() == Mode.REMOVAL)
+			return;
+		mode = Mode.REMOVAL;
+		topicPaneContainer.showTrashCans();
+		removeTopicButton.setText(REMOVAL_MODE_REMOVE_TEXT);
+	}
+	
+	private void setToNormalMode() {
+		if(mode() == Mode.NORMAL)
+			return;
+		mode = Mode.NORMAL;
+		topicPaneContainer.hideTrashCans();
+		removeTopicButton.setText(NORMAL_MODE_REMOVE_TEXT);
 	}
 	
 }
