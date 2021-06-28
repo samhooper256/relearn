@@ -69,7 +69,7 @@ public class Growth extends Group {
 	}
 	
 	private Color randomColor(double x, double y) {
-		return new Color(RNG.high(), RNG.low(), RNG.low(), opacity(x, y));
+		return new Color(RNG.low(), RNG.low(), RNG.high(), opacity(x, y));
 	}
 
 
