@@ -11,16 +11,17 @@ import javafx.scene.control.*;
 import utils.*;
 
 /**
- * <p>A {@link TextField} that only allows numbers to be typed.</p>
+ * <p>A {@link TextField} that only allows non-negative integers to be typed.</p>
  * @author Sam Hooper
  *
  */
 public class IntField extends TextField {
 	
 	private final SimpleIntegerProperty valueProperty;
+	private final int maxDigits;
 	
-	public IntField(int width) {
-		setPrefWidth(width);
+	public IntField(int maxDigits) {
+		this.maxDigits = maxDigits;
 		setAlignment(Pos.CENTER);
 		initFormatter();
 		valueProperty = new SimpleIntegerProperty();
@@ -29,21 +30,10 @@ public class IntField extends TextField {
 
 	private void initFormatter() {
 		UnaryOperator<TextFormatter.Change> op = change -> {
-			int start = change.getRangeStart(), end = change.getRangeEnd();
-			boolean rangeIsEmpty = start == end;
-			String newText = change.getText();
-			if(!newText.isEmpty()) {
-				if(rangeIsEmpty) { //we added some text
-					change.setText(Strings.removeNonDigits(newText));
-				}
-				else { //we replaced some text
-					String oldText = IntField.this.getText(start, end);
-					if(Strings.containsNonDigit(newText))
-						change.setText(oldText);
-					else
-						change.setText(newText);
-				}
-			}
+			String after = Text.applyChange(getText(), change);
+			String afterDigits = Strings.removeNonDigits(after);
+			change.setRange(0, getText().length());
+			change.setText(afterDigits.substring(0, Math.min(afterDigits.length(), maxDigits)));
 			return change;
 		};
 		this.setTextFormatter(new TextFormatter<>(op));

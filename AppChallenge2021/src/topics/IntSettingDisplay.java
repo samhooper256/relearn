@@ -37,6 +37,7 @@ class IntSettingDisplay extends HBox {
 		slider.valueProperty().addListener(ov -> {
 			setting.set(Math.toIntExact(Math.round(slider.getValue())));
 		});
+		slider.getStyleClass().add(TopicSetting.SETTING_SLIDER_CSS);
 	}
 	
 }

@@ -14,6 +14,8 @@ import javafx.scene.Node;
  */
 public interface TopicSetting extends Named, Serializable {
 	
+	String SETTING_SLIDER_CSS = "setting-slider";
+	
 	static Node settingNodeFor(TopicSetting setting) {
 		if(setting instanceof IntSetting is)
 			return new IntSettingDisplay(is);

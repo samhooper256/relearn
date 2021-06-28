@@ -30,7 +30,8 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	private ProblemSet set;
 	private String nameOnOpening;
-	private final VBox primaryZLayer, topicPaneContainer, nameLayer;
+	private final VBox primaryZLayer, nameLayer;
+	private final TopicPaneContainer topicPaneContainer;
 	private final HBox topLayer, nameRow, topicLayer, portionLayer;
 	private final BackArrow backArrow;
 	private final Button addTopicButton;
@@ -46,7 +47,7 @@ public class EditorPane extends StackPane implements Verifiable {
 		
 		//top layer:
 		backArrow = new BackArrow();
-		topicPaneContainer = new VBox();
+		topicPaneContainer = new TopicPaneContainer();
 		Label headerLabel = new Label(TITLE);
 		headerLabel.setFont(Font.font(24));
 		topLayer = new HBox(backArrow, headerLabel);

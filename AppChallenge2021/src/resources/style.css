@@ -1,5 +1,6 @@
 .root {
-	-fx-background-color: #A7C7E7;
+	-app-base: #DCE3F1;
+	-fx-background-color: -app-base;
 }
 
 .header {
@@ -107,4 +108,51 @@
 
 .editor-pane .portion-layer {
 	-fx-padding: 20px 40px 40px 40px;
+}
+
+.topic-pane {
+	-fx-background-color: transparent;
+	-fx-text-fill: black;
+}
+
+.topic-pane > .title {
+	-fx-background-color: #A7C7E7;
+	-fx-background-insets: 0;
+	-fx-background-radius: 5 5 5 5;
+	-fx-padding: 5 10 5 10;
+}
+
+.topic-pane .text {
+	-fx-text-fill: orange;
+}
+
+.topic-pane > *.content {
+	-fx-background-color: transparent;
+	-fx-border-width: 0;
+	-fx-background-insets: 0;
+	-fx-padding: 2 0 0 18;
+ }
+
+.topic-pane .graphic {
+	-fx-padding: 0 10 0 10;	
+}
+
+.setting-slider .thumb {
+    -fx-background-color: #29527B;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1.0em; /* makes sure this remains circular */
+}
+
+.setting-slider .track {
+	-fx-background-color: #A7C7E7;
+    -fx-background-insets: 0 0;
+}
+
+.topic-pane-container {
+	-fx-spacing: 10;
+}
+
+.topic-count-field {
+	-fx-background-color: -app-base;
+	-fx-padding: 0;
 }
