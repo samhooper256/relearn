@@ -24,9 +24,7 @@ public final class PracticePane extends StackPane {
 	private static final double FIELD_WIDTH = 400;
 	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
 	private static final PracticePane INSTANCE = new PracticePane();
-	private static final String
-			PRACTICE_PANE_CSS = "practice-pane",
-			PROBLEM_DISPLAY_CSS = "problem-display";
+	private static final String PROBLEM_DISPLAY_CSS = "problem-display";
 	
 	public static PracticePane get() {
 		return INSTANCE;

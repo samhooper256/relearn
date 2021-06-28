@@ -1,24 +1,19 @@
 package base;
 
-import javafx.scene.image.ImageView;
+import base.sets.ImageButton;
 
 /**
  * @author Sam Hooper
  *
  */
-public class BackArrow extends ImageView {
+public class BackArrow extends ImageButton {
 	
 	public BackArrow() {
-		setImage(Main.backArrowImage());
+		super(Main.backArrowImage());
 	}
 	
 	public BackArrow(Runnable action) {
-		setImage(Main.backArrowImage());
-		setOnAction(action);
-	}
-	
-	public void setOnAction(Runnable r) {
-		setOnMouseClicked(e -> r.run());
+		super(Main.backArrowImage(), action);
 	}
 	
 }

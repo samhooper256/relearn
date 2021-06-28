@@ -32,7 +32,12 @@ public final class SetConfiguration implements Serializable {
 		return Collections.unmodifiableSet(topics);
 	}
 	
-	public boolean removeTopic(Topic topic) {
+	public void removeTopic(Topic topic) {
+		if(!removeTopicIfPresent(topic))
+			throw new IllegalArgumentException(String.format("%s is not in this SetConfiguration", topic));
+	}
+	
+	public boolean removeTopicIfPresent(Topic topic) {
 		return topics.remove(topic);
 	}
 	

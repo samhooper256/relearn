@@ -5,8 +5,9 @@ package base.sets;
 
 import java.util.IdentityHashMap;
 
+import base.TrashCan;
 import fxutils.IntField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import topics.*;
 
@@ -26,8 +27,11 @@ public final class TopicPane extends TitledPane {
 	
 	private final Topic topic;
 	private final IntField field;
-	private final StackPane content, graphic;
+	private final StackPane content;
+	private final HBox graphic;
 	private final VBox vBox;
+	private final Label topicTitle;
+	private final TrashCan trashCan;
 	
 	public static TopicPane of(Topic topic) {
 		TopicPane cached = CACHE.get(topic);
@@ -41,7 +45,9 @@ public final class TopicPane extends TitledPane {
 	private TopicPane(Topic topic) {
 		this.topic = topic;
 		field = new IntField(FIELD_MAX_DIGITS);
-		graphic = new StackPane(field);
+		topicTitle = new Label(topic.name());
+		trashCan = new TrashCan();
+		graphic = new HBox(field, topicTitle, trashCan);
 		initGraphic();
 		
 		content = new StackPane();
@@ -49,15 +55,18 @@ public final class TopicPane extends TitledPane {
 		initContent();
 		
 		setContent(content);
-		setText(topic.name());
+		setText("");
 		setGraphic(graphic);
 		getStyleClass().add(TOPIC_PANE_CSS);
 	}
 	
 	private void initGraphic() {
 		initField();
+		initTrashCan();
+		HBox.setHgrow(topicTitle, Priority.ALWAYS);
 		graphic.getStyleClass().add(GRAPHIC_CSS);
 	}
+	
 	private void initField() {
 		field.setText(String.valueOf(topic.count()));
 		topic.countProperty().bind(field.valueProperty());
@@ -67,11 +76,27 @@ public final class TopicPane extends TitledPane {
 		field.setPrefWidth(FIELD_WIDTH);
 		field.getStyleClass().add(FIELD_CSS);
 	}
-
+	
+	private void initTrashCan() {
+		trashCan.setOnAction(this::trashCanAction);
+	}
+	
+	private void trashCanAction() {
+		EditorPane.get().removeTopic(topic);
+	}
+	
 	private void initContent() {
 		for(TopicSetting setting : topic.settings())
 			vBox.getChildren().add(TopicSetting.settingNodeFor(setting));
 		content.getChildren().add(vBox);
+	}
+	
+	public void showTrashCan() {
+		trashCan.setVisible(true);
+	}
+	
+	public void hideTrashCan() {
+		trashCan.setVisible(false);
 	}
 	
 }

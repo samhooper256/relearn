@@ -4,7 +4,6 @@
 package base.graphics;
 
 import javafx.animation.*;
-import javafx.animation.Animation.Status;
 import javafx.scene.image.*;
 import javafx.util.Duration;
 

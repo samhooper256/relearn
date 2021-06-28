@@ -15,18 +15,22 @@ import utils.Assertions;
 public class Main extends Application {
 	
 	public static final String TITLE = "ReLearn";
-	public static final double BACK_ARROW_SIZE = 40, MAIN_MENU_BUTTON_WIDTH = 320, MAIN_MENU_BUTTON_HEIGHT = 180;
-	public static final double MIN_WIDTH = 600, MIN_HEIGHT = 400;
-	public static final File USER_FOLDER =
-			new File(System.getProperty("user.dir"), String.format("%s Data", TITLE));
-	public static final File SETS_FOLDER = new File(USER_FOLDER, "Sets");
-	public static final File SETS_FILE = new File(SETS_FOLDER, "sets.dat");
-	public static final File STATS_FOLDER = new File(USER_FOLDER, "Stats");
-	public static final File STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
+	public static final double
+			MAIN_MENU_BUTTON_WIDTH = 320, MAIN_MENU_BUTTON_HEIGHT = 180,
+			MIN_WIDTH = 600, MIN_HEIGHT = 400,
+			BACK_ARROW_SIZE = 40,
+			TRASH_CAN_SIZE = 20;
+	public static final File 
+			USER_FOLDER = new File(System.getProperty("user.dir"), String.format("%s Data", TITLE)),
+			SETS_FOLDER = new File(USER_FOLDER, "Sets"),
+			SETS_FILE = new File(SETS_FOLDER, "sets.dat"),
+			STATS_FOLDER = new File(USER_FOLDER, "Stats"),
+			STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
-	private static final Image BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true);
 	private static final Image 
+			BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
+			TRASH_CAN_IMAGE = Images.get("trash.png", TRASH_CAN_SIZE, TRASH_CAN_SIZE, false, true),
 			SETS_BUTTON_IMAGE =
 					Images.get("setsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
 			STATS_BUTTON_IMAGE =
@@ -104,6 +108,10 @@ public class Main extends Application {
 	
 	public static Image backArrowImage() {
 		return BACK_ARROW_IMAGE;
+	}
+	
+	public static Image trashCanImage() {
+		return TRASH_CAN_IMAGE;
 	}
 	
 	public static Image setsButtonImage() {

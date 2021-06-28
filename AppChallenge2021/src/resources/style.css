@@ -135,7 +135,8 @@
  }
 
 .topic-pane .graphic {
-	-fx-padding: 0 10 0 10;	
+	-fx-padding: 0 10 0 10;
+	-fx-spacing: 10;
 }
 
 .setting-slider .thumb {

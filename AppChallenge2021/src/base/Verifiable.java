@@ -20,12 +20,16 @@ public interface Verifiable {
 			return SUCCESS;
 		}
 
-		public static final VerificationResult failure(String message) {
+		public static VerificationResult failure(String message) {
 			return new VerificationResult(message);
 		}
 		
-		public static final VerificationResult of(boolean result) {
-			return result ? success() : failure("");
+		public static VerificationResult failure() {
+			return new VerificationResult("");
+		}
+		
+		public static VerificationResult of(boolean result) {
+			return result ? success() : failure();
 		}
 		
 		private final String errorMessage;
