@@ -16,7 +16,8 @@ public class Main extends Application {
 	
 	public static final String TITLE = "ReLearn";
 	public static final double
-			MAIN_MENU_BUTTON_WIDTH = 320, MAIN_MENU_BUTTON_HEIGHT = 180,
+			MAIN_MENU_BUTTON_WIDTH = 500, MAIN_MENU_BUTTON_HEIGHT = 100,
+			MAIN_MENU_ICON_SIZE = 80,
 			MIN_WIDTH = 600, MIN_HEIGHT = 400,
 			BACK_ARROW_SIZE = 40,
 			TRASH_CAN_SIZE = 20;
@@ -31,12 +32,9 @@ public class Main extends Application {
 	private static final Image 
 			BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
 			TRASH_CAN_IMAGE = Images.get("trash.png", TRASH_CAN_SIZE, TRASH_CAN_SIZE, false, true),
-			SETS_BUTTON_IMAGE =
-					Images.get("setsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
-			STATS_BUTTON_IMAGE =
-					Images.get("statsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
-			SETTINGS_BUTTON_IMAGE =
-					Images.get("settingsbutton.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true);
+			BANNER = Images.get("banner.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
+			SETTINGS_ICON = 
+					Images.get("settingsicon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true);
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
@@ -114,16 +112,20 @@ public class Main extends Application {
 		return TRASH_CAN_IMAGE;
 	}
 	
-	public static Image setsButtonImage() {
-		return SETS_BUTTON_IMAGE;
+	public static Image bannerImage() {
+		return BANNER;
 	}
 	
-	public static Image statsButtonImage() {
-		return STATS_BUTTON_IMAGE;
+	public static Image setsIcon() {
+		return settingsIcon();
 	}
 	
-	public static Image settingsButtonImage() {
-		return SETTINGS_BUTTON_IMAGE;
+	public static Image statsIcon() {
+		return settingsIcon();
+	}
+
+	public static Image settingsIcon() {
+		return SETTINGS_ICON;
 	}
 	
 	/**

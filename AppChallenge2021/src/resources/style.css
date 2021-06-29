@@ -158,3 +158,12 @@
 	-fx-background-color: -app-base;
 	-fx-padding: 0;
 }
+
+.main-menu-button .overlay {
+	-fx-alignment: center-left;
+	-fx-spacing: 20;
+}
+
+.main-menu-button .overlay .title {
+	-fx-font: 32 "Georgia";
+}

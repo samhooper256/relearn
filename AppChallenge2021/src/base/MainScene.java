@@ -16,6 +16,7 @@ import javafx.scene.layout.*;
  */
 public final class MainScene extends Scene {
 	
+	private static final double BUTTON_SPACING = 80;
 	private static final MainScene INSTANCE = new MainScene(new StackPane(), Main.MIN_WIDTH, Main.MIN_HEIGHT);
 	
 	public static MainScene get() {
@@ -23,9 +24,9 @@ public final class MainScene extends Scene {
 	}
 	
 	private final StackPane mainMenu;
-	private final MainMenuButton setsButton, statsButton, settingsButton;
 	private final TitleBox title;
 	private final Growth growth;
+	private final VBox vBox;
 	
 	private MainScene(StackPane root, double width, double height) {
 		super(root, width, height);
@@ -36,23 +37,26 @@ public final class MainScene extends Scene {
 		growth.layoutXProperty().bind(mainMenu.widthProperty());
 		
 		title = new TitleBox(Main.TITLE);
-		setsButton = new MainMenuButton(Main.setsButtonImage());
-		statsButton = new MainMenuButton(Main.statsButtonImage());
-		settingsButton = new MainMenuButton(Main.settingsButtonImage());
-		initButtons();
 		
-		VBox vBox = new VBox(5, title, setsButton, statsButton, settingsButton);
-		vBox.setPickOnBounds(false);
-		vBox.setAlignment(Pos.CENTER_LEFT);
+		vBox = new VBox(5, title, MainMenuButton.SETS, MainMenuButton.STATS, MainMenuButton.SETTINGS);
+		initVBox();
 		
 		mainMenu.getChildren().addAll(growthPane, vBox);
 		
 		getStylesheets().add(Main.class.getResource(Main.RESOURCES_PREFIX + "style.css").toExternalForm());
 	}
 	
+	private void initVBox() {
+		initButtons();
+		vBox.setPickOnBounds(false);
+		vBox.setAlignment(Pos.CENTER_LEFT);
+		vBox.setFillWidth(false);
+		vBox.setSpacing(BUTTON_SPACING);
+	}
+	
 	private void initButtons() {
-		setsButton.setOnAction(this::showSets);
-		statsButton.setOnAction(this::showStats);
+		MainMenuButton.SETS.setOnAction(this::showSets);
+		MainMenuButton.STATS.setOnAction(this::showStats);
 	}
 	
 	public StackPane mainMenu() {
