@@ -3,12 +3,12 @@
  */
 package base.sets;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 import base.Problem;
 import topics.Topic;
-import utils.RNG;
+import utils.*;
 
 /**
  * <p>A configuration of a {@link ProblemSet}.</p>
@@ -19,17 +19,17 @@ public final class SetConfiguration implements Serializable {
 	
 	private static final long serialVersionUID = -8580472330700911391L;
 	
-	private final Set<Topic> topics;
+	/** Should not be assigned to except in a constructor or in {@link #readObject(ObjectInputStream)}.*/
+	private transient AudibleSet<Topic> topics;
 	
 	public SetConfiguration(Topic... topics) {
-		this.topics = new LinkedHashSet<>();
+		this.topics = AudibleSet.create(LinkedHashSet::new);
 		for(Topic t : topics)
 			addTopic(t);
 	}
 	
-	/** The returned {@link Set} is unmodifiable. */
-	public Set<Topic> topics() {
-		return Collections.unmodifiableSet(topics);
+	public ReadOnlyAudibleSet<Topic> topics() {
+		return topics;
 	}
 	
 	public void removeTopic(Topic topic) {
@@ -61,6 +61,18 @@ public final class SetConfiguration implements Serializable {
 		}
 		Collections.shuffle(list, RNG.source());
 		return Deck.of(list);
+	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+	    oos.defaultWriteObject();
+	    oos.writeObject(new LinkedHashSet<>(topics));
+	}
+
+	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+	    ois.defaultReadObject();
+	    @SuppressWarnings("unchecked")
+		Set<Topic> topicSet = (Set<Topic>) ois.readObject();
+	    topics = AudibleSet.from(topicSet);
 	}
 	
 }

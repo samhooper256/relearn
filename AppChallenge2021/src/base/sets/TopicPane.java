@@ -79,6 +79,7 @@ public final class TopicPane extends TitledPane {
 	
 	private void initTrashCan() {
 		trashCan.setVisible(false);
+		trashCan.setPickOnBounds(true);
 		trashCan.setOnAction(this::trashCanAction);
 	}
 	

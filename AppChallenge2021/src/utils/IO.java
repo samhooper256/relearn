@@ -29,6 +29,7 @@ public final class IO {
 	public static <T> T readObject(File f)  throws IOException, ClassNotFoundException {
 		FileInputStream fileIn = new FileInputStream(f);
 		ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+		@SuppressWarnings("unchecked")
 		T obj = (T) objectIn.readObject();
 		objectIn.close();
 		return obj;

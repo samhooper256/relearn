@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base.sets;
+package base.graphics;
 
 import javafx.scene.image.*;
 

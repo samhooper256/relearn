@@ -68,14 +68,11 @@ abstract class AbstractTopic implements Topic {
 	}
 	
 	private void writeObject(ObjectOutputStream oos) throws IOException {
-	    // default serialization 
 	    oos.defaultWriteObject();
-	    // write the object
 	    oos.writeObject(Integer.valueOf(count()));
 	}
 
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-	    // default deserialization
 	    ois.defaultReadObject();
 	    Integer count = (Integer) ois.readObject();
 	    countProperty = new SimpleIntegerProperty(count);

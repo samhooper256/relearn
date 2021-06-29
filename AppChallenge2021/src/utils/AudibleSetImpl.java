@@ -19,6 +19,10 @@ class AudibleSetImpl<E> implements AudibleSet<E> {
 		set = factory.get();
 	}
 	
+	public AudibleSetImpl(Set<E> set) {
+		this.set = set;
+	}
+	
 	@Override
 	public int size() {
 		return set.size();

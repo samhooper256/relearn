@@ -3,7 +3,7 @@
  */
 package base;
 
-import base.sets.ImageButton;
+import base.graphics.ImageButton;
 
 /**
  * @author Sam Hooper

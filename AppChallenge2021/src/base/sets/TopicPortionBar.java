@@ -58,8 +58,11 @@ public class TopicPortionBar extends GridPane {
 		return INSTANCE;
 	}
 	
-	private static int total(Collection<Topic> topics) {
-		return topics.stream().mapToInt(Topic::count).sum();
+	private static int total(Iterable<Topic> topics) {
+		int total = 0;
+		for(Topic t : topics)
+			total += t.count();
+		return total;
 	}
 	
 	private TopicPortionBar() {
@@ -68,7 +71,7 @@ public class TopicPortionBar extends GridPane {
 		getRowConstraints().add(r);
 	}
 	
-	public void update(Collection<Topic> topics) {
+	public void update(Iterable<Topic> topics) {
 		getChildren().clear();
 		getColumnConstraints().clear();
 		double total = total(topics);

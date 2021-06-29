@@ -85,7 +85,7 @@ public final class ProblemSet implements Serializable {
 		this(name, new SetConfiguration());
 	}
 	
-	public ProblemSet(String name, SetConfiguration config) {
+	private ProblemSet(String name, SetConfiguration config) {
 		id = NEXT_ID++;
 		this.name = Objects.requireNonNull(name);
 		nameProperty = new SimpleStringProperty(name);
@@ -131,6 +131,10 @@ public final class ProblemSet implements Serializable {
 
 	public boolean isRegistered() {
 		return SETS.contains(this);
+	}
+	
+	public ReadOnlyAudibleSet<Topic> topics() {
+		return config().topics();
 	}
 	
 	/** Registers this {@link ProblemSet} so that it becomes {@link #isRegistered() registered} and will be in the

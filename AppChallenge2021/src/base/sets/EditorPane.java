@@ -6,6 +6,7 @@ package base.sets;
 import java.util.*;
 
 import base.*;
+import base.graphics.BackArrow;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -158,7 +159,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	}
 	
 	private void showTopicSelectionPane() {
-		TopicSelectionPane.get().fadeOnto(this);
+		TopicSelectionPopup.get().fadeOnto(this);
 	}
 	
 	public void edit(ProblemSet set) {
@@ -166,6 +167,8 @@ public class EditorPane extends StackPane implements Verifiable {
 		nameOnOpening = set.name();
 		nameField.setText(nameOnOpening);
 		topicPaneContainer.getChildren().clear();
+		TopicSelectionPopup.get().setProblemSet(set);
+		updatePortions();
 		for(Topic t : set.config().topics())
 			addTopicPaneFor(t);
 	}
@@ -198,10 +201,11 @@ public class EditorPane extends StackPane implements Verifiable {
 		assert currentSet().config().topics().contains(topic);
 		topicPaneContainer.removeTopicPane(tp);
 		currentSet().config().removeTopic(topic);
+		updatePortions();
 	}
 	
 	public void hideTopicSelectionPane() {
-		TopicSelectionPane.get().fadeOutFrom(this);
+		TopicSelectionPopup.get().fadeOutFrom(this);
 	}
 	
 	@Override

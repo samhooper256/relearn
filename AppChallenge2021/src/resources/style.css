@@ -12,6 +12,15 @@
 	
 }
 
+.main-menu-button .overlay {
+	-fx-alignment: center-left;
+	-fx-spacing: 20;
+}
+
+.main-menu-button .overlay .title {
+	-fx-font: 32 "Georgia";
+}
+
 .correct-pie-slice {
 	-fx-pie-color: green;
 }
@@ -159,11 +168,11 @@
 	-fx-padding: 0;
 }
 
-.main-menu-button .overlay {
-	-fx-alignment: center-left;
-	-fx-spacing: 20;
+.topic-selection-pane .scroll {
+	-fx-fit-to-width: true;
 }
 
-.main-menu-button .overlay .title {
-	-fx-font: 32 "Georgia";
+.topic-selector {
+	-fx-border-color: red;
+	-fx-border-width: 1;
 }
