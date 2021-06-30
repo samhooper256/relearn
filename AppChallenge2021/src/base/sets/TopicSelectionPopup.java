@@ -19,8 +19,9 @@ public class TopicSelectionPopup extends FadePopup {
 	
 	private static final String
 			TOPIC_SELECTION_POPUP_CSS = "topic-selection-popup",
+			VBOX_CSS = "vbox",
 			SCROLL_CSS = "scroll",
-			VBOX_CSS = "vbox";
+			ADD_SELECTED_BUTTON_CSS = "add-selected-button";
 	
 	private static final TopicSelectionPopup INSTANCE = new TopicSelectionPopup();
 	
@@ -34,16 +35,16 @@ public class TopicSelectionPopup extends FadePopup {
 	
 	private final ScrollPane scroll;
 	private final VBox vBox;
-	private final Button addButton;
+	private final Button addSelectedButton;
 	
 	private TopicSelectorBox selectorBox;
 	
 	private TopicSelectionPopup() {
 		scroll = new ScrollPane();
 		
-		addButton = new Button("Add");
+		addSelectedButton = new Button("Add Selected");
 		
-		vBox = new VBox(scroll, addButton);
+		vBox = new VBox(scroll, addSelectedButton);
 		initVBox();
 		
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -53,7 +54,7 @@ public class TopicSelectionPopup extends FadePopup {
 
 	private void initVBox() {
 		initScroll();
-		initAddButton();
+		initAddSelectedButton();
 		VBox.setVgrow(scroll, Priority.ALWAYS);
 		vBox.getStyleClass().add(VBOX_CSS);
 	}
@@ -62,17 +63,20 @@ public class TopicSelectionPopup extends FadePopup {
 		scroll.getStyleClass().add(SCROLL_CSS);
 	}
 	
-	private void initAddButton() {
-		addButton.setOnAction(e -> addButtonAction());
+	private void initAddSelectedButton() {
+		addSelectedButton.setOnAction(e -> addSelectedButtonAction());
+		addSelectedButton.getStyleClass().add(ADD_SELECTED_BUTTON_CSS);
+		disableAddSelectedButton();
 	}
 	
-	private void addButtonAction() {
+	private void addSelectedButtonAction() {
 		List<TopicSelector> selectors = selectedSelectors().toList();
 		List<Topic> topics = selectedTopics().toList();
 		EditorPane.get().addTopics(topics);
 		EditorPane.get().hideTopicSelectionPane();
 		for(TopicSelector ts : selectors)
 			ts.setAdded();
+		disableAddSelectedButton();
 	}
 	
 	public void setProblemSet(ProblemSet set) {
@@ -94,6 +98,14 @@ public class TopicSelectionPopup extends FadePopup {
 	 * */
 	public Stream<Topic> selectedTopics() {
 		return getTopicsFrom(selectedSelectors());
+	}
+	
+	public void disableAddSelectedButton() {
+		addSelectedButton.setDisable(true);
+	}
+	
+	public void enableAddSelectedButton() {
+		addSelectedButton.setDisable(false);
 	}
 	
 }

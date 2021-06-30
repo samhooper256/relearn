@@ -64,10 +64,6 @@ public final class Evaluator {
 			return type() == TokenType.UNARY_OPERATOR;
 		}
 		
-		public boolean isBinaryOperator() {
-			return type() == TokenType.BINARY_OPERATOR;
-		}
-		
 		public boolean isLiteral() {
 			return type() == TokenType.LITERAL;
 		}
@@ -114,10 +110,6 @@ public final class Evaluator {
 		
 		public boolean isLeft() {
 			return this == LEFT || this == BOTH;
-		}
-		
-		public boolean isRight() {
-			return this == RIGHT || this == BOTH;
 		}
 		
 	}

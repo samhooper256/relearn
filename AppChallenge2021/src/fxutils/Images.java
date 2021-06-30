@@ -4,10 +4,11 @@
 package fxutils;
 
 import base.Main;
-import javafx.scene.image.Image;
+import javafx.scene.image.*;
 
 /**
- * Utility class for creating {@link javafx.scene.image. Image} objects from resource files.
+ * Utility class for creating {@link javafx.scene.image. Image} objects from resource files and working with
+ * {@link ImageView ImageViews}.
  * @author Sam Hooper
  *
  */
@@ -38,4 +39,17 @@ public final class Images {
 								boolean smooth) {
 		return new Image(Main.getResourceStream(filename), requestedWidth, requestedHeight, preserveRatio, smooth);
 	}
+	
+	/**
+	 * Equivalent to {@code setFitSize(view, fitSize, fitSize)}.
+	 * */
+	public static void setFitSize(ImageView view, double fitSize) {
+		setFitSize(view, fitSize, fitSize);
+	}
+	
+	public static void setFitSize(ImageView view, double fitWidth, double fitHeight) {
+		view.setFitWidth(fitWidth);
+		view.setFitHeight(fitHeight);
+	}
+	
 }

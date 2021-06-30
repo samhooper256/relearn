@@ -27,8 +27,11 @@ public final class TopicSelectorBox extends VBox {
 	/** Maps topicName -> TopicSelector*/
 	private final Map<String, TopicSelector> selectorMap;
 	
+	private int numSelected;
+	
 	private TopicSelectorBox(ProblemSet set) {
 		this.set = set;
+		numSelected = 0;
 		selectorMap = new HashMap<>();
 		for(TopicFactory<?> factory : TopicUtils.allFactories())
 			addSelector(factory);
@@ -57,6 +60,17 @@ public final class TopicSelectorBox extends VBox {
 	
 	public ProblemSet set() {
 		return set;
+	}
+
+	public void notifySelected() {
+		numSelected++;
+		TopicSelectionPopup.get().enableAddSelectedButton();
+	}
+	
+	public void notifyUnselected() {
+		numSelected--;
+		if(numSelected == 0)
+			TopicSelectionPopup.get().disableAddSelectedButton();
 	}
 	
 }

@@ -21,7 +21,7 @@ public class Main extends Application {
 			MIN_WIDTH = 600, MIN_HEIGHT = 400,
 			BACK_ARROW_SIZE = 40,
 			TRASH_CAN_SIZE = 20,
-			BUTTON_ICON = 16;
+			BUTTON_ICON_SIZE = 16;
 	public static final File 
 			USER_FOLDER = new File(System.getProperty("user.dir"), String.format("%s Data", TITLE)),
 			SETS_FOLDER = new File(USER_FOLDER, "Sets"),
@@ -36,8 +36,9 @@ public class Main extends Application {
 			BANNER = Images.get("banner.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
 			SETTINGS_ICON = 
 					Images.get("settingsicon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),
-			GREEN_PLUS = Images.get("plus_green.png", BUTTON_ICON, BUTTON_ICON, false, true),
-			BLUE_CHECK = Images.get("check_blue.png", BUTTON_ICON, BUTTON_ICON, false, true);
+			GREEN_PLUS = Images.get("plus_green.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
+			BLUE_CHECK = Images.get("check_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
+			BLUE_X = Images.get("x_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true);
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;

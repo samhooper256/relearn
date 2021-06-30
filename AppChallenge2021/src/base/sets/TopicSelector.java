@@ -4,6 +4,7 @@
 package base.sets;
 
 import base.Main;
+import fxutils.Images;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -20,33 +21,39 @@ public class TopicSelector extends StackPane {
 			ADDED_BUTTON_CSS = "added-button",
 			UNSELECTED_BUTTON_CSS = "unselected-button",
 			SELECTED_BUTTON_CSS = "selected-button",
-			LABEL_LAYER_CSS = "label-layer",
-			BUTTON_LAYER_CSS = "button-layer";
+			NAME_LAYER = "name-layer",
+			NAME_CSS = "name",
+			BUTTON_LAYER_CSS = "button-layer",
+			BUTTON_GRAPIHC_CSS = "graphic";
 	
 	private final TopicFactory<?> factory;
-	private final HBox labelLayer, buttonLayer;
-	private final Label label;
-	private final Button addedButton, unselectedButton, selectedButton;
+	private final HBox nameLayer, buttonLayer;
+	private final Label name;
+	private final Button unselectedButton, selectedButton, addedButton;
+	private final ImageView unselectedGraphic, selectedGraphic;
 	
 	public TopicSelector(TopicFactory<?> factory) {
 		this.factory = factory;
-		label = new Label(factory.name());
-		labelLayer = new HBox(label);
+		name = new Label(factory.name());
+		nameLayer = new HBox(name);
 		initLabelLayer();
 		
-		addedButton = new Button("Added");
 		unselectedButton = new Button("Add");
+		unselectedGraphic = new ImageView();
 		selectedButton = new Button();
+		selectedGraphic = new ImageView();
+		addedButton = new Button("Added");
 		buttonLayer = new HBox(unselectedButton);
 		initButtonLayer();
 		
 		getStyleClass().add(TOPIC_SELECTOR_CSS);
-		getChildren().addAll(labelLayer, buttonLayer);
+		getChildren().addAll(nameLayer, buttonLayer);
 		HBox.setHgrow(unselectedButton, Priority.ALWAYS);
 	}
 
 	private void initLabelLayer() {
-		labelLayer.getStyleClass().add(LABEL_LAYER_CSS);
+		name.getStyleClass().add(NAME_CSS);
+		nameLayer.getStyleClass().add(NAME_LAYER);
 	}
 
 	private void initButtonLayer() {
@@ -60,19 +67,26 @@ public class TopicSelector extends StackPane {
 		initAddedButton();
 	}
 
-	private void initSelectedButton() {
-		selectedButton.getStyleClass().add(SELECTED_BUTTON_CSS);
-		selectedButton.setGraphic(new ImageView(Main.BLUE_CHECK));
-	}
-
 	private void initUnselectedButton() {
 		unselectedButton.getStyleClass().add(UNSELECTED_BUTTON_CSS);
 		unselectedButton.setOnAction(e -> unselectedButtonAction());
-		unselectedButton.setGraphic(new ImageView(Main.GREEN_PLUS));
+		unselectedButton.setGraphic(unselectedGraphic);
 	}
 	
 	private void unselectedButtonAction() {
 		setSelected();
+	}
+	
+	private void initSelectedButton() {
+		Images.setFitSize(selectedGraphic, Main.BUTTON_ICON_SIZE, Main.BUTTON_ICON_SIZE);
+		selectedGraphic.getStyleClass().add(BUTTON_GRAPIHC_CSS);
+		selectedButton.setGraphic(selectedGraphic);
+		selectedButton.getStyleClass().add(SELECTED_BUTTON_CSS);
+		selectedButton.setOnAction(e -> selectedButtonAction());
+	}
+	
+	private void selectedButtonAction() {
+		setUnselected();
 	}
 	
 	private void initAddedButton() {
@@ -86,10 +100,12 @@ public class TopicSelector extends StackPane {
 	
 	public void setUnselected() {
 		setButton(unselectedButton);
+		box().notifyUnselected();
 	}
 	
 	public void setSelected() {
 		setButton(selectedButton);
+		box().notifySelected();
 	}
 	
 	public boolean isAdded() {
@@ -116,4 +132,7 @@ public class TopicSelector extends StackPane {
 		return factory;
 	}
 	
+	public TopicSelectorBox box() {
+		return (TopicSelectorBox) getParent();
+	}
 }

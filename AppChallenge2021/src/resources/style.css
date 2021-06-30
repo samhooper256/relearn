@@ -7,6 +7,7 @@
 	-app-dark: #29527B;
 	-app-green: green;
 	-app-green-accent: #77DD77;
+	-app-green-light-accent: #84E884;
 	-app-grey: grey;
 	-app-grey-accent: lightgrey;
 	-fx-background-color: -app-base;
@@ -174,19 +175,33 @@
 
 .topic-selection-popup {
 	-fx-background-color: -app-light;
-	-fx-padding: 10;
+	-fx-background-radius: 8;
+	-fx-padding: 12;
+}
+
+.topic-selection-popup .vbox {
+	-fx-spacing: 8;
 }
 
 .topic-selection-popup .scroll {
+	-fx-background-color: -app-base;
+	-fx-background-radius: 6;
 	-fx-fit-to-width: true;
 }
 
 .topic-selection-popup .scroll .viewport {
 	-fx-background-color: -app-base;
+	-fx-background-radius: 8;
 }
 
-.topic-selection-popup .vbox {
-	-fx-spacing: 8;
+.topic-selection-popup .add-selected-button {
+	-fx-border-radius: 4;
+	-fx-border-color: -app-green;
+	-fx-background-radius: 6;
+	-fx-background-color: -app-green-accent;
+	-fx-text-fill: -app-green;
+	-fx-font: 14 "Georgia";
+	-fx-focus-traversable: false;
 }
 
 .topic-selector-box {
@@ -194,8 +209,12 @@
 	-fx-padding: 10;
 }
 
-.topic-selector .label-layer {
+.topic-selector .name-layer {
 	-fx-alignment: center-left;
+}
+
+.topic-selector .name-layer .name {
+	-fx-font: 14 "Georgia";	
 }
 
 .topic-selector .button-layer {
@@ -209,6 +228,15 @@
 	-fx-background-color: -app-green-accent;
 	-fx-text-fill: -app-green;
 	-fx-font: 14 "Georgia";
+	-fx-focus-traversable: false;
+}
+
+.topic-selector .unselected-button .graphic {
+	-fx-image: url("./plus_green.png");
+}
+
+.topic-selector .unselected-button:hover {
+	-fx-background-color: -app-green-light-accent;
 }
 
 .topic-selector .selected-button {
@@ -218,6 +246,15 @@
 	-fx-background-color: -app-accent;
 	-fx-text-fill: -app-dark;
 	-fx-font: 14 "Georgia";
+	-fx-focus-traversable: false;
+}
+
+.topic-selector .selected-button .graphic {
+	-fx-image: url("./check_blue.png");
+}
+
+.topic-selector .selected-button:hover .graphic {
+	-fx-image: url("./x_blue.png");
 }
 
 .topic-selector .added-button:disabled {
@@ -227,4 +264,5 @@
 	-fx-background-color: -app-grey-accent;
 	-fx-text-fill: -app-grey;
 	-fx-font: 14 "Georgia";
+	-fx-focus-traversable: false;
 }
