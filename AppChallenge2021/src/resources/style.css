@@ -8,6 +8,8 @@
 	-app-green: green;
 	-app-green-accent: #77DD77;
 	-app-green-light-accent: #84E884;
+	-app-red: red;
+	-app-red-accent: #FF8787;
 	-app-grey: grey;
 	-app-grey-accent: lightgrey;
 	-fx-background-color: -app-base;
@@ -24,6 +26,10 @@
 
 .main-menu-button .overlay .title {
 	-fx-font: 32 "Georgia";
+}
+
+.glass-pane {
+	-fx-background-color: -app-grey;	
 }
 
 .correct-pie-slice {
@@ -204,21 +210,27 @@
 	-fx-focus-traversable: false;
 }
 
+.topic-selection-popup .cancel-button {
+	-fx-border-radius: 4;
+	-fx-border-color: -app-red;
+	-fx-background-radius: 6;
+	-fx-background-color: -app-red-accent;
+	-fx-text-fill: -app-red;
+	-fx-font: 14 "Georgia";
+	-fx-focus-traversable: false;
+}
+
+.topic-selection-popup .cancel-button .graphic {
+	-fx-image: url("./x_red.png");
+}
+
 .topic-selector-box {
 	-fx-spacing: 10;
 	-fx-padding: 10;
 }
 
-.topic-selector .name-layer {
-	-fx-alignment: center-left;
-}
-
 .topic-selector .name-layer .name {
 	-fx-font: 14 "Georgia";	
-}
-
-.topic-selector .button-layer {
-	-fx-alignment: center-right;
 }
 
 .topic-selector .unselected-button {

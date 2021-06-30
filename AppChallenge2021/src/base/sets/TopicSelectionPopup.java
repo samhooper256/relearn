@@ -6,8 +6,11 @@ package base.sets;
 import java.util.List;
 import java.util.stream.Stream;
 
+import base.Main;
 import base.graphics.FadePopup;
+import fxutils.*;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import topics.*;
 
@@ -21,7 +24,9 @@ public class TopicSelectionPopup extends FadePopup {
 			TOPIC_SELECTION_POPUP_CSS = "topic-selection-popup",
 			VBOX_CSS = "vbox",
 			SCROLL_CSS = "scroll",
-			ADD_SELECTED_BUTTON_CSS = "add-selected-button";
+			ADD_SELECTED_BUTTON_CSS = "add-selected-button",
+			CANCEL_BUTTON_CSS = "cancel-button",
+			BUTTON_GRAPHIC_CSS = "graphic";
 	
 	private static final TopicSelectionPopup INSTANCE = new TopicSelectionPopup();
 	
@@ -35,7 +40,9 @@ public class TopicSelectionPopup extends FadePopup {
 	
 	private final ScrollPane scroll;
 	private final VBox vBox;
-	private final Button addSelectedButton;
+	private final PolarizedPane buttonLayer;
+	private final Button addSelectedButton, cancelButton;
+	private final ImageView cancelGraphic;
 	
 	private TopicSelectorBox selectorBox;
 	
@@ -43,8 +50,11 @@ public class TopicSelectionPopup extends FadePopup {
 		scroll = new ScrollPane();
 		
 		addSelectedButton = new Button("Add Selected");
+		cancelButton = new Button("Cancel");
+		cancelGraphic = new ImageView();
+		buttonLayer = new PolarizedPane(addSelectedButton, cancelButton);
 		
-		vBox = new VBox(scroll, addSelectedButton);
+		vBox = new VBox(scroll, buttonLayer);
 		initVBox();
 		
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -54,13 +64,18 @@ public class TopicSelectionPopup extends FadePopup {
 
 	private void initVBox() {
 		initScroll();
-		initAddSelectedButton();
+		initButtonLayer();
 		VBox.setVgrow(scroll, Priority.ALWAYS);
 		vBox.getStyleClass().add(VBOX_CSS);
 	}
 
 	private void initScroll() {
 		scroll.getStyleClass().add(SCROLL_CSS);
+	}
+	
+	private void initButtonLayer() {
+		initAddSelectedButton();
+		initCancelButton();
 	}
 	
 	private void initAddSelectedButton() {
@@ -76,7 +91,27 @@ public class TopicSelectionPopup extends FadePopup {
 		EditorPane.get().hideTopicSelectionPane();
 		for(TopicSelector ts : selectors)
 			ts.setAdded();
-		disableAddSelectedButton();
+		cleanupAfterHiding();
+	}
+
+	private void initCancelButton() {
+		Images.setFitSize(cancelGraphic, Main.BUTTON_ICON_SIZE, Main.BUTTON_ICON_SIZE);
+		cancelGraphic.getStyleClass().add(BUTTON_GRAPHIC_CSS);
+		cancelButton.setOnAction(e -> cancelButtonAction());
+		cancelButton.getStyleClass().add(CANCEL_BUTTON_CSS);
+		cancelButton.setGraphic(cancelGraphic);
+	}
+	
+	private void cancelButtonAction() {
+		EditorPane.get().hideTopicSelectionPane();
+		cleanupAfterHiding();
+	}
+	
+	private void cleanupAfterHiding() {
+		selectors().forEach(ts -> {
+			if(ts.isSelected())
+				ts.setUnselected();
+		});
 	}
 	
 	public void setProblemSet(ProblemSet set) {

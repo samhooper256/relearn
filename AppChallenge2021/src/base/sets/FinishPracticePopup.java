@@ -65,7 +65,7 @@ public final class FinishPracticePopup extends FadePopup {
 	
 	private void backToSetsAction() {
 		Main.scene().showSets();
-		hideFrom(PracticePane.get());
+		hidePopup();
 	}
 	
 	private void initReplayButton() {

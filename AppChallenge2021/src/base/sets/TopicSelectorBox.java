@@ -35,7 +35,6 @@ public final class TopicSelectorBox extends VBox {
 		selectorMap = new HashMap<>();
 		for(TopicFactory<?> factory : TopicUtils.allFactories())
 			addSelector(factory);
-		initListeners();
 		getStyleClass().add(TOPIC_SELECTOR_BOX_CSS);
 	}
 
@@ -43,11 +42,6 @@ public final class TopicSelectorBox extends VBox {
 		TopicSelector selector = new TopicSelector(factory);
 		getChildren().add(selector);
 		selectorMap.put(factory.name(), selector);
-	}
-	
-	private void initListeners() {
-		set.topics().addAddListener(t -> selectorFor(t).setAdded());
-		set.topics().addRemoveListener(t -> selectorFor(t).setUnselected());
 	}
 	
 	public TopicSelector selectorFor(Topic topic) {
@@ -67,7 +61,7 @@ public final class TopicSelectorBox extends VBox {
 		TopicSelectionPopup.get().enableAddSelectedButton();
 	}
 	
-	public void notifyUnselected() {
+	public void notifyUnselectedOrAdded() {
 		numSelected--;
 		if(numSelected == 0)
 			TopicSelectionPopup.get().disableAddSelectedButton();

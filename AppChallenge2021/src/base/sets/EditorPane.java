@@ -205,7 +205,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	}
 	
 	public void hideTopicSelectionPane() {
-		TopicSelectionPopup.get().fadeOutFrom(this);
+		TopicSelectionPopup.get().fadeOut();
 	}
 	
 	@Override
