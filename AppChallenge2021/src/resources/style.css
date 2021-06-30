@@ -5,6 +5,10 @@
 	-app-accent: #A7C7E7;
 	-app-light: #A1B2C3;
 	-app-dark: #29527B;
+	-app-green: green;
+	-app-green-accent: #77DD77;
+	-app-grey: grey;
+	-app-grey-accent: lightgrey;
 	-fx-background-color: -app-base;
 }
 
@@ -61,9 +65,9 @@
 }
 
 .sets-pane .header .create-button {
--fx-background-color: #77DD77; /*rgb(0, 0, 0); #hexcode*/
+	-fx-background-color: -app-green-accent; /*rgb(0, 0, 0); #hexcode*/
 	-fx-background-radius: 16px;
-	-fx-border-color: green;
+	-fx-border-color: -app-green;
 	-fx-border-radius: 10px;
 	-fx-border-width: 4px;
 	-fx-font: 30 "Impact";
@@ -168,11 +172,59 @@
 	-fx-padding: 0;
 }
 
-.topic-selection-pane .scroll {
+.topic-selection-popup {
+	-fx-background-color: -app-light;
+	-fx-padding: 10;
+}
+
+.topic-selection-popup .scroll {
 	-fx-fit-to-width: true;
 }
 
-.topic-selector {
-	-fx-border-color: red;
-	-fx-border-width: 1;
+.topic-selection-popup .scroll .viewport {
+	-fx-background-color: -app-base;
+}
+
+.topic-selection-popup .vbox {
+	-fx-spacing: 8;
+}
+
+.topic-selector-box {
+	-fx-spacing: 10;
+	-fx-padding: 10;
+}
+
+.topic-selector .label-layer {
+	-fx-alignment: center-left;
+}
+
+.topic-selector .button-layer {
+	-fx-alignment: center-right;
+}
+
+.topic-selector .unselected-button {
+	-fx-border-radius: 4;
+	-fx-border-color: -app-green;
+	-fx-background-radius: 6;
+	-fx-background-color: -app-green-accent;
+	-fx-text-fill: -app-green;
+	-fx-font: 14 "Georgia";
+}
+
+.topic-selector .selected-button {
+	-fx-border-radius: 4;
+	-fx-border-color: -app-dark;
+	-fx-background-radius: 6;
+	-fx-background-color: -app-accent;
+	-fx-text-fill: -app-dark;
+	-fx-font: 14 "Georgia";
+}
+
+.topic-selector .added-button:disabled {
+	-fx-border-radius: 4;
+	-fx-border-color: -app-grey;
+	-fx-background-radius: 6;
+	-fx-background-color: -app-grey-accent;
+	-fx-text-fill: -app-grey;
+	-fx-font: 14 "Georgia";
 }

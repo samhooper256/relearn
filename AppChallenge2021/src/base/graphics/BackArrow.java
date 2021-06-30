@@ -9,7 +9,7 @@ import base.Main;
 public class BackArrow extends ImageButton {
 	
 	public BackArrow() {
-		super(Main.backArrowImage());
+		super(Main.BACK_ARROW_IMAGE);
 	}
 	
 }

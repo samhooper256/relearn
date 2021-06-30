@@ -16,7 +16,7 @@ class SettingsMainMenuButton extends MainMenuButton {
 
 	private final RotateTransition spin;
 	public SettingsMainMenuButton() {
-		super(Main.settingsIcon(), TEXT);
+		super(Main.SETTINGS_ICON, TEXT);
 		spin = new RotateTransition(SLIDE_DURATION.multiply(2), iconView());
 		initSpin();
 	}

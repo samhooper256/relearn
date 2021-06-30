@@ -13,6 +13,7 @@ import topics.*;
 public final class TopicSelectorBox extends VBox {
 	
 	private static final Map<ProblemSet, TopicSelectorBox> CACHE = new IdentityHashMap<>();
+	private static final String TOPIC_SELECTOR_BOX_CSS = "topic-selector-box";
 	
 	public static TopicSelectorBox forSet(ProblemSet set) {
 		if(CACHE.containsKey(set))
@@ -32,6 +33,7 @@ public final class TopicSelectorBox extends VBox {
 		for(TopicFactory<?> factory : TopicUtils.allFactories())
 			addSelector(factory);
 		initListeners();
+		getStyleClass().add(TOPIC_SELECTOR_BOX_CSS);
 	}
 
 	private void addSelector(TopicFactory<?> factory) {

@@ -24,8 +24,8 @@ public class MainMenuButton extends StackPane {
 	private static final int BUTTON_EXTENSION = 100;
 	
 	public static final MainMenuButton
-			SETS = new MainMenuButton(Main.setsIcon(), "Sets"),
-			STATS = new MainMenuButton(Main.statsIcon(), "Stats"),
+			SETS = new MainMenuButton(Main.SETTINGS_ICON, "Sets"),
+			STATS = new MainMenuButton(Main.SETTINGS_ICON, "Stats"),
 			SETTINGS = new SettingsMainMenuButton();
 	
 	private static final String
@@ -38,7 +38,7 @@ public class MainMenuButton extends StackPane {
 	private final TranslateTransition slide;
 	private final HBox overlay;
 	private final Label title;
-	private final ResizableImage banner = new ResizableImage(Main.bannerImage());
+	private final ResizableImage banner = new ResizableImage(Main.BANNER);
 	private final ImageView iconView;
 	
 	protected MainMenuButton(Image icon, String text) {

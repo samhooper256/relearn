@@ -20,7 +20,8 @@ public class Main extends Application {
 			MAIN_MENU_ICON_SIZE = 80,
 			MIN_WIDTH = 600, MIN_HEIGHT = 400,
 			BACK_ARROW_SIZE = 40,
-			TRASH_CAN_SIZE = 20;
+			TRASH_CAN_SIZE = 20,
+			BUTTON_ICON = 16;
 	public static final File 
 			USER_FOLDER = new File(System.getProperty("user.dir"), String.format("%s Data", TITLE)),
 			SETS_FOLDER = new File(USER_FOLDER, "Sets"),
@@ -29,12 +30,14 @@ public class Main extends Application {
 			STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
-	private static final Image 
+	public static final Image 
 			BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
 			TRASH_CAN_IMAGE = Images.get("trash.png", TRASH_CAN_SIZE, TRASH_CAN_SIZE, false, true),
 			BANNER = Images.get("banner.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
 			SETTINGS_ICON = 
-					Images.get("settingsicon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true);
+					Images.get("settingsicon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),
+			GREEN_PLUS = Images.get("plus_green.png", BUTTON_ICON, BUTTON_ICON, false, true),
+			BLUE_CHECK = Images.get("check_blue.png", BUTTON_ICON, BUTTON_ICON, false, true);
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
@@ -102,30 +105,6 @@ public class Main extends Application {
 	
 	public static StackPane menu() {
 		return MainScene.get().mainMenu();
-	}
-	
-	public static Image backArrowImage() {
-		return BACK_ARROW_IMAGE;
-	}
-	
-	public static Image trashCanImage() {
-		return TRASH_CAN_IMAGE;
-	}
-	
-	public static Image bannerImage() {
-		return BANNER;
-	}
-	
-	public static Image setsIcon() {
-		return settingsIcon();
-	}
-	
-	public static Image statsIcon() {
-		return settingsIcon();
-	}
-
-	public static Image settingsIcon() {
-		return SETTINGS_ICON;
 	}
 	
 	/**

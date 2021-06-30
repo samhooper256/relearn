@@ -18,8 +18,9 @@ import topics.*;
 public class TopicSelectionPopup extends FadePopup {
 	
 	private static final String
-			TOPIC_SELECTION_PANE_CSS = "topic-selection-pane",
-			SCROLL_CSS = "scroll";
+			TOPIC_SELECTION_POPUP_CSS = "topic-selection-popup",
+			SCROLL_CSS = "scroll",
+			VBOX_CSS = "vbox";
 	
 	private static final TopicSelectionPopup INSTANCE = new TopicSelectionPopup();
 	
@@ -47,13 +48,14 @@ public class TopicSelectionPopup extends FadePopup {
 		
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getChildren().add(vBox);
-		getStyleClass().add(TOPIC_SELECTION_PANE_CSS);
+		getStyleClass().add(TOPIC_SELECTION_POPUP_CSS);
 	}
 
 	private void initVBox() {
 		initScroll();
 		initAddButton();
 		VBox.setVgrow(scroll, Priority.ALWAYS);
+		vBox.getStyleClass().add(VBOX_CSS);
 	}
 
 	private void initScroll() {
