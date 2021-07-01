@@ -9,10 +9,15 @@ import utils.*;
 
 /** *
  * <p>A complex number.</p>
+ * 
+ * <p>All results are rounded using {@link MathContext#DECIMAL32}.</p>
  * @author Sam Hooper
  *
  */
 public interface Complex {
+	
+	Complex ONE = Complex.of("1");
+	Complex HALF = Complex.of(".5");
 	
 	String IMAGINARY_UNIT = "i";
 	char IMAGINARY_UNIT_CHAR = 'i';
@@ -105,4 +110,11 @@ public interface Complex {
 		return true;
 	}
 	
+	/** Returns a {@link Complex} with a a zero {@link #real() real} part and the same {@link #imaginary() imaginary}
+	 * part as {@code this}.*/
+	default Complex noReal() {
+		if(isImaginary())
+			return this;
+		return of(BigDecimal.ZERO, imaginary());
+	}
 }

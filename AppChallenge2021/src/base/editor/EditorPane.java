@@ -8,7 +8,6 @@ import base.graphics.BackArrow;
 import base.sets.ProblemSet;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import topics.*;
 
 /**

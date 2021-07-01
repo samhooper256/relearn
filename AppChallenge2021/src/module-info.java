@@ -14,5 +14,6 @@ open module appchallenge2021 {
 	exports base.graphics;
 	exports topics;
 	exports math;
+	exports math.expressions;
 	
 }

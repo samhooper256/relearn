@@ -5,6 +5,7 @@ package math;
 
 import java.util.*;
 
+import math.expressions.*;
 import utils.Parsing;
 
 /**
@@ -123,11 +124,11 @@ public final class Evaluator {
 		
 	}
 	
-	public static ConstantExpression getTree(String expression) {
+	public static Expression getTree(String expression) {
 		expression = clean(expression);
 		List<Token> tokens = tokenize(expression);
 		List<Token> postfix = toPostfix(tokens);
-		ConstantExpression exp = treeFromPostfix(postfix);
+		Expression exp = treeFromPostfix(postfix);
 		return exp;
 	}
 	
@@ -280,19 +281,19 @@ public final class Evaluator {
 		return postfix;
 	}
 	
-	private static ConstantExpression treeFromPostfix(List<Token> postfix) {
-		Stack<ConstantExpression> stack = new Stack<>();
+	private static Expression treeFromPostfix(List<Token> postfix) {
+		Stack<Expression> stack = new Stack<>();
 		for(Token t : postfix) {
 			if(t.isLiteral()) {
-				stack.add(new LiteralExpression(t.text()));
+				stack.add(Expression.of(Complex.of(t.text())));
 			}
 			else {
 				if(t.isUnaryOperator()) {
 					stack.push(unaryExpressionFrom(t, stack.pop()));
 				}
 				else { //t must be binary operator
-					ConstantExpression right = stack.pop();
-					ConstantExpression left = stack.pop();
+					Expression right = stack.pop();
+					Expression left = stack.pop();
 					stack.push(binaryExpressionFrom(t, left, right));
 				}
 			}
@@ -300,21 +301,20 @@ public final class Evaluator {
 		return stack.pop();
 	}
 	
-	private static UnaryExpression unaryExpressionFrom(Token operator, ConstantExpression operand) {
+	private static UnaryExpression unaryExpressionFrom(Token operator, Expression operand) {
 		if("-".equals(operator.text())) {
-			return new NegatedExpression(operand);
+			return NegationExpression.of(operand);
 		}
 		throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
 	}
 	
-	private static BinaryExpression binaryExpressionFrom
-			(Token operator, ConstantExpression left, ConstantExpression right) {
+	private static BinaryExpression binaryExpressionFrom(Token operator, Expression left, Expression right) {
 		return switch(operator.text()) {
-			case "+" -> new AdditionExpression(left, right);
-			case "-" -> new SubtractionExpression(left, right);
-			case "*" -> new MultiplicationExpression(left, right);
-			case "/" -> new DivisionExpression(left, right);
-			case "^" -> new ExponentiationExpression(left, right);
+			case "+" -> AdditionExpression.of(left, right);
+			case "-" -> SubtractionExpression.of(left, right);
+			case "*" -> MultiplicationExpression.of(left, right);
+			case "/" -> DivisionExpression.of(left, right);
+			case "^" -> ExponentiationExpression.of(left, right);
 			default -> throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
 		};
 	}
@@ -330,4 +330,5 @@ public final class Evaluator {
 	private static boolean isLiteralStart(char c) {
 		return Parsing.isDigit(c) || c == Parsing.DECIMAL_POINT || c == Complex.IMAGINARY_UNIT_CHAR;
 	}
+	
 }
