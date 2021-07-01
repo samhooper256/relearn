@@ -42,7 +42,6 @@ public class TopicSelectionPopup extends FadePopup {
 	
 	private final ScrollPane scroll;
 	private final VBox vBox;
-	private final TopicSearchBar searchBar;
 	private final Button addSelectedButton, cancelButton;
 	private final ImageView cancelGraphic;
 	private final PolarizedPane buttonLayer;
@@ -52,15 +51,13 @@ public class TopicSelectionPopup extends FadePopup {
 		super(EditorPane.get());
 		scroll = new ScrollPane();
 		
-		searchBar = new TopicSearchBar();
-		
 		addSelectedButton = new Button("Add Selected");
 		cancelButton = new Button("Cancel");
 		cancelGraphic = new ImageView();
 		
 		buttonLayer = new PolarizedPane(addSelectedButton, cancelButton);
 		
-		vBox = new VBox(searchBar, scroll, buttonLayer);
+		vBox = new VBox(TopicSearchBar.get(), scroll, buttonLayer);
 		initVBox();
 		
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -119,6 +116,7 @@ public class TopicSelectionPopup extends FadePopup {
 			if(ts.isSelected())
 				ts.setUnselected();
 		});
+		TopicSearchBar.get().clearSearch();
 	}
 	
 	public void setProblemSet(ProblemSet set) {

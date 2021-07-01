@@ -193,11 +193,33 @@
 	-fx-background-color: -app-base;
 	-fx-background-radius: 6;
 	-fx-fit-to-width: true;
+	-fx-vbar-policy: always;
 }
 
 .topic-selection-popup .scroll .viewport {
 	-fx-background-color: -app-base;
 	-fx-background-radius: 8;
+}
+
+.topic-selection-popup .scroll .scroll-bar:vertical {
+	-fx-background-color: -app-base;
+}
+
+.topic-selection-popup .scroll .scroll-bar:vertical .thumb {
+	-fx-background-color: -app-light;
+	-fx-border-radius: 8;
+}
+
+.topic-selection-popup .scroll .corner,
+.topic-selection-popup .scroll .scroll-bar:vertical .track,
+.topic-selection-popup .scroll .scroll-bar:vertical .increment-button,
+.topic-selection-popup .scroll .scroll-bar:vertical .decrement-button {
+	-fx-background-color: -app-base;	
+}
+
+.topic-selection-popup .scroll .scroll-bar:vertical .increment-button .increment-arrow,
+.topic-selection-popup .scroll .scroll-bar:vertical .decrement-button .decrement-arrow {
+	visibility: false;
 }
 
 .tsp-button {
@@ -222,6 +244,11 @@
 
 .topic-selection-popup .cancel-button .graphic {
 	-fx-image: url("./x_red.png");
+}
+
+.topic-search-bar {
+	-fx-spacing: 10;
+	-fx-alignment: center-left;	
 }
 
 .magnifying-glass {

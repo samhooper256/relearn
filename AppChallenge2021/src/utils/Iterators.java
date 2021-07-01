@@ -1,6 +1,6 @@
 package utils;
 
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * 
@@ -13,8 +13,24 @@ public final class Iterators {
 		
 	}
 	
+	public static <T> Iterator<T> unmodifiableIterator(Iterator<? extends T> iterator) {
+		return new Iterator<>() {
+
+			@Override
+			public boolean hasNext() {
+				return iterator.hasNext();
+			}
+
+			@Override
+			public T next() {
+				return iterator.next();
+			}
+			
+		};
+	}
+	
 	public static <T> ListIterator<T> unmodifiableListIterator(ListIterator<? extends T> iterator) {
-		return new ListIterator<T>() {
+		return new ListIterator<>() {
 
 			@Override
 			public boolean hasNext() {

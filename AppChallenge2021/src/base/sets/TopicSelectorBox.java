@@ -67,4 +67,10 @@ public final class TopicSelectorBox extends VBox {
 			TopicSelectionPopup.get().disableAddSelectedButton();
 	}
 	
+	public void setVisibleTopics(Collection<String> topics) {
+		getChildren().clear();
+		for(String topicName : topics)
+			getChildren().add(selectorMap.get(topicName));
+	}
+	
 }

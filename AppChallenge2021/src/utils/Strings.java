@@ -84,4 +84,8 @@ public final class Strings {
 		return sb.toString();
 	}
 	
+	public static boolean startsWithIgnoreCase(String str, String possiblePrefix) {
+		return str.toLowerCase().startsWith(possiblePrefix.toLowerCase());
+	}
+	
 }

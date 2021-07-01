@@ -42,7 +42,8 @@ public final class TopicUtils {
 			COLORS.put(factory.name(), new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1));
 	}
 	
-	/** The {@link TopicFactory factories} are sorted by {@link TopicFactory#name() name}.*/
+	/** Returns an unmodifiable view of all the {@link TopicFactory topic factories}. The factories are sorted by
+	 * {@link TopicFactory#name() name}.*/
 	public static Set<TopicFactory<?>> allFactories() {
 		return Collections.unmodifiableSet(FACTORIES);
 	}
@@ -50,7 +51,9 @@ public final class TopicUtils {
 	public static Stream<String> streamNames() {
 		return FACTORIES.stream().map(TopicFactory::name);
 	}
-	
+
+	/** Returns a new, freshly created {@link Set} with all the {@link Topic} {@link Topic#name() names} in
+	 * {@link String#compareTo(String) sorted} order. The returned set may be freely modified.*/
 	public static Set<String> allNames() {
 		return streamNames().collect(Collectors.toCollection(LinkedHashSet::new));
 	}
