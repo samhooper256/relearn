@@ -32,6 +32,7 @@ public final class FinishPracticePopup extends FadePopup {
 	
 	
 	private FinishPracticePopup() {
+		super(PracticePane.get());
 		backToSetsButton = new Button("Back");
 		replayButton = new Button("Replay");
 		buttonBar = new HBox(backToSetsButton, replayButton);

@@ -20,6 +20,8 @@ import topics.*;
  */
 public class TopicSelectionPopup extends FadePopup {
 	
+	public static final String TOPIC_SELECTION_POPUP_BUTTON = "tsp-button";
+	
 	private static final String
 			TOPIC_SELECTION_POPUP_CSS = "topic-selection-popup",
 			VBOX_CSS = "vbox",
@@ -47,6 +49,7 @@ public class TopicSelectionPopup extends FadePopup {
 	private TopicSelectorBox selectorBox;
 	
 	private TopicSelectionPopup() {
+		super(EditorPane.get());
 		scroll = new ScrollPane();
 		
 		addSelectedButton = new Button("Add Selected");
@@ -60,6 +63,7 @@ public class TopicSelectionPopup extends FadePopup {
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getChildren().add(vBox);
 		getStyleClass().add(TOPIC_SELECTION_POPUP_CSS);
+		setGlassCloseAction(this::cancelButtonAction);
 	}
 
 	private void initVBox() {
@@ -80,7 +84,7 @@ public class TopicSelectionPopup extends FadePopup {
 	
 	private void initAddSelectedButton() {
 		addSelectedButton.setOnAction(e -> addSelectedButtonAction());
-		addSelectedButton.getStyleClass().add(ADD_SELECTED_BUTTON_CSS);
+		addSelectedButton.getStyleClass().addAll(TOPIC_SELECTION_POPUP_BUTTON, ADD_SELECTED_BUTTON_CSS);
 		disableAddSelectedButton();
 	}
 	
@@ -98,7 +102,7 @@ public class TopicSelectionPopup extends FadePopup {
 		Images.setFitSize(cancelGraphic, Main.BUTTON_ICON_SIZE, Main.BUTTON_ICON_SIZE);
 		cancelGraphic.getStyleClass().add(BUTTON_GRAPHIC_CSS);
 		cancelButton.setOnAction(e -> cancelButtonAction());
-		cancelButton.getStyleClass().add(CANCEL_BUTTON_CSS);
+		cancelButton.getStyleClass().addAll(TOPIC_SELECTION_POPUP_BUTTON, CANCEL_BUTTON_CSS);
 		cancelButton.setGraphic(cancelGraphic);
 	}
 	

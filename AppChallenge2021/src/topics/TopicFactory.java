@@ -3,6 +3,7 @@
  */
 package topics;
 
+import java.util.Comparator;
 import java.util.function.Supplier;
 
 import base.Named;
@@ -13,10 +14,18 @@ import base.Named;
  * @author Sam Hooper
  *
  */
-public record TopicFactory<T extends Topic>(String name, Supplier<T> generator) implements Named {
+public record TopicFactory<T extends Topic>(String name, Supplier<T> generator)
+		implements Named, Comparable<TopicFactory<?>> {
+	
+	private static final Comparator<TopicFactory<?>> COMPARATOR = Comparator.comparing(TopicFactory::name);
 	
 	public T create() {
 		return generator.get();
+	}
+
+	@Override
+	public int compareTo(TopicFactory<?> o) {
+		return COMPARATOR.compare(this, o);
 	}
 	
 }

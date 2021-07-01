@@ -159,7 +159,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	}
 	
 	private void showTopicSelectionPane() {
-		TopicSelectionPopup.get().fadeOnto(this);
+		TopicSelectionPopup.get().fadeIn();
 	}
 	
 	public void edit(ProblemSet set) {

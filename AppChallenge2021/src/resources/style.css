@@ -200,24 +200,24 @@
 	-fx-background-radius: 8;
 }
 
-.topic-selection-popup .add-selected-button {
+.tsp-button {
 	-fx-border-radius: 4;
-	-fx-border-color: -app-green;
 	-fx-background-radius: 6;
-	-fx-background-color: -app-green-accent;
-	-fx-text-fill: -app-green;
 	-fx-font: 14 "Georgia";
 	-fx-focus-traversable: false;
 }
 
+.topic-selection-popup .add-selected-button,
+.topic-selector .unselected-button {
+	-fx-border-color: -app-green;
+	-fx-background-color: -app-green-accent;
+	-fx-text-fill: -app-green;
+}
+
 .topic-selection-popup .cancel-button {
-	-fx-border-radius: 4;
 	-fx-border-color: -app-red;
-	-fx-background-radius: 6;
 	-fx-background-color: -app-red-accent;
 	-fx-text-fill: -app-red;
-	-fx-font: 14 "Georgia";
-	-fx-focus-traversable: false;
 }
 
 .topic-selection-popup .cancel-button .graphic {
@@ -233,32 +233,19 @@
 	-fx-font: 14 "Georgia";	
 }
 
-.topic-selector .unselected-button {
-	-fx-border-radius: 4;
-	-fx-border-color: -app-green;
-	-fx-background-radius: 6;
-	-fx-background-color: -app-green-accent;
-	-fx-text-fill: -app-green;
-	-fx-font: 14 "Georgia";
-	-fx-focus-traversable: false;
-}
-
 .topic-selector .unselected-button .graphic {
 	-fx-image: url("./plus_green.png");
 }
 
-.topic-selector .unselected-button:hover {
+.topic-selector .unselected-button:hover,
+.topic-selection-popup .add-selected-button:hover {
 	-fx-background-color: -app-green-light-accent;
 }
 
 .topic-selector .selected-button {
-	-fx-border-radius: 4;
 	-fx-border-color: -app-dark;
-	-fx-background-radius: 6;
 	-fx-background-color: -app-accent;
 	-fx-text-fill: -app-dark;
-	-fx-font: 14 "Georgia";
-	-fx-focus-traversable: false;
 }
 
 .topic-selector .selected-button .graphic {
@@ -270,11 +257,8 @@
 }
 
 .topic-selector .added-button:disabled {
-	-fx-border-radius: 4;
 	-fx-border-color: -app-grey;
-	-fx-background-radius: 6;
 	-fx-background-color: -app-grey-accent;
 	-fx-text-fill: -app-grey;
-	-fx-font: 14 "Georgia";
 	-fx-focus-traversable: false;
 }

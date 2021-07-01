@@ -181,7 +181,7 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void showFinishPopup() {
-		FinishPracticePopup.get().fadeOnto(this);
+		FinishPracticePopup.get().fadeIn();
 	}
 	
 	private void hideFinishPopup() {

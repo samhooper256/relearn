@@ -24,8 +24,8 @@ public final class TopicUtils {
 	private static final LinkedHashMap<String, Color> COLORS;
 	
 	static {
-		FACTORIES = new LinkedHashSet<>();
-		Collections.addAll(FACTORIES, 
+		List<TopicFactory<?>> factoryList = new ArrayList<>(6);
+		Collections.addAll(factoryList, 
 				Addition.FACTORY,
 				Subtraction.FACTORY,
 				Multiplication.FACTORY,
@@ -33,12 +33,16 @@ public final class TopicUtils {
 				PEMDAS.FACTORY,
 				Percentages.FACTORY
 		);
+		Collections.sort(factoryList);
+		FACTORIES = new LinkedHashSet<>();
+		FACTORIES.addAll(factoryList);
 		Random r = new Random(COLOR_GENERATOR_SEED);
 		COLORS = new LinkedHashMap<>();
 		for(TopicFactory<?> factory : FACTORIES)
 			COLORS.put(factory.name(), new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1));
 	}
 	
+	/** The {@link TopicFactory factories} are sorted by {@link TopicFactory#name() name}.*/
 	public static Set<TopicFactory<?>> allFactories() {
 		return Collections.unmodifiableSet(FACTORIES);
 	}

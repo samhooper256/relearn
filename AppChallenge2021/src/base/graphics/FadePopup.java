@@ -4,6 +4,9 @@
 package base.graphics;
 
 import javafx.animation.*;
+import javafx.animation.Animation.Status;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
@@ -22,17 +25,29 @@ public class FadePopup extends StackPane {
 	private static final String GLASS_PANE_CSS = "glass-pane";
 	private static final double STARTING_OPACITY = 0, GLASS_PANE_OPACITY = 0.7;
 	private static final double START_SIZE_PERCENT = 0.70, PEAK_SIZE_PERCENT = 1.02;
-
+	private static final boolean DEFAULT_GLASS_CLOSE = true;
+	
 	private final StackPane glassPane;
 	private final FadeTransition fadeIn, fadeOut, glassFadeIn, glassFadeOut;
 	private final ScaleTransition rise, fall, scaleOut;
+	private final  StackPane over;
+	private final EventHandler<? super MouseEvent> glassClickHandler = e -> {
+		if(!isFadingIn() && isGlassClose() && getGlassCloseAction() != null)
+			getGlassCloseAction().run();
+	};
 	
-	private StackPane over;
+	private boolean glassClose;
+	private Runnable glassCloseAction;
 	
-	protected FadePopup() {
+	protected FadePopup(StackPane over) {
+		this.over = over;
+		this.glassClose = DEFAULT_GLASS_CLOSE;
+		this.glassCloseAction = null;
+		
 		glassPane = new StackPane();
 		glassPane.setPickOnBounds(true);
 		glassPane.getStyleClass().add(GLASS_PANE_CSS);
+		glassPane.setOnMouseClicked(glassClickHandler);
 		
 		fadeIn = new FadeTransition(RISING_DURATION, this);
 		fadeIn.setFromValue(STARTING_OPACITY);
@@ -74,28 +89,48 @@ public class FadePopup extends StackPane {
 		scaleOut.setOnFinished(e -> hidePopup());
 	}
 	
-	public void fadeOnto(StackPane pane) {
-		over = pane;
+	public void fadeIn() {
 		this.setMouseTransparent(true);
 		this.setOpacity(STARTING_OPACITY);
-		pane.getChildren().add(glassPane);
-		pane.getChildren().add(this);
+		over.getChildren().add(glassPane);
+		over.getChildren().add(this);
 		
 		glassFadeIn.play();
 		fadeIn.play();
 		rise.play();
 	}
 	
+	/** Does <em>not</em> run the {@link #getGlassCloseAction() glass close action}.*/
 	public void fadeOut() {
 		glassFadeOut.play();
 		fadeOut.play();
 		scaleOut.play();
 	}
 	
+	/** Does <em>not</em> run the {@link #getGlassCloseAction() glass close action}.*/
 	public void hidePopup() {
 		over.getChildren().remove(this);
 		over.getChildren().remove(glassPane);
-		over = null;
+	}
+	
+	public boolean isFadingIn() {
+		return glassFadeIn.getStatus() == Status.RUNNING;
+	}
+	
+	public void setGlassCloseAction(Runnable glassCloseAction) {
+		this.glassCloseAction = glassCloseAction;
+	}
+	
+	public Runnable getGlassCloseAction() {
+		return glassCloseAction;
+	}
+	
+	public void setGlassClose(boolean glassClose) {
+		this.glassClose = glassClose;
+	}
+	
+	public boolean isGlassClose() {
+		return glassClose;
 	}
 	
 }

@@ -57,7 +57,8 @@ public class TopicSelector extends PolarizedPane {
 	private void initUnselectedButton() {
 		Images.setFitSize(unselectedGraphic, Main.BUTTON_ICON_SIZE, Main.BUTTON_ICON_SIZE);
 		unselectedGraphic.getStyleClass().add(BUTTON_GRAPIHC_CSS);
-		unselectedButton.getStyleClass().add(UNSELECTED_BUTTON_CSS);
+		unselectedButton.getStyleClass().addAll(
+				TopicSelectionPopup.TOPIC_SELECTION_POPUP_BUTTON, UNSELECTED_BUTTON_CSS);
 		unselectedButton.setOnAction(e -> unselectedButtonAction());
 		unselectedButton.setGraphic(unselectedGraphic);
 	}
@@ -70,7 +71,7 @@ public class TopicSelector extends PolarizedPane {
 		Images.setFitSize(selectedGraphic, Main.BUTTON_ICON_SIZE, Main.BUTTON_ICON_SIZE);
 		selectedGraphic.getStyleClass().add(BUTTON_GRAPIHC_CSS);
 		selectedButton.setGraphic(selectedGraphic);
-		selectedButton.getStyleClass().add(SELECTED_BUTTON_CSS);
+		selectedButton.getStyleClass().addAll(TopicSelectionPopup.TOPIC_SELECTION_POPUP_BUTTON, SELECTED_BUTTON_CSS);
 		selectedButton.setOnAction(e -> selectedButtonAction());
 	}
 	
@@ -79,7 +80,7 @@ public class TopicSelector extends PolarizedPane {
 	}
 	
 	private void initAddedButton() {
-		addedButton.getStyleClass().add(ADDED_BUTTON_CSS);
+		addedButton.getStyleClass().addAll(TopicSelectionPopup.TOPIC_SELECTION_POPUP_BUTTON, ADDED_BUTTON_CSS);
 		addedButton.setDisable(true);
 	}
 	
