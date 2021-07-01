@@ -1,4 +1,4 @@
-package base.sets;
+package base.editor;
 
 import base.*;
 import javafx.scene.control.*;

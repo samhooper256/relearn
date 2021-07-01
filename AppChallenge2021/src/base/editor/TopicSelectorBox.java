@@ -1,7 +1,8 @@
-package base.sets;
+package base.editor;
 
 import java.util.*;
 
+import base.sets.ProblemSet;
 import javafx.scene.layout.VBox;
 import topics.*;
 
@@ -27,11 +28,8 @@ public final class TopicSelectorBox extends VBox {
 	/** Maps topicName -> TopicSelector*/
 	private final Map<String, TopicSelector> selectorMap;
 	
-	private int numSelected;
-	
 	private TopicSelectorBox(ProblemSet set) {
 		this.set = set;
-		numSelected = 0;
 		selectorMap = new HashMap<>();
 		for(TopicFactory<?> factory : TopicUtils.allFactories())
 			addSelector(factory);
@@ -56,15 +54,8 @@ public final class TopicSelectorBox extends VBox {
 		return set;
 	}
 
-	public void notifySelected() {
-		numSelected++;
-		TopicSelectionPopup.get().enableAddSelectedButton();
-	}
-	
-	public void notifyUnselectedOrAdded() {
-		numSelected--;
-		if(numSelected == 0)
-			TopicSelectionPopup.get().disableAddSelectedButton();
+	public void notifySelectorChanged() {
+		TopicSelectionPopup.get().setAddSelectedButtonEnabled(selectors().stream().anyMatch(TopicSelector::isSelected));
 	}
 	
 	public void setVisibleTopics(Collection<String> topics) {
@@ -73,4 +64,8 @@ public final class TopicSelectorBox extends VBox {
 			getChildren().add(selectorMap.get(topicName));
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<TopicSelector> selectors() {
+		return (List<TopicSelector>) (List<?>) getChildren();
+	}
 }

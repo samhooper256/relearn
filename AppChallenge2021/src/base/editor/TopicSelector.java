@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base.sets;
+package base.editor;
 
 import base.Main;
 import fxutils.*;
@@ -84,23 +84,21 @@ public class TopicSelector extends PolarizedPane {
 	}
 	
 	public void setAdded() {
-		if(!isAdded()) {
-			setButton(addedButton);
-			box().notifyUnselectedOrAdded();
-		}
+		setState(addedButton);
 	}
 	
 	public void setUnselected() {
-		if(!isUnselected()) {
-			setButton(unselectedButton);
-			box().notifyUnselectedOrAdded();
-		}
+		setState(unselectedButton);
 	}
 	
 	public void setSelected() {
-		if(!isSelected()) {
-			setButton(selectedButton);
-			box().notifySelected();
+		setState(selectedButton);
+	}
+	
+	private void setState(Button button) {
+		if(currentButton() != button) {
+			setButton(button);
+			box().notifySelectorChanged();
 		}
 	}
 	

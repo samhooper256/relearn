@@ -131,6 +131,10 @@
 	-fx-text-fill: red;
 }
 
+.editor-pane .title {
+	-fx-font: 24 "Georgia";
+}
+
 .editor-pane .name-layer {
 	-fx-alignment: center;
 }
@@ -138,6 +142,11 @@
 .editor-pane .name-layer .row {
 	-fx-spacing: 20;
 	-fx-alignment: center;
+}
+
+.editor-pane .topic-layer {
+	-fx-spacing: 20;
+	-fx-padding: 25;
 }
 
 .editor-pane .portion-layer {

@@ -1,13 +1,14 @@
 /**
  * 
  */
-package base.sets;
+package base.editor;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 import base.Main;
 import base.graphics.FadePopup;
+import base.sets.ProblemSet;
 import fxutils.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -83,7 +84,7 @@ public class TopicSelectionPopup extends FadePopup {
 	private void initAddSelectedButton() {
 		addSelectedButton.setOnAction(e -> addSelectedButtonAction());
 		addSelectedButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, ADD_SELECTED_BUTTON_CSS);
-		disableAddSelectedButton();
+		setAddSelectedButtonEnabled(false);
 	}
 	
 	private void addSelectedButtonAction() {
@@ -127,7 +128,7 @@ public class TopicSelectionPopup extends FadePopup {
 	}
 	
 	public Stream<TopicSelector> selectedSelectors() {
-		return selectors().filter(s -> s.isSelected());
+		return selectors().filter(TopicSelector::isSelected);
 	}
 	
 	/** This method generates a new {@link Topic} from each {@link TopicSelector#isSelected() selected}
@@ -138,12 +139,8 @@ public class TopicSelectionPopup extends FadePopup {
 		return getTopicsFrom(selectedSelectors());
 	}
 	
-	public void disableAddSelectedButton() {
-		addSelectedButton.setDisable(true);
-	}
-	
-	public void enableAddSelectedButton() {
-		addSelectedButton.setDisable(false);
+	public void setAddSelectedButtonEnabled(boolean enabled) {
+		addSelectedButton.setDisable(!enabled);
 	}
 	
 	public TopicSelectorBox selectorBox() {

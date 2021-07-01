@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base.sets;
+package base.editor;
 
 import java.util.IdentityHashMap;
 
@@ -84,7 +84,7 @@ public final class TopicPane extends TitledPane {
 	}
 	
 	private void trashCanAction() {
-		EditorPane.get().removeTopic(topic);
+		EditorPane.get().removeTopicPane(this);
 	}
 	
 	private void initContent() {
@@ -106,6 +106,10 @@ public final class TopicPane extends TitledPane {
 	
 	public void hideTrashCan() {
 		trashCan.setVisible(false);
+	}
+	
+	public Topic topic() {
+		return topic;
 	}
 	
 }

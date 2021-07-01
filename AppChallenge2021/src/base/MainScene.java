@@ -3,6 +3,7 @@
  */
 package base;
 
+import base.editor.EditorPane;
 import base.graphics.*;
 import base.sets.*;
 import base.stats.StatsPane;

@@ -32,6 +32,7 @@ public final class SetConfiguration implements Serializable {
 		return topics;
 	}
 	
+	/** @throws IllegalArgumentException if the given {@link Topic} is not in this {@link SetConfiguration}.*/
 	public void removeTopic(Topic topic) {
 		if(!removeTopicIfPresent(topic))
 			throw new IllegalArgumentException(String.format("%s is not in this SetConfiguration", topic));
@@ -47,7 +48,7 @@ public final class SetConfiguration implements Serializable {
 		topics.add(topic);
 	}
 
-	public void addTopics(Collection<Topic> topics) {
+	public void addTopics(Iterable<Topic> topics) {
 		for(Topic t : topics)
 			addTopic(t);
 	}

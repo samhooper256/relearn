@@ -1,4 +1,4 @@
-package base.sets;
+package base.editor;
 
 import java.util.function.Predicate;
 

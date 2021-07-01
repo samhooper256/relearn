@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base.sets;
+package base.editor;
 
 import base.Verifiable;
 import javafx.scene.control.TextField;

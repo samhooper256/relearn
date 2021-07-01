@@ -125,7 +125,7 @@ public final class ProblemSet implements Serializable {
 		return config().createDeck();
 	}
 	
-	public void addTopics(Collection<Topic> topics) {
+	public void addTopics(Iterable<Topic> topics) {
 		config().addTopics(topics);
 	}
 

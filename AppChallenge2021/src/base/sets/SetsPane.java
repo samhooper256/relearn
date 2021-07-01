@@ -4,6 +4,7 @@
 package base.sets;
 
 import base.*;
+import base.editor.EditorPane;
 import base.graphics.BackArrow;
 import fxutils.*;
 import javafx.scene.control.*;
