@@ -224,12 +224,16 @@
 	-fx-image: url("./x_red.png");
 }
 
+.magnifying-glass {
+	-fx-image: url("./magnify.png");
+}
+
 .topic-selector-box {
 	-fx-spacing: 10;
 	-fx-padding: 10;
 }
 
-.topic-selector .name-layer .name {
+.topic-selector .name {
 	-fx-font: 14 "Georgia";	
 }
 
