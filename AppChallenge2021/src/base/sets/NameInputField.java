@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 public class NameInputField extends TextField implements Verifiable {
 
 	@Override
-	public VerificationResult verify() {
+	public VerificationResult verify() { //TODO disallow duplicate set names!
 		if(getText().isBlank())
 			return VerificationResult.failure("Name must not be blank");
 		return VerificationResult.success();

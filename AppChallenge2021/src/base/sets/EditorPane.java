@@ -19,34 +19,36 @@ import topics.*;
  */
 public class EditorPane extends StackPane implements Verifiable {
 	
-	public enum Mode {
-		NORMAL, REMOVAL;
-	}
+	public static final String EDITOR_BUTTON_CSS = "editor-button";
 	
 	private static final String
 			TITLE = "Set Editor",
 			ADD_TEXT = "+ Add Topic",
-			NORMAL_MODE_REMOVE_TEXT = "- Remove",
+			NORMAL_MODE_REMOVE_TEXT = "- Remove Topic",
 			REMOVAL_MODE_REMOVE_TEXT = "Done";
 	private static final String 
 			EDITOR_PANE_CSS = "editor-pane",
-			NAME_LAYER_CSS = "name-layer",
-			PORTION_LAYER_CSS = "portion-layer";
+			PORTION_LAYER_CSS = "portion-layer",
+			TOPIC_MANAGEMENT_BOX_CSS = "topic-management-box",
+			ADD_TOPIC_BUTTON_CSS = "add-topic-button",
+			REMOVE_TOPIC_BUTTON_CSS = "remove-topic-button";
 	private static final EditorPane INSTANCE = new EditorPane();
 	private static final double PORTION_BAR_HEIGHT = 200;
+	
+	public enum Mode {
+		NORMAL, REMOVAL;
+	}
 	
 	public static EditorPane get() {
 		return INSTANCE;
 	}
 	
-	private final VBox primaryZLayer, nameLayer, topicManagementBox;
+	private final VBox primaryZLayer, topicManagementBox;
 	private final TopicPaneContainer topicPaneContainer;
-	private final HBox topLayer, nameRow, topicLayer, portionLayer;
+	private final HBox topLayer, topicLayer, portionLayer;
 	private final BackArrow backArrow;
 	private final Button addTopicButton, removeTopicButton;
-	private final NameInputField nameField;
-	private final Label nameLabel;
-	private final ErrorMessage nameError;
+	private final NameLayer nameLayer;
 	
 	private ProblemSet set;
 	private String nameOnOpening;
@@ -64,11 +66,7 @@ public class EditorPane extends StackPane implements Verifiable {
 		topLayer = new HBox(backArrow, headerLabel);
 		
 		//name layer:
-		nameLabel = new Label("Name:");
-		nameField = new NameInputField();
-		nameRow = new HBox(nameLabel, nameField);
-		nameError = new ErrorMessage("");
-		nameLayer = new VBox(nameRow, nameError);
+		nameLayer = new NameLayer();
 		
 		//topic layer
 		addTopicButton = new Button(ADD_TEXT);
@@ -87,7 +85,6 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	private void initPrimaryZLayer() {
 		initBackArrow();
-		initNameLayer();
 		initTopicLayer();
 		initPortionLayer();
 		VBox.setVgrow(topicLayer, Priority.ALWAYS);
@@ -99,11 +96,11 @@ public class EditorPane extends StackPane implements Verifiable {
 
 	private void backArrowAction() {
 		if(verify().isSuccess()) {
-			set.setName(nameField.getText().strip());
+			set.setName(nameLayer.name());
 			if(!set.isRegistered())
 				set.register();
 			Main.scene().showSets();
-			hideNameError();
+			nameLayer.hideError();
 		}
 	}
 	
@@ -117,10 +114,12 @@ public class EditorPane extends StackPane implements Verifiable {
 	private void initTopicManagementBox() {
 		initAddTopicButton();
 		initRemoveTopicButton();
+		topicManagementBox.getStyleClass().add(TOPIC_MANAGEMENT_BOX_CSS);
 	}
 	
 	private void initAddTopicButton() {
 		addTopicButton.setOnAction(e -> addTopicAction());
+		addTopicButton.getStyleClass().addAll(EDITOR_BUTTON_CSS, ADD_TOPIC_BUTTON_CSS);
 	}
 	
 	private void addTopicAction() {
@@ -130,6 +129,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	
 	private void initRemoveTopicButton() {
 		removeTopicButton.setOnAction(e -> removeTopicAction());
+		removeTopicButton.getStyleClass().addAll(EDITOR_BUTTON_CSS, REMOVE_TOPIC_BUTTON_CSS);
 	}
 	
 	private void removeTopicAction() {
@@ -138,18 +138,6 @@ public class EditorPane extends StackPane implements Verifiable {
 			case REMOVAL -> setToNormalMode();
 			default -> unsupported(mode);
 		}
-	}
-	
-	private void initNameLayer() {
-		initNameRow();
-		nameError.setVisible(false);
-		nameLayer.getStyleClass().add(NAME_LAYER_CSS);
-	}
-	
-	private void initNameRow() {
-		nameRow.setSpacing(20);
-		nameRow.setAlignment(Pos.CENTER);
-		nameField.setOnChange(this::hideNameError);
 	}
 	
 	private void initPortionLayer() {
@@ -165,7 +153,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	public void edit(ProblemSet set) {
 		this.set = set;
 		nameOnOpening = set.name();
-		nameField.setText(nameOnOpening);
+		nameLayer.setName(nameOnOpening);
 		topicPaneContainer.getChildren().clear();
 		TopicSelectionPopup.get().setProblemSet(set);
 		updatePortions();
@@ -211,19 +199,8 @@ public class EditorPane extends StackPane implements Verifiable {
 	@Override
 	public VerificationResult verify() {
 		boolean hasTopic = topicPaneContainer.verify().isSuccess();
-		VerificationResult nameResult = nameField.verify();
-		if(nameResult.isFailure())
-			showNameError(nameResult.errorMessage());
-		return VerificationResult.of(hasTopic && nameResult.isSuccess());
-	}
-	
-	private void showNameError(String message) {
-		nameError.setText(message);
-		nameError.setVisible(true);
-	}
-	
-	private void hideNameError() {
-		nameError.setVisible(false);
+		boolean hasValidName = nameLayer.verify().isSuccess();
+		return VerificationResult.of(hasTopic && hasValidName);
 	}
 	
 	public ProblemSet currentSet() {

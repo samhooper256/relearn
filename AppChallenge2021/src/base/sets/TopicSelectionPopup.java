@@ -20,8 +20,6 @@ import topics.*;
  */
 public class TopicSelectionPopup extends FadePopup {
 	
-	public static final String TOPIC_SELECTION_POPUP_BUTTON = "tsp-button";
-	
 	private static final String
 			TOPIC_SELECTION_POPUP_CSS = "topic-selection-popup",
 			VBOX_CSS = "vbox",
@@ -84,7 +82,7 @@ public class TopicSelectionPopup extends FadePopup {
 	
 	private void initAddSelectedButton() {
 		addSelectedButton.setOnAction(e -> addSelectedButtonAction());
-		addSelectedButton.getStyleClass().addAll(TOPIC_SELECTION_POPUP_BUTTON, ADD_SELECTED_BUTTON_CSS);
+		addSelectedButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, ADD_SELECTED_BUTTON_CSS);
 		disableAddSelectedButton();
 	}
 	
@@ -102,7 +100,7 @@ public class TopicSelectionPopup extends FadePopup {
 		Images.setFitSize(cancelGraphic, Main.BUTTON_ICON_SIZE);
 		cancelGraphic.getStyleClass().add(BUTTON_GRAPHIC_CSS);
 		cancelButton.setOnAction(e -> cancelButtonAction());
-		cancelButton.getStyleClass().addAll(TOPIC_SELECTION_POPUP_BUTTON, CANCEL_BUTTON_CSS);
+		cancelButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, CANCEL_BUTTON_CSS);
 		cancelButton.setGraphic(cancelGraphic);
 	}
 	

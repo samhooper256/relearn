@@ -10,6 +10,10 @@
 	-app-green-light-accent: #84E884;
 	-app-red: red;
 	-app-red-accent: #FF8787;
+	-app-red-light-accent: #FF9494;
+	-app-orange: #F58300;
+	-app-orange-accent: #FFD099;
+	-app-orange-light-accent: #FCD6A9;
 	-app-grey: grey;
 	-app-grey-accent: lightgrey;
 	-fx-background-color: -app-base;
@@ -131,8 +135,17 @@
 	-fx-alignment: center;
 }
 
+.editor-pane .name-layer .row {
+	-fx-spacing: 20;
+	-fx-alignment: center;
+}
+
 .editor-pane .portion-layer {
 	-fx-padding: 20px 40px 40px 40px;
+}
+
+.topic-management-box {
+	-fx-spacing: 10;	
 }
 
 .topic-pane {
@@ -222,13 +235,14 @@
 	visibility: false;
 }
 
-.tsp-button {
+.editor-button {
 	-fx-border-radius: 4;
 	-fx-background-radius: 6;
 	-fx-font: 14 "Georgia";
 	-fx-focus-traversable: false;
 }
 
+.topic-management-box .add-topic-button,
 .topic-selection-popup .add-selected-button,
 .topic-selector .unselected-button {
 	-fx-border-color: -app-green;
@@ -236,10 +250,30 @@
 	-fx-text-fill: -app-green;
 }
 
+.topic-management-box .add-topic-button:hover,
+.topic-selector .unselected-button:hover,
+.topic-selection-popup .add-selected-button:hover {
+	-fx-background-color: -app-green-light-accent;
+}
+
+.topic-management-box .remove-topic-button {
+	-fx-border-color: -app-orange;
+	-fx-background-color: -app-orange-accent;
+	-fx-text-fill: -app-orange;
+}
+
+.topic-management-box .remove-topic-button:hover {
+	-fx-background-color: -app-orange-light-accent;
+}
+
 .topic-selection-popup .cancel-button {
 	-fx-border-color: -app-red;
 	-fx-background-color: -app-red-accent;
 	-fx-text-fill: -app-red;
+}
+
+.topic-selection-popup .cancel-button:hover {
+	-fx-background-color: -app-red-light-accent;
 }
 
 .topic-selection-popup .cancel-button .graphic {
@@ -266,11 +300,6 @@
 
 .topic-selector .unselected-button .graphic {
 	-fx-image: url("./plus_green.png");
-}
-
-.topic-selector .unselected-button:hover,
-.topic-selection-popup .add-selected-button:hover {
-	-fx-background-color: -app-green-light-accent;
 }
 
 .topic-selector .selected-button {
