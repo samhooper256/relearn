@@ -4,9 +4,8 @@ open module appchallenge2021 {
 	
 	requires transitive javafx.base;
 	requires transitive javafx.graphics;
-	requires transitive jlatexmath;
-	requires transitive org.jfree.fxgraphics2d;
-	requires transitive javafx.swing;
+	requires transitive javafx.web;
+	
 	requires javafx.controls;
 	requires org.controlsfx.controls;
 	
