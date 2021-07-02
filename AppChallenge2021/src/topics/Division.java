@@ -4,6 +4,7 @@
 package topics;
 
 import base.*;
+import base.problems.*;
 import utils.RNG;
 
 /**

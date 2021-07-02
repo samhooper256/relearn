@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base;
+package base.problems;
 
 import topics.Topic;
 
@@ -11,12 +11,12 @@ import topics.Topic;
  */
 public interface Problem {
 	
-	String displayHTML();
+	Statement statement();
 	
-	String sampleAnswer();
+	Topic topic();
 	
 	boolean isCorrect(String answer);
 	
-	Topic topic();
-
+	String sampleAnswer();
+	
 }

@@ -7,6 +7,7 @@ import java.util.*;
 
 import base.*;
 import base.graphics.BackArrow;
+import base.problems.Problem;
 import base.stats.Data;
 import fxutils.*;
 import javafx.geometry.Pos;
@@ -57,7 +58,7 @@ public final class PracticePane extends StackPane {
 		initHeader();
 		
 		problemDisplay = new WebView();
-		StackPane pdWrap = new StackPane(problemDisplay);
+		StackPane pdWrap = new StackPane(problemDisplay); //TODO instance variable, etc.
 		pdWrap.setBorder(Borders.of(Color.RED));
 		
 		field = new TextField();
@@ -210,7 +211,7 @@ public final class PracticePane extends StackPane {
 		currentProblem = problem;
 		incorrectAnswerGiven = false;
 		clearField();
-		setProblemHTML(problem.displayHTML());
+		setProblemHTML(problem.statement().html());
 		
 	}
 	

@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.*;
 
 import base.*;
+import base.problems.Problem;
 import base.sets.ProblemSet;
 import topics.TopicUtils;
 import utils.IO;

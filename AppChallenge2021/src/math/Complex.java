@@ -25,6 +25,8 @@ public interface Complex {
 	/** Returns {@code true} if the given {@code String} could be passed to {@link #of(String)} without throwing
 	 * an exception. The given {@code String} must not contain any whitespace.*/
 	static boolean isValid(String str) {
+		if(Fraction.isValid(str))
+			return true;
 		if(str.endsWith(IMAGINARY_UNIT)) {
 			int midSign = Strings.lastIndexOf(str, Parsing::isSign);
 			return isValidBigDecimal(str, 0, midSign)
@@ -38,6 +40,8 @@ public interface Complex {
 	}
 	
 	static Complex of(String str) {
+		if(Fraction.isValid(str))
+			return Fraction.of(str);
 		if(!isValid(str))
 			throw new IllegalArgumentException(String.format("Invalid Complex literal: %s", str));
 		if(str.endsWith(IMAGINARY_UNIT)) {

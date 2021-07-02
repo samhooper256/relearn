@@ -18,6 +18,12 @@ import utils.*;
  *
  */
 public final class BigUtils {
+		
+	private BigUtils() {
+		
+	}
+	
+	public static final BigDecimal HUNDREDTH = new BigDecimal("0.01");
 	
 	public static boolean isZero(BigDecimal bd) {
 		return bd.compareTo(BigDecimal.ZERO) == 0;
@@ -118,14 +124,17 @@ public final class BigUtils {
 		return b1.subtract(b2).abs().compareTo(tolerance) <= 0;
 	}
 	
-	public static boolean equalWithinTolerancePercent(BigDecimal b1, BigDecimal b2, BigDecimal tolerancePercent) {
-		BigDecimal abs1 = b1.abs(), abs2 = b2.abs();
-		final BigDecimal tolerance;
-		if(abs1.compareTo(abs2) >= 0)
-			tolerance = abs1.multiply(tolerancePercent);
-		else
-			tolerance = abs2.multiply(tolerancePercent);
-		return equalWithinTolerance(b1, b2, tolerance);
+	/** Returns {@code true} iff {@code estimate} is within the closed interval:
+	 * <pre>[trueValue - A*tolerancePercent, trueValue + A*tolerancePercent]</pre>,
+	 * where {@code A} is the {@link BigDecimal#abs() absolute value} of {@code trueValue}.
+	 * @throws IllegalArgumentException if {@code tolerancePercent} is negative.*/
+	public static boolean equalWithinTolerancePercent
+			(BigDecimal trueValue, BigDecimal estimate, BigDecimal tolerancePercent) {
+		if(isNegative(tolerancePercent))
+			throw new IllegalArgumentException(
+					String.format("tolerancePercent must not be negative, was: %f", tolerancePercent));
+		final BigDecimal tolerance = trueValue.abs().multiply(tolerancePercent);
+		return equalWithinTolerance(trueValue, estimate, tolerance);
 	}
 	
 }

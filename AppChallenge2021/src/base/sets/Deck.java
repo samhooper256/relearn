@@ -5,7 +5,7 @@ package base.sets;
 
 import java.util.*;
 
-import base.Problem;
+import base.problems.Problem;
 
 /**
  * @author Sam Hooper

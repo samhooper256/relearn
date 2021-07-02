@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import base.*;
+import base.problems.Problem;
 import javafx.beans.property.*;
 
 /**

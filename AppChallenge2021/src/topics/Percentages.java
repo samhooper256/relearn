@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import base.*;
-import math.Complex;
+import base.problems.*;
+import math.*;
 import utils.RNG;
 
 /**
@@ -40,12 +41,10 @@ public class Percentages extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		ArrayList<Integer> vals = termCreate();
-		BigDecimal actualAnswer = new BigDecimal(vals.get(0) * vals.get(1) * 0.01);
-		
-		
-		String equation = "What is " + vals.get(0) + "% of " + vals.get(1) + "?";
+		BigDecimal actualAnswer = new BigDecimal(vals.get(0) * vals.get(1)).multiply(BigUtils.HUNDREDTH);
+		String equation = String.format("What is %d%% of %d?", vals.get(0), vals.get(1));
 		Complex answer = Complex.of(actualAnswer);
-		MathProblem problem = new MathProblem(this, equation, answer, true);
+		MathProblem problem = MathProblem.ofTolerant(this, Statement.ofText(equation), answer);
 		return problem;
 	}
 	

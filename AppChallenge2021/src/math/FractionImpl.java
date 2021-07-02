@@ -73,7 +73,7 @@ final class FractionImpl implements Fraction {
 	
 	@Override
 	public BigDecimal real() {
-		return toBigDecimal();
+		return toBigDecimal(MathContext.DECIMAL64);
 	}
 	
 	@Override
@@ -93,7 +93,7 @@ final class FractionImpl implements Fraction {
 
 	@Override
 	public BigDecimal abs() {
-		return toBigDecimal().abs();
+		return real().abs();
 	}
 	
 	@Override

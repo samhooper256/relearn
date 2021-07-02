@@ -63,11 +63,6 @@ public interface Fraction extends Complex {
 	
 	boolean isImproper();
 	
-	/** Converts this {@link Fraction} to a {@link BigDecimal} using the {@link MathContext#DECIMAL32} context. */
-	default BigDecimal toBigDecimal() {
-		return toBigDecimal(MathContext.DECIMAL32);
-	}
-	
 	/** Converts this {@link Fraction} to a {@link BigDecimal} using the given {@link MathContext}. */
 	BigDecimal toBigDecimal(MathContext mc);
 	

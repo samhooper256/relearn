@@ -6,7 +6,7 @@ package base.sets;
 import java.io.*;
 import java.util.*;
 
-import base.Problem;
+import base.problems.Problem;
 import topics.Topic;
 import utils.*;
 
