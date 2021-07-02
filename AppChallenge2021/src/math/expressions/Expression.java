@@ -2,7 +2,7 @@ package math.expressions;
 
 import static math.BigUtils.*;
 
-import java.math.BigDecimal;
+import java.math.*;
 
 import math.*;
 
@@ -17,6 +17,10 @@ public interface Expression {
 		ONE = ExpressionUtils.literal(Complex.ONE),
 		HALF = ExpressionUtils.literal(Complex.HALF);
 	
+	static Expression of(BigInteger value) {
+		return of(new BigDecimal(value));
+	}
+	
 	static Expression of(BigDecimal value) {
 		if(isNonNegative(value))
 			return ExpressionUtils.literal(value);
@@ -25,6 +29,12 @@ public interface Expression {
 	}
 	
 	static Expression of(Complex value) {
+		if(value instanceof Fraction f) {
+			Expression e = of(f.numerator()).over(of(f.denominator()));
+			if(f.isNegative())
+				e = e.negate();
+			return e;
+		}
 		if(	value.isReal() && isNonNegative(value.real()) ||
 			value.isImaginary() && isNonNegative(value.imaginary()))
 			return ExpressionUtils.literal(value);
@@ -74,6 +84,10 @@ public interface Expression {
 	
 	default ParenthesizedExpression parenthesized() {
 		return ExpressionUtils.parenthesized(this);
+	}
+	
+	default FractionExpression over(Expression denominator) {
+		return ExpressionUtils.fraction(this, denominator);
 	}
 	
 }

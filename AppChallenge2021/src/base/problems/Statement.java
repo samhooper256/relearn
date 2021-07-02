@@ -1,7 +1,8 @@
 package base.problems;
 
+import static utils.HTML.*;
+
 import math.expressions.Expression;
-import utils.HTML;
 
 /**
  * <p>A {@link Problem} statement.</p>
@@ -16,11 +17,11 @@ public interface Statement {
 	}
 	
 	static Statement fromExpression(Expression expression) {
-		return new StatementImpl(HTML.ensureHTMLTags(HTML.ensureMathTags(expression.toMathML())));
+		return new StatementImpl(ensureHTMLTags(ensureBodyTags(ensureMathTags(expression.toMathML()))));
 	}
 	
 	static Statement ofText(String text) {
-		return new StatementImpl(HTML.ensureHTMLTags(text));
+		return new StatementImpl(ensureHTMLTags(ensureBodyTags(text)));
 	}
 	
 	String html();

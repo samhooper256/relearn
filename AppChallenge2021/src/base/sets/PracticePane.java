@@ -59,8 +59,7 @@ public final class PracticePane extends StackPane {
 		
 		problemDisplay = new WebView();
 		StackPane pdWrap = new StackPane(problemDisplay); //TODO instance variable, etc.
-		pdWrap.setBorder(Borders.of(Color.RED));
-		
+		pdWrap.setPrefSize(FIELD_WIDTH, 100);
 		field = new TextField();
 		submitButton = new Button("Submit");
 		showAnswerButton = new Button("Show Answer");
@@ -99,7 +98,7 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void initProblemDisplay() {
-		problemDisplay.getStyleClass().add(PROBLEM_DISPLAY_CSS);
+		problemDisplay.getEngine().setUserStyleSheetLocation(getClass().getResource("problemdisplay.css").toString());
 	}
 	
 	private void initField() {

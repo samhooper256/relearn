@@ -1,7 +1,8 @@
 package base.problems;
 
+import static utils.HTML.*;
+
 import math.expressions.Expression;
-import utils.HTML;
 
 /**
  * <p>A {@code StatementBuilder} can be obtained via {@link Statement#builder()}.</p>
@@ -23,12 +24,12 @@ public final class StatementBuilder {
 	}
 	
 	public StatementBuilder addExpression(Expression expression) {
-		html.append(HTML.ensureMathTags(expression.toMathML()));
+		html.append(ensureMathTags(expression.toMathML()));
 		return this;
 	}
 	
 	public Statement build() {
-		return new StatementImpl(HTML.ensureHTMLTags(html.toString()));
+		return new StatementImpl(ensureHTMLTags(ensureBodyTags(html.toString())));
 	}
 	
 }

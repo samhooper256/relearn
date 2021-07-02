@@ -25,8 +25,10 @@ public interface Complex {
 	/** Returns {@code true} if the given {@code String} could be passed to {@link #of(String)} without throwing
 	 * an exception. The given {@code String} must not contain any whitespace.*/
 	static boolean isValid(String str) {
-		if(Fraction.isValid(str))
-			return true;
+		return isValidInRectangularForm(str) || Fraction.isValid(str);
+	}
+	
+	static boolean isValidInRectangularForm(String str) {
 		if(str.endsWith(IMAGINARY_UNIT)) {
 			int midSign = Strings.lastIndexOf(str, Parsing::isSign);
 			return isValidBigDecimal(str, 0, midSign)
@@ -40,16 +42,18 @@ public interface Complex {
 	}
 	
 	static Complex of(String str) {
-		if(Fraction.isValid(str))
-			return Fraction.of(str);
-		if(!isValid(str))
-			throw new IllegalArgumentException(String.format("Invalid Complex literal: %s", str));
-		if(str.endsWith(IMAGINARY_UNIT)) {
-			int midSign = Strings.lastIndexOf(str, Parsing::isSign);
-			return of(new BigDecimal(str.substring(0, midSign)),
-					new BigDecimal(str.substring(midSign, str.length() - 1)));
+		if(isValidInRectangularForm(str)) {
+			if(str.endsWith(IMAGINARY_UNIT)) {
+				int midSign = Strings.lastIndexOf(str, Parsing::isSign);
+				return of(new BigDecimal(str.substring(0, midSign)),
+						new BigDecimal(str.substring(midSign, str.length() - 1)));
+			}
+			return of(new BigDecimal(str));
 		}
-		return of(new BigDecimal(str));
+		else if(Fraction.isValid(str)) {
+			return Fraction.of(str);
+		}
+		throw new IllegalArgumentException(String.format("Invalid Complex literal: %s", str));
 	}
 	
 	static Complex of(BigDecimal real) {
