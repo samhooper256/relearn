@@ -8,10 +8,6 @@ import math.Complex;
  *
  */
 public interface SubtractionExpression extends BinaryExpression {
-
-	static SubtractionExpression of(Expression first, Expression second) {
-		return new SubtractionExpressionImpl(first, second);
-	}
 	
 	@Override
 	default Complex value() {

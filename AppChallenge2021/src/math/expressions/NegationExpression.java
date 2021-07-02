@@ -8,10 +8,6 @@ import math.Complex;
  *
  */
 public interface NegationExpression extends UnaryExpression {
-
-	static NegationExpression of(Expression operand) {
-		return new NegationExpressionImpl(operand);
-	}
 	
 	@Override
 	default Complex value() {

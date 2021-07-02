@@ -40,4 +40,5 @@ public final class MathUtils {
 			throw new ArithmeticException(String.format("10^%d is not representable in an int", n));
 		return POWERS_OF_10[n];
 	}
+	
 }

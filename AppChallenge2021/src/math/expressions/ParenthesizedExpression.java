@@ -7,10 +7,6 @@ import math.Complex;
  *
  */
 public interface ParenthesizedExpression extends UnaryExpression {
-
-	static ParenthesizedExpression of(Expression expression) {
-		return new ParenthesizedExpressionImpl(expression);
-	}
 	
 	@Override
 	default Complex value() {

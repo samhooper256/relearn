@@ -9,10 +9,6 @@ import math.Complex;
  */
 public interface AdditionExpression extends BinaryExpression {
 
-	static AdditionExpression of(Expression first, Expression second) {
-		return new AdditionExpressionImpl(first, second);
-	}
-	
 	@Override
 	default Complex value() {
 		return first().value().add(second().value());

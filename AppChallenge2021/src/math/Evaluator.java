@@ -302,19 +302,18 @@ public final class Evaluator {
 	}
 	
 	private static UnaryExpression unaryExpressionFrom(Token operator, Expression operand) {
-		if("-".equals(operator.text())) {
-			return NegationExpression.of(operand);
-		}
+		if("-".equals(operator.text()))
+			return operand.negate();
 		throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
 	}
 	
 	private static BinaryExpression binaryExpressionFrom(Token operator, Expression left, Expression right) {
 		return switch(operator.text()) {
-			case "+" -> AdditionExpression.of(left, right);
-			case "-" -> SubtractionExpression.of(left, right);
-			case "*" -> MultiplicationExpression.of(left, right);
-			case "/" -> DivisionExpression.of(left, right);
-			case "^" -> ExponentiationExpression.of(left, right);
+			case "+" -> left.add(right);
+			case "-" -> left.subtract(right);
+			case "*" -> left.multiply(right);
+			case "/" -> left.divide(right);
+			case "^" -> left.pow(right);
 			default -> throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
 		};
 	}

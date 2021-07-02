@@ -9,10 +9,6 @@ import math.Complex;
  */
 public interface ExponentiationExpression extends BinaryExpression {
 	
-	static ExponentiationExpression of(Expression base, Expression exponent) {
-		return new ExponentiationExpressionImpl(base, exponent);
-	}
-	
 	Expression base();
 	
 	Expression exponent();
@@ -34,7 +30,7 @@ public interface ExponentiationExpression extends BinaryExpression {
 
 	@Override
 	default String toMathML() {
-		return String.format("<msup>%s%s</msup>", base(), exponent());
+		return String.format("<msup>%s%s</msup>", base().toMathML(), exponent().toMathML());
 	}
 	
 }

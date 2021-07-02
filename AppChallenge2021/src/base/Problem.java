@@ -11,12 +11,12 @@ import topics.Topic;
  */
 public interface Problem {
 	
-	String displayText();
+	String displayHTML();
 	
 	String sampleAnswer();
 	
 	boolean isCorrect(String answer);
 	
 	Topic topic();
-	
+
 }

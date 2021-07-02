@@ -8,10 +8,6 @@ import math.Complex;
  *
  */
 public interface MultiplicationExpression extends BinaryExpression {
-
-	static MultiplicationExpression of(Expression left, Expression right) {
-		return new MultiplicationExpressionImpl(left, right);
-	}
 	
 	@Override
 	default Complex value() {

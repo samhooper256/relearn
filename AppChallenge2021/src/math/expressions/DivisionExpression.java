@@ -9,10 +9,6 @@ import math.Complex;
  */
 public interface DivisionExpression extends BinaryExpression {
 
-	static DivisionExpression of(Expression left, Expression right) {
-		return new DivisionExpressionImpl(left, right);
-	}
-	
 	@Override
 	default Complex value() {
 		return first().value().divide(second().value());

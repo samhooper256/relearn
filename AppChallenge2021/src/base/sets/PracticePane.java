@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebView;
 
 /**
  * @author Sam Hooper
@@ -33,7 +34,8 @@ public final class PracticePane extends StackPane {
 	
 	private final VBox userArea;
 	private final TextField field;
-	private final Label problemDisplay, title;
+	private final WebView problemDisplay;
+	private final Label title;
 	private final HBox header, buttonBar, backArrowBox;
 	private final BackArrow backArrow;
 	private final Button submitButton, showAnswerButton;
@@ -54,12 +56,15 @@ public final class PracticePane extends StackPane {
 		header = new HBox(title);
 		initHeader();
 		
-		problemDisplay = new Label();
+		problemDisplay = new WebView();
+		StackPane pdWrap = new StackPane(problemDisplay);
+		pdWrap.setBorder(Borders.of(Color.RED));
+		
 		field = new TextField();
 		submitButton = new Button("Submit");
 		showAnswerButton = new Button("Show Answer");
 		buttonBar = new HBox(showAnswerButton, submitButton);
-		userArea = new VBox(problemDisplay, field, buttonBar);
+		userArea = new VBox(pdWrap, field, buttonBar);
 		initUserArea();
 		
 		getChildren().addAll(backArrowBox, header, userArea);
@@ -205,7 +210,7 @@ public final class PracticePane extends StackPane {
 		currentProblem = problem;
 		incorrectAnswerGiven = false;
 		clearField();
-		setProblemText(problem.displayText());
+		setProblemHTML(problem.displayHTML());
 		
 	}
 	
@@ -214,8 +219,9 @@ public final class PracticePane extends StackPane {
 		hideFinishPopup();
 	}
 	
-	private void setProblemText(String text) {
-		problemDisplay.setText(text);
+	private void setProblemHTML(String html) {
+		System.out.printf("setting HTML: %s%n", html);
+		problemDisplay.getEngine().loadContent(html);
 	}
 	
 	private void clearField() {
