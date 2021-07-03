@@ -1,5 +1,7 @@
 package topics;
 
+import javafx.beans.property.*;
+
 public final class IntRange implements TopicSetting {
 	
 	private static final long serialVersionUID = 7954923562546121424L;

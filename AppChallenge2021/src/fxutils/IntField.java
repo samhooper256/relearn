@@ -11,34 +11,61 @@ import utils.*;
 
 /**
  * <p>A {@link TextField} that only allows integers to be typed.</p>
+ * 
+ * <p>The {@link #min() minimum} allowable value of an {@code IntField} must be {@code 0} if the {@link #max() maximum}
+ * allowable value is positive (or zero). The following
+ * example demonstrates why: Suppose the minimum value was 5 and the maximum was 15. If the user wanted to type "12",
+ * they would first need to type "1". However, the text "1" would not be allowable, since it is not in the valid range
+ * of this {@code IntField}. Therefore, the user would not be able to (or would have to find a crafty way to) enter
+ * completely valid inputs. This is not desirable. For a similar reason, the maximum value must be {@code 0} if the
+ * minimum value is negative.</p>
+ * 
  * @author Sam Hooper
  *
  */
 public class IntField extends TextField {
 	
 	/** The {@link #intValue()} of this {@link IntField} when it is empty.*/
-	public static final int EMPTY_VALUE = 0;
+	public static final int DEFAULT_EMPTY_VALUE = 0;
 	
 	private static final String INT_FIELD_CSS = "int-field";
 	
-	private final SimpleIntegerProperty valueProperty;
+	private final IntegerProperty valueProperty;
 	
-	private int min, max;
+	private final int min, max;
 	
-	public IntField(int minValue, int maxValue) {
-		this.min = minValue;
-		this.max = maxValue;
+	private int emptyValue;
+	
+	public IntField(int min, int max) {
+		if(min > max)
+			throw new IllegalArgumentException(String.format("min > max (%d > %d)", min, max));
+		if(max >= 0) {
+			if(min != 0)
+				throw new IllegalArgumentException(String.format("min must be 0 (was %d) if max is positive %d", min));
+		}
+		else if(min < 0) {
+			if(max != 0)
+				throw new IllegalArgumentException(String.format("max must be 0 (was %d) if min is negative", max));
+		}
+		this.min = min;
+		this.max = max;
+		valueProperty = new SimpleIntegerProperty(DEFAULT_EMPTY_VALUE);
+		emptyValue = DEFAULT_EMPTY_VALUE;
+		init();
+	}
+	
+	public IntField(int min, int max, int startingValue, int emptyValue) {
+		this(min, max);
+		setValue(startingValue);
+		this.emptyValue = emptyValue;
+	}
+	
+	private void init() {
 		initFormatter();
-		valueProperty = new SimpleIntegerProperty();
 		initValueProperty();
 		getStyleClass().add(INT_FIELD_CSS);
 	}
 	
-	public IntField(int minValue, int maxValue, int startingValue) {
-		this(minValue, maxValue);
-		setValue(startingValue);
-	}
-
 	private void initFormatter() {
 		UnaryOperator<TextFormatter.Change> op = change -> {
 			String oldText = getText();
@@ -49,7 +76,7 @@ public class IntField extends TextField {
 			int val;
 			change.setRange(0, oldText.length());
 			if(	cleanedNewText.isEmpty() ||
-				Parsing.isint(cleanedNewText) && (val = Integer.parseInt(cleanedNewText)) >= min && val <= max)
+				Parsing.isint(cleanedNewText) && (val = Integer.parseInt(cleanedNewText)) >= min() && val <= max())
 				change.setText(cleanedNewText);
 			else
 				change.setText(oldText);
@@ -63,7 +90,7 @@ public class IntField extends TextField {
 			if(hasValidInt())
 				valueProperty.set(parseText());
 			else //it may not have a valid int if the box is empty.
-				valueProperty.set(EMPTY_VALUE);
+				valueProperty.set(emptyValue);
 		});
 	}
 	
@@ -83,26 +110,18 @@ public class IntField extends TextField {
 		return valueProperty;
 	}
 	
-	public void setValue(int newValue) {
-		if(newValue < min || newValue > max)
+	private void setValue(int newValue) {
+		if(newValue < min() || newValue > max())
 			throw new IllegalArgumentException(String.format("newValue (%d) out of range", newValue));
 		setText(String.valueOf(newValue));
-	}
-	
-	public int max() {
-		return max;
 	}
 	
 	public int min() {
 		return min;
 	}
 	
-	public void setMin(int newMin) {
-		min = newMin;
-	}
-	
-	public void setMax(int newMax) {
-		max = newMax;
+	public int max() {
+		return max;
 	}
 	
 	public boolean isEmpty() {

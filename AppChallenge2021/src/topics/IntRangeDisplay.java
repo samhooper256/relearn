@@ -20,8 +20,8 @@ public class IntRangeDisplay extends HBox implements IndependentlyVerifiable {
 		this.range = range;
 		name = new Label(range.name());
 		to = new Label("to");
-		low = new IntField(range.min(), range.max(), range.low());
-		high = new IntField(range.min(), range.max(), range.high());
+		low = new IntField(range.min(), range.max(), range.low(), range.min());
+		high = new IntField(range.min(), range.max(), range.high(), range.max());
 		initFields();
 		error = new ErrorMessage("Values must not be empty");
 		initError();
