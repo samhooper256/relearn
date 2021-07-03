@@ -35,6 +35,20 @@ public class SetCard extends StackPane {
 		return obj;
 	}
 	
+	/** @throws IllegalArgumentException if the given {@link ProblemSet} does not already have a {@link SetCard}.*/
+	public static SetCard ofExisting(ProblemSet set) {
+		SetCard card = CACHE.get(set);
+		if(card == null)
+			throw new IllegalArgumentException(String.format("The given set did not have a SetCard: %s", set));
+		return card;
+	}
+
+	public static synchronized void remove(SetCard card) {
+		assert CACHE.get(card.set()) == card;
+		SetsPane.get().removeCard(card);
+		CACHE.remove(card.set());
+	}
+	
 	private final ProblemSet set;
 	private final VBox vBox;
 	private final Button practiceButton;
@@ -75,10 +89,10 @@ public class SetCard extends StackPane {
 	}
 	
 	private void initPracticeButton() {
-		practiceButton.setOnAction(e -> Main.scene().startPractice(getSet()));
+		practiceButton.setOnAction(e -> Main.scene().startPractice(set()));
 	}
 	
-	public ProblemSet getSet() {
+	public ProblemSet set() {
 		return set;
 	}
 	

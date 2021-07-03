@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import base.Main;
+import base.stats.Data;
 import javafx.beans.property.*;
 import topics.*;
 import utils.*;
@@ -58,9 +59,18 @@ public final class ProblemSet implements Serializable {
 		}
 	}
 	
-	public static ReadOnlyAudibleCollection<ProblemSet> all() {
+	public static ReadOnlyAudibleSet<ProblemSet> all() {
 		return SETS;
 	}	
+	
+	/** Un-{@link #isRegistered() registers} the given {@link ProblemSet}, removing it from {@link #all()} and making
+	 * its name no long {@link #isInUse(String) in use}. This method also deletes all of the stats for the given set
+	 * via {@link base.stats.Data#removeStatsFor(ProblemSet)}.*/
+	public static void remove(ProblemSet set) {
+		NAMES.remove(set.name());
+		SETS.remove(set);
+		Data.removeStatsFor(set);
+	}
 	
 	/** Returns {@code true} iff a {@link ProblemSet} with the given name is already
 	 * {@link #isRegistered() registered}.*/
@@ -139,7 +149,7 @@ public final class ProblemSet implements Serializable {
 		return SETS.contains(this);
 	}
 	
-	public ReadOnlyAudibleSet<Topic> topics() {
+	public Set<Topic> topics() {
 		return config().topics();
 	}
 	

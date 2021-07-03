@@ -62,7 +62,7 @@ public class TopicSelectionPopup extends FadePopup {
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getChildren().add(vBox);
 		getStyleClass().add(TOPIC_SELECTION_POPUP_CSS);
-		setGlassCloseAction(this::cancelButtonAction);
+		setGlassCloseAction(this::cleanupAfterHiding);
 	}
 
 	private void initVBox() {
@@ -91,7 +91,7 @@ public class TopicSelectionPopup extends FadePopup {
 		List<TopicSelector> selectors = selectedSelectors().toList();
 		List<Topic> topics = selectedTopics().toList();
 		EditorPane.get().addTopics(topics);
-		EditorPane.get().hideTopicSelectionPane();
+		EditorPane.get().fadeOutTopicSelectionPane();
 		for(TopicSelector ts : selectors)
 			ts.setAdded();
 		cleanupAfterHiding();
@@ -106,7 +106,7 @@ public class TopicSelectionPopup extends FadePopup {
 	}
 	
 	private void cancelButtonAction() {
-		EditorPane.get().hideTopicSelectionPane();
+		EditorPane.get().fadeOutTopicSelectionPane();
 		cleanupAfterHiding();
 	}
 	

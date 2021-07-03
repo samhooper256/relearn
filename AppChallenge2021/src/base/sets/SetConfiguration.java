@@ -20,7 +20,7 @@ public final class SetConfiguration implements Serializable {
 	private static final long serialVersionUID = -8580472330700911391L;
 	
 	/** Should not be assigned to except in a constructor or in {@link #readObject(ObjectInputStream)}.*/
-	private transient AudibleSet<Topic> topics;
+	private transient AudibleSet<Topic> topics; //TODO if this set does not need to be audible, make it non-audible.
 	
 	public SetConfiguration(Topic... topics) {
 		this.topics = AudibleSet.create(LinkedHashSet::new);
@@ -28,7 +28,7 @@ public final class SetConfiguration implements Serializable {
 			addTopic(t);
 	}
 	
-	public ReadOnlyAudibleSet<Topic> topics() {
+	public Set<Topic> topics() {
 		return topics;
 	}
 	

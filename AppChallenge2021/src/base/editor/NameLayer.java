@@ -47,6 +47,10 @@ public class NameLayer extends VBox implements Verifiable {
 		field.setText(name);
 	}
 	
+	public void clearName() {
+		setName("");
+	}
+	
 	private void showError(String message) {
 		error.setText(message);
 		error.setVisible(true);

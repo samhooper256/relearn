@@ -60,10 +60,12 @@
 .sets-pane {
 	-fx-background-color: bisque;
 }
+
 .sets-pane .back-arrow-box {
 	-fx-background-color: #29527B;
 	-fx-padding: 10px;
 }
+
 .sets-pane .header {
 	-fx-background-color: -app-accent;
 	-fx-spacing: 20px;
@@ -147,6 +149,23 @@
 
 .delete-set-button .text {
 	-fx-text-fill: -app-crimson;
+}
+
+.delete-popup {
+	-fx-padding: 20;	
+}
+.delete-popup .sure {
+	-fx-font: 36 "Georgia";
+}
+
+.delete-popup .info {
+	-fx-font: 18 "Georgia";
+}
+
+.delete-popup .button-bar {
+	-fx-alignment: center-right;
+	-fx-padding: 16 0 0 0;
+	-fx-spacing: 20;
 }
 
 .editor-pane .header .title {
@@ -240,9 +259,13 @@
 	-fx-padding: 0;
 }
 
+.delete-popup,
 .topic-selection-popup {
 	-fx-background-color: -app-light;
 	-fx-background-radius: 8;
+}
+
+.topic-selection-popup {
 	-fx-padding: 12;
 }
 
@@ -290,6 +313,7 @@
 	-fx-focus-traversable: false;
 }
 
+.delete-popup .no,
 .topic-management-box .add-topic-button,
 .topic-selection-popup .add-selected-button,
 .topic-selector .unselected-button {
@@ -298,18 +322,21 @@
 	-fx-text-fill: -app-green;
 }
 
+.delete-popup .no:hover,
 .topic-management-box .add-topic-button:hover,
 .topic-selector .unselected-button:hover,
 .topic-selection-popup .add-selected-button:hover {
 	-fx-background-color: -app-green-light-accent;
 }
 
+.delete-popup .yes,
 .topic-management-box .remove-topic-button {
 	-fx-border-color: -app-crimson;
 	-fx-background-color: -app-red-accent;
 	-fx-text-fill: -app-crimson;
 }
 
+.delete-popup .yes:hover,
 .delete-set-button:hover,
 .topic-management-box .remove-topic-button:hover {
 	-fx-background-color: -app-red-light-accent;

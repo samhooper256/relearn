@@ -10,7 +10,7 @@ import base.Named;
 
 /**
  * <p>A factory that creates {@link Topic Topics}. The {@link #name() name} of a {@code TopicFactory} is the
- * {@link Topic#name() name} of the {@link Topic} it creates.</p>
+ * {@link Topic#name() name} of the topic it creates.</p>
  * @author Sam Hooper
  *
  */

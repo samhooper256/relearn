@@ -140,6 +140,10 @@ public final class Data {
 		return !statsForTopic(topicName).isEmpty();
 	}
 	
+	public static void removeStatsFor(ProblemSet set) {
+		MAP_BY_SETS.remove(set);
+	}
+	
 	public static void debugPrint() {
 		System.out.printf("MAP_BY_SETS:%n");
 		for(Map.Entry<ProblemSet, DataMap> e : MAP_BY_SETS.entrySet())

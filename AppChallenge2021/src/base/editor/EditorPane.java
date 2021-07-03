@@ -4,9 +4,8 @@
 package base.editor;
 
 import base.*;
-import base.graphics.BackArrow;
+import base.editor.TopicLayer.Mode;
 import base.sets.ProblemSet;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import topics.*;
 
@@ -33,6 +32,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	private final NameLayer nameLayer;
 	private final TopicLayer topicLayer;
 	private final Header header;
+	private final DeletePopup deletePopup;
 	
 	private ProblemSet set;
 	private String nameOnOpening;
@@ -51,6 +51,9 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		primaryZLayer = new VBox(header, nameLayer, topicLayer, portionLayer);
 		initPrimaryZLayer();
 		
+		deletePopup = new DeletePopup(this);
+		initDeletePopup();
+		
 		getChildren().add(primaryZLayer);
 		getStyleClass().add(EDITOR_PANE_CSS);
 	}
@@ -58,6 +61,16 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	private void initPrimaryZLayer() {
 		initPortionLayer();
 		VBox.setVgrow(topicLayer, Priority.ALWAYS);
+	}
+	
+	private void initPortionLayer() {
+		HBox.setHgrow(TopicPortionBar.get(), Priority.ALWAYS);
+		portionLayer.setPrefHeight(PORTION_BAR_HEIGHT);
+		portionLayer.getStyleClass().add(PORTION_LAYER_CSS);
+	}
+	
+	private void initDeletePopup() {
+		deletePopup.setGlassClose(true);
 	}
 	
 	void backArrowAction() {
@@ -76,12 +89,6 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		Main.scene().showSets();
 	}
 	
-	private void initPortionLayer() {
-		HBox.setHgrow(TopicPortionBar.get(), Priority.ALWAYS);
-		portionLayer.setPrefHeight(PORTION_BAR_HEIGHT);
-		portionLayer.getStyleClass().add(PORTION_LAYER_CSS);
-	}
-	
 	void fadeInTopicSelectionPane() {
 		TopicSelectionPopup.get().fadeIn();
 	}
@@ -92,6 +99,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		nameLayer.setName(nameOnOpening);
 		TopicSelectionPopup.get().setProblemSet(set);
 		topicLayer.loadPanesFor(set);
+		topicLayer.setMode(Mode.NORMAL);
 		updatePortions();
 	}
 	
@@ -99,7 +107,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		edit(new ProblemSet());
 	}
 	
-	public void addTopics(Iterable<Topic> topics) {
+	void addTopics(Iterable<Topic> topics) {
 		set.addTopics(topics);
 		topicLayer.addTopicPanesFor(topics);
 		updatePortions();
@@ -109,7 +117,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		TopicPortionBar.get().update(set.config().topics());
 	}
 	
-	public void removeTopicPane(TopicPane pane) {
+	void removeTopicPane(TopicPane pane) {
 		Topic topic = pane.topic();
 		assert currentSet().config().topics().contains(topic);
 		topicLayer.removeTopicPane(pane);
@@ -117,7 +125,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		updatePortions();
 	}
 	
-	public void hideTopicSelectionPane() {
+	void fadeOutTopicSelectionPane() {
 		TopicSelectionPopup.get().fadeOut();
 	}
 	
@@ -128,7 +136,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		return VerificationResult.of(hasTopic && hasValidName);
 	}
 	
-	public ProblemSet currentSet() {
+	ProblemSet currentSet() {
 		return set;
 	}
 
@@ -139,6 +147,23 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	void deleteSetButonAction() {
 		if(!hasAnyTopics())
 			goBack();
+		else
+			fadeInDeletePopup();
+	}
+	
+	void deleteCurrentSet() {
+		assert deletePopup.isVisible() && getChildren().contains(deletePopup);
+		ProblemSet.remove(currentSet());
+		goBack();
+		deletePopup.hidePopup();
+		topicLayer.clearTopicPanes();
+		topicLayer.setMode(Mode.NORMAL);
+		nameLayer.clearName();
+		set = null;
+	}
+	
+	private void fadeInDeletePopup() {
+		deletePopup.fadeIn();
 	}
 	
 }

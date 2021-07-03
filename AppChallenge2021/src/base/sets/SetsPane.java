@@ -61,6 +61,7 @@ public class SetsPane extends StackPane {
 		rootLayer = new VBox(backArrowBox, header, scroll);
 		initVBox();
 		ProblemSet.all().addAddListener(ps -> addCardForSafe(ps));
+		ProblemSet.all().addRemoveListener(ps -> removeCardFor(ps));
 		getStyleClass().add(SETS_PANE_CSS);
 		getChildren().add(rootLayer);
 	}
@@ -124,4 +125,12 @@ public class SetsPane extends StackPane {
 		flow.getChildren().addAll(card);
 	}
 	
+	void removeCardFor(ProblemSet set) {
+		removeCard(SetCard.ofExisting(set));
+	}
+	
+	void removeCard(SetCard card) {
+		assert flow.getChildren().contains(card);
+		flow.getChildren().remove(card);
+	}
 }

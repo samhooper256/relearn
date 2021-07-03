@@ -102,15 +102,15 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 			addTopicPaneFor(t);
 	}
 	
-	private void clearTopicPanes() {
+	void clearTopicPanes() {
 		topicPaneContainer.getChildren().clear();
 	}
 	
-	private Mode mode() {
+	Mode mode() {
 		return mode;
 	}
 	
-	private void setMode(Mode newMode) {
+	void setMode(Mode newMode) {
 		if(mode() == newMode)
 			return;
 		switch(newMode) {

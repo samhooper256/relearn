@@ -25,23 +25,26 @@ public class FadePopup extends StackPane {
 	private static final String GLASS_PANE_CSS = "glass-pane";
 	private static final double STARTING_OPACITY = 0, GLASS_PANE_OPACITY = 0.7;
 	private static final double START_SIZE_PERCENT = 0.70, PEAK_SIZE_PERCENT = 1.02;
-	private static final boolean DEFAULT_GLASS_CLOSE = true;
+	private static final boolean DEFAULT_GLASS_CLOSEABLE = true;
 	
 	private final StackPane glassPane;
 	private final FadeTransition fadeIn, fadeOut, glassFadeIn, glassFadeOut;
 	private final ScaleTransition rise, fall, scaleOut;
 	private final  StackPane over;
 	private final EventHandler<? super MouseEvent> glassClickHandler = e -> {
-		if(!isFadingIn() && isGlassClose() && getGlassCloseAction() != null)
-			getGlassCloseAction().run();
+		if(!isFadingIn() && isGlassCloseable()) {
+			fadeOut();
+			if(getGlassCloseAction() != null)
+				getGlassCloseAction().run();
+		}
 	};
 	
-	private boolean glassClose;
+	private boolean glassCloseable;
 	private Runnable glassCloseAction;
 	
 	protected FadePopup(StackPane over) {
 		this.over = over;
-		this.glassClose = DEFAULT_GLASS_CLOSE;
+		this.glassCloseable = DEFAULT_GLASS_CLOSEABLE;
 		this.glassCloseAction = null;
 		
 		glassPane = new StackPane();
@@ -107,7 +110,8 @@ public class FadePopup extends StackPane {
 		scaleOut.play();
 	}
 	
-	/** Does <em>not</em> run the {@link #getGlassCloseAction() glass close action}.*/
+	/** Hides this {@link FadePopup}.
+	 * Does <em>not</em> run the {@link #getGlassCloseAction() glass close action} and does not play any animations.*/
 	public void hidePopup() {
 		over.getChildren().remove(this);
 		over.getChildren().remove(glassPane);
@@ -126,11 +130,11 @@ public class FadePopup extends StackPane {
 	}
 	
 	public void setGlassClose(boolean glassClose) {
-		this.glassClose = glassClose;
+		this.glassCloseable = glassClose;
 	}
 	
-	public boolean isGlassClose() {
-		return glassClose;
+	public boolean isGlassCloseable() {
+		return glassCloseable;
 	}
 	
 }
