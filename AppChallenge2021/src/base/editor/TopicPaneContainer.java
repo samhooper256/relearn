@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
  * @author Sam Hooper
  *
  */
-public class TopicPaneContainer extends VBox implements Verifiable {
+public class TopicPaneContainer extends VBox implements IndependentlyVerifiable {
 
 	private static final String TOPIC_PANE_CONTAINER_CSS = "topic-pane-container";
 	

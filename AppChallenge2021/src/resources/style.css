@@ -1,3 +1,7 @@
+@font-face {
+	src: url("fonts/RifficFree-Bold.ttf"); /* "Riffic Free Medium" */
+}
+
 .root {
 	-app-white: #F1F1F1;
 	-app-base: #DCE3F1;
@@ -8,6 +12,7 @@
 	-app-green: green;
 	-app-green-accent: #77DD77;
 	-app-green-light-accent: #84E884;
+	-app-crimson: #9E0000;
 	-app-red: red;
 	-app-red-accent: #FF8787;
 	-app-red-light-accent: #FF9494;
@@ -17,10 +22,6 @@
 	-app-grey: grey;
 	-app-grey-accent: lightgrey;
 	-fx-background-color: -app-base;
-}
-
-.header {
-	
 }
 
 .main-menu-button .overlay {
@@ -53,7 +54,7 @@
 }
 
 .title-character {
-	-fx-font: 72 "Yu Gothic";
+	-fx-font: 72 "Riffic Free Medium";
 }
 
 .sets-pane {
@@ -127,12 +128,29 @@
 }
 
 .error-message {
-	-fx-font: 14 "Georgia";
+	-fx-font: 16 "Georgia";
 	-fx-text-fill: red;
 }
 
-.editor-pane .title {
-	-fx-font: 24 "Georgia";
+.editor-pane .header {
+	-fx-padding: 10 10 5 10;
+}
+
+.editor-pane .header .left {
+	-fx-spacing: 10;
+}
+
+.delete-set-button {
+	-fx-border-color: -app-crimson;
+	-fx-background-color: -app-red-accent;
+}
+
+.delete-set-button .text {
+	-fx-text-fill: -app-crimson;
+}
+
+.editor-pane .header .title {
+	-fx-font: 36 "Riffic Free Medium";
 }
 
 .editor-pane .name-layer {
@@ -142,6 +160,26 @@
 .editor-pane .name-layer .row {
 	-fx-spacing: 20;
 	-fx-alignment: center;
+}
+
+.editor-pane .name-layer .label {
+	-fx-font: 18 "Georgia";
+}
+
+.name-input-field {
+	-fx-font: 24 "Georgia";
+	-fx-border-width: 0 0 2 0;
+	-fx-padding: 10 10 8 10;
+	-fx-border-color: -app-light;
+	-fx-background-color: transparent;
+	-fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent ;
+}
+
+.name-input-field:focused {
+	-fx-border-width: 0 0 3 0;
+	-fx-padding: 10 10 7 10;
+	-fx-background-color: -app-light-accent;
 }
 
 .editor-pane .topic-layer {
@@ -163,6 +201,7 @@
 }
 
 .topic-pane > .title {
+	-fx-font: 18 "Georgia";
 	-fx-background-color: -app-accent;
 	-fx-background-insets: 0;
 	-fx-background-radius: 5 5 5 5;
@@ -266,13 +305,14 @@
 }
 
 .topic-management-box .remove-topic-button {
-	-fx-border-color: -app-orange;
-	-fx-background-color: -app-orange-accent;
-	-fx-text-fill: -app-orange;
+	-fx-border-color: -app-crimson;
+	-fx-background-color: -app-red-accent;
+	-fx-text-fill: -app-crimson;
 }
 
+.delete-set-button:hover,
 .topic-management-box .remove-topic-button:hover {
-	-fx-background-color: -app-orange-light-accent;
+	-fx-background-color: -app-red-light-accent;
 }
 
 .topic-selection-popup .cancel-button {

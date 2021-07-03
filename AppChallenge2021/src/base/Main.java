@@ -7,8 +7,11 @@ import base.sets.ProblemSet;
 import base.stats.Data;
 import fxutils.Images;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.*;
 import utils.Assertions;
 
@@ -62,7 +65,7 @@ public class Main extends Application {
 		ProblemSet.load();
 		Data.load();
 	}
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Main.primaryStage = primaryStage;

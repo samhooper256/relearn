@@ -14,15 +14,13 @@ import topics.*;
  * @author Sam Hooper
  *
  */
-public class EditorPane extends StackPane implements Verifiable {
+public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	
 	public static final String EDITOR_BUTTON_CSS = "editor-button";
 	
-	private static final String TITLE = "Set Editor";
 	private static final String 
 			EDITOR_PANE_CSS = "editor-pane",
-			PORTION_LAYER_CSS = "portion-layer",
-			TITLE_CSS = "title";
+			PORTION_LAYER_CSS = "portion-layer";
 	private static final EditorPane INSTANCE = new EditorPane();
 	private static final double PORTION_BAR_HEIGHT = 200;
 	
@@ -31,11 +29,10 @@ public class EditorPane extends StackPane implements Verifiable {
 	}
 	
 	private final VBox primaryZLayer;
-	private final HBox topLayer, portionLayer;
-	private final BackArrow backArrow;
+	private final HBox portionLayer;
 	private final NameLayer nameLayer;
 	private final TopicLayer topicLayer;
-	private final Label title;
+	private final Header header;
 	
 	private ProblemSet set;
 	private String nameOnOpening;
@@ -43,10 +40,7 @@ public class EditorPane extends StackPane implements Verifiable {
 	private EditorPane() {
 		set = null;
 		
-		//top layer:
-		backArrow = new BackArrow();
-		title = new Label(TITLE);
-		topLayer = new HBox(backArrow, title);
+		header = new Header();
 		
 		nameLayer = new NameLayer();
 		
@@ -54,7 +48,7 @@ public class EditorPane extends StackPane implements Verifiable {
 		
 		//portion layer:
 		portionLayer = new HBox(TopicPortionBar.get());
-		primaryZLayer = new VBox(topLayer, nameLayer, topicLayer, portionLayer);
+		primaryZLayer = new VBox(header, nameLayer, topicLayer, portionLayer);
 		initPrimaryZLayer();
 		
 		getChildren().add(primaryZLayer);
@@ -62,24 +56,24 @@ public class EditorPane extends StackPane implements Verifiable {
 	}
 	
 	private void initPrimaryZLayer() {
-		initTopLayer();
 		initPortionLayer();
 		VBox.setVgrow(topicLayer, Priority.ALWAYS);
 	}
 	
-	private void initTopLayer() {
-		backArrow.setOnAction(this::backArrowAction);
-		title.getStyleClass().add(TITLE_CSS);
+	void backArrowAction() {
+		if(verify().isSuccess())
+			saveAndGoBack();
 	}
 
-	private void backArrowAction() {
-		if(verify().isSuccess()) {
-			set.setName(nameLayer.name());
-			if(!set.isRegistered())
-				set.register();
-			Main.scene().showSets();
-			nameLayer.hideError();
-		}
+	private void saveAndGoBack() {
+		set.setName(nameLayer.name());
+		if(!set.isRegistered())
+			set.register();
+		goBack();
+	}
+
+	private void goBack() {
+		Main.scene().showSets();
 	}
 	
 	private void initPortionLayer() {
@@ -130,12 +124,21 @@ public class EditorPane extends StackPane implements Verifiable {
 	@Override
 	public VerificationResult verify() {
 		boolean hasTopic = topicLayer.verify().isSuccess();
-		boolean hasValidName = nameLayer.verify().isSuccess();
+		boolean hasValidName = nameLayer.verify(nameOnOpening).isSuccess();
 		return VerificationResult.of(hasTopic && hasValidName);
 	}
 	
 	public ProblemSet currentSet() {
 		return set;
+	}
+
+	private boolean hasAnyTopics() {
+		return topicLayer.topicCount() > 0;
+	}
+	
+	void deleteSetButonAction() {
+		if(!hasAnyTopics())
+			goBack();
 	}
 	
 }

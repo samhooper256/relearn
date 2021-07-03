@@ -8,7 +8,8 @@ public class NameLayer extends VBox implements Verifiable {
 	
 	private static final String
 			NAME_LAYER_CSS = "name-layer",
-			ROW_CSS = "row";
+			ROW_CSS = "row",
+			LABEL_CSS = "label";
 	
 	private final HBox row;
 	private final ErrorMessage error;
@@ -31,6 +32,7 @@ public class NameLayer extends VBox implements Verifiable {
 	private void initRow() {
 		row.getStyleClass().add(ROW_CSS);
 		field.setOnChange(this::hideError);
+		label.getStyleClass().add(LABEL_CSS);
 	}
 	
 	private void initError() {
@@ -55,8 +57,8 @@ public class NameLayer extends VBox implements Verifiable {
 	}
 
 	@Override
-	public VerificationResult verify() {
-		VerificationResult result = field.verify();
+	public VerificationResult verify(Object... context) {
+		VerificationResult result = field.verify((String) context[0]);
 		if(result.isFailure())
 			showError(result.errorMessage());
 		return result;

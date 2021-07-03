@@ -1,6 +1,6 @@
 package base.editor;
 
-import base.Verifiable;
+import base.IndependentlyVerifiable;
 import base.sets.ProblemSet;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -11,7 +11,7 @@ import topics.Topic;
  * @author Sam Hooper
  *
  */
-public class TopicLayer extends HBox implements Verifiable {
+public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	
 	public enum Mode {
 		NORMAL, REMOVAL;
@@ -21,12 +21,12 @@ public class TopicLayer extends HBox implements Verifiable {
 		ADD_TEXT = "+ Add Topic",
 		NORMAL_MODE_REMOVE_TEXT = "- Remove Topic",
 		REMOVAL_MODE_REMOVE_TEXT = "Done";
-	
 	private static final String
 			TOPIC_LAYER_CSS = "topic-layer",
 			TOPIC_MANAGEMENT_BOX_CSS = "topic-management-box",
 			ADD_TOPIC_BUTTON_CSS = "add-topic-button",
 			REMOVE_TOPIC_BUTTON_CSS = "remove-topic-button";
+	private static final double TOPIC_MANAGEMENT_BOX_WIDTH = 120;
 	
 	private static void unsupported(Mode newMode) {
 		throw new UnsupportedOperationException(String.format("Unsupported mode: %s", newMode));
@@ -57,6 +57,7 @@ public class TopicLayer extends HBox implements Verifiable {
 		initAddButton();
 		initRemoveButton();
 		topicManagementBox.getStyleClass().add(TOPIC_MANAGEMENT_BOX_CSS);
+		topicManagementBox.setPrefWidth(TOPIC_MANAGEMENT_BOX_WIDTH);
 	}
 	
 	private void initAddButton() {
@@ -131,6 +132,10 @@ public class TopicLayer extends HBox implements Verifiable {
 		removeButton.setText(NORMAL_MODE_REMOVE_TEXT);
 	}
 
+	public int topicCount() {
+		return topicPaneContainer.topicCount();
+	}
+	
 	@Override
 	public VerificationResult verify() {
 		return topicPaneContainer.verify();

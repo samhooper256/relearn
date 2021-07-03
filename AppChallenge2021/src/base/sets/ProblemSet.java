@@ -62,6 +62,12 @@ public final class ProblemSet implements Serializable {
 		return SETS;
 	}	
 	
+	/** Returns {@code true} iff a {@link ProblemSet} with the given name is already
+	 * {@link #isRegistered() registered}.*/
+	public static boolean isInUse(String name) {
+		return NAMES.contains(name);
+	}
+	
 	private static void runOnRegisterActions(ProblemSet set) {
 		if(onRegisterActions == null)
 			return;

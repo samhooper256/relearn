@@ -1,18 +1,15 @@
-/**
- * 
- */
 package base;
 
 /**
  * Represents anything that has some conditions that must be valid. The {@link #verify()} method indicates
- * whether those conditions are met. 
+ * whether those conditions are met, given the relevant surrounding context as an array of objects.
  * @author Sam Hooper
  *
  */
 @FunctionalInterface
 public interface Verifiable {
-
-	public final class VerificationResult {
+	
+public final class VerificationResult {
 		
 		private static final VerificationResult SUCCESS = new VerificationResult("");
 		
@@ -53,7 +50,7 @@ public interface Verifiable {
 		}
 		
 	}
-	
-	VerificationResult verify();
+
+	VerificationResult verify(Object... context);
 	
 }
