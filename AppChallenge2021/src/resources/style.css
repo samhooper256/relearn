@@ -134,6 +134,9 @@
 	-fx-text-fill: red;
 }
 
+
+
+
 .editor-pane .header {
 	-fx-padding: 10 10 5 10;
 }
@@ -234,20 +237,13 @@
 	-fx-padding: 2 0 0 18;
  }
 
+.topic-pane .settings-box {
+	-fx-spacing: 8;
+}
+
 .topic-pane .graphic {
 	-fx-padding: 0 10 0 10;
 	-fx-spacing: 10;
-}
-
-.setting-slider .thumb {
-    -fx-background-color: -app-dark;
-    -fx-background-insets: 0;
-    -fx-background-radius: 1.0em; /* makes sure this remains circular */
-}
-
-.setting-slider .track {
-	-fx-background-color: -app-accent;
-    -fx-background-insets: 0 0;
 }
 
 .topic-pane-container {
@@ -397,4 +393,36 @@
 	-fx-background-color: -app-grey-accent;
 	-fx-text-fill: -app-grey;
 	-fx-focus-traversable: false;
+}
+
+.int-field {
+	-fx-alignment: center;
+}
+
+
+/* TopicSettings */
+
+.int-range .label,
+.int-range .int-field,
+.int-setting .label {
+	-fx-font: 14 "Georgia";
+}
+
+.int-range, .int-setting {
+	-fx-spacing: 6;
+}
+
+.int-range {
+	-fx-alignment: center-left;
+}
+
+.setting-slider .thumb {
+    -fx-background-color: -app-dark;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1.0em; /* makes sure this remains circular */
+}
+
+.setting-slider .track {
+	-fx-background-color: -app-accent;
+    -fx-background-insets: 0 0;
 }

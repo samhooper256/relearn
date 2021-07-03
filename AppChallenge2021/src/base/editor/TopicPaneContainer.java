@@ -49,10 +49,19 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 	
 	@Override
 	public VerificationResult verify() {
-		if(topicCount() > 0)
-			return VerificationResult.success();
-		showNoTopicError();
-		return VerificationResult.failure();
+		if(topicCount() <= 0) {
+			showNoTopicError();
+			return VerificationResult.failure();
+		}
+		return verifyTopicPanes();
+	}
+	
+	private VerificationResult verifyTopicPanes() {
+		VerificationResult result = VerificationResult.success();
+		for(Node node : getChildren())
+			if(node instanceof TopicPane p)
+				result = result.and(p.verify());
+		return result;
 	}
 	
 	public void removeTopicPane(TopicPane tp) {

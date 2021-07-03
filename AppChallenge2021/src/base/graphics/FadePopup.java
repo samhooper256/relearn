@@ -129,8 +129,8 @@ public class FadePopup extends StackPane {
 		return glassCloseAction;
 	}
 	
-	public void setGlassClose(boolean glassClose) {
-		this.glassCloseable = glassClose;
+	public void setGlassCloseable(boolean glassCloseable) {
+		this.glassCloseable = glassCloseable;
 	}
 	
 	public boolean isGlassCloseable() {

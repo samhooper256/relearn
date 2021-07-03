@@ -19,8 +19,7 @@ public class Multiplication extends AbstractTopic {
 	public static final String NAME = "Multiplication";
 	public static final TopicFactory<Multiplication> FACTORY = new TopicFactory<>(NAME, Multiplication::new);
 	
-	private final IntSetting minNumber;
-	private final IntSetting maxNumber;
+	private final IntRange number;
 	private final IntSetting terms;
 	
 	public Multiplication() {
@@ -29,10 +28,9 @@ public class Multiplication extends AbstractTopic {
 	
 	public Multiplication(int count) {
 		super(count);
-		minNumber = new IntSetting("Minimum Number", 0, 12, 1);
-		maxNumber = new IntSetting("Maximum Number", 0, 12, 12);
+		number = new IntRange("Term Values", 1, 12, 1, 12);
 		terms = new IntSetting("Terms", 2, 3, 2);
-		createSettings(minNumber, maxNumber, terms);
+		createSettings(number, terms);
 	}
 	
 	@Override
@@ -42,7 +40,6 @@ public class Multiplication extends AbstractTopic {
 			return MathProblem.fromExpression(this, String.format("%d*%d", termList.get(0), termList.get(1)));
 		if(termList.size() == 3)
 			return MathProblem.fromExpression(this, String.format("%d*%d*%d", termList.get(0), termList.get(1), termList.get(2)));
-		
 		throw new IllegalStateException();
 	}
 	
@@ -53,11 +50,11 @@ public class Multiplication extends AbstractTopic {
 	
 	public ArrayList<Integer> termCreate() {
 		int numTerms = terms.value();
-		ArrayList<Integer> termValues = new ArrayList<Integer>();
+		ArrayList<Integer> termValues = new ArrayList<>();
 		
 		for(int i = 0; i < numTerms; i++)
 		{
-			termValues.add(RNG.intInclusive(minNumber.value(), maxNumber.value()));
+			termValues.add(RNG.intInclusive(number.low(), number.high()));
 		}
 		
 		return termValues;

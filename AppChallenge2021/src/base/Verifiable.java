@@ -11,7 +11,9 @@ public interface Verifiable {
 	
 public final class VerificationResult {
 		
-		private static final VerificationResult SUCCESS = new VerificationResult("");
+		private static final VerificationResult
+				SUCCESS = new VerificationResult(""),
+				FAILURE_WITHOUT_MESSAGE = new VerificationResult("");
 		
 		public static final VerificationResult success() {
 			return SUCCESS;
@@ -22,7 +24,7 @@ public final class VerificationResult {
 		}
 		
 		public static VerificationResult failure() {
-			return new VerificationResult("");
+			return FAILURE_WITHOUT_MESSAGE;
 		}
 		
 		public static VerificationResult of(boolean result) {
@@ -43,10 +45,27 @@ public final class VerificationResult {
 			return !isSuccess();
 		}
 		
+		public boolean hasMessage() {
+			return isFailure() && !errorMessage().isEmpty();
+		}
+		
 		public String errorMessage() {
 			if(isSuccess())
 				throw new IllegalStateException("No error message; the verification was successful.");
 			return errorMessage;
+		}
+		public VerificationResult and(VerificationResult o) {
+			if(isSuccess() && o.isSuccess())
+				return this;
+			String message;
+			if(hasMessage())
+				if(o.hasMessage())
+					message = String.format("%s; %s", errorMessage(), o.errorMessage());
+				else
+					message = errorMessage();
+			else
+				message = o.errorMessage();
+			return failure(message);
 		}
 		
 	}

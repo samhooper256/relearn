@@ -24,7 +24,7 @@ public final class RNG {
 	public static int intInclusive(int low, int high) {
 		if(low > high)
 			throw new IllegalArgumentException(String.format("low > high (%d > %d)", low, high));
-		return (int) (RANDOM.nextDouble() * (high - low) + low);
+		return (int) (RANDOM.nextDouble() * (high - low + 1) + low);
 	}
 	
 	/** Returns a random {@code int} in the range [low, high).

@@ -17,4 +17,9 @@ public class ErrorMessage extends Label {
 		super(text);
 		getStyleClass().add(CSS);
 	}
+	
+	public ErrorMessage() {
+		this("");
+	}
+	
 }

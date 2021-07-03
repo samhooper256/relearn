@@ -12,6 +12,8 @@ import javafx.scene.layout.HBox;
  */
 class IntSettingDisplay extends HBox {
 	
+	private static final String INT_SETTING_CSS = "int-setting";
+	
 	private final IntSetting setting;
 	private final Slider slider;
 	private final Label label;
@@ -22,6 +24,7 @@ class IntSettingDisplay extends HBox {
 		slider = new Slider();
 		initSlider();
 		getChildren().addAll(label, slider);
+		getStyleClass().add(INT_SETTING_CSS);
 	}
 
 	private void initSlider() {

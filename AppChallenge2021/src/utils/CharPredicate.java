@@ -20,4 +20,8 @@ public interface CharPredicate {
 	
 	boolean test(char c);
 	
+	default CharPredicate negate() {
+		return c -> !test(c);
+	}
+	
 }

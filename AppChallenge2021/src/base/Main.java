@@ -49,7 +49,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		Assertions.require();
 		preLaunchInit();
-		Data.debugPrint();
 		Application.launch(args);
 	}
 

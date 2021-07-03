@@ -220,7 +220,6 @@ public final class PracticePane extends StackPane {
 	}
 	
 	private void setProblemHTML(String html) {
-		System.out.printf("setting HTML: %s%n", html);
 		problemDisplay.getEngine().loadContent(html);
 	}
 	

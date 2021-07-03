@@ -61,27 +61,31 @@ public final class Strings {
 	}
 	
 	public static String remove(String str, char c) {
-		return remove(str, CharPredicate.of(c));
+		return removeIf(str, CharPredicate.of(c));
 	}
 	
 	public static String remove(String str, char... chars) {
-		return remove(str, CharPredicate.any(chars));
+		return removeIf(str, CharPredicate.any(chars));
 	}
 	
 	public static String removeDigits(String str) {
-		return remove(str, Parsing::isDigit);
+		return removeIf(str, Parsing::isDigit);
 	} 
 	
 	public static String removeNonDigits(String str) {
-		return remove(str, Parsing::isNonDigit);
+		return removeIf(str, Parsing::isNonDigit);
 	} 
 	
-	public static String remove(String str, CharPredicate predicate) {
+	public static String removeIf(String str, CharPredicate predicate) {
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < str.length(); i++)
 			if(!predicate.test(str.charAt(i)))
 				sb.append(str.charAt(i));
 		return sb.toString();
+	}
+	
+	public static String keepIf(String str, CharPredicate predicate) {
+		return removeIf(str, predicate.negate());
 	}
 	
 	public static boolean startsWithIgnoreCase(String str, String possiblePrefix) {

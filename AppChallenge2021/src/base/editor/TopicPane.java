@@ -5,7 +5,7 @@ package base.editor;
 
 import java.util.IdentityHashMap;
 
-import base.TrashCan;
+import base.*;
 import fxutils.IntField;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -15,7 +15,7 @@ import topics.*;
  * @author Sam Hooper
  *
  */
-public final class TopicPane extends TitledPane {
+public final class TopicPane extends TitledPane implements IndependentlyVerifiable {
 	
 	private static final String
 			TOPIC_PANE_CSS = "topic-pane",
@@ -23,13 +23,13 @@ public final class TopicPane extends TitledPane {
 			GRAPHIC_CSS = "graphic";
 	private static final IdentityHashMap<Topic, TopicPane> CACHE = new IdentityHashMap<>();
 	private static final double FIELD_WIDTH = 40;
-	private static final int FIELD_MAX_DIGITS = 3;
+	private static final int FIELD_MIN_VALUE = 1, FIELD_MAX_VALUE = 999;
 	
 	private final Topic topic;
 	private final IntField field;
 	private final StackPane content;
 	private final HBox graphic;
-	private final VBox vBox;
+	private final SettingsBox settingsBox;
 	private final Label topicTitle;
 	private final TrashCan trashCan;
 	
@@ -44,15 +44,14 @@ public final class TopicPane extends TitledPane {
 	
 	private TopicPane(Topic topic) {
 		this.topic = topic;
-		field = new IntField(FIELD_MAX_DIGITS);
+		field = new IntField(FIELD_MIN_VALUE, FIELD_MAX_VALUE);
 		topicTitle = new Label(topic.name());
 		trashCan = new TrashCan();
 		graphic = new HBox(field, topicTitle, trashCan);
 		initGraphic();
 		
-		content = new StackPane();
-		vBox = new VBox();
-		initContent();
+		settingsBox = new SettingsBox(topic.settings());
+		content = new StackPane(settingsBox);
 		
 		setContent(content);
 		setText("");
@@ -87,12 +86,6 @@ public final class TopicPane extends TitledPane {
 		EditorPane.get().removeTopicPane(this);
 	}
 	
-	private void initContent() {
-		for(TopicSetting setting : topic.settings())
-			vBox.getChildren().add(TopicSetting.settingNodeFor(setting));
-		content.getChildren().add(vBox);
-	}
-	
 	public void setTrashCanVisible(boolean visible) {
 		if(visible)
 			showTrashCan();
@@ -110,6 +103,11 @@ public final class TopicPane extends TitledPane {
 	
 	public Topic topic() {
 		return topic;
+	}
+
+	@Override
+	public VerificationResult verify() {
+		return settingsBox.verify();
 	}
 	
 }

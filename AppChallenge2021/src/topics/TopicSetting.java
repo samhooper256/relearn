@@ -19,10 +19,10 @@ public interface TopicSetting extends Named, Serializable {
 	static Node settingNodeFor(TopicSetting setting) {
 		if(setting instanceof IntSetting is)
 			return new IntSettingDisplay(is);
-		else {
-			throw new UnsupportedOperationException(
-					String.format("Unrecognized TopicSetting type: %s", setting.getClass()));
-		}
+		else if(setting instanceof IntRange ir)
+			return new IntRangeDisplay(ir);
+		else
+			throw new UnsupportedOperationException(String.format("Unrecognized setting : %s", setting.getClass()));
 	}
 	
 }

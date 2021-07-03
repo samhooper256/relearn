@@ -33,6 +33,7 @@ public final class FinishPracticePopup extends FadePopup {
 	
 	private FinishPracticePopup() {
 		super(PracticePane.get());
+		
 		backToSetsButton = new Button("Back");
 		replayButton = new Button("Replay");
 		buttonBar = new HBox(backToSetsButton, replayButton);
@@ -42,6 +43,7 @@ public final class FinishPracticePopup extends FadePopup {
 		vBox = new VBox(pie, buttonBar);
 		initVBox();
 		
+		setGlassCloseable(false);
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setBackground(Backgrounds.of(Color.GOLD));
 		getChildren().add(vBox);

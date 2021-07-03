@@ -85,6 +85,10 @@ public final class Parsing {
 		return c == '+' || c == '-';
 	}
 	
+	public static boolean isDigitOrSign(char c) {
+		return isDigit(c) || isSign(c);
+	}
+	
 	public static boolean isDecimalPoint(char c) {
 		return c == DECIMAL_POINT;
 	}

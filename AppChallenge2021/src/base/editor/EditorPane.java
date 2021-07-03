@@ -70,7 +70,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	}
 	
 	private void initDeletePopup() {
-		deletePopup.setGlassClose(true);
+		deletePopup.setGlassCloseable(true);
 	}
 	
 	void backArrowAction() {
