@@ -1,7 +1,5 @@
 package topics;
 
-import javafx.beans.property.*;
-
 public final class IntRange implements TopicSetting {
 	
 	private static final long serialVersionUID = 7954923562546121424L;
@@ -41,15 +39,27 @@ public final class IntRange implements TopicSetting {
 	}
 	
 	public void setLow(int newLow) {
-		if(newLow < min() || newLow > high())
+		if(!setLowIfPossible(newLow))
 			throw new IllegalArgumentException(String.format("Invalid low value (%d) for %s%n", newLow, this));
+	}
+	
+	public boolean setLowIfPossible(int newLow) {
+		if(newLow < min() || newLow > high())
+			return false;
 		low = newLow;
+		return true;
 	}
 	
 	public void setHigh(int newHigh) {
-		if(newHigh > max() || newHigh < low())
+		if(!setHighIfPossible(newHigh))
 			throw new IllegalArgumentException(String.format("Invalid high value (%d) for %s%n", newHigh, this));
+	}
+	
+	public boolean setHighIfPossible(int newHigh) {
+		if(newHigh > max() || newHigh < low())
+			return false;
 		high = newHigh;
+		return true;
 	}
 	
 	/** Returns the <em>inclusive</em> range of the values between {@link #low()} and {@link #high()}. Equivalently,

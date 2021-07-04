@@ -12,13 +12,8 @@ import utils.*;
 /**
  * <p>A {@link TextField} that only allows integers to be typed.</p>
  * 
- * <p>The {@link #min() minimum} allowable value of an {@code IntField} must be {@code 0} if the {@link #max() maximum}
- * allowable value is positive (or zero). The following
- * example demonstrates why: Suppose the minimum value was 5 and the maximum was 15. If the user wanted to type "12",
- * they would first need to type "1". However, the text "1" would not be allowable, since it is not in the valid range
- * of this {@code IntField}. Therefore, the user would not be able to (or would have to find a crafty way to) enter
- * completely valid inputs. This is not desirable. For a similar reason, the maximum value must be {@code 0} if the
- * minimum value is negative.</p>
+ * <p>The {@link #min() minimum} allowable value of an {@code IntField} must be less than or equal to 1.
+ * The {@link #max() maximum} allowable value must be non-negative (that is, 0 or positive).</p>
  * 
  * @author Sam Hooper
  *
@@ -26,38 +21,59 @@ import utils.*;
 public class IntField extends TextField {
 	
 	/** The {@link #intValue()} of this {@link IntField} when it is empty.*/
-	public static final int DEFAULT_EMPTY_VALUE = 0;
-	
+	public static final int EMPTY_VALUE = 0;
 	private static final String INT_FIELD_CSS = "int-field";
+
+	/** <p>Creates a new {@link IntField} with the given range.</p>
+	 * <p>Unlike the constructors, this method never throws an {@link IllegalArgumentException}. Instead, if the
+	 * {@code min} and {@code max} values specify an invalid range, they are adjusted to a valid range as follows:
+	 * <ol><li>If {@code (min > max)}, then {@code min} is set equal to {@code max}.</li>
+	 * <li>If {@code min} is greater than 1, it is set to 1.</li>
+	 * <li>If {@code max} is less than 0, it is set to 0.</li></ol>*/
+	public static IntField withRange(int min, int max) {
+		if(min > max)
+			min = max;
+		min = Math.min(1, min);
+		max = Math.max(0, max);
+		return new IntField(min, max);
+	}
+	
+	/** <p>Creates a new {@link IntField} with the given range.</p>
+	 * <p>This method first adjusts the range as specified in {@link #withRange(int, int)}. Then, {@code startingValue}
+	 * is possibly adjusted according to the following steps:
+	 * <ol><li>If {@code startingValue} is less than the (possibly modified) {@code min}, it it set equal to the
+	 * (possibly modified) {@code min}.</li><li>If {@code startingValue} is greater than the (possibly modified)
+	 * {@code max}, it is set equal to the (possibly modified) {@code max}.</li></ol>
+	 * The starting value of the returned {@code IntField} is then set to the (possibly modified)
+	 * {@code startingValue)}.</p>*/
+	public static IntField withRange(int min, int max, int startingValue) {
+		IntField f = withRange(min, max);
+		f.setValue(Basics.clamp(startingValue, f.min(), f.max()));
+		return f;
+	}
 	
 	private final IntegerProperty valueProperty;
 	
 	private final int min, max;
 	
-	private int emptyValue;
-	
+	/** @throws IllegalArgumentException if {@code (min > max || max < 0 || min > 1)}. */
 	public IntField(int min, int max) {
 		if(min > max)
 			throw new IllegalArgumentException(String.format("min > max (%d > %d)", min, max));
-		if(max >= 0) {
-			if(min != 0)
-				throw new IllegalArgumentException(String.format("min must be 0 (was %d) if max is positive %d", min));
-		}
-		else if(min < 0) {
-			if(max != 0)
-				throw new IllegalArgumentException(String.format("max must be 0 (was %d) if min is negative", max));
-		}
+		if(max < 0)
+			throw new IllegalArgumentException(String.format("max must be non-negative (was: %d)", max));
+		if(min > 1)
+			throw new IllegalArgumentException(String.format("min must be less than or equal to 1 (was: %d)", min));
 		this.min = min;
 		this.max = max;
-		valueProperty = new SimpleIntegerProperty(DEFAULT_EMPTY_VALUE);
-		emptyValue = DEFAULT_EMPTY_VALUE;
+		valueProperty = new SimpleIntegerProperty(EMPTY_VALUE);
 		init();
 	}
 	
-	public IntField(int min, int max, int startingValue, int emptyValue) {
+	/** @throws IllegalArgumentException if {@code (min > max || max < 0 || min > 1)}. */
+	public IntField(int min, int max, int startingValue) {
 		this(min, max);
 		setValue(startingValue);
-		this.emptyValue = emptyValue;
 	}
 	
 	private void init() {
@@ -73,8 +89,8 @@ public class IntField extends TextField {
 			if(oldText.equals(newText))
 				return change;
 			String cleanedNewText = Strings.keepIf(newText, Parsing::isDigitOrSign);
-			int val;
 			change.setRange(0, oldText.length());
+			int val;
 			if(	cleanedNewText.isEmpty() ||
 				Parsing.isint(cleanedNewText) && (val = Integer.parseInt(cleanedNewText)) >= min() && val <= max())
 				change.setText(cleanedNewText);
@@ -90,7 +106,7 @@ public class IntField extends TextField {
 			if(hasValidInt())
 				valueProperty.set(parseText());
 			else //it may not have a valid int if the box is empty.
-				valueProperty.set(emptyValue);
+				valueProperty.set(EMPTY_VALUE);
 		});
 	}
 	

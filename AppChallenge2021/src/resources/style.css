@@ -134,9 +134,6 @@
 	-fx-text-fill: red;
 }
 
-
-
-
 .editor-pane .header {
 	-fx-padding: 10 10 5 10;
 }
@@ -169,6 +166,10 @@
 	-fx-alignment: center-right;
 	-fx-padding: 16 0 0 0;
 	-fx-spacing: 20;
+}
+
+.info-tooltip {
+	-fx-wrap-text: true;	
 }
 
 .editor-pane .header .title {
@@ -246,13 +247,15 @@
 	-fx-spacing: 10;
 }
 
-.topic-pane-container {
-	-fx-spacing: 10;
-}
-
+.int-range .low,
+.int-range .high,
 .topic-count-field {
 	-fx-background-color: -app-base;
 	-fx-padding: 0;
+}
+
+.topic-pane-container {
+	-fx-spacing: 10;
 }
 
 .delete-popup,

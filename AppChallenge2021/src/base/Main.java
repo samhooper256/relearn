@@ -7,9 +7,6 @@ import base.sets.ProblemSet;
 import base.stats.Data;
 import fxutils.Images;
 import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.*;
@@ -41,7 +38,8 @@ public class Main extends Application {
 					Images.get("settingsicon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),
 			GREEN_PLUS = Images.get("plus_green.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			BLUE_CHECK = Images.get("check_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
-			BLUE_X = Images.get("x_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true);
+			BLUE_X = Images.get("x_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
+			INFO = Images.get("info.png");
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
