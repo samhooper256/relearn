@@ -90,6 +90,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	}
 	
 	void fadeInTopicSelectionPane() {
+		assert TopicSelectionPopup.get().selectors().noneMatch(TopicSelector::isSelected);
 		TopicSelectionPopup.get().fadeIn();
 	}
 	
@@ -122,6 +123,8 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		assert currentSet().config().topics().contains(topic);
 		topicLayer.removeTopicPane(pane);
 		currentSet().config().removeTopic(topic);
+		if(topicLayer.topicCount() == 0)
+			topicLayer.setMode(Mode.NORMAL);
 		updatePortions();
 	}
 	

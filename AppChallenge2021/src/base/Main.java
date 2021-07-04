@@ -39,7 +39,7 @@ public class Main extends Application {
 			GREEN_PLUS = Images.get("plus_green.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			BLUE_CHECK = Images.get("check_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			BLUE_X = Images.get("x_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
-			INFO = Images.get("info.png");
+			INFO = Images.get("info.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true);
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;

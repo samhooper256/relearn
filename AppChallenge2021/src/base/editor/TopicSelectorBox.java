@@ -33,6 +33,8 @@ public final class TopicSelectorBox extends VBox {
 		selectorMap = new HashMap<>();
 		for(TopicFactory<?> factory : TopicUtils.allFactories())
 			addSelector(factory);
+		set.topics().addAddListener(t -> selectorFor(t).setAdded());
+		set.topics().addRemoveListener(t -> selectorFor(t).setUnselected());
 		getStyleClass().add(TOPIC_SELECTOR_BOX_CSS);
 	}
 
@@ -64,8 +66,8 @@ public final class TopicSelectorBox extends VBox {
 			getChildren().add(selectorMap.get(topicName));
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<TopicSelector> selectors() {
-		return (List<TopicSelector>) (List<?>) getChildren();
+	public Collection<TopicSelector> selectors() {
+		return selectorMap.values();
 	}
+	
 }

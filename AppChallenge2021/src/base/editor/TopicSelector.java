@@ -126,7 +126,10 @@ public class TopicSelector extends PolarizedPane {
 		return factory;
 	}
 	
-	public TopicSelectorBox box() {
-		return (TopicSelectorBox) getParent();
+	TopicSelectorBox box() {
+		TopicSelectorBox box = TopicSelectionPopup.get().selectorBox();
+		assert getParent() == null || getParent() == box;
+		return box;
 	}
+	
 }

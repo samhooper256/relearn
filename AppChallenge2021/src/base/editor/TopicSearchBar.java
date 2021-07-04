@@ -26,10 +26,6 @@ public class TopicSearchBar extends HBox {
 		return INSTANCE;
 	}
 	
-	private static TopicSelectorBox selectorBox() {
-		return TopicSelectionPopup.get().selectorBox();
-	}
-	
 	private final ImageView magnifyingGlass;
 	private final TextField searchBox;
 	private final FilterableSet<String> visibleTopicNames;
@@ -60,7 +56,7 @@ public class TopicSearchBar extends HBox {
 		if(oldValue.equals(newValue))
 			return;
 		visibleTopicNames.setFilter(filterFor(newValue));
-		selectorBox().setVisibleTopics(visibleTopicNames);
+		TopicSelectionPopup.get().selectorBox().setVisibleTopics(visibleTopicNames);
 	}
 	
 	public void clearSearch() {

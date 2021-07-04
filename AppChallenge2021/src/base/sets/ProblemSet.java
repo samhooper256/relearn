@@ -149,7 +149,7 @@ public final class ProblemSet implements Serializable {
 		return SETS.contains(this);
 	}
 	
-	public Set<Topic> topics() {
+	public ReadOnlyAudibleSet<Topic> topics() {
 		return config().topics();
 	}
 	

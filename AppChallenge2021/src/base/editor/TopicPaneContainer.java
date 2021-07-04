@@ -6,6 +6,7 @@ package base.editor;
 import base.*;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
+import topics.Topic;
 
 /**
  * @author Sam Hooper
@@ -64,16 +65,20 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 		return result;
 	}
 	
-	public void removeTopicPane(TopicPane tp) {
+	void addTopicPane(TopicPane tp) {
+		getChildren().add(tp);
+	}
+	
+	void removeTopicPane(TopicPane tp) {
 		boolean removed = getChildren().remove(tp);
 		assert removed;
 	}
 	
-	public void showTrashCans() {
+	void showTrashCans() {
 		setTrashCanVisibilities(true);
 	}
 	
-	public void hideTrashCans() {
+	void hideTrashCans() {
 		setTrashCanVisibilities(false);
 	}
 	

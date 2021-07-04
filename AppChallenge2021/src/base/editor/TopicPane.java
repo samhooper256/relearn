@@ -32,6 +32,7 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 	private final SettingsBox settingsBox;
 	private final Label topicTitle;
 	private final TrashCan trashCan;
+	private final ErrorMessage emptyFieldError;
 	
 	public static TopicPane of(Topic topic) {
 		TopicPane cached = CACHE.get(topic);
@@ -47,7 +48,8 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 		field = new IntField(FIELD_MIN_VALUE, FIELD_MAX_VALUE);
 		topicTitle = new Label(topic.name());
 		trashCan = new TrashCan();
-		graphic = new HBox(field, topicTitle, trashCan);
+		emptyFieldError = new ErrorMessage("Topic count must not be empty");
+		graphic = new HBox(field, topicTitle, trashCan, emptyFieldError);
 		initGraphic();
 		
 		settingsBox = new SettingsBox(topic.settings());
@@ -62,6 +64,7 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 	private void initGraphic() {
 		initField();
 		initTrashCan();
+		initEmptyFieldError();
 		HBox.setHgrow(topicTitle, Priority.ALWAYS);
 		graphic.getStyleClass().add(GRAPHIC_CSS);
 	}
@@ -71,6 +74,7 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 		topic.countProperty().bind(field.valueProperty());
 		field.valueProperty().addListener((x, y, z) -> {
 			TopicPortionBar.get().update(EditorPane.get().currentSet().config().topics());
+			hideEmptyFieldError();
 		});
 		field.setPrefWidth(FIELD_WIDTH);
 		field.getStyleClass().add(FIELD_CSS);
@@ -86,28 +90,45 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 		EditorPane.get().removeTopicPane(this);
 	}
 	
-	public void setTrashCanVisible(boolean visible) {
+	private void initEmptyFieldError() {
+		hideEmptyFieldError();
+	}
+
+	private void hideEmptyFieldError() {
+		emptyFieldError.setVisible(false);
+	}
+	
+	private void showEmptyFieldError() {
+		emptyFieldError.setVisible(true);
+	}
+	
+	void setTrashCanVisible(boolean visible) {
 		if(visible)
 			showTrashCan();
 		else
 			hideTrashCan();
 	}
 	
-	public void showTrashCan() {
+	void showTrashCan() {
 		trashCan.setVisible(true);
 	}
 	
-	public void hideTrashCan() {
+	void hideTrashCan() {
 		trashCan.setVisible(false);
 	}
 	
-	public Topic topic() {
+	Topic topic() {
 		return topic;
 	}
 
 	@Override
 	public VerificationResult verify() {
-		return settingsBox.verify();
+		VerificationResult result = settingsBox.verify();
+		if(field.isEmpty()) {
+			result = result.and(VerificationResult.failure("Topic count is empty"));
+			showEmptyFieldError();
+		}
+		return result;
 	}
 	
 }

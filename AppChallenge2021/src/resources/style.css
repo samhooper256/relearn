@@ -398,6 +398,28 @@
 	-fx-focus-traversable: false;
 }
 
+.topic-portion-bar .empty {
+	-fx-background-color: -app-grey;
+}
+
+.topic-portion-bar .label {
+	-fx-font: 16 "Georgia";
+}
+
+.segment-tooltip {
+	-fx-background-radius: 0;
+	-fx-background-color: black;
+	-fx-text-alignment: left;
+	-fx-wrap-text: true;
+	-fx-font: 12 "Georgia";
+}
+
+.segment-tooltip .label {
+	-fx-padding: 0;
+	-fx-text-fill: white;
+	-fx-effect: null;
+}
+
 .int-field {
 	-fx-alignment: center;
 }

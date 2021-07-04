@@ -88,13 +88,11 @@ public class TopicSelectionPopup extends FadePopup {
 	}
 	
 	private void addSelectedButtonAction() {
-		List<TopicSelector> selectors = selectedSelectors().toList();
 		List<Topic> topics = selectedTopics().toList();
-		EditorPane.get().addTopics(topics);
+		EditorPane.get().addTopics(topics); //The TopicSelectors will automatically have their buttons updated,
+		//since they are listening to the their set's topics (which is a ReadOnlyAudibleSet<Topic>).
 		EditorPane.get().fadeOutTopicSelectionPane();
-		for(TopicSelector ts : selectors)
-			ts.setAdded();
-		cleanupAfterHiding();
+		clearSearch();
 	}
 
 	private void initCancelButton() {
@@ -110,11 +108,17 @@ public class TopicSelectionPopup extends FadePopup {
 		cleanupAfterHiding();
 	}
 	
+	/** This should only be called when the {@link TopicSelectionPopup} disappears because of a reason <em>other</em>
+	 * that the {@link #addSelectedButton} was pressed.*/
 	private void cleanupAfterHiding() {
+		clearSearch();
 		selectors().forEach(ts -> {
 			if(ts.isSelected())
 				ts.setUnselected();
 		});
+	}
+
+	private void clearSearch() {
 		TopicSearchBar.get().clearSearch();
 	}
 	
@@ -123,8 +127,9 @@ public class TopicSelectionPopup extends FadePopup {
 		scroll.setContent(selectorBox);
 	}
 	
+	/** Returns <em>all</em> of the selectors, even if they're not showing because they are filtered out by a search.*/
 	public Stream<TopicSelector> selectors() {
-		return selectorBox.getChildren().stream().map(n -> (TopicSelector) n);
+		return selectorBox.selectors().stream();
 	}
 	
 	public Stream<TopicSelector> selectedSelectors() {

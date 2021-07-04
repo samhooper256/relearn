@@ -66,6 +66,7 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	}
 	
 	private void addAction() {
+		setMode(Mode.NORMAL);
 		topicPaneContainer.hideNoTopicErrorIfShowing();
 		EditorPane.get().fadeInTopicSelectionPane();
 	}
@@ -84,7 +85,7 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	}
 	
 	private void addTopicPaneFor(Topic topic) {
-		topicPaneContainer.getChildren().add(TopicPane.of(topic));
+		topicPaneContainer.addTopicPane(TopicPane.of(topic));
 	}
 
 	void addTopicPanesFor(Iterable<Topic> topics) {
