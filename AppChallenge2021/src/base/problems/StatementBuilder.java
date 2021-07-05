@@ -29,7 +29,7 @@ public final class StatementBuilder {
 	}
 	
 	public Statement build() {
-		return new StatementImpl(ensureHTMLTags(ensureBodyTags(html.toString())));
+		return new StatementImpl(ensureHTMLTags(ensureBodyTags(ensureDivTags(html.toString()))));
 	}
 	
 }

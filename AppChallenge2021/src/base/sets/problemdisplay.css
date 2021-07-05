@@ -4,16 +4,23 @@ body {
 	font-weight: bold;
 	font-size: 36;
 	height: 100%;
-	margin: 20px;
-	display: flex; 
-	flex-direction: column;
+	display: flex; /* Setting the display to "flex" allows us to use "flex-direction"*/
+	flex-direction: column-reverse; /* Says to display items (we only have 1 item) in a vertical column from bottom
+	to top. */
 	padding: 0; 
 	margin: 0;
 }
 
+div {
+	background-color: transparent;
+	text-align: center;
+	padding: 0;
+}
+
 math {
 	background-color: transparent;
-	margin-top: auto;
+	padding: 10; /* "div" seems to have implicit padding that I cannot remove. So, I added an artificial padding to 
+	"math" so that it aligns with "div". */
 }
 
 html {

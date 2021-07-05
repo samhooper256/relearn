@@ -7,23 +7,29 @@ public final class HTML {
 	}
 	
 	private static final String
-			OPENING_HTML_TAG = "<html>",
-			CLOSING_HTML_TAG = "</html>",
-			OPENING_BODY_TAG = "<body>",
-			CLOSING_BODY_TAG = "</body>",
-			OPENING_MATH_TAG = "<math>",
-			CLOSING_MATH_TAG = "</math>";
+			HTML_TAG = "html",
+			BODY_TAG = "body",
+			MATH_TAG = "math",
+			DIV_TAG = "div";
 	
 	public static String ensureMathTags(String html) {
-		return ensureTags(html, OPENING_MATH_TAG, CLOSING_MATH_TAG);
+		return ensureTags(html, MATH_TAG);
 	}
 	
 	public static String ensureHTMLTags(String html) {
-		return ensureTags(html, OPENING_HTML_TAG, CLOSING_HTML_TAG);
+		return ensureTags(html, HTML_TAG);
 	}
 	
 	public static String ensureBodyTags(String html) {
-		return ensureTags(html, OPENING_BODY_TAG, CLOSING_BODY_TAG);
+		return ensureTags(html, BODY_TAG);
+	}
+	
+	public static String ensureDivTags(String html) {
+		return ensureTags(html, DIV_TAG);
+	}
+	
+	public static String ensureTags(String html, String tag) {
+		return ensureTags(html, String.format("<%s>", tag), String.format("</%s>", tag));
 	}
 	
 	private static String ensureTags(String html, String openingTag, String closingTag) {

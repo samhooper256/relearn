@@ -21,7 +21,7 @@ public interface Statement {
 	}
 	
 	static Statement ofText(String text) {
-		return new StatementImpl(ensureHTMLTags(ensureBodyTags(text)));
+		return new StatementImpl(ensureHTMLTags(ensureBodyTags(ensureDivTags(text))));
 	}
 	
 	String html();
