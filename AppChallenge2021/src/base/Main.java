@@ -3,7 +3,7 @@ package base;
 import java.io.*;
 import java.util.Optional;
 
-import base.sets.ProblemSet;
+import base.sets.*;
 import base.stats.Data;
 import fxutils.Images;
 import javafx.application.Application;
@@ -67,6 +67,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Main.primaryStage = primaryStage;
 		Main.primaryScreen = Screen.getPrimary();
+		
+		PracticePane.get(); //The PracticePane takes a long time to load because it has a WebView, so we do it on
+		//application startup.
 		
 		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(MainScene.get());

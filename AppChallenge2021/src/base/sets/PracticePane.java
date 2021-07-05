@@ -9,13 +9,9 @@ import base.*;
 import base.graphics.BackArrow;
 import base.problems.Problem;
 import base.stats.Data;
-import fxutils.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.web.WebView;
 
 /**
  * @author Sam Hooper
@@ -24,165 +20,75 @@ import javafx.scene.web.WebView;
 public final class PracticePane extends StackPane {
 	
 	private static final String TITLE = "Practice";
-	private static final double FIELD_WIDTH = 400;
-	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
 	private static final PracticePane INSTANCE = new PracticePane();
-	private static final String PROBLEM_DISPLAY_CSS = "problem-display";
+	private static final String
+			PRACTICE_PANE_CSS = "practice-pane",
+			HEADER_CSS = "header",
+			TITLE_CSS = "title";
 	
 	public static PracticePane get() {
 		return INSTANCE;
 	}
 	
-	private final VBox userArea;
-	private final TextField field;
-	private final WebView problemDisplay;
+	private final UserArea userArea;
 	private final Label title;
-	private final HBox header, buttonBar, backArrowBox;
+	private final HBox header;
 	private final BackArrow backArrow;
-	private final Button submitButton, showAnswerButton;
 	private final List<Problem> correctProblems, incorrectProblems;
 	
-	private ProblemSet currentSet;
-	private Deck currentDeck;
-	private Problem currentProblem;
+	private ProblemSet set;
+	private Deck deck;
 	private int deckIndex;
-	/** {@code true} if an incorrect answer has been given to the {@link #currentProblem()}.*/
-	private boolean incorrectAnswerGiven, answerShown;
 	
 	private PracticePane() {
 		backArrow = new BackArrow();
-		backArrowBox = new HBox(backArrow);
 		
 		title = new Label(TITLE);
-		header = new HBox(title);
+		header = new HBox(backArrow, title);
 		initHeader();
 		
-		problemDisplay = new WebView();
-		StackPane pdWrap = new StackPane(problemDisplay); //TODO instance variable, etc.
-		pdWrap.setPrefSize(FIELD_WIDTH, 100);
-		field = new TextField();
-		submitButton = new Button("Submit");
-		showAnswerButton = new Button("Show Answer");
-		buttonBar = new HBox(showAnswerButton, submitButton);
-		userArea = new VBox(pdWrap, field, buttonBar);
-		initUserArea();
+		userArea = new UserArea();
 		
-		getChildren().addAll(backArrowBox, header, userArea);
-		StackPane.setAlignment(userArea, Pos.CENTER);
+		StackPane.setAlignment(header, Pos.TOP_LEFT);
+		getChildren().addAll(userArea, header);
+		getStyleClass().add(PRACTICE_PANE_CSS);
 		
 		correctProblems = new ArrayList<>();
 		incorrectProblems = new ArrayList<>();
 		
 		deckIndex = -1;
-		currentProblem = null;
-		incorrectAnswerGiven = false;
-		answerShown = false;
 	}
 	
 	private void initHeader() {
 		backArrow.setOnAction(this::backArrowAction);
-		header.setAlignment(Pos.CENTER);
+		header.getStyleClass().add(HEADER_CSS);
+		header.setPickOnBounds(false);
+		title.getStyleClass().add(TITLE_CSS);
 	}
 	
 	private void backArrowAction() {
 		Main.scene().showSets();
 	}
 	
-	private void initUserArea() {
-		initProblemDisplay();
-		initField();
-		initButtonBar();
-		userArea.setFillWidth(false);
-		userArea.setAlignment(Pos.CENTER);
-		userArea.setPickOnBounds(false);
-	}
-	
-	private void initProblemDisplay() {
-		problemDisplay.getEngine().setUserStyleSheetLocation(getClass().getResource("problemdisplay.css").toString());
-	}
-	
-	private void initField() {
-		field.setPrefWidth(FIELD_WIDTH);
-		field.setBorder(Border.EMPTY);
-		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-			if(e.getCode() == KeyCode.ENTER) {
-				e.consume();
-				submitAction();
-			}
-		});
-	}
-	
-	private void initButtonBar() {
-		initSubmitButton();
-		initShowAnswerButton();
-	}
-	
-	private void initSubmitButton() {
-		submitButton.setFocusTraversable(false);
-		submitButton.setOnAction(e -> submitAction());
-	}
-	
-	private void initShowAnswerButton() {
-		showAnswerButton.setFocusTraversable(false);
-		showAnswerButton.setOnAction(e -> showAnswerAction());
-	}
-	
-	private String fieldText() {
-		return field.getText();
-	}
-	
-	private void showAnswerAction() {
-		answerShown = true;
-		incorrectProblems.add(currentProblem());
-		field.setText(currentProblem().sampleAnswer());
-	}
-	
-	private void submitAction() {
-		String text = fieldText().strip();
-		if(text.isBlank())
-			return; //do nothing - the user clicked "Submit" when they hadn't entered anything.
-		if(currentProblem.isCorrect(text))
-			correctAnswerAction();
-		else
-			incorrectAnswerAction();
-	}
-	
-	private void correctAnswerAction() {
-		field.setBorder(Border.EMPTY);
-		if(!incorrectAnswerGiven && !answerShown)
-			recordCorrect();
-		if(deckIndex < currentDeck.size() - 1)
-			setupNext();
-		else
-			deckFinished();
-	}
-
-	private void deckFinished() {
+	void deckFinished() {
 		cleanUpOnFinish();
 		FinishPracticePopup.get().updateAccuracy(correctProblems.size(), incorrectProblems.size());
 		showFinishPopup();
 	}
 	
-	private void incorrectAnswerAction() {
-		if(!incorrectAnswerGiven)
-			recordIncorrect();
-		incorrectAnswerGiven = true;
-		field.setBorder(INCORRECT_ANSWER_BORDER);
+	void recordCorrect(Problem p) {
+		correctProblems.add(p);
+		Data.addCorrect(set(), p);
 	}
 	
-	private void recordCorrect() {
-		correctProblems.add(currentProblem());
-		Data.addCorrect(currentSet(), currentProblem());
-	}
-	
-	private void recordIncorrect() {
-		incorrectProblems.add(currentProblem());
-		Data.addIncorrect(currentSet(), currentProblem());
+	void recordIncorrect(Problem p) {
+		incorrectProblems.add(p);
+		Data.addIncorrect(set(), p);
 	}
 	
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
 	private void cleanUpOnFinish() {
-		clearField();
+		userArea.cleanUpOnFinish();
 	}
 	
 	private void showFinishPopup() {
@@ -194,50 +100,52 @@ public final class PracticePane extends StackPane {
 	}
 	
 	public void start(ProblemSet set) {
-		currentSet = set;
+		this.set = set;
 		startDeck(set.createDeck());
 	}
 	
 	private void startDeck(Deck deck) {
-		currentDeck = deck;
+		this.deck = deck;
 		deckIndex = 0;
 		correctProblems.clear();
 		incorrectProblems.clear();
-		setup(currentDeck.get(deckIndex));
+		setup(deck.get(deckIndex));
 	}
 	
 	private void setup(Problem problem) {
-		currentProblem = problem;
-		incorrectAnswerGiven = false;
-		clearField();
-		setProblemHTML(problem.statement().html());
-		
+		userArea.setup(problem);
+	}
+	
+	void addIncorrectProblem(Problem p) {
+		incorrectProblems.add(p);
 	}
 	
 	public void replay() {
-		startDeck(currentSet().createDeck());
+		startDeck(set().createDeck());
 		hideFinishPopup();
 	}
 	
-	private void setProblemHTML(String html) {
-		problemDisplay.getEngine().loadContent(html);
-	}
-	
-	private void clearField() {
-		field.clear();
-	}
-	
-	private void setupNext() {
+	void setupNext() {
 		deckIndex++;
-		setup(currentDeck.get(deckIndex));
+		setup(deck.get(deckIndex));
 	}
 	
-	public ProblemSet currentSet() {
-		return currentSet;
+	private ProblemSet set() {
+		return set;
 	}
 	
-	public Problem currentProblem() {
-		return currentProblem;
+	boolean hasMoreProblemsInDeck() {
+		return deckIndex < deck.size() - 1;
+	}
+	
+	/** Called by {@link UserArea} whenever a {@link Problem }is completed - that is, it is answered correctly.
+	 * This method assumes that the problem has already been recorded (see {@link #recordCorrect(Problem)} and
+	 * {@link #recordIncorrect(Problem)}).*/
+	void problemCompleted() {
+		if(hasMoreProblemsInDeck())
+			setupNext();
+		else
+			deckFinished();
 	}
 	
 }

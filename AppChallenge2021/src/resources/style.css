@@ -57,6 +57,11 @@
 	-fx-font: 72 "Riffic Free Medium";
 }
 
+.error-message {
+	-fx-font: 16 "Georgia";
+	-fx-text-fill: red;
+}
+
 .sets-pane {
 	-fx-background-color: bisque;
 }
@@ -70,7 +75,7 @@
 	-fx-background-color: -app-accent;
 	-fx-spacing: 20px;
 	-fx-alignment: center;
-	-fx-font: 48 "Georgia";
+	-fx-font: 48 "Riffic Free Medium";
 	-fx-font-fill: -app-light;
 	-fx-font-weight: 600;
 	-fx-padding: 0px 0px 10px 0px;
@@ -129,9 +134,23 @@
 	-fx-font: 16 "Georgia";
 }
 
-.error-message {
-	-fx-font: 16 "Georgia";
-	-fx-text-fill: red;
+.practice-pane .user-area {
+	-fx-vgap: 10;	
+}
+
+.practice-pane .user-area .input-area {
+	-fx-fill-width: false;
+	-fx-alignment: top-center;
+	-fx-spacing: 12;
+}
+
+.practice-pane .header {
+	-fx-spacing: 10;
+}
+
+.practice-pane .header .title,
+.editor-pane .header .title {
+	-fx-font: 36 "Riffic Free Medium";
 }
 
 .editor-pane .header {
@@ -170,10 +189,6 @@
 
 .info-tooltip {
 	-fx-wrap-text: true;	
-}
-
-.editor-pane .header .title {
-	-fx-font: 36 "Riffic Free Medium";
 }
 
 .editor-pane .name-layer {

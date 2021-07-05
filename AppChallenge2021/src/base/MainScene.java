@@ -50,7 +50,7 @@ public final class MainScene extends Scene {
 	private void initVBox() {
 		initButtons();
 		vBox.setPickOnBounds(false);
-		vBox.setAlignment(Pos.CENTER_LEFT);
+		vBox.setAlignment(Pos.CENTER_LEFT); //TODO in CSS
 		vBox.setFillWidth(false);
 		vBox.setSpacing(BUTTON_SPACING);
 	}
