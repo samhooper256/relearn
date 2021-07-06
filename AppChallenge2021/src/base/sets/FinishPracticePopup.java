@@ -6,11 +6,9 @@ package base.sets;
 import base.*;
 import base.graphics.FadePopup;
 import base.stats.AccuracyPie;
-import fxutils.Backgrounds;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import fxutils.PolarizedPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 /**
  * @author Sam Hooper
@@ -18,6 +16,15 @@ import javafx.scene.paint.Color;
  */
 public final class FinishPracticePopup extends FadePopup {
 	
+	private static final String
+			FINISH_PRACTICE_POPUP_CSS = "finish-practice-popup",
+			TITLE_CSS = "title",
+			PERCENTAGE_CSS = "percentage",
+			BUTTON_BAR_CSS = "button-bar",
+			VBOX_CSS = "vbox",
+			HEADER_CSS = "header",
+			EXIT_BUTTON_CSS = "exit-button",
+			REPLAY_BUTTON_CSS = "replay-button";
 	private static final double PIE_HEIGHT = 200, PIE_WIDTH = 300;
 	private static final FinishPracticePopup INSTANCE = new FinishPracticePopup();
 	
@@ -25,54 +32,67 @@ public final class FinishPracticePopup extends FadePopup {
 		return INSTANCE;
 	}
 	
+	private final PolarizedPane header;
 	private final VBox vBox;
+	private final Label title, percentage;
 	private final HBox buttonBar;
-	private final Button backToSetsButton, replayButton;
+	private final Button exitButton, replayButton;
 	private final AccuracyPie pie;
-	
 	
 	private FinishPracticePopup() {
 		super(PracticePane.get());
 		
-		backToSetsButton = new Button("Back");
+		title = new Label();
+		percentage = new Label();
+		header = new PolarizedPane(title, percentage);
+		
+		exitButton = new Button("Back");
 		replayButton = new Button("Replay");
-		buttonBar = new HBox(backToSetsButton, replayButton);
+		buttonBar = new HBox(exitButton, replayButton);
 		
 		pie = new AccuracyPie(0, 0);
 		
-		vBox = new VBox(pie, buttonBar);
+		vBox = new VBox(header, pie, buttonBar);
 		initVBox();
 		
 		setGlassCloseable(false);
 		setMaxSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		setBackground(Backgrounds.of(Color.GOLD));
 		getChildren().add(vBox);
+		getStyleClass().add(FINISH_PRACTICE_POPUP_CSS);
 	}
 	
 	private void initVBox() {
+		initHeader();
 		initButtonBar();
 		initPie();
-		vBox.setAlignment(Pos.CENTER);
+		vBox.getStyleClass().add(VBOX_CSS);
 	}
 	
+	private void initHeader() {
+		title.getStyleClass().add(TITLE_CSS);
+		percentage.getStyleClass().add(PERCENTAGE_CSS);
+		header.getStyleClass().add(HEADER_CSS);
+	}
+
 	private void initButtonBar() {
-		initBackToSetsButton();
+		initExitButton();
 		initReplayButton();
-		buttonBar.setSpacing(20);
-		buttonBar.setAlignment(Pos.CENTER);
+		buttonBar.getStyleClass().add(BUTTON_BAR_CSS);
 	}
 	
-	private void initBackToSetsButton() {
-		backToSetsButton.setOnAction(e -> backToSetsAction());
+	private void initExitButton() {
+		exitButton.setOnAction(e -> exitButtonAction());
+		exitButton.getStyleClass().add(EXIT_BUTTON_CSS);
 	}
 	
-	private void backToSetsAction() {
+	private void exitButtonAction() {
 		Main.scene().showSets();
 		hidePopup();
 	}
 	
 	private void initReplayButton() {
 		replayButton.setOnAction(e -> replayAction());
+		replayButton.getStyleClass().add(REPLAY_BUTTON_CSS);
 	}
 	
 	private void replayAction() {
@@ -83,8 +103,12 @@ public final class FinishPracticePopup extends FadePopup {
 		pie.setPrefSize(PIE_WIDTH, PIE_HEIGHT);
 	}
 
-	public void updateAccuracy(int correct, int incorrect) {
+	void updateAccuracy(int correct, int incorrect) {
 		pie.setAccuracy(correct, incorrect);
+		percentage.setText(String.format("%.0f%%", 100d * correct / (correct + incorrect)));
 	}
 	
+	void setTitle(String title) {
+		this.title.setText(title);
+	}
 }

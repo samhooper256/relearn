@@ -16,6 +16,7 @@
 	-app-red: red;
 	-app-red-accent: #FF8787;
 	-app-red-light-accent: #FF9494;
+	-app-dark-orange: #DE5D00;
 	-app-orange: #F58300;
 	-app-orange-accent: #FFD099;
 	-app-orange-light-accent: #FCD6A9;
@@ -126,7 +127,8 @@
 	-fx-spacing: 5px;
 }
 
-.set-card Label {
+.finish-practice-popup .header .title,
+.set-card .title {
 	-fx-font: 24 "Georgia";
 }
 
@@ -138,17 +140,77 @@
 	-fx-vgap: 10;	
 }
 
-.practice-pane .user-area .input-area {
+.practice-pane .input-area {
 	-fx-fill-width: false;
 	-fx-alignment: top-center;
 	-fx-spacing: 12;
+}
+
+.practice-pane .input-area .button-bar {
+	-fx-spacing: 10;
+}
+
+.practice-pane .submit-button,
+.practice-pane .show-answer-button {
+	-fx-focus-traversable: false;
+	-fx-background-radius: 8;
+	-fx-border-radius: 8;
+	-fx-padding: 10;
+	-fx-border-width: 2;
+	-fx-font: 24 "Riffic Free Medium";
+}
+
+.practice-pane .submit-button {
+	-fx-border-color: -app-green;
+	-fx-background-color: -app-green-accent;
+}
+
+.practice-pane .show-answer-button {
+	-fx-border-color: -app-orange;
+	-fx-background-color: -app-orange-accent;	
 }
 
 .practice-pane .header {
 	-fx-spacing: 10;
 }
 
-.practice-pane .header .title,
+.finish-practice-popup .vbox {
+	-fx-alignment: center;
+}
+
+.finish-practice-popup .header {
+	-fx-padding: 0 15 0 15;	
+}
+
+.finish-practice-popup .percentage {
+	-fx-font: 18 "Courier New";
+	-fx-font-weight: bold;
+}
+
+.finish-practice-popup .button-bar {
+	-fx-spacing: 20;
+	-fx-alignment: center;
+}
+
+.finish-practice-popup .exit-button {
+	-fx-border-color: -app-dark-orange;
+	-fx-background-color: -app-orange-accent;
+	-fx-text-fill: -app-dark-orange;
+}
+
+.finish-practice-popup .exit-button:hover {
+	-fx-background-color: -app-orange-light-accent;
+}
+
+.finish-practice-popup {
+	-fx-background-color: -app-light-accent;
+	-fx-background-radius: 10;
+	-fx-border-color: -app-light;
+	-fx-border-width: 4;
+	-fx-border-radius: 6;
+}
+
+.practice-pane > .header .title,
 .editor-pane .header .title {
 	-fx-font: 36 "Riffic Free Medium";
 }
@@ -320,6 +382,8 @@
 	visibility: false;
 }
 
+.finish-practice-popup .exit-button,
+.finish-practice-popup .replay-button,
 .editor-button {
 	-fx-border-radius: 4;
 	-fx-background-radius: 6;
@@ -327,6 +391,7 @@
 	-fx-focus-traversable: false;
 }
 
+.finish-practice-popup .replay-button,
 .delete-popup .no,
 .topic-management-box .add-topic-button,
 .topic-selection-popup .add-selected-button,
@@ -336,6 +401,7 @@
 	-fx-text-fill: -app-green;
 }
 
+.finish-practice-popup .replay-button:hover,
 .delete-popup .no:hover,
 .topic-management-box .add-topic-button:hover,
 .topic-selector .unselected-button:hover,

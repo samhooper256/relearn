@@ -17,7 +17,7 @@ public interface Statement {
 	}
 	
 	static Statement fromExpression(Expression expression) {
-		return new StatementImpl(ensureHTMLTags(ensureBodyTags(ensureMathTags(expression.toMathML()))));
+		return new StatementImpl(ensureHTMLTags(ensureBodyTags(ensureDivTags(ensureMathTags(expression.toMathML())))));
 	}
 	
 	static Statement ofText(String text) {

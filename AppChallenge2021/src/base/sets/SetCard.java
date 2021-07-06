@@ -19,7 +19,9 @@ import javafx.scene.paint.Color;
  */
 public class SetCard extends StackPane {
 	
-	private static final String SET_CARD_CSS = "set-card";
+	private static final String
+			SET_CARD_CSS = "set-card",
+			TITLE_CSS = "title";
 	private static final double PREF_WIDTH = 300;
 	private static final double PREF_HEIGHT = 150;
 	private static final double PENCIL_SIZE = 30;
@@ -81,6 +83,7 @@ public class SetCard extends StackPane {
 	
 	private void initTitle() {
 		title.textProperty().bind(set.nameProperty());
+		title.getStyleClass().add(TITLE_CSS);
 	}
 	
 	private void initPencil() {

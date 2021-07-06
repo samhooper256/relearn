@@ -70,9 +70,10 @@ public final class PracticePane extends StackPane {
 		Main.scene().showSets();
 	}
 	
-	void deckFinished() {
+	private void deckFinished() {
 		cleanUpOnFinish();
 		FinishPracticePopup.get().updateAccuracy(correctProblems.size(), incorrectProblems.size());
+		FinishPracticePopup.get().setTitle(set().name());
 		showFinishPopup();
 	}
 	

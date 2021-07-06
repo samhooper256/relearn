@@ -10,7 +10,8 @@ public final class HTML {
 			HTML_TAG = "html",
 			BODY_TAG = "body",
 			MATH_TAG = "math",
-			DIV_TAG = "div";
+			DIV_TAG = "div",
+			SPAN_TAG = "span";
 	
 	public static String ensureMathTags(String html) {
 		return ensureTags(html, MATH_TAG);
@@ -26,6 +27,10 @@ public final class HTML {
 	
 	public static String ensureDivTags(String html) {
 		return ensureTags(html, DIV_TAG);
+	}
+	
+	public static String ensureSpanTags(String html) {
+		return ensureTags(html, SPAN_TAG);
 	}
 	
 	public static String ensureTags(String html, String tag) {

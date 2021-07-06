@@ -2,7 +2,7 @@ body {
 	background-color: #DCE3F1; /* this is "-app-base" from resources/style.css*/
 	font-family: "Courier New";	
 	font-weight: bold;
-	font-size: 36;
+	font-size: 72;
 	height: 100%;
 	display: flex; /* Setting the display to "flex" allows us to use "flex-direction"*/
 	flex-direction: column-reverse; /* Says to display items (we only have 1 item) in a vertical column from bottom
@@ -14,13 +14,18 @@ body {
 div {
 	background-color: transparent;
 	text-align: center;
+	display: inline-block;
+	overflow: hidden;
 	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 math {
+	font-family: "Courier New";	
+	font-weight: bold;
 	background-color: transparent;
-	padding: 10; /* "div" seems to have implicit padding that I cannot remove. So, I added an artificial padding to 
-	"math" so that it aligns with "div". */
+	padding: 18;
 }
 
 html {

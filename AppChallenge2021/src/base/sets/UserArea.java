@@ -2,7 +2,6 @@ package base.sets;
 
 import base.problems.Problem;
 import fxutils.Borders;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
@@ -21,8 +20,10 @@ public class UserArea extends GridPane {
 	private static final String
 			USER_AREA_CSS = "user-area",
 			INPUT_AREA_CSS = "input-area",
-			DISPLAY_AREA_CSS = "display-area";
-	
+			BUTTON_BAR_CSS = "button-bar",
+			SUBMIT_BUTTON_CSS = "submit-button",
+			SHOW_ANSWER_BUTTON_CSS = "show-answer-button";
+			
 	private final VBox inputArea, displayArea;
 	private final StackPane problemDisplayWrap;
 	private final TextField field;
@@ -58,10 +59,10 @@ public class UserArea extends GridPane {
 		initInputArea();
 		
 		RowConstraints r1 = new RowConstraints();
-		r1.setPercentHeight(50);
+		r1.setPercentHeight(40);
 		
 		RowConstraints r2 = new RowConstraints();
-		r2.setPercentHeight(50);
+		r2.setPercentHeight(60);
 		
 		ColumnConstraints c1 = new ColumnConstraints();
 		c1.setPercentWidth(100);
@@ -99,11 +100,12 @@ public class UserArea extends GridPane {
 	private void initButtonBar() {
 		initSubmitButton();
 		initShowAnswerButton();
+		buttonBar.getStyleClass().add(BUTTON_BAR_CSS);
 	}
 	
 	private void initSubmitButton() {
-		submitButton.setFocusTraversable(false);
 		submitButton.setOnAction(e -> submitAction());
+		submitButton.getStyleClass().add(SUBMIT_BUTTON_CSS);
 	}
 	
 	private void submitAction() {
@@ -116,6 +118,17 @@ public class UserArea extends GridPane {
 			incorrectAnswerAction();
 	}
 
+	private void initShowAnswerButton() {
+		showAnswerButton.setOnAction(e -> showAnswerAction());
+		showAnswerButton.getStyleClass().add(SHOW_ANSWER_BUTTON_CSS);
+	}
+	
+	private void showAnswerAction() {
+		answerShown = true;
+		pane().addIncorrectProblem(problem());
+		field.setText(problem().sampleAnswer());
+	}
+	
 	private void correctAnswerAction() {
 		field.setBorder(Border.EMPTY);
 		if(!incorrectAnswerGiven && !answerShown)
@@ -128,17 +141,6 @@ public class UserArea extends GridPane {
 			pane().recordIncorrect(problem());
 		incorrectAnswerGiven = true;
 		field.setBorder(INCORRECT_ANSWER_BORDER);
-	}
-	
-	private void initShowAnswerButton() {
-		showAnswerButton.setFocusTraversable(false);
-		showAnswerButton.setOnAction(e -> showAnswerAction());
-	}
-	
-	private void showAnswerAction() {
-		answerShown = true;
-		pane().addIncorrectProblem(problem());
-		field.setText(problem().sampleAnswer());
 	}
 	
 	private void clearField() {
