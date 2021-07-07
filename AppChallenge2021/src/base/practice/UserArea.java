@@ -143,7 +143,6 @@ public class UserArea extends GridPane {
 	}
 	
 	private void incorrectAnswerAction() {
-		System.out.printf("incorrectAnswerAction%n");
 		incorrectAnswerGiven = true;
 		field.setBorder(INCORRECT_ANSWER_BORDER); //TODO better - this changes the layout of everything
 	}

@@ -3,7 +3,7 @@
  */
 package base.graphics;
 
-import static fxutils.Shapes.setLayoutCoords;
+import static fxutils.Nodes.setLayout;
 
 import java.util.*;
 
@@ -87,27 +87,27 @@ public class Growth extends Group {
 		//do left:
 		if(halfWidth >= MIN_SIZE && RNG.next() <= splitProb) {
 			Rectangle r1 = new Rectangle(halfWidth, halfHeight);
-			setLayoutCoords(r1, x(r) - halfWidth, y(r));
+			setLayout(r1, x(r) - halfWidth, y(r));
 			Rectangle r2 = new Rectangle(halfWidth, halfHeight);
-			setLayoutCoords(r2, x(r) - halfWidth, y(r) + halfHeight);
+			setLayout(r2, x(r) - halfWidth, y(r) + halfHeight);
 			colorAndAddRectsIfPossible(r1, r2);
 		}
 		else {
 			Rectangle r1 = new Rectangle(r.getWidth(), r.getWidth());
-			setLayoutCoords(r1, x(r) - r.getWidth(), y(r));
+			setLayout(r1, x(r) - r.getWidth(), y(r));
 			colorAndAddRectsIfPossible(r1);
 		}
 		//do bottom:
 		if(halfWidth >= MIN_SIZE && RNG.next() <= splitProb) {
 			Rectangle r1 = new Rectangle(halfWidth, halfHeight);
-			setLayoutCoords(r1, x(r), y(r) + r.getHeight());
+			setLayout(r1, x(r), y(r) + r.getHeight());
 			Rectangle r2 = new Rectangle(halfWidth, halfHeight);
-			setLayoutCoords(r2, x(r) + halfWidth, y(r) + r.getHeight());
+			setLayout(r2, x(r) + halfWidth, y(r) + r.getHeight());
 			colorAndAddRectsIfPossible(r1, r2);
 		}
 		else {
 			Rectangle r1 = new Rectangle(r.getWidth(), r.getWidth());
-			setLayoutCoords(r1, x(r), y(r) + r.getHeight());
+			setLayout(r1, x(r), y(r) + r.getHeight());
 			colorAndAddRectsIfPossible(r1);
 		}
 	}

@@ -148,6 +148,15 @@
 
 .practice-pane .streak-bar {
 	-fx-alignment: bottom-left;
+	-fx-fill-height: false;
+	-fx-padding: 0 0 10 10;
+	-fx-spacing: 10;
+}
+
+.practice-pane .streak-bar .count .circle {
+	-fx-fill: transparent;
+	-fx-stroke: -app-dark;
+	-fx-stroke-width: 2;
 }
 
 .practice-pane .problem-display {

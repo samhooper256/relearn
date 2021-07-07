@@ -1,6 +1,6 @@
 package base.practice;
 
-import base.Main;
+import base.*;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.image.*;
@@ -24,7 +24,6 @@ public final class AccuracyBar extends Pane {
 	
 	AccuracyBar() {
 		group = new Group();
-		group.setTranslateY(Main.screenHeight() - 1.5*ICON_SIZE - 10);
 		getChildren().add(group);
 	}
 	
@@ -33,7 +32,6 @@ public final class AccuracyBar extends Pane {
 	}
 	
 	void addX() {
-		System.out.printf("adding X%n");
 		addIcon(Main.X_BOX);
 	}
 	
