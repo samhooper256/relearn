@@ -35,6 +35,8 @@ public final class TopicSelectorBox extends VBox {
 			addSelector(factory);
 		set.topics().addAddListener(t -> selectorFor(t).setAdded());
 		set.topics().addRemoveListener(t -> selectorFor(t).setUnselected());
+		for(Topic t : set.topics())
+			selectorFor(t).setAdded();
 		getStyleClass().add(TOPIC_SELECTOR_BOX_CSS);
 	}
 

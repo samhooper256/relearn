@@ -1,13 +1,14 @@
 /**
  * 
  */
-package base.sets;
+package base.practice;
 
 import java.util.*;
 
 import base.*;
 import base.graphics.BackArrow;
 import base.problems.Problem;
+import base.sets.*;
 import base.stats.Data;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -34,6 +35,8 @@ public final class PracticePane extends StackPane {
 	private final Label title;
 	private final HBox header;
 	private final BackArrow backArrow;
+	private final StreakBar streakBar;
+	
 	private final List<Problem> correctProblems, incorrectProblems;
 	
 	private ProblemSet set;
@@ -49,8 +52,11 @@ public final class PracticePane extends StackPane {
 		
 		userArea = new UserArea();
 		
+		streakBar = new StreakBar();
+		
 		StackPane.setAlignment(header, Pos.TOP_LEFT);
-		getChildren().addAll(userArea, header);
+		StackPane.setAlignment(streakBar, Pos.BOTTOM_LEFT);
+		getChildren().addAll(userArea, header, streakBar);
 		getStyleClass().add(PRACTICE_PANE_CSS);
 		
 		correctProblems = new ArrayList<>();
@@ -77,12 +83,22 @@ public final class PracticePane extends StackPane {
 		showFinishPopup();
 	}
 	
-	void recordCorrect(Problem p) {
+	void notifyCorrect(Problem p) {
+		recordCorrect(p);
+		streakBar.notifyCorrect();
+	}
+
+	private void recordCorrect(Problem p) {
 		correctProblems.add(p);
 		Data.addCorrect(set(), p);
 	}
 	
-	void recordIncorrect(Problem p) {
+	void notifyIncorrect(Problem p) {
+		recordIncorrect(p);
+		streakBar.notifyIncorrect();
+	}
+
+	private void recordIncorrect(Problem p) {
 		incorrectProblems.add(p);
 		Data.addIncorrect(set(), p);
 	}
@@ -103,6 +119,7 @@ public final class PracticePane extends StackPane {
 	public void start(ProblemSet set) {
 		this.set = set;
 		startDeck(set.createDeck());
+		userArea.focusOnField();
 	}
 	
 	private void startDeck(Deck deck) {
@@ -121,7 +138,7 @@ public final class PracticePane extends StackPane {
 		incorrectProblems.add(p);
 	}
 	
-	public void replay() {
+	void replay() {
 		startDeck(set().createDeck());
 		hideFinishPopup();
 	}
@@ -140,8 +157,8 @@ public final class PracticePane extends StackPane {
 	}
 	
 	/** Called by {@link UserArea} whenever a {@link Problem }is completed - that is, it is answered correctly.
-	 * This method assumes that the problem has already been recorded (see {@link #recordCorrect(Problem)} and
-	 * {@link #recordIncorrect(Problem)}).*/
+	 * This method assumes that the problem has already been recorded (see {@link #notifyCorrect(Problem)} and
+	 * {@link #notifyIncorrect(Problem)}).*/
 	void problemCompleted() {
 		if(hasMoreProblemsInDeck())
 			setupNext();

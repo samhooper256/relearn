@@ -6,7 +6,6 @@ package base.editor;
 import base.*;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import topics.Topic;
 
 /**
  * @author Sam Hooper

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package base.sets;
+package base.practice;
 
 import base.*;
 import base.graphics.FadePopup;

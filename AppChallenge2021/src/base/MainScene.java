@@ -5,6 +5,7 @@ package base;
 
 import base.editor.EditorPane;
 import base.graphics.*;
+import base.practice.PracticePane;
 import base.sets.*;
 import base.stats.StatsPane;
 import javafx.geometry.*;
@@ -16,6 +17,10 @@ import javafx.scene.layout.*;
  *
  */
 public final class MainScene extends Scene {
+	
+	private static final String
+			MAIN_MENU_CSS = "main-menu",
+			VBOX_CSS = "vbox";
 	
 	private static final double BUTTON_SPACING = 80;
 	private static final MainScene INSTANCE = new MainScene(new StackPane(), Main.MIN_WIDTH, Main.MIN_HEIGHT);
@@ -38,21 +43,23 @@ public final class MainScene extends Scene {
 		growth.layoutXProperty().bind(mainMenu.widthProperty());
 		
 		title = new TitleBox(Main.TITLE);
-		
-		vBox = new VBox(5, title, MainMenuButton.SETS, MainMenuButton.STATS, MainMenuButton.SETTINGS);
-		initVBox();
+		vBox = new VBox(title, MainMenuButton.SETS, MainMenuButton.STATS, MainMenuButton.SETTINGS);
 		
 		mainMenu.getChildren().addAll(growthPane, vBox);
+		initMainMenu();
 		
 		getStylesheets().add(Main.class.getResource(Main.RESOURCES_PREFIX + "style.css").toExternalForm());
 	}
 	
+	private void initMainMenu() {
+		initVBox();
+		mainMenu.getStyleClass().add(MAIN_MENU_CSS);
+	}
+
 	private void initVBox() {
 		initButtons();
-		vBox.setPickOnBounds(false);
-		vBox.setAlignment(Pos.CENTER_LEFT); //TODO in CSS
-		vBox.setFillWidth(false);
-		vBox.setSpacing(BUTTON_SPACING);
+		vBox.setPickOnBounds(false); //cannot be set from CSS
+		vBox.getStyleClass().add(VBOX_CSS);
 	}
 	
 	private void initButtons() {

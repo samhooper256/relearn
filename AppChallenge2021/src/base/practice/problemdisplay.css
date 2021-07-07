@@ -1,5 +1,6 @@
 body {
 	background-color: #DCE3F1; /* this is "-app-base" from resources/style.css*/
+	/*background-color:  yellow;*/
 	font-family: "Courier New";	
 	font-weight: bold;
 	font-size: 72;
@@ -13,6 +14,7 @@ body {
 
 div {
 	background-color: transparent;
+	/*background-color: brown;*/
 	text-align: center;
 	display: inline-block;
 	overflow: hidden;
@@ -22,10 +24,15 @@ div {
 }
 
 math {
+	background-color: transparent;
+	/*background-color: pink;*/
 	font-family: "Courier New";	
 	font-weight: bold;
-	background-color: transparent;
-	padding: 18;
+	/*padding: 18;*/
+}
+
+span {
+	color: transparent; /* Text is invisible. See the java method base.problems.Statement#fixUpMathML(String)*/
 }
 
 html {

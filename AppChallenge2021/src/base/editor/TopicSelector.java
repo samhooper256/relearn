@@ -98,8 +98,13 @@ public class TopicSelector extends PolarizedPane {
 	private void setState(Button button) {
 		if(currentButton() != button) {
 			setButton(button);
-			box().notifySelectorChanged();
+			notifySelectorBox();
 		}
+	}
+
+	private void notifySelectorBox() {
+		if(getParent() instanceof TopicSelectorBox b)
+			b.notifySelectorChanged();
 	}
 	
 	public boolean isAdded() {
@@ -124,12 +129,6 @@ public class TopicSelector extends PolarizedPane {
 	
 	public TopicFactory<?> factory() {
 		return factory;
-	}
-	
-	TopicSelectorBox box() {
-		TopicSelectorBox box = TopicSelectionPopup.get().selectorBox();
-		assert getParent() == null || getParent() == box;
-		return box;
 	}
 	
 }

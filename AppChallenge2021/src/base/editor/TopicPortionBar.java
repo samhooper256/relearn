@@ -9,7 +9,6 @@ import base.Named;
 import fxutils.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import topics.*;
 

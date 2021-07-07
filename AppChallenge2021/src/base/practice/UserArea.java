@@ -1,4 +1,4 @@
-package base.sets;
+package base.practice;
 
 import base.problems.Problem;
 import fxutils.Borders;
@@ -22,7 +22,8 @@ public class UserArea extends GridPane {
 			INPUT_AREA_CSS = "input-area",
 			BUTTON_BAR_CSS = "button-bar",
 			SUBMIT_BUTTON_CSS = "submit-button",
-			SHOW_ANSWER_BUTTON_CSS = "show-answer-button";
+			SHOW_ANSWER_BUTTON_CSS = "show-answer-button",
+			PROBLEM_DISPLAY_CSS = "problem-display";
 			
 	private final VBox inputArea, displayArea;
 	private final StackPane problemDisplayWrap;
@@ -84,6 +85,9 @@ public class UserArea extends GridPane {
 	private void initProblemDisplay() {
 		problemDisplay.getEngine().setUserStyleSheetLocation(getClass().getResource("problemdisplay.css").toString());
 		problemDisplayWrap.setPrefSize(FIELD_WIDTH, 100);
+		problemDisplay.getStyleClass().add(PROBLEM_DISPLAY_CSS);
+		problemDisplay.setMouseTransparent(true); //cannot be set from CSS
+		problemDisplay.setDisable(true); //this ensures that it never receives focus - also cannot be set from CSS.
 	}
 	
 	private void initField() {
@@ -132,15 +136,16 @@ public class UserArea extends GridPane {
 	private void correctAnswerAction() {
 		field.setBorder(Border.EMPTY);
 		if(!incorrectAnswerGiven && !answerShown)
-			pane().recordCorrect(problem());
+			pane().notifyCorrect(problem());
+		else
+			pane().notifyIncorrect(problem());
 		pane().problemCompleted();
 	}
 	
 	private void incorrectAnswerAction() {
-		if(!incorrectAnswerGiven)
-			pane().recordIncorrect(problem());
+		System.out.printf("incorrectAnswerAction%n");
 		incorrectAnswerGiven = true;
-		field.setBorder(INCORRECT_ANSWER_BORDER);
+		field.setBorder(INCORRECT_ANSWER_BORDER); //TODO better - this changes the layout of everything
 	}
 	
 	private void clearField() {
@@ -153,6 +158,10 @@ public class UserArea extends GridPane {
 	
 	private void setProblemHTML(String html) {
 		problemDisplay.getEngine().loadContent(html);
+	}
+	
+	void focusOnField() {
+		field.requestFocus();
 	}
 	
 	Problem problem() {
