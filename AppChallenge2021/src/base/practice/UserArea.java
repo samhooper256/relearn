@@ -128,23 +128,28 @@ public class UserArea extends GridPane {
 	}
 	
 	private void showAnswerAction() {
+		if(!hasMarkedIncorrect())
+			pane().notifyIncorrect(problem());
 		answerShown = true;
-		pane().addIncorrectProblem(problem());
 		field.setText(problem().sampleAnswer());
 	}
-	
+
 	private void correctAnswerAction() {
 		field.setBorder(Border.EMPTY);
-		if(!incorrectAnswerGiven && !answerShown)
+		if(!hasMarkedIncorrect())
 			pane().notifyCorrect(problem());
-		else
-			pane().notifyIncorrect(problem());
 		pane().problemCompleted();
 	}
 	
 	private void incorrectAnswerAction() {
+		if(!hasMarkedIncorrect())
+			pane().notifyIncorrect(problem());
 		incorrectAnswerGiven = true;
 		field.setBorder(INCORRECT_ANSWER_BORDER); //TODO better - this changes the layout of everything
+	}
+	
+	private boolean hasMarkedIncorrect() {
+		return answerShown || incorrectAnswerGiven;
 	}
 	
 	private void clearField() {
@@ -169,6 +174,7 @@ public class UserArea extends GridPane {
 	
 	void setup(Problem problem) {
 		incorrectAnswerGiven = false;
+		answerShown = false;
 		this.problem = problem;
 		clearField();
 		setProblemHTML(problem.statement().html());

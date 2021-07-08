@@ -18,7 +18,19 @@ public final class AccuracyBar extends Pane {
 	
 	private static final double SPACING = 4;
 	private static final Duration SLIDE_DURATION = Duration.millis(300);
-	private static final Duration FADE_START = Duration.millis(150);
+	private static final Duration FADE_START = SLIDE_DURATION.divide(2);
+	
+	private static void addFade(Timeline timeline, ImageView iv, Duration start, Duration end) {
+		KeyFrame fadeStart = new KeyFrame(start,
+				new KeyValue(iv.opacityProperty(), 0),
+				new KeyValue(iv.scaleXProperty(), 0.5),
+				new KeyValue(iv.scaleYProperty(), 0.5));
+		KeyFrame fadeEnd = new KeyFrame(end,
+				new KeyValue(iv.opacityProperty(), 1),
+				new KeyValue(iv.scaleXProperty(), 1),
+				new KeyValue(iv.scaleYProperty(), 1));
+		timeline.getKeyFrames().addAll(fadeStart, fadeEnd);
+	}
 	
 	private final Group group;
 	
@@ -42,7 +54,11 @@ public final class AccuracyBar extends Pane {
 			startTransition(iv);
 		}
 		else {
+			iv.setOpacity(0);
 			group.getChildren().add(iv);
+			Timeline time = new Timeline();
+			addFade(time, iv, Duration.ZERO, FADE_START);
+			time.playFromStart();
 		}
 	}
 	
@@ -57,15 +73,8 @@ public final class AccuracyBar extends Pane {
 		Timeline time = new Timeline();
 		KeyFrame slide = new KeyFrame(SLIDE_DURATION,
 				new KeyValue(group.translateXProperty(), x + ICON_SIZE + SPACING, Interpolator.EASE_OUT));
-		KeyFrame fadeStart = new KeyFrame(FADE_START,
-				new KeyValue(iv.opacityProperty(), 0),
-				new KeyValue(iv.scaleXProperty(), 0.5),
-				new KeyValue(iv.scaleYProperty(), 0.5));
-		KeyFrame fadeEnd = new KeyFrame(SLIDE_DURATION,
-				new KeyValue(iv.opacityProperty(), 1),
-				new KeyValue(iv.scaleXProperty(), 1),
-				new KeyValue(iv.scaleYProperty(), 1));
-		time.getKeyFrames().addAll(slide, fadeStart, fadeEnd);
+		time.getKeyFrames().add(slide);
+		addFade(time, iv, FADE_START, SLIDE_DURATION);
 		time.playFromStart();
 	}
 	

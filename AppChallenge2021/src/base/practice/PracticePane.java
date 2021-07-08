@@ -136,10 +136,6 @@ public final class PracticePane extends StackPane {
 		userArea.setup(problem);
 	}
 	
-	void addIncorrectProblem(Problem p) {
-		incorrectProblems.add(p);
-	}
-	
 	void replay() {
 		startDeck(set().createDeck());
 		hideFinishPopup();
