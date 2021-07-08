@@ -8,7 +8,6 @@ import base.graphics.*;
 import base.practice.PracticePane;
 import base.sets.*;
 import base.stats.StatsPane;
-import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 
@@ -22,7 +21,6 @@ public final class MainScene extends Scene {
 			MAIN_MENU_CSS = "main-menu",
 			VBOX_CSS = "vbox";
 	
-	private static final double BUTTON_SPACING = 80;
 	private static final MainScene INSTANCE = new MainScene(new StackPane(), Main.MIN_WIDTH, Main.MIN_HEIGHT);
 	
 	public static MainScene get() {

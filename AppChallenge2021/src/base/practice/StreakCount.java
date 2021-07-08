@@ -16,20 +16,28 @@ final class StreakCount extends StackPane {
 	
 	private static final String
 			STREAK_COUNT_CSS = "count",
-			CIRCLE_CSS = "circle";
+			CIRCLE_CSS = "circle",
+			TEXT_CSS = "text";
 	
-	private final Label label;
+	private final Label text;
 	private final Circle circle;
 	
-	private int count;
+	private int streak, longest;
 	
 	StreakCount() {
-		label = new Label("0");
+		text = new Label("0");
+		initText();
 		circle = new Circle();
 		initCircle();
 		
-		getChildren().addAll(circle, label);
+		getChildren().addAll(circle, text);
 		getStyleClass().add(STREAK_COUNT_CSS);
+		
+		streak = longest = 0;
+	}
+
+	private void initText() {
+		text.getStyleClass().add(TEXT_CSS);
 	}
 
 	private void initCircle() {
@@ -39,21 +47,32 @@ final class StreakCount extends StackPane {
 	}
 	
 	void incrementCount() {
-		count++;
+		streak++;
+		longest = Math.max(longest, streak);
 		updateLabel();
 	}
 	
 	void resetCount() {
-		count = 0;
+		streak = 0;
 		updateLabel();
 	}
-
-	private void updateLabel() {
-		label.setText(String.valueOf(count()));
+	
+	/** Invokes {@link #resetCount()} and resets the {@link #longest()} streak count. */
+	void resetAll() {
+		resetCount();
+		longest = 0;
 	}
 	
-	int count() {
-		return count;
+	private void updateLabel() {
+		text.setText(String.valueOf(streak()));
+	}
+	
+	int streak() {
+		return streak;
+	}
+	
+	int longest() {
+		return longest;
 	}
 	
 }

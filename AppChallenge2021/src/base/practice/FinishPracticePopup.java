@@ -6,7 +6,6 @@ package base.practice;
 import base.*;
 import base.graphics.FadePopup;
 import base.stats.AccuracyPie;
-import fxutils.PolarizedPane;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -19,12 +18,12 @@ public final class FinishPracticePopup extends FadePopup {
 	private static final String
 			FINISH_PRACTICE_POPUP_CSS = "finish-practice-popup",
 			TITLE_CSS = "title",
-			PERCENTAGE_CSS = "percentage",
 			BUTTON_BAR_CSS = "button-bar",
 			VBOX_CSS = "vbox",
 			HEADER_CSS = "header",
 			EXIT_BUTTON_CSS = "exit-button",
 			REPLAY_BUTTON_CSS = "replay-button";
+	
 	private static final double PIE_HEIGHT = 200, PIE_WIDTH = 300;
 	private static final FinishPracticePopup INSTANCE = new FinishPracticePopup();
 	
@@ -32,10 +31,10 @@ public final class FinishPracticePopup extends FadePopup {
 		return INSTANCE;
 	}
 	
-	private final PolarizedPane header;
 	private final VBox vBox;
-	private final Label title, percentage;
-	private final HBox buttonBar;
+	private final Label title;
+	private final InfoBar infoBar;
+	private final HBox buttonBar, header;
 	private final Button exitButton, replayButton;
 	private final AccuracyPie pie;
 	
@@ -43,8 +42,9 @@ public final class FinishPracticePopup extends FadePopup {
 		super(PracticePane.get());
 		
 		title = new Label();
-		percentage = new Label();
-		header = new PolarizedPane(title, percentage);
+		header = new HBox(title);
+		
+		infoBar = new InfoBar();
 		
 		exitButton = new Button("Back");
 		replayButton = new Button("Replay");
@@ -52,7 +52,7 @@ public final class FinishPracticePopup extends FadePopup {
 		
 		pie = new AccuracyPie(0, 0);
 		
-		vBox = new VBox(header, pie, buttonBar);
+		vBox = new VBox(header, infoBar, pie, buttonBar);
 		initVBox();
 		
 		setGlassCloseable(false);
@@ -70,10 +70,9 @@ public final class FinishPracticePopup extends FadePopup {
 	
 	private void initHeader() {
 		title.getStyleClass().add(TITLE_CSS);
-		percentage.getStyleClass().add(PERCENTAGE_CSS);
 		header.getStyleClass().add(HEADER_CSS);
 	}
-
+	
 	private void initButtonBar() {
 		initExitButton();
 		initReplayButton();
@@ -105,7 +104,11 @@ public final class FinishPracticePopup extends FadePopup {
 
 	void updateAccuracy(int correct, int incorrect) {
 		pie.setAccuracy(correct, incorrect);
-		percentage.setText(String.format("%.0f%%", 100d * correct / (correct + incorrect)));
+		infoBar.updateAccuracy(correct, incorrect);
+	}
+	
+	void updateLongestStreak(int streak) {
+		infoBar.updateLongestStreak(streak);
 	}
 	
 	void setTitle(String title) {

@@ -44,6 +44,11 @@
 	-fx-background-color: -app-grey;	
 }
 
+.accuracy-pie {
+	-fx-legend-visible: false;
+	-fx-padding: 0;
+	-fx-background-insets: 0;
+}
 .correct-pie-slice {
 	-fx-pie-color: green;
 }
@@ -144,6 +149,7 @@
 
 .practice-pane .header {
 	-fx-spacing: 10;
+	-fx-padding: 10 0 0 10;
 }
 
 .practice-pane .streak-bar {
@@ -157,6 +163,10 @@
 	-fx-fill: transparent;
 	-fx-stroke: -app-dark;
 	-fx-stroke-width: 2;
+}
+
+.practice-pane .streak-bar .count .text {
+	-fx-font: 14 "Riffic Free Medium";
 }
 
 .practice-pane .problem-display {
@@ -197,14 +207,26 @@
 	-fx-background-color: -app-orange-accent;	
 }
 
+.finish-practice-popup {
+	-fx-padding: 15 10 20 10;
+	-fx-background-color: -app-orange;
+	-fx-background-radius: 16;
+	-fx-border-color: -app-dark-orange;
+	-fx-border-width: 4;
+	-fx-border-radius: 10;
+}
+
 .finish-practice-popup .vbox {
 	-fx-alignment: center;
+	-fx-spacing: 0;
 }
 
 .finish-practice-popup .header {
-	-fx-padding: 0 15 0 15;	
+	-fx-padding: 0 0 15 0;
+	-fx-alignment: center;
 }
 
+.finish-practice-popup .longest-streak,
 .finish-practice-popup .percentage {
 	-fx-font: 18 "Courier New";
 	-fx-font-weight: bold;
@@ -223,14 +245,6 @@
 
 .finish-practice-popup .exit-button:hover {
 	-fx-background-color: -app-orange-light-accent;
-}
-
-.finish-practice-popup {
-	-fx-background-color: -app-light-accent;
-	-fx-background-radius: 10;
-	-fx-border-color: -app-light;
-	-fx-border-width: 4;
-	-fx-border-radius: 6;
 }
 
 .practice-pane > .header .title,

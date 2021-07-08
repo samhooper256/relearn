@@ -79,6 +79,7 @@ public final class PracticePane extends StackPane {
 	private void deckFinished() {
 		cleanUpOnFinish();
 		FinishPracticePopup.get().updateAccuracy(correctProblems.size(), incorrectProblems.size());
+		FinishPracticePopup.get().updateLongestStreak(streakBar.count().longest());
 		FinishPracticePopup.get().setTitle(set().name());
 		showFinishPopup();
 	}
@@ -119,7 +120,6 @@ public final class PracticePane extends StackPane {
 	public void start(ProblemSet set) {
 		this.set = set;
 		startDeck(set.createDeck());
-		userArea.focusOnField();
 	}
 	
 	private void startDeck(Deck deck) {
@@ -127,6 +127,8 @@ public final class PracticePane extends StackPane {
 		deckIndex = 0;
 		correctProblems.clear();
 		incorrectProblems.clear();
+		userArea.focusOnField();
+		streakBar.resetAll();
 		setup(deck.get(deckIndex));
 	}
 	

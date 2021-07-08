@@ -33,8 +33,12 @@ final class StreakBar extends HBox {
 		accuracyBar.addX();
 	}
 	
-	int streak() {
-		return count.count();
+	StreakCount count() {
+		return count;
 	}
 	
+	void resetAll() {
+		count().resetAll();
+		accuracyBar.clear();
+	}
 }

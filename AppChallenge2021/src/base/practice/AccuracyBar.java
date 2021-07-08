@@ -68,4 +68,10 @@ public final class AccuracyBar extends Pane {
 		time.getKeyFrames().addAll(slide, fadeStart, fadeEnd);
 		time.playFromStart();
 	}
+	
+	void clear() {
+		group.getChildren().clear();
+		group.setTranslateX(0);
+	}
+	
 }
