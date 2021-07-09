@@ -35,7 +35,6 @@ public class PEMDAS extends AbstractTopic {
 	public Problem generate() 
 	{
 		String equation = equationCreate();
-		System.out.println(equation);
 		return MathProblem.fromExpression(this, equation);
 	}
 	
@@ -72,8 +71,6 @@ public class PEMDAS extends AbstractTopic {
 			equationTerms.set(i, String.valueOf(RNG.intMaxDigits(maxDigits.value())));
 		}
 		
-		System.out.println(equationTerms);
-		
 		if(difficulty > 1)
 		{
 			int first = RNG.intInclusive(0, equationTerms.size() - 3);
@@ -90,9 +87,6 @@ public class PEMDAS extends AbstractTopic {
 			
 			equationTerms.add(second, ")");
 			equationTerms.add(first, "(");
-			
-			System.out.println(first);
-			System.out.println(second);
 		}
 		
 		for(String str: equationTerms)

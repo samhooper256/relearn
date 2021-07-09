@@ -31,7 +31,9 @@ public final class TopicUtils {
 				Multiplication.FACTORY,
 				Division.FACTORY,
 				PEMDAS.FACTORY,
-				Percentages.FACTORY
+				Percentages.FACTORY,
+				Quadrants.FACTORY,
+				Squares.FACTORY
 		);
 		Collections.sort(factoryList);
 		FACTORIES = new LinkedHashSet<>();
