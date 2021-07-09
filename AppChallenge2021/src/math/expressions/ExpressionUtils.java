@@ -69,6 +69,10 @@ final class ExpressionUtils {
 		return new ParenthesizedExpressionImpl(operand);
 	}
 	
+	static AbsoluteValueExpression abs(ComplexValuedExpression operand) {
+		return new AbsoluteValueExpressionImpl(operand);
+	}
+	
 	static ListExpression list(ComplexValuedExpression... arguments) {
 		return list(Arrays.asList(arguments));
 	}

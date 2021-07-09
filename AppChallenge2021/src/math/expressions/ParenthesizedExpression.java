@@ -15,7 +15,7 @@ public interface ParenthesizedExpression extends UnaryExpression {
 
 	@Override
 	default String toMathML() {
-		return String.format("<mo>(</mo>%s<mo>)</mo>", operand().toMathML());
+		return String.format("<mfenced><mrow>%s</mrow></mfenced>", operand().toMathML());
 	}
 	
 }

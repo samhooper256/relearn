@@ -15,6 +15,11 @@ import utils.*;
  */
 public final class Evaluator {
 	
+	public static void main(String[] args) {
+		System.out.println(Evaluator.evaluate("(2+(5-1))*(6-1)+3+(3)"));
+		System.out.println(Evaluator.evaluate("sqrt(7)"));
+	}
+	
 	private static final class Token {
 		
 		private final String text;
@@ -173,6 +178,7 @@ public final class Evaluator {
 	static {
 		FUNCTION_DATA = new HashMap<>();
 		FUNCTION_DATA.put("sqrt", FunctionData.unary("sqrt", ComplexValuedExpression::sqrt));
+		FUNCTION_DATA.put("abs", FunctionData.unary("abs", ComplexValuedExpression::abs));
 	}
 	
 	private Evaluator() {
@@ -183,7 +189,9 @@ public final class Evaluator {
 		expression = clean(expression);
 		List<Token> tokens = tokenize(expression);
 		List<Token> postfix = toPostfix(tokens);
+//		System.out.printf("postfix = %s%n", postfix);
 		ComplexValuedExpression exp = treeFromPostfix(postfix);
+//		System.out.printf("exp = %s%n", exp);
 		return exp;
 	}
 	
@@ -320,14 +328,18 @@ public final class Evaluator {
 			switch(t.type()) {
 				case LITERAL -> postfix.add(t);
 				case FUNCTION -> operatorStack.add(t);
-				case OPEN_PARENTHESIS -> operatorStack.push(t);
+				case OPEN_PARENTHESIS -> {
+					operatorStack.push(t);
+					postfix.add(t);
+				}
 				case CLOSE_PARENTHESIS -> {
 					Token top = operatorStack.peek();
 					while(!top.isOpenParenthesis()) {
 						postfix.add(operatorStack.pop());
 						top = operatorStack.peek();
 					}
-					operatorStack.pop(); //get rid of open parenthesis.
+					operatorStack.pop();//get rid of open parenthesis.
+					postfix.add(t);
 					if(!operatorStack.isEmpty() && operatorStack.peek().type() == TokenType.FUNCTION)
 						postfix.add(operatorStack.pop());
 				}
@@ -352,8 +364,16 @@ public final class Evaluator {
 	
 	private static ComplexValuedExpression treeFromPostfix(List<Token> postfix) {
 		Stack<ComplexValuedExpression> stack = new Stack<>();
-		for(Token t : postfix) {
+		for (int i = 0; i < postfix.size(); i++) {
+			Token t = postfix.get(i);
 			switch(t.type()) {
+				case OPEN_PARENTHESIS -> { continue; }
+				case CLOSE_PARENTHESIS -> {
+					if(i != postfix.size() - 1 && postfix.get(i + 1).type() == TokenType.FUNCTION)
+						continue;
+					else 
+						stack.push(stack.pop().parenthesized());
+				}
 				case LITERAL -> stack.add(ComplexValuedExpression.of(Complex.of(t.text())));
 				case UNARY_OPERATOR -> stack.push(unaryExpressionFrom(t, stack.pop()));
 				case BINARY_OPERATOR -> {
@@ -368,7 +388,7 @@ public final class Evaluator {
 					}
 					else {
 						List<ComplexValuedExpression> arguments = new ArrayList<>();
-						for(int i = 0; i < data.arity(); i++)
+						for(int j = 0; j < data.arity(); j++)
 							arguments.add(stack.pop());
 						Collections.reverse(arguments);
 						stack.push(data.applyFunction(arguments));

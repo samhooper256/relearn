@@ -86,4 +86,8 @@ public interface ComplexValuedExpression extends Expression<Complex> {
 		return ExpressionUtils.fraction(this, denominator);
 	}
 	
+	default AbsoluteValueExpression abs() {
+		return ExpressionUtils.abs(this);
+	}
+	
 }

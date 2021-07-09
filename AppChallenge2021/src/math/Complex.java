@@ -95,7 +95,7 @@ public interface Complex {
 	default Complex sqrt() {
 		if(!isReal())
 			throw new ArithmeticException("Cannot take the square root of a non-real number");
-		return of(toBigDecimal(MathContext.DECIMAL64).sqrt(MathContext.DECIMAL64));
+		return of(toBigDecimal(MathContext.DECIMAL128).sqrt(MathContext.DECIMAL128));
 	}
 	
 	/** Returns the absolute value of this complex number, squared. This will always be a real number.

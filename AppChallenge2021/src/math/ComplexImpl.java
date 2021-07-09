@@ -7,22 +7,20 @@ import java.math.*;
 import java.util.Objects;
 
 /**
- * <p>Implementation of {@link Complex}. Real and imaginary parts are represented with
- * {@link MathContext#DECIMAL32} precision and intermediate calculations are performed with
- * {@link MathContext#DECIMAL64} precision.</p>
+ * <p>Implementation of {@link Complex}. All calculations are carried out with {@link MathContext#DECIMAL128}
+ * precision.</p>
  * @author Sam Hooper
  *
  */
 class ComplexImpl implements Complex {
 	
-	private static final MathContext EXTERNAL_CONTEXT = MathContext.DECIMAL32;
-	private static final MathContext INTERNAL_CONTEXT = MathContext.DECIMAL64;
+	private static final MathContext CONTEXT = MathContext.DECIMAL128;
 	
 	final BigDecimal real, imaginary;
 	
 	public ComplexImpl(BigDecimal real, BigDecimal imaginary) {
-		this.real = real.round(EXTERNAL_CONTEXT);
-		this.imaginary = imaginary.round(EXTERNAL_CONTEXT);
+		this.real = real.round(CONTEXT);
+		this.imaginary = imaginary.round(CONTEXT);
 	}
 	
 	@Override
@@ -38,8 +36,8 @@ class ComplexImpl implements Complex {
 	@Override
 	public Complex add(Complex c) {
 		return Complex.of(
-			real().add(c.real(), INTERNAL_CONTEXT),
-			imaginary().add(c.imaginary(), INTERNAL_CONTEXT)
+			real().add(c.real(), CONTEXT),
+			imaginary().add(c.imaginary(), CONTEXT)
 		);
 	}
 
@@ -52,11 +50,11 @@ class ComplexImpl implements Complex {
 	public Complex multiply(Complex other) {
 		BigDecimal a = real(), b = imaginary();
 		BigDecimal c = other.real(), d = other.imaginary();
-		BigDecimal s1 = a.multiply(c, INTERNAL_CONTEXT);
-		BigDecimal s2 = b.multiply(d, INTERNAL_CONTEXT);
-		BigDecimal s3 = a.add(b, INTERNAL_CONTEXT).multiply(c.add(d, INTERNAL_CONTEXT));
+		BigDecimal s1 = a.multiply(c, CONTEXT);
+		BigDecimal s2 = b.multiply(d, CONTEXT);
+		BigDecimal s3 = a.add(b, CONTEXT).multiply(c.add(d, CONTEXT));
 		return Complex.of(
-			s1.subtract(s2, INTERNAL_CONTEXT), s3.subtract(s1, INTERNAL_CONTEXT).subtract(s2, INTERNAL_CONTEXT)
+			s1.subtract(s2, CONTEXT), s3.subtract(s1, CONTEXT).subtract(s2, CONTEXT)
 		);
 	}
 
@@ -70,7 +68,7 @@ class ComplexImpl implements Complex {
 
 	@Override
 	public Complex negate() {
-		return Complex.of(real().negate(INTERNAL_CONTEXT), imaginary().negate(INTERNAL_CONTEXT));
+		return Complex.of(real().negate(CONTEXT), imaginary().negate(CONTEXT));
 	}
 	
 	@Override
@@ -78,17 +76,17 @@ class ComplexImpl implements Complex {
 		if(isReal()) {
 			return this;
 		}
-		return Complex.of(real(), imaginary().negate(INTERNAL_CONTEXT));
+		return Complex.of(real(), imaginary().negate(CONTEXT));
 	}
 	
 	@Override
 	public BigDecimal abs2() {
-		return real().multiply(real(), INTERNAL_CONTEXT).add(imaginary().multiply(imaginary(), INTERNAL_CONTEXT), INTERNAL_CONTEXT);
+		return real().multiply(real(), CONTEXT).add(imaginary().multiply(imaginary(), CONTEXT), CONTEXT);
 	}
 	
 	@Override
 	public BigDecimal absAsBigDecimal() {
-		return abs2().sqrt(INTERNAL_CONTEXT);
+		return abs2().sqrt(CONTEXT);
 	}
 	
 	@Override
