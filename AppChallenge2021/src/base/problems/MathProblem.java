@@ -41,6 +41,22 @@ public interface MathProblem extends Problem {
 		return of(topic, Statement.fromExpression(expression), expression.value());
 	}
 	
+	static MathProblem fromExpressionTolerant(Topic topic, String expression) {
+		return fromExpressionTolerant(topic, ComplexValuedExpression.of(expression));
+	}
+
+	static MathProblem fromExpressionTolerant(Topic topic, String expression, BigDecimal tolerance) {
+		return fromExpressionTolerant(topic, ComplexValuedExpression.of(expression), tolerance);
+	}
+	
+	static MathProblem fromExpressionTolerant(Topic topic, ComplexValuedExpression expression) {
+		return ofTolerant(topic, Statement.fromExpression(expression), expression.value());
+	}
+	
+	static MathProblem fromExpressionTolerant(Topic topic, ComplexValuedExpression expression, BigDecimal tolerance) {
+		return ofTolerant(topic, Statement.fromExpression(expression), expression.value(), tolerance);
+	}
+	
 	Complex answer();
 	
 	/** Returns {@code true} iff this {@link MathProblem} is tolerant.*/

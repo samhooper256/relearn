@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import base.problems.*;
+import math.BigUtils;
 import utils.RNG;
 
 /**
@@ -35,7 +36,8 @@ public class PEMDAS extends AbstractTopic {
 	public Problem generate() 
 	{
 		String equation = equationCreate();
-		return MathProblem.fromExpression(this, equation);
+		return MathProblem.fromExpressionTolerant(this, equation, BigUtils.HUNDREDTH); //The tolerance allows for
+		//something like "1÷3" to be typed exactly, as "1/3"
 	}
 	
 	@Override
@@ -43,7 +45,7 @@ public class PEMDAS extends AbstractTopic {
 		return NAME;
 	}
 	
-	public String randSign()
+	public String randOperator()
 	{
 		ArrayList<String> signList = new ArrayList<String>();
 		signList.add("+");
@@ -63,12 +65,17 @@ public class PEMDAS extends AbstractTopic {
 		
 		for(int i = 1; i < equationTerms.size(); i = i + 2)
 		{
-			equationTerms.set(i, randSign());
+			equationTerms.set(i, randOperator());
 		}
 		
 		for(int i = 0; i < equationTerms.size(); i = i + 2)
 		{
-			equationTerms.set(i, String.valueOf(RNG.intMaxDigits(maxDigits.value())));
+			final int val;
+			if(i > 0 && equationTerms.get(i - 1).equals("/"))
+				val = generateNonZero();
+			else
+				val = RNG.intMaxDigits(maxDigits.value());
+			equationTerms.set(i, String.valueOf(val));
 		}
 		
 		if(difficulty > 1)
@@ -95,5 +102,14 @@ public class PEMDAS extends AbstractTopic {
 		}
 		 
 		return equation;
+	}
+	
+	private int generateNonZero() {
+		int val;
+		do {
+			val = RNG.intMaxDigits(maxDigits.value());
+		}
+		while(val == 0);
+		return val;
 	}
 }

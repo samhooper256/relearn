@@ -16,8 +16,7 @@ import utils.*;
 public final class Evaluator {
 	
 	public static void main(String[] args) {
-		System.out.println(Evaluator.evaluate("(2+(5-1))*(6-1)+3+(3)"));
-		System.out.println(Evaluator.evaluate("sqrt(7)"));
+		
 	}
 	
 	private static final class Token {
@@ -71,6 +70,14 @@ public final class Evaluator {
 			return type() == TokenType.OPEN_PARENTHESIS;
 		}
 		
+		public boolean isComma() {
+			return type() == TokenType.COMMA;
+		}
+		
+		public boolean isHardStart() {
+			return isComma() || isOpenParenthesis();
+		}
+		
 		public Associativity associativity() {
 			if(!isOperator())
 				System.out.printf("this token ('%s') is not an operator.%n", text());
@@ -89,7 +96,7 @@ public final class Evaluator {
 	}
 	
 	private enum TokenType {
-		LITERAL, BINARY_OPERATOR, UNARY_OPERATOR, OPEN_PARENTHESIS, CLOSE_PARENTHESIS, FUNCTION;
+		LITERAL, BINARY_OPERATOR, UNARY_OPERATOR, OPEN_PARENTHESIS, CLOSE_PARENTHESIS, FUNCTION, COMMA;
 		
 		public boolean isOperator() {
 			return this == UNARY_OPERATOR || this == BINARY_OPERATOR;
@@ -119,6 +126,18 @@ public final class Evaluator {
 				@Override
 				public ComplexValuedExpression applyFunction(ComplexValuedExpression argument) {
 					return function.apply(argument);
+				}
+				
+			};
+		}
+		
+		static FunctionData binary(String name, BinaryOperator<ComplexValuedExpression> function) {
+			return new AbstractFunctionData(name, 2) {
+				
+				@Override
+				public ComplexValuedExpression applyFunction(List<ComplexValuedExpression> arguments) {
+					Colls.checkSize(arguments, 2);
+					return function.apply(arguments.get(0), arguments.get(1));
 				}
 				
 			};
@@ -169,34 +188,24 @@ public final class Evaluator {
 		
 	}
 	
-	private static final String OPEN_PARENTHESIS = "(";
-	private static final String CLOSE_PARENTHESIS = ")";
+	private static final String OPEN_PARENTHESIS = "(", CLOSE_PARENTHESIS = ")", COMMA = ",";
 	private static final Set<String> OPERATORS_AND_SEPARATORS =
-			Set.of("+", "-", "/", "*", "^", OPEN_PARENTHESIS, CLOSE_PARENTHESIS);
+			Set.of("+", "-", "/", "*", "^", COMMA, OPEN_PARENTHESIS, CLOSE_PARENTHESIS);
 	private static final Map<String, FunctionData> FUNCTION_DATA;
 	
 	static {
 		FUNCTION_DATA = new HashMap<>();
 		FUNCTION_DATA.put("sqrt", FunctionData.unary("sqrt", ComplexValuedExpression::sqrt));
 		FUNCTION_DATA.put("abs", FunctionData.unary("abs", ComplexValuedExpression::abs));
-	}
-	
-	private Evaluator() {
-		
+		FUNCTION_DATA.put("frac", FunctionData.binary("frac", (a, b) -> a.over(b)));
 	}
 	
 	public static ComplexValuedExpression getTree(String expression) {
-		expression = clean(expression);
-		List<Token> tokens = tokenize(expression);
-		List<Token> postfix = toPostfix(tokens);
-//		System.out.printf("postfix = %s%n", postfix);
-		ComplexValuedExpression exp = treeFromPostfix(postfix);
-//		System.out.printf("exp = %s%n", exp);
-		return exp;
+		return new Evaluator(expression).getTree();
 	}
 	
 	public static Complex evaluate(String expression) {
-		return getTree(expression).value();
+		return new Evaluator(expression).evaluate();
 	}
 	
 	private static String clean(String expression) {
@@ -284,6 +293,9 @@ public final class Evaluator {
 			else if(isFunctionName(text)) {
 				type = TokenType.FUNCTION;
 			}
+			else if(isComma(text)) {
+				type = TokenType.COMMA;
+			}
 			else { //it must be an operator
 				final Associativity associativity;
 				if("-".equals(text)) {
@@ -292,13 +304,10 @@ public final class Evaluator {
 					}
 					else {
 						Token prev = tokens.get(i - 1);
-						TokenType prevType = prev.type();
-						if(	prevType == TokenType.OPEN_PARENTHESIS ||
-							prevType == TokenType.BINARY_OPERATOR ||
-							prevType == TokenType.UNARY_OPERATOR)
-							type = TokenType.UNARY_OPERATOR;
-						else
-							type = TokenType.BINARY_OPERATOR;
+						type = switch(prev.type()) {
+							case OPEN_PARENTHESIS, BINARY_OPERATOR, UNARY_OPERATOR, COMMA -> TokenType.UNARY_OPERATOR;
+							default -> TokenType.BINARY_OPERATOR;
+						};
 					}
 				}
 				else {
@@ -325,8 +334,16 @@ public final class Evaluator {
 		List<Token> postfix = new ArrayList<>();
 		Stack<Token> operatorStack = new Stack<>();
 		for(Token t : infix) {
+//			System.out.printf("t=%s, postfix=%s, operatorStack=%s%n", t, postfix, operatorStack);
 			switch(t.type()) {
 				case LITERAL -> postfix.add(t);
+				case COMMA -> {
+					Token top = operatorStack.peek();
+					while(!top.isOpenParenthesis()) {
+						postfix.add(operatorStack.pop());
+						top = operatorStack.peek();
+					}
+				}
 				case FUNCTION -> operatorStack.add(t);
 				case OPEN_PARENTHESIS -> {
 					operatorStack.push(t);
@@ -334,18 +351,20 @@ public final class Evaluator {
 				}
 				case CLOSE_PARENTHESIS -> {
 					Token top = operatorStack.peek();
-					while(!top.isOpenParenthesis()) {
+					while(!top.isOpenParenthesis() && !top.isComma()) {
 						postfix.add(operatorStack.pop());
 						top = operatorStack.peek();
 					}
-					operatorStack.pop();//get rid of open parenthesis.
-					postfix.add(t);
-					if(!operatorStack.isEmpty() && operatorStack.peek().type() == TokenType.FUNCTION)
-						postfix.add(operatorStack.pop());
+					operatorStack.pop(); //get rid of open parenthesis or comma
+					if(top.isOpenParenthesis()) {
+						postfix.add(t); //add the closing parenthesis 
+						if(!operatorStack.isEmpty() && operatorStack.peek().type() == TokenType.FUNCTION)
+							postfix.add(operatorStack.pop());
+					}
 				}
 				case BINARY_OPERATOR, UNARY_OPERATOR -> {
 					Token o1 = t, o2;
-					while(!operatorStack.isEmpty() && !(o2 = operatorStack.peek()).isOpenParenthesis() &&
+					while(!operatorStack.isEmpty() && !(o2 = operatorStack.peek()).isHardStart() &&
 							(
 								o2.precedence() > o1.precedence() ||
 								o1.precedence() == o2.precedence() && o1.isLeftAssociative()
@@ -357,47 +376,11 @@ public final class Evaluator {
 				}
 			}
 		}
-		while(!operatorStack.isEmpty())
+//		System.out.printf("finished reading tokens, postfix=%s, operatorStack=%s%n", postfix, operatorStack);
+		while(!operatorStack.isEmpty()) {
 			postfix.add(operatorStack.pop());
-		return postfix;
-	}
-	
-	private static ComplexValuedExpression treeFromPostfix(List<Token> postfix) {
-		Stack<ComplexValuedExpression> stack = new Stack<>();
-		for (int i = 0; i < postfix.size(); i++) {
-			Token t = postfix.get(i);
-			switch(t.type()) {
-				case OPEN_PARENTHESIS -> { continue; }
-				case CLOSE_PARENTHESIS -> {
-					if(i != postfix.size() - 1 && postfix.get(i + 1).type() == TokenType.FUNCTION)
-						continue;
-					else 
-						stack.push(stack.pop().parenthesized());
-				}
-				case LITERAL -> stack.add(ComplexValuedExpression.of(Complex.of(t.text())));
-				case UNARY_OPERATOR -> stack.push(unaryExpressionFrom(t, stack.pop()));
-				case BINARY_OPERATOR -> {
-					ComplexValuedExpression right = stack.pop();
-					ComplexValuedExpression left = stack.pop();
-					stack.push(binaryExpressionFrom(t, left, right));
-				}
-				case FUNCTION -> {
-					FunctionData data = dataFor(t.text());
-					if(data.isUnary()) {
-						stack.push(data.applyFunction(stack.pop()));
-					}
-					else {
-						List<ComplexValuedExpression> arguments = new ArrayList<>();
-						for(int j = 0; j < data.arity(); j++)
-							arguments.add(stack.pop());
-						Collections.reverse(arguments);
-						stack.push(data.applyFunction(arguments));
-					}
-				}
-				default -> throw new IllegalStateException(String.format("Invalid token: %s", t));
-			}
 		}
-		return stack.pop();
+		return postfix;
 	}
 	
 	private static UnaryExpression unaryExpressionFrom(Token operator, ComplexValuedExpression operand) {
@@ -425,6 +408,10 @@ public final class Evaluator {
 		return CLOSE_PARENTHESIS.equals(str);
 	}
 	
+	private static boolean isComma(String str) {
+		return COMMA.equals(str);
+	}
+	
 	private static boolean isFunctionName(String str) {
 		return functionNames().contains(str);
 	}
@@ -437,6 +424,66 @@ public final class Evaluator {
 	
 	private static boolean isLiteralStart(char c) {
 		return Parsing.isDigit(c) || c == Parsing.DECIMAL_POINT || c == Complex.IMAGINARY_UNIT_CHAR;
+	}
+	
+	private final String expression;
+	
+	private Evaluator(String expression) {
+		this.expression = clean(expression);
+	}
+	
+	private ComplexValuedExpression getTree() {
+		List<Token> tokens = tokenize(expression);
+		List<Token> postfix = toPostfix(tokens);
+		ComplexValuedExpression exp = treeFromPostfix(postfix);
+		return exp;
+	}
+	
+	private Complex evaluate() {
+		return getTree().value();
+	}
+	
+	private Complex parseLiteral(Token t) {
+		return Complex.of(t.text());
+	}
+	
+	/** Must be an instance method because it calls {@link #parseLiteral(Token)}.*/
+	private ComplexValuedExpression treeFromPostfix(List<Token> postfix) {
+		Stack<ComplexValuedExpression> stack = new Stack<>();
+		for (int i = 0; i < postfix.size(); i++) {
+			Token t = postfix.get(i);
+			switch(t.type()) {
+				case OPEN_PARENTHESIS -> { continue; }
+				case CLOSE_PARENTHESIS -> {
+					if(i != postfix.size() - 1 && postfix.get(i + 1).type() == TokenType.FUNCTION)
+						continue;
+					else 
+						stack.push(stack.pop().parenthesized());
+				}
+				case LITERAL -> stack.add(ComplexValuedExpression.of(parseLiteral(t)));
+				case UNARY_OPERATOR -> stack.push(unaryExpressionFrom(t, stack.pop()));
+				case BINARY_OPERATOR -> {
+					ComplexValuedExpression right = stack.pop();
+					ComplexValuedExpression left = stack.pop();
+					stack.push(binaryExpressionFrom(t, left, right));
+				}
+				case FUNCTION -> {
+					FunctionData data = dataFor(t.text());
+					if(data.isUnary()) {
+						stack.push(data.applyFunction(stack.pop()));
+					}
+					else {
+						List<ComplexValuedExpression> arguments = new ArrayList<>();
+						for(int j = 0; j < data.arity(); j++)
+							arguments.add(stack.pop());
+						Collections.reverse(arguments);
+						stack.push(data.applyFunction(arguments));
+					}
+				}
+				default -> throw new IllegalStateException(String.format("Invalid token: %s", t));
+			}
+		}
+		return stack.pop();
 	}
 	
 }

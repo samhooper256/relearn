@@ -25,6 +25,10 @@ public final class BigUtils {
 	
 	public static final BigDecimal HUNDREDTH = new BigDecimal("0.01");
 	
+	public static boolean equals(BigDecimal b1, BigDecimal b2) {
+		return b1.compareTo(b2) == 0;
+	}
+	
 	public static boolean isZero(BigDecimal bd) {
 		return bd.compareTo(BigDecimal.ZERO) == 0;
 	}

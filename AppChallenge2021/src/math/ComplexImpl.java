@@ -63,7 +63,7 @@ class ComplexImpl implements Complex {
 		Complex conj = denominator.conjugate();
 		BigDecimal div = denominator.abs2();
 		Complex num = this.multiply(conj);
-		return Complex.of(num.real().divide(div), num.imaginary().divide(div));
+		return Complex.of(num.real().divide(div, CONTEXT), num.imaginary().divide(div, CONTEXT));
 	}
 
 	@Override
@@ -147,8 +147,8 @@ class ComplexImpl implements Complex {
 			return true;
 		if(obj instanceof Fraction f)
 			return isReal() && f.isExactlyRepresentable() && Objects.equals(f.toBigDecimalExact(), real());
-		return obj instanceof Complex c && Objects.equals(real(), c.real()) &&
-				Objects.equals(imaginary(), c.imaginary());
+		return 	obj instanceof Complex c && BigUtils.equals(real(), c.real()) &&
+				BigUtils.equals(imaginary(), c.imaginary());
 	}
 	
 	

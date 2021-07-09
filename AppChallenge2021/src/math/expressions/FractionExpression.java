@@ -30,7 +30,8 @@ public interface FractionExpression extends BinaryExpression {
 
 	@Override
 	default String toMathML() {
-		return String.format("<mfrac>%s%s</mfrac>", numerator().toMathML(), denominator().toMathML());
+		return 	String.format("<mfrac><mrow>%s</mrow><mrow>%s</mrow></mfrac>",
+				numerator().toMathML(), denominator().toMathML());
 	}
 	
 }
