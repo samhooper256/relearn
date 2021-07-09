@@ -3,13 +3,11 @@
  */
 package topics;
 
-import java.util.ArrayList;
-
 import base.problems.*;
 import utils.RNG;
 
 /**
- * @author Sam Hooper and Ayuj Verma
+ * @author Ayuj Verma
  *
  */
 public class Squares extends AbstractTopic {
