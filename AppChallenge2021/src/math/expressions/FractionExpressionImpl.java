@@ -1,6 +1,6 @@
 package math.expressions;
 
-public record FractionExpressionImpl(Expression numerator, Expression denominator) implements FractionExpression {
+public record FractionExpressionImpl(ComplexValuedExpression numerator, ComplexValuedExpression denominator) implements FractionExpression {
 
 	@Override
 	public String toString() {

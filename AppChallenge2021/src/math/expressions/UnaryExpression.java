@@ -5,15 +5,8 @@ package math.expressions;
  * @author Sam Hooper
  *
  */
-public interface UnaryExpression extends FixedArityExpression {
+public interface UnaryExpression extends ComplexValuedExpression {
 
-	@Override
-	default Expression getOperand(int index) {
-		if(index != 0)
-			throw new IllegalArgumentException(String.format("Invalid operand index: %d", index));
-		return operand();
-	}
+	ComplexValuedExpression operand();
 
-	Expression operand();
-	
 }

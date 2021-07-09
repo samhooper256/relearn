@@ -1,6 +1,6 @@
 package math.expressions;
 
-record NegationExpressionImpl(Expression operand) implements NegationExpression {
+record NegationExpressionImpl(ComplexValuedExpression operand) implements NegationExpression {
 
 	@Override
 	public String toString() {

@@ -1,10 +1,11 @@
 package math.expressions;
 
 import java.math.BigDecimal;
+import java.util.*;
 
 import math.*;
 
-/** <p>A package-private class that provides utilities for making various {@link Expression Expressions}. It is not
+/** <p>A package-private class that provides utilities for making various {@link ComplexValuedExpression Expressions}. It is not
  * accessible outside this package because it contains methods that can (but should not) be used to create expressions
  * that would display in a way this is not mathematically equivalent to the expression represented by the tree
  * of {@code Expression} objects.</p>*/
@@ -32,40 +33,48 @@ final class ExpressionUtils {
 		throw new IllegalArgumentException(String.format("Not entirely real nor entirely imaginary: %s", value));
 	}
 	
-	static AdditionExpression add(Expression first, Expression second) {
+	static AdditionExpression add(ComplexValuedExpression first, ComplexValuedExpression second) {
 		return new AdditionExpressionImpl(first, second);
 	}
 	
-	static SubtractionExpression subtract(Expression first, Expression second) {
+	static SubtractionExpression subtract(ComplexValuedExpression first, ComplexValuedExpression second) {
 		return new SubtractionExpressionImpl(first, second);
 	}
 	
-	static MultiplicationExpression multiply(Expression first, Expression second) {
+	static MultiplicationExpression multiply(ComplexValuedExpression first, ComplexValuedExpression second) {
 		return new MultiplicationExpressionImpl(first, second);
 	}
 	
-	static DivisionExpression divide(Expression first, Expression second) {
+	static DivisionExpression divide(ComplexValuedExpression first, ComplexValuedExpression second) {
 		return new DivisionExpressionImpl(first, second);
 	}
 	
-	static FractionExpression fraction(Expression numerator, Expression denominator) {
+	static FractionExpression fraction(ComplexValuedExpression numerator, ComplexValuedExpression denominator) {
 		return new FractionExpressionImpl(numerator, denominator);
 	}
 	
-	static ExponentiationExpression pow(Expression base, Expression exponent) {
+	static ExponentiationExpression pow(ComplexValuedExpression base, ComplexValuedExpression exponent) {
 		return new ExponentiationExpressionImpl(base, exponent);
 	}
 	
-	static NegationExpression negate(Expression operand) {
+	static NegationExpression negate(ComplexValuedExpression operand) {
 		return new NegationExpressionImpl(operand);
 	}
 	
-	static SquareRootExpression sqrt(Expression operand) {
+	static SquareRootExpression sqrt(ComplexValuedExpression operand) {
 		return new SquareRootExpressionImpl(operand);
 	}
 	
-	static ParenthesizedExpression parenthesized(Expression operand) {
+	static ParenthesizedExpression parenthesized(ComplexValuedExpression operand) {
 		return new ParenthesizedExpressionImpl(operand);
+	}
+	
+	static ListExpression list(ComplexValuedExpression... arguments) {
+		return list(Arrays.asList(arguments));
+	}
+	
+	static ListExpression list(List<ComplexValuedExpression> arguments) {
+		return new ListExpressionImpl(arguments);
 	}
 	
 }

@@ -63,9 +63,6 @@ public interface Fraction extends Complex {
 	
 	boolean isImproper();
 	
-	/** Converts this {@link Fraction} to a {@link BigDecimal} using the given {@link MathContext}. */
-	BigDecimal toBigDecimal(MathContext mc);
-	
 	/** Returns a {@link Fraction} with the numerator and denominator switched (and the sign preserved).
 	 * @throws ArithmeticException if {@code this} {@link #isZero()}.*/
 	Fraction reciprocal();

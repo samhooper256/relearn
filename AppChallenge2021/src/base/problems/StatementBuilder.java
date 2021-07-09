@@ -2,7 +2,7 @@ package base.problems;
 
 import static utils.HTML.*;
 
-import math.expressions.Expression;
+import math.expressions.ComplexValuedExpression;
 
 /**
  * <p>A {@code StatementBuilder} can be obtained via {@link Statement#builder()}.</p>
@@ -23,7 +23,7 @@ public final class StatementBuilder {
 		return this;
 	}
 	
-	public StatementBuilder addExpression(Expression expression) {
+	public StatementBuilder addExpression(ComplexValuedExpression expression) {
 		html.append(ensureMathTags(expression.toMathML()));
 		return this;
 	}

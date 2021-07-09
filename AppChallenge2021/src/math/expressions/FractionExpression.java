@@ -9,17 +9,17 @@ import math.Complex;
  */
 public interface FractionExpression extends BinaryExpression {
 	
-	Expression numerator();
+	ComplexValuedExpression numerator();
 	
-	Expression denominator();
+	ComplexValuedExpression denominator();
 	
 	@Override
-	default Expression first() {
+	default ComplexValuedExpression first() {
 		return numerator();
 	}
 	
 	@Override
-	default Expression second() {
+	default ComplexValuedExpression second() {
 		return denominator();
 	}
 

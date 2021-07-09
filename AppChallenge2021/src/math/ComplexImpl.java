@@ -87,7 +87,7 @@ class ComplexImpl implements Complex {
 	}
 	
 	@Override
-	public BigDecimal abs() {
+	public BigDecimal absAsBigDecimal() {
 		return abs2().sqrt(INTERNAL_CONTEXT);
 	}
 	

@@ -9,17 +9,17 @@ import math.Complex;
  */
 public interface ExponentiationExpression extends BinaryExpression {
 	
-	Expression base();
+	ComplexValuedExpression base();
 	
-	Expression exponent();
+	ComplexValuedExpression exponent();
 
 	@Override
-	default Expression first() {
+	default ComplexValuedExpression first() {
 		return base();
 	}
 
 	@Override
-	default Expression second() {
+	default ComplexValuedExpression second() {
 		return exponent();
 	}
 

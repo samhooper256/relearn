@@ -1,6 +1,6 @@
 package math.expressions;
 
-record ExponentiationExpressionImpl(Expression base, Expression exponent) implements ExponentiationExpression {
+record ExponentiationExpressionImpl(ComplexValuedExpression base, ComplexValuedExpression exponent) implements ExponentiationExpression {
 
 	@Override
 	public String toString() {

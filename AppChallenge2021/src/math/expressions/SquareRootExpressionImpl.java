@@ -1,6 +1,6 @@
 package math.expressions;
 
-public record SquareRootExpressionImpl(Expression operand) implements SquareRootExpression {
+public record SquareRootExpressionImpl(ComplexValuedExpression operand) implements SquareRootExpression {
 
 	@Override
 	public String toString() {

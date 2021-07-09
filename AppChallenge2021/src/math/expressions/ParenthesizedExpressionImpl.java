@@ -1,6 +1,6 @@
 package math.expressions;
 
-record ParenthesizedExpressionImpl(Expression operand) implements ParenthesizedExpression {
+record ParenthesizedExpressionImpl(ComplexValuedExpression operand) implements ParenthesizedExpression {
 
 	@Override
 	public String toString() {

@@ -35,4 +35,24 @@ public final class Colls {
 		return index >= 0 && index < list.size() ? list.get(index) : null;
 	}
 	
+	/** Returns the given {@link List}.
+	 * @throws IndexOutOfBoundsException if the given index is out of bounds for a call to {@link List#get(int)}.
+	 * @throws NullPointerException if {@code list} is {@code null}.*/
+	public static <E> List<E> checkBounds(List<E> list, int index) {
+		if(index < 0 || index > list.size())
+			throw new IndexOutOfBoundsException(String.format("index %d is out of bounds for list of size %d", index,
+					list.size()));
+		return list;
+	}
+	
+	/**
+	 * Returns the given {@link List}.
+	 * @throws IllegalArgumentException if the {@link List#size() size} of the given {@link List} is not {@code size}.
+	 * @throws NullPointerException if {@code list} is {@code null}.
+	 */
+	public static <E> List<E> checkSize(List<E> list, int size) {
+		if(list.size() != size)
+			throw new IllegalArgumentException(String.format("The given list is not of size %d", size));
+		return list;
+	}
 }

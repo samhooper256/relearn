@@ -3,7 +3,7 @@ package base.problems;
 import java.math.BigDecimal;
 
 import math.*;
-import math.expressions.Expression;
+import math.expressions.ComplexValuedExpression;
 import topics.Topic;
 
 /**
@@ -33,11 +33,11 @@ public interface MathProblem extends Problem {
 	
 	/** The returned {@link MathProblem} is not {@link #isTolerant() tolerant}.*/
 	static MathProblem fromExpression(Topic topic, String expression) {
-		return fromExpression(topic, Expression.of(expression));
+		return fromExpression(topic, ComplexValuedExpression.of(expression));
 	}
 
 	/** The returned {@link MathProblem} is not {@link #isTolerant() tolerant}.*/
-	static MathProblem fromExpression(Topic topic, Expression expression) {
+	static MathProblem fromExpression(Topic topic, ComplexValuedExpression expression) {
 		return of(topic, Statement.fromExpression(expression), expression.value());
 	}
 	

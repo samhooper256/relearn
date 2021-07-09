@@ -2,7 +2,7 @@ package base.problems;
 
 import static utils.HTML.*;
 
-import math.expressions.Expression;
+import math.expressions.ComplexValuedExpression;
 
 /**
  * <p>A {@link Problem} statement.</p>
@@ -16,7 +16,7 @@ public interface Statement {
 		return new StatementBuilder();
 	}
 	
-	static Statement fromExpression(Expression expression) {
+	static Statement fromExpression(ComplexValuedExpression expression) {
 		return new StatementImpl(ensureHTMLTags(ensureDivTags(fixUpMathML(ensureMathTags(expression.toMathML())))));
 	}
 	

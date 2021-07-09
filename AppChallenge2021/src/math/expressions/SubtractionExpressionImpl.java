@@ -1,6 +1,6 @@
 package math.expressions;
 
-record SubtractionExpressionImpl(Expression first, Expression second) implements SubtractionExpression {
+record SubtractionExpressionImpl(ComplexValuedExpression first, ComplexValuedExpression second) implements SubtractionExpression {
 
 	@Override
 	public String toString() {

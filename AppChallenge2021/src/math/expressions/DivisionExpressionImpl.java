@@ -1,6 +1,6 @@
 package math.expressions;
 
-record DivisionExpressionImpl(Expression first, Expression second) implements DivisionExpression {
+record DivisionExpressionImpl(ComplexValuedExpression first, ComplexValuedExpression second) implements DivisionExpression {
 
 	@Override
 	public String toString() {

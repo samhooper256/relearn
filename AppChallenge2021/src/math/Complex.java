@@ -92,15 +92,32 @@ public interface Complex {
 	
 	Complex conjugate();
 	
+	default Complex sqrt() {
+		if(!isReal())
+			throw new ArithmeticException("Cannot take the square root of a non-real number");
+		return of(toBigDecimal(MathContext.DECIMAL64).sqrt(MathContext.DECIMAL64));
+	}
+	
 	/** Returns the absolute value of this complex number, squared. This will always be a real number.
 	 * This is equivalent to {@code this} times its {@link #conjugate()}.*/
 	default BigDecimal abs2() {
-		return abs().pow(2);
+		return absAsBigDecimal().pow(2);
 	}
 	
-	BigDecimal abs();
+	default Complex abs() {
+		return of(absAsBigDecimal());
+	}
+	
+	BigDecimal absAsBigDecimal();
 	
 	boolean isZero();
+	
+	/** Converts and the {@link #real() real} part of this {@link Complex} to a {@link BigDecimal} using the given
+	 * {@link MathContext}. If this {@code Complex} has an {@link #imaginary() imaginary} component, it is silently
+	 * ignored.*/
+	default BigDecimal toBigDecimal(MathContext mc) {
+		return real().round(mc);
+	}
 	
 	BigDecimal toBigDecimalExact();
 	

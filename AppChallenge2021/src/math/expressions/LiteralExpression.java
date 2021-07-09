@@ -3,7 +3,7 @@ package math.expressions;
 import math.*;
 
 /**
- * <p>A {@code LiteralExpression} is an {@link Expression} representing either:
+ * <p>A {@code LiteralExpression} is an {@link ComplexValuedExpression} representing either:
  * <ol>
  * <li>a non-negative real number</li>
  * <li>An {@link Complex#isImaginary() imaginary} number (that is, a complex number with no real part)
@@ -13,6 +13,6 @@ import math.*;
  * @author Sam Hooper
  *
  */
-public interface LiteralExpression extends Expression {
+public interface LiteralExpression extends ComplexValuedExpression {
 	
 }

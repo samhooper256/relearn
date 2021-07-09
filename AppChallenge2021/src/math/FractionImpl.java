@@ -92,7 +92,7 @@ final class FractionImpl implements Fraction {
 	}
 
 	@Override
-	public BigDecimal abs() {
+	public BigDecimal absAsBigDecimal() {
 		return real().abs();
 	}
 	
