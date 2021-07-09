@@ -17,7 +17,7 @@ public class Squares extends AbstractTopic {
 	public static final String NAME = "Squares";
 	public static final TopicFactory<Squares> FACTORY = new TopicFactory<>(NAME, Squares::new);
 	
-	private final IntRange number;
+	private final IntRange base;
 	
 	public Squares() {
 		this(DEFAULT_COUNT);
@@ -25,14 +25,14 @@ public class Squares extends AbstractTopic {
 	
 	public Squares(int count) {
 		super(count);
-		number = new IntRange("Term Values", 1, 12, 1, 12);
-		createSettings(number);
+		base = new IntRange("Base Value", 1, 12);
+		createSettings(base);
 	}
 	
 	@Override
 	public Problem generate() {
-		int base = RNG.intInclusive(number.low(), number.high());
-		return MathProblem.fromExpression(this, String.valueOf(base) + "^2");
+		int baseValue = RNG.intInclusive(base);
+		return MathProblem.fromExpression(this, String.format("%s^2", String.valueOf(baseValue)));
 	}
 	
 	@Override

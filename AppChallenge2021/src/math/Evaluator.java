@@ -183,7 +183,6 @@ public final class Evaluator {
 		expression = clean(expression);
 		List<Token> tokens = tokenize(expression);
 		List<Token> postfix = toPostfix(tokens);
-		System.out.printf("postfix = %s%n", postfix);
 		ComplexValuedExpression exp = treeFromPostfix(postfix);
 		return exp;
 	}

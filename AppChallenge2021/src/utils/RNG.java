@@ -6,6 +6,7 @@ package utils;
 import java.util.Random;
 
 import math.MathUtils;
+import topics.IntRange;
 
 /**
  * @author Sam Hooper
@@ -17,6 +18,10 @@ public final class RNG {
 	
 	public static Random source() {
 		return RANDOM;
+	}
+	
+	public static int intInclusive(IntRange range) {
+		return intInclusive(range.low(), range.high());
 	}
 	
 	/** Returns a random {@code int} in the range [low, high].

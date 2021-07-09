@@ -18,29 +18,30 @@ public class Quadrants extends AbstractTopic {
 	public static final String NAME = "Quadrants";
 	public static final TopicFactory<Quadrants> FACTORY = new TopicFactory<>(NAME, Quadrants::new);
 	
-	private final IntRange numberRange;
+	private final IntRange coords;
 	
 	public Quadrants() {
-		this(DEFAULT_COUNT);	} 
+		this(DEFAULT_COUNT);
+	} 
 	
 	public Quadrants(int count) {
 		super(count);
-		numberRange = new IntRange("Maximum Number", -12, 12, -12, 12);
-		createSettings(numberRange);
+		coords = new IntRange("Coordinate Values", -12, 12);
+		createSettings(coords);
 	}
 	
 	@Override
 	public Problem generate() 
 	{
-		int x = RNG.intInclusive(numberRange.low(), numberRange.high());
-		int y = RNG.intInclusive(numberRange.low(), numberRange.high());
+		int x = RNG.intInclusive(coords);
+		int y = RNG.intInclusive(coords);
 		while(x == 0)
 		{
-			x = RNG.intInclusive(numberRange.low(), numberRange.high());
+			x = RNG.intInclusive(coords);
 		}
 		while(y == 0)
 		{
-			y = RNG.intInclusive(numberRange.low(), numberRange.high());
+			y = RNG.intInclusive(coords);
 		}
 		
 		String equation = String.format("What quadrant is (%d,%d) in?", x, y);

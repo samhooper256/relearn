@@ -9,6 +9,11 @@ public final class IntRange implements TopicSetting {
 	
 	private int low, high;
 	
+	/** By defualt, {@link #low()} and {@link #high()} are {@link #min()} and {@link #max()}, respectively.*/
+	public IntRange(String name, int minValue, int maxValue) {
+		this(name, minValue, maxValue, minValue, maxValue);
+	}
+	
 	public IntRange(String name, int minValue, int maxValue, int defaultLow, int defaultHigh) {
 		this.name = name;
 		min = minValue;

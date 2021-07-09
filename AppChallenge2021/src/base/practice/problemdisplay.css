@@ -3,7 +3,7 @@ body {
 	/*background-color:  yellow;*/
 	font-family: "Courier New";	
 	font-weight: bold;
-	font-size: 72;
+	font-size: 72; /* 72 */
 	height: 100%;
 	display: flex; /* Setting the display to "flex" allows us to use "flex-direction"*/
 	flex-direction: column-reverse; /* Says to display items (we only have 1 item) in a vertical column from bottom
@@ -26,7 +26,7 @@ div {
 math {
 	background-color: transparent;
 	/*background-color: pink;*/
-	font-family: "Courier New";	
+	font-family: "Arial";
 	font-weight: bold;
 	/*padding: 18;*/
 }

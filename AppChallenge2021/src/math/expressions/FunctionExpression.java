@@ -1,7 +1,5 @@
 package math.expressions;
 
-import math.Complex;
-
 /**
  * <p>Represents a function that is to be rendered in function notation, such as {@code max(2, 3)}.</p>
  * 
