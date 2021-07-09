@@ -29,7 +29,8 @@ public class SquareRoots extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		int rootValue = RNG.intInclusive(root);
-		return MathProblem.fromExpression(this, String.format("sqrt(%s)", rootValue * rootValue));
+		return MathProblem.fromExpression(this, "sqrt(sqrt(16))*2^2^2");
+//		return MathProblem.fromExpression(this, String.format("sqrt(%s)", rootValue * rootValue));
 	}
 
 	@Override
