@@ -24,8 +24,8 @@ public class MainMenuButton extends StackPane {
 	private static final int BUTTON_EXTENSION = 100;
 	
 	public static final MainMenuButton
-			SETS = new MainMenuButton(Main.SETTINGS_ICON, "Sets"),
-			STATS = new MainMenuButton(Main.SETTINGS_ICON, "Stats"),
+			SETS = new SetsMainMenuButton(),
+			STATS = new StatsMainMenuButton(),
 			SETTINGS = new SettingsMainMenuButton();
 	
 	private static final String

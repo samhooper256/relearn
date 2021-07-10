@@ -10,21 +10,23 @@ import javafx.animation.*;
  * @author Sam Hooper
  *
  */
-class SettingsMainMenuButton extends MainMenuButton {
+final class SettingsMainMenuButton extends MainMenuButton {
 
 	private static final String TEXT = "Settings";
-
+	public static final double TO_ANGLE = 20;
+	
 	private final RotateTransition spin;
-	public SettingsMainMenuButton() {
+	
+	SettingsMainMenuButton() {
 		super(Main.SETTINGS_ICON, TEXT);
-		spin = new RotateTransition(SLIDE_DURATION.multiply(2), iconView());
+		spin = new RotateTransition(SLIDE_DURATION, iconView());
 		initSpin();
 	}
 	
 	private void initSpin() {
-		spin.setInterpolator(Interpolator.EASE_OUT);
+		spin.setInterpolator(Interpolator.EASE_BOTH);
 		spin.setFromAngle(0);
-		spin.setToAngle(30);
+		spin.setToAngle(TO_ANGLE);
 		hoverAnimations.add(spin);
 	}
 	
