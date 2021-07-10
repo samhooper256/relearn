@@ -21,8 +21,7 @@ public class Percentages extends AbstractTopic {
 	public static final String NAME = "Percentages";
 	public static final TopicFactory<Percentages> FACTORY = new TopicFactory<>(NAME, Percentages::new);
 	
-	private final IntSetting minPercent;
-	private final IntSetting maxPercent;
+	private final IntRange percent;
 	private final IntSetting maxNumber;
 	
 	public Percentages() {
@@ -31,10 +30,9 @@ public class Percentages extends AbstractTopic {
 	
 	public Percentages(int count) {
 		super(count);
-		minPercent = new IntSetting("Minimum Percent", 1, 200, 1);
-		maxPercent = new IntSetting("Maximum Percent", 1, 200, 100);
-		maxNumber = new IntSetting ("Maximum Number", 1, 100, 50);
-		createSettings(minPercent, maxPercent, maxNumber);
+		percent = new IntRange("Percent", 1, 200, 1, 100);
+		maxNumber = new IntSetting("Maximum Number", 1, 100, 50);
+		createSettings(percent, maxNumber);
 	}
 	
 	@Override
@@ -52,10 +50,9 @@ public class Percentages extends AbstractTopic {
 		return NAME;
 	}
 	
-	public ArrayList<Integer> termCreate() 
-	{
+	public ArrayList<Integer> termCreate() {
 		ArrayList<Integer> values = new ArrayList<Integer>();
-		values.add(RNG.intInclusive(minPercent.value(), maxPercent.value()));
+		values.add(RNG.intInclusive(percent));
 		values.add(RNG.intInclusive(1, maxNumber.value()));
 		return values;
 	}

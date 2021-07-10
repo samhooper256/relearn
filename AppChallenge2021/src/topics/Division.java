@@ -17,8 +17,7 @@ public class Division extends AbstractTopic {
 	public static final String NAME = "Division";
 	public static final TopicFactory<Division> FACTORY = new TopicFactory<>(NAME, Division::new);
 	
-	private final IntSetting minDivisor;
-	private final IntSetting maxDivisor;
+	private final IntRange divisor;
 	
 	public Division() {
 		this(DEFAULT_COUNT);
@@ -26,25 +25,20 @@ public class Division extends AbstractTopic {
 	
 	public Division(int count) {
 		super(count);
-		minDivisor = new IntSetting("Minimum Divisor", 1, 12, 1);
-		maxDivisor = new IntSetting("Maximum Divisor", 1, 12, 12);
-		createSettings(minDivisor, maxDivisor);
+		divisor = new IntRange("Minimum Divisor", 1, 12);
+		createSettings(divisor);
 	}
 	
 	@Override
 	public Problem generate() {
-		int divisor = createDivisor();
-		int quotient = divisor * RNG.intInclusive(1, 12);
-		return MathProblem.fromExpression(this, String.format("%d/%d", quotient, divisor));
+		int divisorValue = RNG.intInclusive(divisor);
+		int quotient = divisorValue * RNG.intInclusive(1, 12);
+		return MathProblem.fromExpression(this, String.format("%d/%d", quotient, divisorValue));
 	}
 	
 	@Override
 	public String name() {
 		return NAME;
-	}
-	
-	public int createDivisor() {
-		return RNG.intInclusive(minDivisor.value(), maxDivisor.value());
 	}
 	
 }

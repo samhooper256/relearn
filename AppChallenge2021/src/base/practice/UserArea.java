@@ -2,6 +2,7 @@ package base.practice;
 
 import base.problems.Problem;
 import fxutils.Borders;
+import javafx.css.PseudoClass;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
@@ -16,14 +17,15 @@ import javafx.scene.web.WebView;
 public class UserArea extends GridPane {
 	
 	private static final double FIELD_WIDTH = 400;
-	private static final Border INCORRECT_ANSWER_BORDER = Borders.of(Color.RED);
+	private static final PseudoClass FIELD_INCORRECT_PSEUDO_CLASS = PseudoClass.getPseudoClass("incorrect");
 	private static final String
 			USER_AREA_CSS = "user-area",
 			INPUT_AREA_CSS = "input-area",
 			BUTTON_BAR_CSS = "button-bar",
 			SUBMIT_BUTTON_CSS = "submit-button",
 			SHOW_ANSWER_BUTTON_CSS = "show-answer-button",
-			PROBLEM_DISPLAY_CSS = "problem-display";
+			PROBLEM_DISPLAY_CSS = "problem-display",
+			FIELD_CSS = "field";
 			
 	private final VBox inputArea, displayArea;
 	private final StackPane problemDisplayWrap;
@@ -92,13 +94,14 @@ public class UserArea extends GridPane {
 	
 	private void initField() {
 		field.setPrefWidth(FIELD_WIDTH);
-		field.setBorder(Border.EMPTY);
+		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, false);
 		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
 			if(e.getCode() == KeyCode.ENTER) {
 				e.consume();
 				submitAction();
 			}
 		});
+		field.getStyleClass().add(FIELD_CSS);
 	}
 	
 	private void initButtonBar() {
@@ -135,7 +138,7 @@ public class UserArea extends GridPane {
 	}
 
 	private void correctAnswerAction() {
-		field.setBorder(Border.EMPTY);
+		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, false);
 		if(!hasMarkedIncorrect())
 			pane().notifyCorrect(problem());
 		pane().problemCompleted();
@@ -145,7 +148,7 @@ public class UserArea extends GridPane {
 		if(!hasMarkedIncorrect())
 			pane().notifyIncorrect(problem());
 		incorrectAnswerGiven = true;
-		field.setBorder(INCORRECT_ANSWER_BORDER); //TODO better - this changes the layout of everything
+		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, true);
 	}
 	
 	private boolean hasMarkedIncorrect() {

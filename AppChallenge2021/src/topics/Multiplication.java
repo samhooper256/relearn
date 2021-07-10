@@ -29,7 +29,7 @@ public class Multiplication extends AbstractTopic {
 	public Multiplication(int count) {
 		super(count);
 		number = new IntRange("Term Values", 1, 12, 1, 12);
-		terms = new IntSetting("Terms", 2, 3, 2);
+		terms = new IntSetting("Term Count", 2, 3, 2);
 		createSettings(number, terms);
 	}
 	

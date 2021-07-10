@@ -183,6 +183,24 @@
 	-fx-spacing: 12;
 }
 
+.practice-pane .field {
+	-fx-font: 36 "Courier New";
+	-fx-font-weight: bold;
+	-fx-alignment: center;
+	-fx-padding: 4;
+	-fx-background-color: -app-light-accent;
+	-fx-background-radius: 16;
+	-fx-border-color: -app-light;
+	-fx-border-width: 4;
+	-fx-border-radius: 10;
+	-fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.practice-pane .field:incorrect {
+	-fx-border-color: -app-red;
+}
+
 .practice-pane .input-area .button-bar {
 	-fx-spacing: 10;
 }
@@ -310,7 +328,7 @@
 	-fx-border-color: -app-light;
 	-fx-background-color: transparent;
 	-fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent ;
+    -fx-faint-focus-color: transparent;
 }
 
 .name-input-field:focused {
