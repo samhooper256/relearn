@@ -5,6 +5,7 @@ package base.stats;
 
 import base.Named;
 import javafx.scene.chart.PieChart;
+import javafx.scene.layout.*;
 
 /**
  * @author Sam Hooper
@@ -12,21 +13,26 @@ import javafx.scene.chart.PieChart;
  */
 public class TopicTabContent extends StatsTabContent implements Named {
 	
+	private static final String TOPIC_TAB_CONTENT_CSS = "topic-tab-content";
+			
 	private final String topicName;
-	private PieChart pie;
+	private final StackPane pieHolder;
 	
 	public TopicTabContent(String topicName) {
+		super(topicName);
 		this.topicName = topicName;
-		if(Data.hasDoneProblemFromTopic(topicName)) {
-			ReadOnlyStats stats = Data.statsForTopic(topicName);
-			AccuracyPie pie = new AccuracyPie(stats);
-			
-			getChildren().add(pie);
-		}
+		if(Data.hasDoneProblemFromTopic(topicName))
+			pieHolder = new StackPane(new AccuracyPie(Data.statsForTopic(topicName)));
+		else
+			pieHolder = new StackPane(new DeadPie());
+		vBox.getChildren().add(pieHolder);
+		VBox.setVgrow(pieHolder, Priority.ALWAYS);
+		getStyleClass().add(TOPIC_TAB_CONTENT_CSS);
 	}
 	
 	public void updateStats() {
 		ReadOnlyStats stats = Data.statsForTopic(topicName);
+		updateOverallAccuracy(stats);
 		if(stats.isEmpty())
 			setPie(new DeadPie());
 		else
@@ -34,13 +40,7 @@ public class TopicTabContent extends StatsTabContent implements Named {
 	}
 	
 	private void setPie(PieChart newPie) {
-		getChildren().remove(pie());
-		pie = newPie;
-		getChildren().add(newPie);
-	}
-	
-	private PieChart pie() {
-		return pie;
+		pieHolder.getChildren().set(0, newPie);
 	}
 
 	@Override

@@ -30,9 +30,6 @@ public class AccuracyPie extends PieChart {
 		
 		getData().addAll(correctData, incorrectData);
 		
-		correctData.getNode().getStyleClass().add("correct-pie-slice");
-		incorrectData.getNode().getStyleClass().add("incorrect-pie-slice");
-		
 		getStyleClass().add(ACCURACY_PIE_CSS);
 	}
 	

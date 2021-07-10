@@ -16,6 +16,9 @@ import org.controlsfx.control.ToggleSwitch;
  */
 public final class StatsPane extends StackPane {
 	
+	private static final String
+		STATS_PANE_CSS = "stats-pane",
+		VBOX_CSS = "vbox";
 	private static final StatsPane INSTANCE = new StatsPane();
 	private static final String TITLE = "Stats";
 	
@@ -39,7 +42,9 @@ public final class StatsPane extends StackPane {
 		header = new HBox(backArrow, title, toggle);
 		tabPaneHolder = new StackPane(TopicTabPane.get());
 		vBox = new VBox(header, tabPaneHolder);
+		initVBox();
 		
+		getStyleClass().add(STATS_PANE_CSS);
 		getChildren().add(vBox);
 	}
 	
@@ -59,6 +64,11 @@ public final class StatsPane extends StackPane {
 			else
 				switchToTopics();
 		});
+	}
+	
+	private void initVBox() {
+		vBox.getStyleClass().add(VBOX_CSS);
+		VBox.setVgrow(tabPaneHolder, Priority.ALWAYS);
 	}
 	
 	private void switchToSets() {

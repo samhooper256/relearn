@@ -14,11 +14,13 @@ public class SetTabContent extends StatsTabContent {
 	private final ProblemSet set;
 	
 	public SetTabContent(ProblemSet set) {
+		super(set.name());
 		this.set = set;
 	}
 	
 	public ProblemSet set() {
 		return set;
 	}
+	
 	
 }

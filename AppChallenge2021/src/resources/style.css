@@ -41,7 +41,7 @@
 }
 
 .main-menu-button .overlay .title {
-	-fx-font: 32 "Georgia";
+	-fx-font: 36 "Georgia";
 }
 
 .glass-pane {
@@ -51,15 +51,25 @@
 .accuracy-pie {
 	-fx-legend-visible: false;
 	-fx-padding: 0;
-	-fx-background-insets: 0;
-}
-.correct-pie-slice {
-	-fx-pie-color: green;
 }
 
-.incorrect-pie-slice {
+.accuracy-pie .chart-pie {
+	-fx-background-insets: 0;
+	-fx-border-color: transparent;
+	-fx-border-width: 0;
+}
+
+.accuracy-pie .chart-pie-label {
+	-fx-font: 36 "Georgia";
+}
+
+.accuracy-pie .data0.chart-pie {
+	-fx-pie-color: green;
+}
+.accuracy-pie .data1.chart-pie {
 	-fx-pie-color: red;
 }
+
 
 .dead-pie-slice {
 	-fx-pie-color: grey;
@@ -581,16 +591,42 @@
 
 /* Stats */
 
+.stats-pane {
+	-fx-padding: 10;
+}
+
+.stats-pane > .vbox {
+	-fx-spacing: 10;
+}
+
 .stats-tab-content {
+	-fx-padding: 12;
 	-fx-background-color: -app-brown-light-accent;
+	-fx-background-radius: 0 12 12 0;
 	-fx-border-color: -app-brown-light;
 	-fx-border-width: 3 3 3 0;
 	-fx-border-radius: 0 10 10 0;
-	
+}
+
+.stats-tab-content .title,
+.stats-tab-content .overall-accuracy {
+	-fx-font: 54 "Georgia";
 }
 
 .topic-tab-pane .tab-header-background {
 	-fx-background-color: -app-brown-accent;
+}
+
+.stats-tab {
+	-fx-background-color: -app-brown-light-accent;
+}
+
+.stats-tab:selected {
+	-fx-background-color: -app-brown-accent;
+	-fx-faint-focus-color: transparent;
+	-fx-focus-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width: 0;
 }
 
 .stats-tab  .tab-label {
