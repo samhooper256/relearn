@@ -14,6 +14,8 @@ import javafx.scene.layout.StackPane;
  */
 public class StatsTab extends Tab {
 	
+	private static final String STATS_TAB_CSS = "stats-tab";
+	
 	private final Label title;
 	
 	public StatsTab(String text) {
@@ -24,7 +26,7 @@ public class StatsTab extends Tab {
 		StackPane sp = new StackPane(new Group(title));
 		sp.setRotate(90);
 		setGraphic(sp);
-		
+		getStyleClass().add(STATS_TAB_CSS);
 	}
 	
 	public StringProperty nameProperty() {

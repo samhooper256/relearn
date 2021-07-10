@@ -4,13 +4,12 @@
 package base.stats;
 
 import base.sets.ProblemSet;
-import javafx.scene.layout.StackPane;
 
 /**
  * @author Sam Hooper
  *
  */
-public class SetTabContent extends StackPane {
+public class SetTabContent extends StatsTabContent {
 	
 	private final ProblemSet set;
 	

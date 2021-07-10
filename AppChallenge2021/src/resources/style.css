@@ -20,6 +20,10 @@
 	-app-orange: #F58300;
 	-app-orange-accent: #FFD099;
 	-app-orange-light-accent: #FCD6A9;
+	-app-brown: #9E642C;
+	-app-brown-light:#B37E4B;
+	-app-brown-accent: #D6BCA3;
+	-app-brown-light-accent: #DECCBA;
 	-app-grey: grey;
 	-app-grey-accent: lightgrey;
 	-fx-background-color: -app-base;
@@ -575,6 +579,23 @@
 	-fx-alignment: center;
 }
 
+/* Stats */
+
+.stats-tab-content {
+	-fx-background-color: -app-brown-light-accent;
+	-fx-border-color: -app-brown-light;
+	-fx-border-width: 3 3 3 0;
+	-fx-border-radius: 0 10 10 0;
+	
+}
+
+.topic-tab-pane .tab-header-background {
+	-fx-background-color: -app-brown-accent;
+}
+
+.stats-tab  .tab-label {
+	-fx-font: 14 "Georgia";	
+}
 
 /* TopicSettings */
 

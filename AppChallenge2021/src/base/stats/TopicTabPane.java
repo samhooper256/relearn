@@ -12,6 +12,7 @@ import topics.TopicUtils;
  */
 public final class TopicTabPane extends StatsTabPane {
 	
+	private static final String TOPIC_TAB_PANE_CSS = "topic-tab-pane";
 	private static final TopicTabPane INSTANCE = new TopicTabPane();
 	
 	public static TopicTabPane get() {
@@ -21,6 +22,7 @@ public final class TopicTabPane extends StatsTabPane {
 	private TopicTabPane() {
 		for(String name : TopicUtils.allNames())
 			getTabs().add(createTab(name));
+		getStyleClass().add(TOPIC_TAB_PANE_CSS);
 	}
 
 	private TopicTab createTab(String name) {

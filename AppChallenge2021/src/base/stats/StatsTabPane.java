@@ -12,6 +12,7 @@ import javafx.scene.control.*;
  */
 public class StatsTabPane extends TabPane {
 	
+	private static final String STATS_TAB_PANE_CSS = "stats-tab-pane";
 	private static final double TAB_HEIGHT = 200;
 	
 	public StatsTabPane() {
@@ -19,6 +20,7 @@ public class StatsTabPane extends TabPane {
 		setRotateGraphic(true);
 		setTabMinHeight(TAB_HEIGHT);
 		setTabMaxHeight(TAB_HEIGHT);
+		getStyleClass().add(STATS_TAB_PANE_CSS);
 	}
 	
 }

@@ -5,13 +5,12 @@ package base.stats;
 
 import base.Named;
 import javafx.scene.chart.PieChart;
-import javafx.scene.layout.StackPane;
 
 /**
  * @author Sam Hooper
  *
  */
-public class TopicTabContent extends StackPane implements Named {
+public class TopicTabContent extends StatsTabContent implements Named {
 	
 	private final String topicName;
 	private PieChart pie;

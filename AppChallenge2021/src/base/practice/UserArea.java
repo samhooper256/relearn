@@ -1,12 +1,10 @@
 package base.practice;
 
 import base.problems.Problem;
-import fxutils.Borders;
 import javafx.css.PseudoClass;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 
 /**
