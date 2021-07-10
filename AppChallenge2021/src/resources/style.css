@@ -324,6 +324,21 @@
 	-fx-padding: 25;
 }
 
+.editor-pane .topic-layer .scroll {
+	-fx-hbar-policy: never;
+	-fx-vbar-policy: as-needed;
+	-fx-fit-to-width: true;
+	-fx-background-color: transparent;
+}
+
+.editor-pane .topic-layer .scroll .viewport {
+	-fx-background-color: transparent;
+}
+
+.editor-pane .topic-layer .scroll .content{
+	-fx-background-color: transparent;
+}
+
 .editor-pane .portion-layer {
 	-fx-padding: 20px 40px 40px 40px;
 }

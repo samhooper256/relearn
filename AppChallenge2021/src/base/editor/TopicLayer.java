@@ -2,7 +2,7 @@ package base.editor;
 
 import base.IndependentlyVerifiable;
 import base.sets.ProblemSet;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import topics.Topic;
 
@@ -25,7 +25,9 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 			TOPIC_LAYER_CSS = "topic-layer",
 			TOPIC_MANAGEMENT_BOX_CSS = "topic-management-box",
 			ADD_TOPIC_BUTTON_CSS = "add-topic-button",
-			REMOVE_TOPIC_BUTTON_CSS = "remove-topic-button";
+			REMOVE_TOPIC_BUTTON_CSS = "remove-topic-button",
+			SCROLL_CSS = "scroll";
+	
 	private static final double TOPIC_MANAGEMENT_BOX_WIDTH = 120;
 	
 	private static void unsupported(Mode newMode) {
@@ -34,6 +36,7 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	
 	private final VBox topicManagementBox;
 	private final Button addButton, removeButton;
+	private final ScrollPane scroll;
 	private final TopicPaneContainer topicPaneContainer;
 	
 	private Mode mode;
@@ -47,9 +50,11 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 		initTopicManagementBox();
 		
 		topicPaneContainer = new TopicPaneContainer();
+		scroll = new ScrollPane(topicPaneContainer);
+		initScroll();
 		
-		HBox.setHgrow(topicPaneContainer, Priority.ALWAYS);
-		getChildren().addAll(topicManagementBox, topicPaneContainer);
+		HBox.setHgrow(scroll, Priority.ALWAYS);
+		getChildren().addAll(topicManagementBox, scroll);
 		getStyleClass().add(TOPIC_LAYER_CSS);
 	}
 	
@@ -82,6 +87,10 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 			case REMOVAL -> setMode(Mode.NORMAL);
 			default -> unsupported(mode());
 		}
+	}
+	
+	private void initScroll() {
+		scroll.getStyleClass().add(SCROLL_CSS);
 	}
 	
 	private void addTopicPaneFor(Topic topic) {
