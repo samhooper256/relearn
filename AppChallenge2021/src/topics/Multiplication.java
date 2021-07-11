@@ -36,11 +36,12 @@ public class Multiplication extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		ArrayList<Integer> termList = termCreate();
-		if(termList.size() == 2)
-			return MathProblem.fromExpression(this, String.format("%d*%d", termList.get(0), termList.get(1)));
-		if(termList.size() == 3)
-			return MathProblem.fromExpression(this, String.format("%d*%d*%d", termList.get(0), termList.get(1), termList.get(2)));
-		throw new IllegalStateException();
+		String expression = switch(termList.size()) {
+			case 2 -> String.format("%d*%d", termList.get(0), termList.get(1));
+			case 3 -> String.format("%d*%d*%d", termList.get(0), termList.get(1), termList.get(2));
+			default -> throw new IllegalStateException();
+		};
+		return MathProblem.builder().set(this, expression, MathAnswerMode.REAL_DECIMAL).build();
 	}
 	
 	@Override

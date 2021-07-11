@@ -32,7 +32,9 @@ public class Squares extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		int baseValue = RNG.intInclusive(base);
-		return MathProblem.fromExpression(this, String.format("%s^2", String.valueOf(baseValue)));
+		return MathProblem.builder()
+				.set(this, String.format("%s^2", String.valueOf(baseValue)), MathAnswerMode.REAL_DECIMAL)
+				.build();
 	}
 	
 	@Override

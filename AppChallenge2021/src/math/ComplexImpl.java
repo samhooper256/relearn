@@ -48,6 +48,8 @@ class ComplexImpl implements Complex {
 	
 	@Override
 	public Complex multiply(Complex other) {
+		if(isReal() && other.isReal())
+			return Complex.of(real().multiply(other.real(), CONTEXT));
 		BigDecimal a = real(), b = imaginary();
 		BigDecimal c = other.real(), d = other.imaginary();
 		BigDecimal s1 = a.multiply(c, CONTEXT);
@@ -60,6 +62,8 @@ class ComplexImpl implements Complex {
 
 	@Override
 	public Complex divide(Complex denominator) {
+		if(isReal() && denominator.isReal())
+			return Complex.of(real().divide(denominator.real(), CONTEXT));
 		Complex conj = denominator.conjugate();
 		BigDecimal div = denominator.abs2();
 		Complex num = this.multiply(conj);
@@ -73,9 +77,8 @@ class ComplexImpl implements Complex {
 	
 	@Override
 	public Complex conjugate() {
-		if(isReal()) {
+		if(isReal())
 			return this;
-		}
 		return Complex.of(real(), imaginary().negate(CONTEXT));
 	}
 	

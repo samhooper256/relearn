@@ -33,11 +33,12 @@ public class PEMDAS extends AbstractTopic {
 	}
 	
 	@Override
-	public Problem generate() 
-	{
-		String equation = equationCreate();
-		return MathProblem.fromExpressionTolerant(this, equation, BigUtils.HUNDREDTH); //The tolerance allows for
-		//something like "1÷3" to be typed exactly, as "1/3"
+	public Problem generate() {
+		String expression = expressionCreate();
+		return MathProblem.builder()
+				.set(this, expression, BigUtils.HUNDREDTH, MathAnswerMode.REAL_DECIMAL, MathAnswerMode.REAL_FRACTION)
+				.build();
+		//The tolerance allows for something like "1÷3" to be typed exactly, as "1/3"
 	}
 	
 	@Override
@@ -57,7 +58,7 @@ public class PEMDAS extends AbstractTopic {
 	}
 	
 	
-	public String equationCreate()
+	public String expressionCreate()
 	{
 		String equation = "";
 		int difficulty = RNG.intInclusive(1, 5);

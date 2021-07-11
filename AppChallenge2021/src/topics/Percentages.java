@@ -41,7 +41,9 @@ public class Percentages extends AbstractTopic {
 		BigDecimal actualAnswer = new BigDecimal(vals.get(0) * vals.get(1)).multiply(BigUtils.HUNDREDTH);
 		String equation = String.format("What is %d%% of %d?", vals.get(0), vals.get(1));
 		Complex answer = Complex.of(actualAnswer);
-		MathProblem problem = MathProblem.ofTolerant(this, Statement.ofText(equation), answer);
+		MathProblem problem = MathProblem.builder()
+				.set(this, Statement.ofText(equation), answer, MathAnswerMode.REAL_DECIMAL)
+				.build();
 		return problem;
 	}
 	

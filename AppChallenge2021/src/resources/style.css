@@ -158,6 +158,8 @@
 	-fx-font: 16 "Georgia";
 }
 
+/* Practice */
+
 .practice-pane .header {
 	-fx-spacing: 10;
 	-fx-padding: 10 0 0 10;
@@ -189,9 +191,10 @@
 }
 
 .practice-pane .input-area {
-	-fx-fill-width: false;
+	-fx-fill-width: true;
 	-fx-alignment: top-center;
 	-fx-spacing: 12;
+	-fx-background-color: pink;
 }
 
 .practice-pane .field {
@@ -213,7 +216,24 @@
 }
 
 .practice-pane .input-area .button-bar {
+	-fx-alignment: center;
 	-fx-spacing: 10;
+}
+
+.practice-pane .field-row {
+	-fx-alignment: center;
+}
+
+.practice-pane .field-row .left {
+	-fx-alignment: center-right;
+}
+
+.practice-pane .field-row .right {
+	-fx-alignment: center-left;
+}
+
+.practice-pane .field-row .math-answer-icon {
+	-fx-font: 18 "Courier New";
 }
 
 .practice-pane .submit-button,
@@ -280,6 +300,7 @@
 	-fx-background-color: -app-orange-light-accent;
 }
 
+/* Editor */
 .practice-pane > .header .title,
 .editor-pane .header .title,
 .stats-pane .header .title {

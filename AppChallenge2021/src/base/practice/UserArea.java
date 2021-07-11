@@ -1,9 +1,7 @@
 package base.practice;
 
 import base.problems.Problem;
-import javafx.css.PseudoClass;
 import javafx.scene.control.*;
-import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
 
@@ -14,20 +12,17 @@ import javafx.scene.web.WebView;
  */
 public class UserArea extends GridPane {
 	
-	private static final double FIELD_WIDTH = 400;
-	private static final PseudoClass FIELD_INCORRECT_PSEUDO_CLASS = PseudoClass.getPseudoClass("incorrect");
 	private static final String
 			USER_AREA_CSS = "user-area",
 			INPUT_AREA_CSS = "input-area",
 			BUTTON_BAR_CSS = "button-bar",
 			SUBMIT_BUTTON_CSS = "submit-button",
 			SHOW_ANSWER_BUTTON_CSS = "show-answer-button",
-			PROBLEM_DISPLAY_CSS = "problem-display",
-			FIELD_CSS = "field";
+			PROBLEM_DISPLAY_CSS = "problem-display";
 			
 	private final VBox inputArea, displayArea;
 	private final StackPane problemDisplayWrap;
-	private final TextField field;
+	private final FieldRow fieldRow;
 	private final WebView problemDisplay;
 	private final HBox buttonBar;
 	private final Button submitButton, showAnswerButton;
@@ -40,13 +35,13 @@ public class UserArea extends GridPane {
 		problemDisplay = new WebView();
 		problemDisplayWrap = new StackPane(problemDisplay);
 		
-		field = new TextField();
+		fieldRow = new FieldRow();
 		submitButton = new Button("Submit");
 		showAnswerButton = new Button("Show Answer");
 		buttonBar = new HBox(showAnswerButton, submitButton);
 		
 		displayArea = new VBox(problemDisplay);
-		inputArea = new VBox(field, buttonBar);
+		inputArea = new VBox(fieldRow, buttonBar);
 		
 		init();
 		
@@ -84,22 +79,14 @@ public class UserArea extends GridPane {
 	
 	private void initProblemDisplay() {
 		problemDisplay.getEngine().setUserStyleSheetLocation(getClass().getResource("problemdisplay.css").toString());
-		problemDisplayWrap.setPrefSize(FIELD_WIDTH, 100);
+		problemDisplayWrap.setPrefSize(FieldRow.FIELD_WIDTH, 100);
 		problemDisplay.getStyleClass().add(PROBLEM_DISPLAY_CSS);
 		problemDisplay.setMouseTransparent(true); //cannot be set from CSS
 		problemDisplay.setDisable(true); //this ensures that it never receives focus - also cannot be set from CSS.
 	}
 	
 	private void initField() {
-		field.setPrefWidth(FIELD_WIDTH);
-		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, false);
-		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-			if(e.getCode() == KeyCode.ENTER) {
-				e.consume();
-				submitAction();
-			}
-		});
-		field.getStyleClass().add(FIELD_CSS);
+		
 	}
 	
 	private void initButtonBar() {
@@ -113,8 +100,8 @@ public class UserArea extends GridPane {
 		submitButton.getStyleClass().add(SUBMIT_BUTTON_CSS);
 	}
 	
-	private void submitAction() {
-		String text = fieldText().strip();
+	void submitAction() {
+		String text = fieldRow.text();
 		if(text.isBlank())
 			return; //do nothing - the user clicked "Submit" when they hadn't entered anything.
 		if(problem.isCorrect(text))
@@ -132,11 +119,11 @@ public class UserArea extends GridPane {
 		if(!hasMarkedIncorrect())
 			pane().notifyIncorrect(problem());
 		answerShown = true;
-		field.setText(problem().sampleAnswer());
+		fieldRow.setText(problem().sampleAnswer());
 	}
 
 	private void correctAnswerAction() {
-		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, false);
+		fieldRow.displayAsCorrect();
 		if(!hasMarkedIncorrect())
 			pane().notifyCorrect(problem());
 		pane().problemCompleted();
@@ -146,19 +133,11 @@ public class UserArea extends GridPane {
 		if(!hasMarkedIncorrect())
 			pane().notifyIncorrect(problem());
 		incorrectAnswerGiven = true;
-		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, true);
+		fieldRow.displayAsIncorrect();
 	}
 	
 	private boolean hasMarkedIncorrect() {
 		return answerShown || incorrectAnswerGiven;
-	}
-	
-	private void clearField() {
-		field.clear();
-	}
-	
-	private String fieldText() {
-		return field.getText();
 	}
 	
 	private void setProblemHTML(String html) {
@@ -166,26 +145,26 @@ public class UserArea extends GridPane {
 	}
 	
 	void focusOnField() {
-		field.requestFocus();
-	}
-	
-	Problem problem() {
-		return problem;
+		fieldRow.focusOnField();
 	}
 	
 	void setup(Problem problem) {
 		incorrectAnswerGiven = false;
 		answerShown = false;
 		this.problem = problem;
-		clearField();
+		fieldRow.clear();
 		setProblemHTML(problem.statement().html());
 	}
 	
 	void cleanUpOnFinish() {
-		clearField();
+		fieldRow.clear();
 	}
 	
-	PracticePane pane() {
+	private Problem problem() {
+		return problem;
+	}
+	
+	private PracticePane pane() {
 		return (PracticePane) getParent();
 	}
 	

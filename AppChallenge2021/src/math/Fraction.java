@@ -17,10 +17,9 @@ public interface Fraction extends Complex {
 	Fraction ZERO = FractionImpl.ZERO;
 	char FRACTION_BAR_CHAR = '/';
 	
-	/** Leading and trailing whitespace is allowed. The numerator and denominator must be non-negative integers.
-	 * A leading '+' or '-' is allowed.*/
+	/** The numerator and denominator must be non-negative integers. A leading '+' or '-' is allowed.
+	 * No leading or trailing whitespace is allowed.*/
 	static boolean isValid(String str) {
-		str = str.strip();
 		if(str.isEmpty())
 			return false;
 		int numStart = Parsing.isSign(str.charAt(0)) ? 1 : 0;

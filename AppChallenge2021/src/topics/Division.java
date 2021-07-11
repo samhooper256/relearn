@@ -32,8 +32,9 @@ public class Division extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		int divisorValue = RNG.intInclusive(divisor);
-		int quotient = divisorValue * RNG.intInclusive(1, 12);
-		return MathProblem.fromExpression(this, String.format("%d/%d", quotient, divisorValue));
+		int dividend = divisorValue * RNG.intInclusive(1, 12);
+		String expression = String.format("%d/%d", dividend, divisorValue);
+		return MathProblem.builder().set(this, expression, MathAnswerMode.REAL_DECIMAL).build();
 	}
 	
 	@Override
