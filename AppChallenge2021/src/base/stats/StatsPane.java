@@ -18,6 +18,8 @@ public final class StatsPane extends StackPane {
 	
 	private static final String
 		STATS_PANE_CSS = "stats-pane",
+		HEADER_CSS = "header",
+		TITLE_CSS = "title",
 		VBOX_CSS = "vbox";
 	private static final StatsPane INSTANCE = new StatsPane();
 	private static final String TITLE = "Stats";
@@ -35,10 +37,8 @@ public final class StatsPane extends StackPane {
 	
 	private StatsPane() {
 		backArrow = new BackArrow();
-		initBackArrow();
 		title = new Label(TITLE);
 		toggle = new ToggleSwitch("Goof");
-		initToggle();
 		header = new HBox(backArrow, title, toggle);
 		tabPaneHolder = new StackPane(TopicTabPane.get());
 		vBox = new VBox(header, tabPaneHolder);
@@ -46,6 +46,19 @@ public final class StatsPane extends StackPane {
 		
 		getStyleClass().add(STATS_PANE_CSS);
 		getChildren().add(vBox);
+	}
+	
+	private void initVBox() {
+		vBox.getStyleClass().add(VBOX_CSS);
+		VBox.setVgrow(tabPaneHolder, Priority.ALWAYS);
+		initHeader();
+	}
+	
+	private void initHeader() {
+		header.getStyleClass().add(HEADER_CSS);
+		initBackArrow();
+		initTitle();
+		initToggle();
 	}
 	
 	private void initBackArrow() {
@@ -56,6 +69,10 @@ public final class StatsPane extends StackPane {
 		Main.scene().showMainMenu();
 	}
 	
+	private void initTitle() {
+		title.getStyleClass().add(TITLE_CSS);
+	}
+	
 	private void initToggle() {
 		toggle.selectedProperty().addListener(e -> {
 			boolean selected = toggle.isSelected();
@@ -64,11 +81,6 @@ public final class StatsPane extends StackPane {
 			else
 				switchToTopics();
 		});
-	}
-	
-	private void initVBox() {
-		vBox.getStyleClass().add(VBOX_CSS);
-		VBox.setVgrow(tabPaneHolder, Priority.ALWAYS);
 	}
 	
 	private void switchToSets() {

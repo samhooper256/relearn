@@ -22,7 +22,8 @@
 	-app-orange-light-accent: #FCD6A9;
 	-app-brown: #9E642C;
 	-app-brown-light:#B37E4B;
-	-app-brown-accent: #D6BCA3;
+	-app-brown-highlight: #BD956F;
+	-app-brown-dark-accent: #D6BCA3;
 	-app-brown-light-accent: #DECCBA;
 	-app-grey: grey;
 	-app-grey-accent: lightgrey;
@@ -57,10 +58,6 @@
 	-fx-background-insets: 0;
 	-fx-border-color: transparent;
 	-fx-border-width: 0;
-}
-
-.accuracy-pie .chart-pie-label {
-	-fx-font: 36 "Georgia";
 }
 
 .accuracy-pie .data0.chart-pie {
@@ -264,6 +261,10 @@
 	-fx-font-weight: bold;
 }
 
+.finish-practice-popup .accuracy-pie .chart-pie-label {
+	-fx-font: 14 "Georgia";
+}
+
 .finish-practice-popup .button-bar {
 	-fx-spacing: 20;
 	-fx-alignment: center;
@@ -280,7 +281,8 @@
 }
 
 .practice-pane > .header .title,
-.editor-pane .header .title {
+.editor-pane .header .title,
+.stats-pane .header .title {
 	-fx-font: 36 "Riffic Free Medium";
 }
 
@@ -595,6 +597,10 @@
 	-fx-padding: 10;
 }
 
+.stats-pane .header {
+	-fx-spacing: 10;
+}
+
 .stats-pane > .vbox {
 	-fx-spacing: 10;
 }
@@ -608,25 +614,42 @@
 	-fx-border-radius: 0 10 10 0;
 }
 
+.stats-tab-content .accuracy-pie .chart-pie-label {
+	-fx-font: 54 "Georgia";
+}
+
 .stats-tab-content .title,
 .stats-tab-content .overall-accuracy {
 	-fx-font: 54 "Georgia";
 }
 
+.stats-tab-pane {
+	-fx-background-color: transparent;
+}
+
+.stats-tab-pane .tab-header-area {
+	-fx-padding: 10 0 10 10;
+}
+
 .topic-tab-pane .tab-header-background {
-	-fx-background-color: -app-brown-accent;
+	-fx-background-color: -app-brown-highlight;
+	-fx-background-radius: 12 12 0 0;
+	-fx-border-color: -app-brown-light;
+	-fx-border-width: 3 3 0 3;
+	-fx-border-radius: 10 10 0 0;
 }
 
 .stats-tab {
-	-fx-background-color: -app-brown-light-accent;
+	-fx-background-color: -app-brown-dark-accent;
 }
 
 .stats-tab:selected {
-	-fx-background-color: -app-brown-accent;
+	-fx-background-insets: 0 1 0 0, 1 2 0 1, 2 3 0 2;
+	-fx-background-color: -app-brown-light-accent;
 	-fx-faint-focus-color: transparent;
 	-fx-focus-color: transparent;
 	-fx-border-color: transparent;
-	-fx-border-width: 0;
+	-fx-border-width: 1 0 1 1;
 }
 
 .stats-tab  .tab-label {
