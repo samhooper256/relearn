@@ -60,7 +60,7 @@ public interface MathProblem extends Problem {
 			return this;
 		}
 		
-		/** Sets {@link MathProblem#isTolerant()} to {@code false}.*/
+		/** Sets {@link MathProblem#isTolerant()} to {@code true}.*/
 		public Builder set
 				(Topic topic, String expression, BigDecimal tolerance, MathAnswerMode first, MathAnswerMode... rest) {
 			setTopic(topic);

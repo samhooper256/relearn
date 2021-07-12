@@ -153,6 +153,7 @@ public class UserArea extends GridPane {
 		answerShown = false;
 		this.problem = problem;
 		fieldRow.clear();
+		fieldRow.setupProblem(problem);
 		setProblemHTML(problem.statement().html());
 	}
 	

@@ -1,11 +1,14 @@
 package base.practice;
 
+import base.problems.*;
+import fxutils.SeparatorHBox;
 import javafx.beans.binding.DoubleBinding;
 import javafx.css.PseudoClass;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
+import math.BigUtils;
 
 final class FieldRow extends HBox {
 	
@@ -15,17 +18,32 @@ final class FieldRow extends HBox {
 			FIELD_ROW_CSS = "field-row",
 			FIELD_CSS = "field",
 			LEFT_CSS = "left",
-			RIGHT_CSS = "right";
+			RIGHT_CSS = "right",
+			APPROX_CSS = "approx",
+			APPROX_TOOLTIP_CSS = "approx-tooltip",
+			COMMA_CSS = "comma";
+	
+	private static Label createComma() {
+		Label comma = new Label(",");
+		comma.getStyleClass().add(COMMA_CSS);
+		return comma;
+	}
 	
 	private final TextField field;
-	private final HBox left, right;
+	private final HBox left;
+	private final SeparatorHBox right;
+	private final Label approx;
+	private final Tooltip approxTooltip;
 	
 	FieldRow() {
 		field = new TextField();
 		initField();
-		left = new HBox(new Label("hi"));
-		right = new HBox(new Label("helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"));
+		left = new HBox();
+		right = new SeparatorHBox(FieldRow::createComma);
 		initSides();
+		approx = new Label("\u2248"); //\u2248 is the approximately equal symbol.
+		approxTooltip = new Tooltip();
+		initApprox();
 		getChildren().addAll(left, field, right);
 		getStyleClass().add(FIELD_ROW_CSS);
 	}
@@ -48,6 +66,29 @@ final class FieldRow extends HBox {
 		right.prefWidthProperty().bind(binding);
 		left.getStyleClass().add(LEFT_CSS);
 		right.getStyleClass().add(RIGHT_CSS);
+	}
+	
+	private void initApprox() {
+		approx.getStyleClass().add(APPROX_CSS);
+		approx.setTooltip(approxTooltip);
+		approxTooltip.setShowDelay(Duration.millis(250));
+		approxTooltip.getStyleClass().add(APPROX_TOOLTIP_CSS);
+	}
+	
+	void setupProblem(Problem problem) {
+		right.clearChildren();
+		left.getChildren().clear();
+		if(problem instanceof MathProblem mp) {
+			for(MathAnswerMode mode : mp.answerModes()) {
+				Label icon = mode.icon();
+				right.addChild(icon);
+			}
+			if(mp.isTolerant()) {
+				approxTooltip.setText(String.format("Answers must be within %s%% of the true value",
+						BigUtils.toPrettyString(mp.tolerance().multiply(BigUtils.HUNDRED))));
+				left.getChildren().add(approx);
+			}
+		}
 	}
 	
 	void setText(String text) {

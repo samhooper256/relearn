@@ -46,6 +46,9 @@ public interface ComplexValuedExpression extends Expression<Complex> {
 			return of(value.real()).subtract(of(value.noReal().negate())).parenthesized();
  	}
 	
+	/** Returns a {@link ComplexValuedExpression} representing the given {@code expression}. If the expression contains
+	 * undefined constructs, such as dividing by zero, those constructs are not detected by this method. Instead,
+	 * an exception will be thrown by {@link #value()}.*/
 	static ComplexValuedExpression of(String expression) {
 		return Evaluator.getTree(expression);
 	}

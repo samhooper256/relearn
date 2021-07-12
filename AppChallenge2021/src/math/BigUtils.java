@@ -23,6 +23,7 @@ public final class BigUtils {
 		
 	}
 	
+	public static final BigDecimal HUNDRED = new BigDecimal("100");
 	public static final BigDecimal HUNDREDTH = new BigDecimal("0.01");
 	
 	public static boolean equals(BigDecimal b1, BigDecimal b2) {

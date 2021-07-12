@@ -194,7 +194,6 @@
 	-fx-fill-width: true;
 	-fx-alignment: top-center;
 	-fx-spacing: 12;
-	-fx-background-color: pink;
 }
 
 .practice-pane .field {
@@ -222,6 +221,7 @@
 
 .practice-pane .field-row {
 	-fx-alignment: center;
+	-fx-spacing: 8;
 }
 
 .practice-pane .field-row .left {
@@ -230,10 +230,27 @@
 
 .practice-pane .field-row .right {
 	-fx-alignment: center-left;
+	-fx-spacing: 4;
 }
 
 .practice-pane .field-row .math-answer-icon {
-	-fx-font: 18 "Courier New";
+	-fx-font: 24 "Courier New";
+	-fx-font-weight: bold;
+}
+
+.practice-pane .field-row .approx {
+	-fx-font: 36 "Courier New";
+	-fx-font-weight: bold;
+}
+
+.practice-pane .field-row .comma {
+	-fx-font: 36 "Georgia";
+	-fx-translate-y: -4; /* The comma appears a little to low, so we move it up a bit. */
+}
+
+.approx-tooltip,
+.math-answer-icon-tooltip {
+	-fx-font: 14 "Georgia";
 }
 
 .practice-pane .submit-button,
