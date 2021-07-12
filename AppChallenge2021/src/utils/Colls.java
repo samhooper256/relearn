@@ -55,4 +55,15 @@ public final class Colls {
 			throw new IllegalArgumentException(String.format("The given list is not of size %d", size));
 		return list;
 	}
+	
+	/** Returns the number of objects in {@code items} that are contained in the given {@link Collection}.
+	 * Assumes all elements in {@code items} are unique.*/
+	public static int countContains(Collection<?> collection, Object... items) {
+		int count = 0;
+		for(Object item : items)
+			if(collection.contains(item))
+				count++;
+		return count;
+	}
+	
 }

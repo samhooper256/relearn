@@ -3,9 +3,9 @@
  */
 package math;
 
-import java.math.*;
+import static utils.Parsing.*;
 
-import utils.Parsing;
+import java.math.*;
 
 /**
  * <p>A real-valued fraction, represented as a non-negative numerator, a positive denominator, and a sign.</p>
@@ -22,14 +22,42 @@ public interface Fraction extends Complex {
 	static boolean isValid(String str) {
 		if(str.isEmpty())
 			return false;
-		int numStart = Parsing.isSign(str.charAt(0)) ? 1 : 0;
+		int numStart = isSign(str.charAt(0)) ? 1 : 0;
 		int barIndex = str.indexOf(FRACTION_BAR_CHAR);
 		if(barIndex >= 0)
 			return 	barIndex < str.length() - 1 && barIndex > numStart &&
-					Parsing.containsOnlyDigits(str, numStart, barIndex) &&
-					Parsing.containsOnlyDigits(str, barIndex + 1);
+					containsOnlyDigits(str, numStart, barIndex) &&
+					containsOnlyDigits(str, barIndex + 1);
 		else
-			return Parsing.containsOnlyDigits(str, numStart);
+			return containsOnlyDigits(str, numStart);
+	}
+	
+	/** Returns {@code true} iff the given string represents a {@link #isValid(String) valid} {@link Fraction}
+	 * <em>and</em> that fraction is in simplest form.*/
+	static boolean isValidSimplified(String str) {
+		if(str.isEmpty())
+			return false;
+		return isValidUnsignedSimplified(isSign(str.charAt(0)) ? str.substring(1) : str);
+	}
+	
+	private static boolean isValidUnsignedSimplified(String str) {
+		int barIndex = str.indexOf(FRACTION_BAR_CHAR);
+		if(barIndex == 0 || barIndex == str.length() - 1)
+			return false;
+		if(barIndex == -1)
+			return containsOnlyDigits(str);
+		else {
+			String num = str.substring(0, barIndex), denom = str.substring(barIndex + 1);
+			return 	containsOnlyDigits(num) && containsOnlyDigits(denom) &&
+					isValidUnsignedSimplified(new BigInteger(num), new BigInteger(denom));
+		}
+	}
+	
+	private static boolean isValidUnsignedSimplified(BigInteger numerator, BigInteger denominator) {
+		if(BigUtils.isNegative(numerator) || BigUtils.isNonPositive(denominator))
+			return false;
+		Fraction f = Fraction.of(numerator, denominator);
+		return BigUtils.equals(f.numerator(), numerator) && BigUtils.equals(f.denominator(), denominator);
 	}
 	
 	static Fraction of(String str) {
@@ -40,6 +68,7 @@ public interface Fraction extends Complex {
 		else
 			return of(new BigInteger(str), BigInteger.ONE);
 	}
+	
 	static Fraction of(long numerator, long denominator) {
 		return FractionImpl.ofImpl(numerator, denominator);
 	}
@@ -51,7 +80,7 @@ public interface Fraction extends Complex {
 	/** Always non-negative.*/
 	BigInteger numerator();
 	
-	/** Always non-negative.*/
+	/** Always positive.*/
 	BigInteger denominator();
 	
 	boolean isNegative();

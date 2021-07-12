@@ -18,7 +18,8 @@ public interface MathProblem extends Problem {
 	/** If {@link MathProblem#isTolerant()} is not {@link #setTolerant(boolean) set}, it will be {@code false} by
 	 * default. If the problem being built is not tolerant, then its {@link MathProblem#tolerance() tolerance} does not
 	 * need to be {@link #setTolerance(BigDecimal) set}. If the problem is tolerant and the tolerance is not set,
-	 * it will default to {@link MathProblem#DEFAULT_TOLERANCE}. All other parts must be set.*/
+	 * it will default to {@link MathProblem#DEFAULT_TOLERANCE}. All other parts must be set. The set of
+	 * {@link MathAnswerMode MathAnswerModes} must be {@link MathAnswerMode#ensureCompatible(EnumSet) valid}.*/
 	class Builder {
 		
 		private Topic topic;
@@ -115,8 +116,9 @@ public interface MathProblem extends Problem {
 		}
 		
 		private void ensureFullyConfigured() {
-			if(	topic == null || statement == null || answer == null && !modes.isEmpty())
+			if(topic == null || statement == null || answer == null || modes == null)
 				throw new IllegalStateException("This MathProblem.Builder is not fully configured");
+			MathAnswerMode.ensureValid(modes); //ensures that modes is not empty.
 			if(modes.stream().anyMatch(MathAnswerMode::allowsComplex) && isTolerant)
 				throw new IllegalStateException("A MathProblem allowing complex answers cannot be tolerant");
 		}
@@ -165,7 +167,7 @@ public interface MathProblem extends Problem {
 	}
 
 	@Override
-	default boolean isCorrect(String guess) { //TODO redo aware of answerModes();
+	default boolean isCorrect(String guess) {
 		for(MathAnswerMode mode : answerModes())
 			if(isCorrect(mode, guess))
 				return true;

@@ -26,6 +26,10 @@ public final class BigUtils {
 	public static final BigDecimal HUNDRED = new BigDecimal("100");
 	public static final BigDecimal HUNDREDTH = new BigDecimal("0.01");
 	
+	public static boolean equals(BigInteger b1, BigInteger b2) {
+		return b1.compareTo(b2) == 0;
+	}
+	
 	public static boolean equals(BigDecimal b1, BigDecimal b2) {
 		return b1.compareTo(b2) == 0;
 	}
@@ -74,16 +78,16 @@ public final class BigUtils {
 		if(str.isBlank())
 			return false;
 		if(isSign(str.charAt(0)))
-			return isValidBigDecimalWithoutSign(str.substring(1));
+			return isValidUnsignedBigDecimal(str.substring(1));
 		else
-			return isValidBigDecimalWithoutSign(str);
+			return isValidUnsignedBigDecimal(str);
 	}
 	
 	public static boolean isValidBigDecimal(String str, int startInclusive, int endExclusive) {
 		return isValidBigDecimal(str.substring(startInclusive, endExclusive)); //TODO do without substring?
 	}
 	
-	public static boolean isValidBigDecimalWithoutSign(String str) {
+	public static boolean isValidUnsignedBigDecimal(String str) {
 		if(str.isBlank())
 			return false;
 		int exponentIndex = Strings.indexOf(str, Parsing::isExponentIndicator);
@@ -97,8 +101,8 @@ public final class BigUtils {
 		}
 	}
 	
-	public static boolean isValidBigDecimalWithoutSign(String str, int startInclusive, int endExclusive) {
-		return isValidBigDecimalWithoutSign(str.substring(startInclusive, endExclusive)); //TODO do without substring?
+	public static boolean isValidUnsignedBigDecimal(String str, int startInclusive, int endExclusive) {
+		return isValidUnsignedBigDecimal(str.substring(startInclusive, endExclusive)); //TODO do without substring?
 	}
 	
 	

@@ -1,7 +1,7 @@
 package math;
 
 import static math.BigUtils.isValidBigDecimal;
-import static math.BigUtils.isValidBigDecimalWithoutSign;
+import static math.BigUtils.isValidUnsignedBigDecimal;
 
 import java.math.*;
 
@@ -32,7 +32,7 @@ public interface Complex {
 		if(str.endsWith(IMAGINARY_UNIT)) {
 			int midSign = Strings.lastIndexOf(str, Parsing::isSign);
 			return isValidBigDecimal(str, 0, midSign)
-					&& isValidBigDecimalWithoutSign(str, midSign + 1, str.length() - 1);
+					&& isValidUnsignedBigDecimal(str, midSign + 1, str.length() - 1);
 		}
 		return isValidBigDecimal(str);
 	}
