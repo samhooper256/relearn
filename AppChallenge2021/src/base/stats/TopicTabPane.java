@@ -20,14 +20,15 @@ public final class TopicTabPane extends StatsTabPane {
 	}
 	
 	private TopicTabPane() {
+		getTabs().add(new TopicOverallTab());
 		for(String name : TopicUtils.allNames())
-			getTabs().add(createTab(name));
+			getTabs().add(createTabForTopic(name));
 		getStyleClass().add(TOPIC_TAB_PANE_CSS);
 	}
 
-	private TopicTab createTab(String name) {
+	private TopicTab createTabForTopic(String name) {
 		TopicTab t = new TopicTab(name);
-		t.setContent(new TopicTabContent(name));
+		t.setContent(new TopicSingleTabContent(name));
 		return t;
 	}
 	

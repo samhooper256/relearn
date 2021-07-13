@@ -61,15 +61,20 @@
 }
 
 .accuracy-pie .data0.chart-pie {
-	-fx-pie-color: green;
+	-fx-pie-color: -app-green;
 }
 .accuracy-pie .data1.chart-pie {
-	-fx-pie-color: red;
+	-fx-pie-color: -app-red;
 }
 
+.dead-pie .chart-pie {
+	-fx-background-insets: 0;
+	-fx-border-color: transparent;
+	-fx-border-width: 0;
+}
 
 .dead-pie-slice {
-	-fx-pie-color: grey;
+	-fx-pie-color: -app-grey;
 }
 
 .back-arrow {
@@ -82,7 +87,7 @@
 
 .error-message {
 	-fx-font: 16 "Georgia";
-	-fx-text-fill: red;
+	-fx-text-fill: -app-red;
 }
 
 .sets-pane {
@@ -631,6 +636,34 @@
 
 /* Stats */
 
+.accuracy-display .circle {
+	-fx-fill: -app-brown-light-accent;
+}
+
+.accuracy-display .vbox {
+	-fx-alignment: center;
+}
+
+.accuracy-display .vbox > .fraction-box {
+	-fx-alignment: center;
+}
+
+.accuracy-display .correct, .accuracy-display .colon, .accuracy-display .incorrect, .accuracy-display .none {
+	-fx-font: 54 "Georgia";
+}
+
+.accuracy-display .total {
+	-fx-font: 36 "Georgia";
+}
+
+.accuracy-display .correct {
+	-fx-text-fill: -app-green;	
+}
+
+.accuracy-display .incorrect {
+	-fx-text-fill: -app-red;	
+}
+
 .stats-pane {
 	-fx-padding: 10;
 }
@@ -652,10 +685,6 @@
 	-fx-border-radius: 0 10 10 0;
 }
 
-.stats-tab-content .accuracy-pie .chart-pie-label {
-	-fx-font: 54 "Georgia";
-}
-
 .stats-tab-content .title,
 .stats-tab-content .overall-accuracy {
 	-fx-font: 54 "Georgia";
@@ -663,6 +692,8 @@
 
 .stats-tab-pane {
 	-fx-background-color: transparent;
+	-fx-open-tab-animation: none;
+	-fx-close-tab-animation: none;
 }
 
 .stats-tab-pane .tab-header-area {
@@ -678,7 +709,12 @@
 }
 
 .stats-tab {
+	-fx-background-insets: 0 1 0 0, 1 2 0 1, 2 3 0 2;
 	-fx-background-color: -app-brown-dark-accent;
+	-fx-faint-focus-color: transparent;
+	-fx-focus-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width: 1 0 1 1;
 }
 
 .stats-tab:selected {

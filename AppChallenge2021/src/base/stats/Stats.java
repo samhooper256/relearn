@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Sam Hooper
  *
  */
-public final class Stats implements Serializable, ReadOnlyStats {
+final class Stats implements Serializable, ReadOnlyStats {
 	
 	private static final long serialVersionUID = -4346811725723203551L;
 	

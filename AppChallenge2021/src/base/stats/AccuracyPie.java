@@ -17,6 +17,11 @@ public class AccuracyPie extends PieChart {
 	
 	private int correct, incorrect;
 	
+	/** Body is equivalent to {@code this(1, 1)}.*/
+	public AccuracyPie() {
+		this(1, 1);
+	}
+	
 	public AccuracyPie(ReadOnlyStats stats) {
 		this(stats.correct(), stats.incorrect());
 	}
@@ -39,6 +44,10 @@ public class AccuracyPie extends PieChart {
 	
 	public int incorrect() {
 		return incorrect;
+	}
+	
+	public void setAccuracy(ReadOnlyStats stats) {
+		setAccuracy(stats.correct(), stats.incorrect());
 	}
 	
 	public void setAccuracy(int correct, int incorrect) {

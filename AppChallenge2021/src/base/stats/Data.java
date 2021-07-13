@@ -18,7 +18,7 @@ import utils.IO;
  */
 public final class Data {
 	
-	private static final class DataMap extends HashMap<String, Stats> {
+	static final class DataMap extends HashMap<String, Stats> {
 
 		private static final long serialVersionUID = 495053631322059137L;
 		
@@ -142,6 +142,11 @@ public final class Data {
 	
 	public static void removeStatsFor(ProblemSet set) {
 		MAP_BY_SETS.remove(set);
+	}
+	
+	/** The returned map <b>SHOULD NOT BE MODIFIED.</b>*/
+	public static DataMap mapByTopics() {
+		return MAP_BY_TOPICS;
 	}
 	
 	public static void debugPrint() {
