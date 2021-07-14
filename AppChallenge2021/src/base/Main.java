@@ -84,6 +84,7 @@ public class Main extends Application {
 		
 		MainScene.get().growth().fadeIn();
 		MainScene.get().title().fadeIn();
+		
 	}
 	
 	@Override

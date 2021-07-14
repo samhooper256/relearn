@@ -14,7 +14,8 @@ import java.math.*;
  */
 public interface Fraction extends Complex {
 	
-	Fraction ZERO = FractionImpl.ZERO;
+	Fraction ZERO = ProperFractionImpl.ZERO;
+	
 	char FRACTION_BAR_CHAR = '/';
 	
 	/** The numerator and denominator must be non-negative integers. A leading '+' or '-' is allowed.
@@ -70,15 +71,44 @@ public interface Fraction extends Complex {
 	}
 	
 	static Fraction of(long numerator, long denominator) {
-		return FractionImpl.ofImpl(numerator, denominator);
+		return of(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
 	}
 	
 	static Fraction of(BigInteger numerator, BigInteger denominator) {
-		return FractionImpl.ofImpl(numerator, denominator);
+		return of(numerator.abs(), denominator.abs(), isNegative(numerator, denominator));
+	}
+	
+	static Fraction of(BigInteger nonNegativeNumerator, BigInteger positiveDenominator, boolean isNegative) {
+		if(BigUtils.isNegative(nonNegativeNumerator) || BigUtils.isNonPositive(positiveDenominator))
+			throw new IllegalArgumentException("numerator must be non-negative; denominator must be positive");
+		if(BigUtils.isZero(nonNegativeNumerator))
+			return ZERO;
+		if(isProper(nonNegativeNumerator, positiveDenominator))
+			return new ProperFractionImpl(nonNegativeNumerator, positiveDenominator, isNegative);
+		else
+			return new ImproperFractionImpl(nonNegativeNumerator, positiveDenominator, isNegative);
+	}
+	
+	static boolean isProper(BigInteger numerator, BigInteger denominator) {
+		return numerator.abs().compareTo(denominator.abs()) < 0;
+	}
+	
+	static boolean isImproper(BigInteger numerator, BigInteger denominator) {
+		return !isProper(numerator, denominator);
+	}
+	
+	static boolean isNegative(BigInteger numerator, BigInteger denominator) {
+		return BigUtils.isNegative(numerator) ^ BigUtils.isNegative(denominator);
 	}
 	
 	/** Always non-negative.*/
 	BigInteger numerator();
+	
+	/** The body of this method is equivalent to:
+	 * <pre><code>return isNegative() ? numerator().negate() : numerator();</code></pre>*/
+	default BigInteger signedNumerator() {
+		return isNegative() ? numerator().negate() : numerator();
+	}
 	
 	/** Always positive.*/
 	BigInteger denominator();
@@ -89,10 +119,37 @@ public interface Fraction extends Complex {
 	 * {@link #denominator() denominator}.*/
 	boolean isProper();
 	
-	boolean isImproper();
-	
 	/** Returns a {@link Fraction} with the numerator and denominator switched (and the sign preserved).
 	 * @throws ArithmeticException if {@code this} {@link #isZero()}.*/
 	Fraction reciprocal();
+	
+	default boolean isImproper() {
+		return !isProper();
+	}
+	
+	@Override
+	default BigDecimal real() {
+		return toBigDecimal(MathContext.DECIMAL128);
+	}
+	
+	@Override
+	default boolean isReal() {
+		return true;
+	}
+	
+	@Override
+	default BigDecimal imaginary() {
+		return BigDecimal.ZERO;
+	}
+	
+	@Override
+	default boolean isImaginary() {
+		return isZero();
+	}
+	
+	@Override
+	default Fraction conjugate() {
+		return this;
+	}
 	
 }

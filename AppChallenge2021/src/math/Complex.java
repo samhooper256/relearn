@@ -41,7 +41,7 @@ public interface Complex {
 		return c == IMAGINARY_UNIT_CHAR;
 	}
 	
-	static Complex of(String str) {
+	static Complex of(String str) { //TODO support MixedNumbers as well
 		if(isValidInRectangularForm(str)) {
 			if(str.endsWith(IMAGINARY_UNIT)) {
 				int midSign = Strings.lastIndexOf(str, Parsing::isSign);
@@ -72,8 +72,14 @@ public interface Complex {
 		return Complex.of(BigDecimal.valueOf(real), BigDecimal.ZERO);
 	}
 	
+	/**
+	 * Returns the real part of this {@link Complex} number, rounded to {@link MathContext#DECIMAL128}.
+	 */
 	BigDecimal real();
 	
+	/**
+	 * Returns the real part of this {@link Complex} number, rounded to {@link MathContext#DECIMAL128}.
+	 */
 	BigDecimal imaginary();
 	
 	boolean isReal();
@@ -108,6 +114,8 @@ public interface Complex {
 		return of(absAsBigDecimal());
 	}
 	
+	/** Returns the absolute value of this {@link Complex} as a {@link BigDecimal}, rounded to
+	 * {@link MathContext#DECIMAL128}.*/
 	BigDecimal absAsBigDecimal();
 	
 	boolean isZero();
