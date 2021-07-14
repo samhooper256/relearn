@@ -1,5 +1,7 @@
 package math;
 
+import static math.BigUtils.isValidBigDecimal;
+
 import java.math.*;
 
 /**
@@ -7,13 +9,38 @@ import java.math.*;
  * @author Sam Hooper
  * 
  */
-public interface MixedNumber extends Complex {
+public interface MixedNumber extends Complex, FractionConvertible {
+	
+	char SEPARATOR = ' ';
+	
+	static boolean isValid(String str) {
+		int sepIndex = str.indexOf(SEPARATOR);
+		if(sepIndex == -1)
+			return isValidBigDecimal(str);
+		return 	isValidBigDecimal(str.substring(0, sepIndex))
+				&& ProperFraction.isValidUnsigned(str.substring(sepIndex + 1));
+	}
+	
+	static MixedNumber of(String str) {
+		assert isValid(str);
+		int sepIndex = str.indexOf(SEPARATOR);
+		if(sepIndex == -1)
+			return of(new BigInteger(str), ProperFraction.ZERO);
+		BigInteger integer = new BigInteger(str.substring(0, sepIndex));
+		ProperFraction fraction = ProperFraction.of(str.substring(sepIndex + 1));
+		return of(integer, fraction);
+	}
+	
+	static MixedNumber of(BigInteger integer, ProperFraction fraction) {
+		return MixedNumberImpl.of(integer, fraction);
+	}
 	
 	BigInteger integer();
 	
 	ProperFraction fraction();
 	
-	default ImproperFraction toImproperFraction() {
+	@Override
+	default ImproperFraction toFraction() {
 		return 	ImproperFraction.of
 				(integer().multiply(fraction().denominator()).add(fraction().numerator()), fraction().denominator());
 	}

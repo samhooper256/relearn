@@ -53,6 +53,19 @@ public enum MathAnswerMode {
 		}
 		
 	},
+	MIXED_NUMBER(makeIcon("4 6/8", "Mixed numbers are allowed. The fractional part does not need to be simplified")) {
+
+		@Override
+		public boolean isValid(String str) {
+			return MixedNumber.isValid(str);
+		}
+
+		@Override
+		public Complex parse(String str) {
+			return MixedNumber.of(str);
+		}
+		
+	},
 	/** Accepts only {@link Fraction#isValidSimplified(String) simplified} fractions.*/
 	REAL_SIMPLIFIED_FRACTION(makeIcon("3/4", "Fractional answers are allowed. They need to be in simplest form, but "
 			+ "they do not need to be proper.")) {

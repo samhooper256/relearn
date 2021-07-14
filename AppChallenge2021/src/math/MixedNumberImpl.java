@@ -29,52 +29,34 @@ final class MixedNumberImpl implements MixedNumber {
 		this.fraction = fraction;
 	}
 
-	/** The result will be a {@link MixedNumber} whenever possible.*/
 	@Override
 	public Complex add(Complex c) {
-		final Fraction f;
-		if(c instanceof Fraction ff)
-			f = ff;
-		else if(c instanceof MixedNumber m)
-			f = m.toImproperFraction();
+		if(c instanceof FractionConvertible f)
+			return toFraction().add(f.toFraction());
 		else
 			return Complex.of(real()).add(c);
-		Complex result = toImproperFraction().add(f);
-		return result instanceof ImproperFraction x ? from(x) : result;
 	}
 
-	/** The result will be a {@link MixedNumber} whenever possible.*/
 	@Override
 	public Complex subtract(Complex c) {
 		return add(c.negate());
 	}
 
-	/** The result will be a {@link MixedNumber} whenever possible.*/
 	@Override
 	public Complex multiply(Complex c) {
-		final Fraction f;
-		if(c instanceof Fraction ff)
-			f = ff;
-		else if(c instanceof MixedNumber m)
-			f = m.toImproperFraction();
+		if(c instanceof FractionConvertible f)
+			return toFraction().multiply(f.toFraction());
 		else
 			return Complex.of(real()).multiply(c);
-		Complex result = toImproperFraction().multiply(f);
-		return result instanceof ImproperFraction x ? from(x) : result;
 	}
 
 	/** The result will be a {@link MixedNumber} whenever possible.*/
 	@Override
 	public Complex divide(Complex c) {
-		final Fraction f;
-		if(c instanceof Fraction ff)
-			f = ff;
-		else if(c instanceof MixedNumber m)
-			f = m.toImproperFraction();
+		if(c instanceof FractionConvertible f)
+			return toFraction().divide(f.toFraction());
 		else
 			return Complex.of(real()).divide(c);
-		Complex result = toImproperFraction().divide(f);
-		return result instanceof ImproperFraction x ? from(x) : result;
 	}
 
 	@Override
@@ -93,5 +75,24 @@ final class MixedNumberImpl implements MixedNumber {
 		return fraction;
 	}
 	
+	@Override
+	public int hashCode() {
+		return real().hashCode();
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj instanceof FractionConvertible fc)
+			return toFraction().equals(fc.toFraction());
+		if(obj instanceof Complex c)
+			return c.isReal() && isExactlyRepresentable() && toBigDecimalExact().equals(c.real());
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%d %s", integer(), fraction());
+	}
 }

@@ -33,6 +33,10 @@ public interface ProperFraction extends Fraction {
 		return of(num, denom);
 	}
 	
+	static ProperFraction of(long numerator, long denominator) {
+		return of(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
+	}
+	
 	static ProperFraction of(BigInteger numerator, BigInteger denominator) {
 		Fraction f = Fraction.of(numerator, denominator);
 		if(!f.isProper())

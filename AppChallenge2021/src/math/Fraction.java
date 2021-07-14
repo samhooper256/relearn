@@ -12,9 +12,9 @@ import java.math.*;
  * @author Sam Hooper
  *
  */
-public interface Fraction extends Complex {
+public interface Fraction extends Complex, FractionConvertible {
 	
-	Fraction ZERO = ProperFractionImpl.ZERO;
+	ProperFraction ZERO = ProperFractionImpl.ZERO;
 	
 	char FRACTION_BAR_CHAR = '/';
 	
@@ -149,6 +149,11 @@ public interface Fraction extends Complex {
 	
 	@Override
 	default Fraction conjugate() {
+		return this;
+	}
+	
+	@Override
+	default Fraction toFraction() {
 		return this;
 	}
 	
