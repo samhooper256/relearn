@@ -616,6 +616,7 @@
 	-fx-font: 16 "Georgia";
 }
 
+.topic-overall-pie-tooltip,
 .segment-tooltip {
 	-fx-background-radius: 0;
 	-fx-background-color: black;
@@ -728,6 +729,11 @@
 
 .stats-tab  .tab-label {
 	-fx-font: 14 "Georgia";	
+}
+
+.topic-overall-tab-content .grid-pane {
+	-fx-hgap: 50;
+	-fx-padding: 0 25 0 25;
 }
 
 /* TopicSettings */

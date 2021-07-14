@@ -61,6 +61,7 @@ public final class Data {
 	
 	private static SetMap MAP_BY_SETS = null;
 	private static DataMap MAP_BY_TOPICS = null;
+	private static final Stats OVERALL = new Stats();
 	
 	public static synchronized void load() {
 		if(MAP_BY_SETS != null)
@@ -80,6 +81,7 @@ public final class Data {
 				e.printStackTrace(); //TODO better error handling?
 			}
 			fillMapByTopicsFromMapBySets();
+			fillInOverallFromMapByTopics();
 		}
 	}
 	
@@ -99,6 +101,12 @@ public final class Data {
 		TopicUtils.allNames().forEach(name -> MAP_BY_TOPICS.ensurePresent(name));
 	}
 	
+	private static void fillInOverallFromMapByTopics() {
+		assert OVERALL.total() == 0;
+		OVERALL.addCorrect(MAP_BY_TOPICS.values().stream().mapToInt(Stats::correct).sum());
+		OVERALL.addIncorrect(MAP_BY_TOPICS.values().stream().mapToInt(Stats::incorrect).sum());
+	}
+	
 	private static Stats statsForTopicTrusted(String topicName) {
 		return MAP_BY_TOPICS.getStats(topicName);
 	}
@@ -110,6 +118,7 @@ public final class Data {
 	public static void addCorrect(ProblemSet set, String topicName) {
 		dataMapFor(set).addCorrect(topicName);
 		statsForTopicTrusted(topicName).addCorrect();
+		OVERALL.addCorrect();
 	}
 	
 	public static void addCorrect(ProblemSet set, Problem problem) {
@@ -119,6 +128,7 @@ public final class Data {
 	public static void addIncorrect(ProblemSet set, String topicName) {
 		dataMapFor(set).addIncorrect(topicName);
 		statsForTopicTrusted(topicName).addIncorrect();
+		OVERALL.addIncorrect();
 	}
 	
 	public static void addIncorrect(ProblemSet set, Problem problem) {
@@ -147,6 +157,10 @@ public final class Data {
 	/** The returned map <b>SHOULD NOT BE MODIFIED.</b>*/
 	public static DataMap mapByTopics() {
 		return MAP_BY_TOPICS;
+	}
+	
+	public static ReadOnlyStats overall() {
+		return OVERALL;
 	}
 	
 	public static void debugPrint() {

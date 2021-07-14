@@ -5,14 +5,24 @@ import java.util.*;
 import base.stats.Data.DataMap;
 
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Region;
+import javafx.util.Duration;
 import topics.TopicUtils;
 
 final class TopicOverallPie extends PieChart {
 	
-	private final Map<String, PieChart.Data> sliceMap;
+	private record SliceInfo(PieChart.Data data, Tooltip tooltip) {};
+	
+	private static final String TOOLTIP_CSS = "topic-overall-pie-tooltip";
+	private static final Duration TOOLTIP_DELAY = Duration.ZERO;
+
+	private final Map<String, SliceInfo> sliceMap;
 	
 	TopicOverallPie() {
 		sliceMap = new HashMap<>();
+		setLegendVisible(false);
+		setLabelsVisible(false);
 	}
 	
 	void update(DataMap map) {
@@ -28,12 +38,38 @@ final class TopicOverallPie extends PieChart {
 	}
 	
 	private void initSlices(DataMap map) {
-		TopicUtils.streamNames().forEachOrdered(topicName -> sliceMap.put
-				(topicName, new PieChart.Data(topicName, map.get(topicName).total())));
+		TopicUtils.streamNames().forEachOrdered(topicName -> sliceMap.put(topicName,
+				new SliceInfo(createSlice(topicName, map), createTooltip(topicName))));
 	}
 	
-	private final PieChart.Data dataFor(String topicName) {
-		return sliceMap.get(topicName);
+	private PieChart.Data createSlice(String topicName, DataMap map) {
+		PieChart.Data data = new PieChart.Data(topicName, map.get(topicName).total());
+		data.nodeProperty().addListener((x, oldNode, newNode) -> {
+			Tooltip tool = tooltipFor(topicName);
+			if(oldNode != null)
+				Tooltip.uninstall(oldNode, tool);
+			if(newNode instanceof Region r) {
+				r.setBackground(TopicUtils.backgroundFor(topicName));
+				Tooltip.install(r, tool);
+			}
+		});
+		return data;
+	}
+	
+	private Tooltip createTooltip(String topicName) {
+		Tooltip t = new Tooltip(topicName);
+		t.setShowDelay(TOOLTIP_DELAY);
+		t.setHideDelay(TOOLTIP_DELAY);
+		t.getStyleClass().add(TOOLTIP_CSS);
+		return t;
+	}
+	
+	final PieChart.Data dataFor(String topicName) {
+		return sliceMap.get(topicName).data();
+	}
+	
+	final Tooltip tooltipFor(String topicName) {
+		return sliceMap.get(topicName).tooltip();
 	}
 	
 }

@@ -6,6 +6,8 @@ package topics;
 import java.util.*;
 import java.util.stream.*;
 
+import fxutils.Backgrounds;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 
 /**
@@ -22,6 +24,7 @@ public final class TopicUtils {
 	
 	private static final LinkedHashSet<TopicFactory<?>> FACTORIES;
 	private static final LinkedHashMap<String, Color> COLORS;
+	private static final LinkedHashMap<String, Background> BACKGROUNDS;
 	
 	static {
 		List<TopicFactory<?>> factoryList = new ArrayList<>(6);
@@ -43,6 +46,9 @@ public final class TopicUtils {
 		COLORS = new LinkedHashMap<>();
 		for(TopicFactory<?> factory : FACTORIES)
 			COLORS.put(factory.name(), new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1));
+		BACKGROUNDS = new LinkedHashMap<>();
+		for(Map.Entry<String, Color> e : COLORS.entrySet())
+			BACKGROUNDS.put(e.getKey(), Backgrounds.of(e.getValue()));
 	}
 	
 	/** Returns an unmodifiable view of all the {@link TopicFactory topic factories}. The factories are sorted by
@@ -67,6 +73,14 @@ public final class TopicUtils {
 	
 	public static Color colorOf(String topicName) {
 		return COLORS.get(topicName);
+	}
+	
+	public static Background backgroundFor(Topic topic) {
+		return backgroundFor(topic.name());
+	}
+	
+	public static Background backgroundFor(String topicName) {
+		return BACKGROUNDS.get(topicName);
 	}
 	
 }
