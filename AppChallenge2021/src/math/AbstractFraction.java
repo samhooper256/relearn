@@ -120,12 +120,14 @@ abstract class AbstractFraction implements Fraction {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if(this == obj)
 			return true;
-		if(obj instanceof Fraction f)
+		if(obj instanceof FractionConvertible fc) {
+			Fraction f = fc.toFraction();
 			return Objects.equals(denominator(), f.denominator()) && isNegative() == f.isNegative() &&
 					Objects.equals(numerator(), f.numerator());
-		else if(obj instanceof Complex c)
+		}
+		if(obj instanceof Complex c)
 			return c.isReal() && isExactlyRepresentable() && toBigDecimalExact().equals(c.real());
 		return false;
 	}
