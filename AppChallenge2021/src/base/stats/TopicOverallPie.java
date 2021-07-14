@@ -32,8 +32,10 @@ final class TopicOverallPie extends PieChart {
 			dataFor(e.getKey()).setPieValue(e.getValue().total());
 		getData().clear();
 		TopicUtils.streamNames().forEachOrdered(topicName -> {
-			if(map.get(topicName).total() > 0)
+			if(map.get(topicName).total() > 0) {
+				updateTooltip(topicName, map, base.stats.Data.overall().total());
 				getData().add(dataFor(topicName));
+			}
 		});
 	}
 	
@@ -72,4 +74,8 @@ final class TopicOverallPie extends PieChart {
 		return sliceMap.get(topicName).tooltip();
 	}
 	
+	private void updateTooltip(String topicName, DataMap map, int total) {
+		Tooltip t = tooltipFor(topicName);
+		t.setText(String.format("%.0f%% %s", 100d * map.get(topicName).total() / total, topicName));
+	}
 }
