@@ -24,6 +24,10 @@ public interface ProperFraction extends Fraction {
 		return Fraction.isProper(num, denom);
 	}
 	
+	static boolean isValidSimplified(String str) {
+		return	ProperFraction.isValid(str) && Fraction.isValidSimplified(str);
+	}
+	
 	/** {@code str} is assumed to be {@link #isValid(String) valid}.*/
 	static ProperFraction of(String str) {
 		assert isValid(str);

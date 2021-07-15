@@ -10,7 +10,7 @@ import utils.Colls;
 
 public enum MathAnswerMode {
 	/** Accepts all integers, possibly with a leading sign.*/
-	INTEGER(makeIcon("7", "Integer answers are allowed.")) {
+	INTEGER(makeIcon("-7", "Integer answers are allowed.")) {
 		
 		@Override
 		public boolean isValid(String str) {
@@ -66,8 +66,36 @@ public enum MathAnswerMode {
 		}
 		
 	},
+	/** Accepts all integers and all fractions. Fractions need not be simplified or proper.*/
+	REAL_FRACTION(makeIcon("12/4", "Fractional answers are allowed. They do not need to be simplified or proper.")) {
+		
+		@Override
+		public boolean isValid(String str) {
+			return Fraction.isValid(str);
+		}
+		
+		@Override
+		public Complex parse(String str) {
+			return Fraction.of(str);
+		}
+		
+	},
+	REAL_PROPER_FRACTON(makeIcon("5/10", "Fractional answers are allowed. They do not need to be simplified, but they "
+			+ "must be proper.")) {
+		
+		@Override
+		public boolean isValid(String str) {
+			return ProperFraction.isValid(str);
+		}
+		
+		@Override
+		public Complex parse(String str) {
+			return ProperFraction.of(str);
+		}
+		
+	},
 	/** Accepts only {@link Fraction#isValidSimplified(String) simplified} fractions.*/
-	REAL_SIMPLIFIED_FRACTION(makeIcon("3/4", "Fractional answers are allowed. They need to be in simplest form, but "
+	REAL_SIMPLIFIED_FRACTION(makeIcon("5/3", "Fractional answers are allowed. They need to be in simplest form, but "
 			+ "they do not need to be proper.")) {
 		
 		@Override
@@ -81,17 +109,17 @@ public enum MathAnswerMode {
 		}
 		
 	},
-	/** Accepts all integers and all fractions. Fractions need not be simplified or proper.*/
-	REAL_FRACTION(makeIcon("12/4", "Fractional answers are allowed. They do not need to be simplified or proper.")) {
+	REAL_PROPER_SIMPLIFIED_FRACTION(makeIcon("1/2", "Fractional answers are allowed. They must be proper and "
+			+ "simplified.")) {
 		
 		@Override
 		public boolean isValid(String str) {
-			return Fraction.isValid(str);
+			return ProperFraction.isValidSimplified(str);
 		}
 		
 		@Override
 		public Complex parse(String str) {
-			return Fraction.of(str);
+			return ProperFraction.of(str);
 		}
 		
 	};
