@@ -1,12 +1,12 @@
 package base.problems;
 
 import static utils.HTML.*;
+import static utils.MathML.*;
 
-import java.math.BigInteger;
+import java.math.*;
 
 import math.*;
 import math.expressions.ComplexValuedExpression;
-import utils.MathML;
 
 /**
  * <p>A {@code StatementBuilder} can be obtained via {@link Statement#builder()}.</p>
@@ -42,12 +42,29 @@ public final class StatementBuilder {
 		return this;
 	}
 	
-	public StatementBuilder addInteger(BigInteger bi) {
+	public StatementBuilder addNumber(long number) {
+		return addNumber(BigInteger.valueOf(number));
+	}
+
+	public StatementBuilder addNumber(double number) {
+		return addNumber(BigDecimal.valueOf(number));
+	}
+	
+	public StatementBuilder addNumber(BigInteger bi) {
 		return addOpeningMathTag().addIntegerWithoutMathTags(bi).addClosingMathTag();
 	}
 	
+	public StatementBuilder addNumber(BigDecimal bd) {
+		return addOpeningMathTag().addDecimalWithoutMathTags(bd).addClosingMathTag();
+	}
+	
 	private StatementBuilder addIntegerWithoutMathTags(BigInteger bi) {
-		html.append(MathML.integer(bi));
+		html.append(integer(bi));
+		return this;
+	}
+	
+	private StatementBuilder addDecimalWithoutMathTags(BigDecimal bd) {
+		html.append(decimal(bd));
 		return this;
 	}
 	
@@ -63,7 +80,7 @@ public final class StatementBuilder {
 	}
 	
 	private StatementBuilder addFractionWithoutMathTags(Fraction f) {
-		html.append(MathML.fraction(f));
+		html.append(fraction(f));
 		return this;
 	}
 	

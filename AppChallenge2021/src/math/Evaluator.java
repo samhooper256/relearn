@@ -10,14 +10,29 @@ import math.expressions.*;
 import utils.*;
 
 /**
+ * <p>A mathematical expression evaluator. The evaluator supports addition (+), subtraction (-), multiplication (*),
+ * division (/), exponentiation (^), unary negation (-), and several functions (described below). The evaluator supports
+ * {@link Complex} numbers using the character '{@code i}' (ASCII 105) as the imaginary unit. An expression can be
+ * evaluated to its complex value via {@link #evaluate(String)}. An expression can also be converted into a tree of
+ * {@link Expression} objects via {@link #getTree(String)}, and this tree can then be converted to MathML using
+ * {@link Expression#toMathML()}.</p>
+ * 
+ * <p>Functions can be embedded into the literal strings passed to {@code evaluate} and {@code getTree} like so:
+ * <pre><code>"2+sqrt(5+4)"</code></pre>
+ * But functions can also be embedded using their corresponding {@code static} methods in this class, such as:
+ * <pre><code>String.format("2+%s", sqrt("5+4")</code></pre>
+ * Functions can be nested, as in:
+ * <pre><code>"sqrt(sqrt(4)+sqrt(4))"</code></pre>
+ * The supported functions and their documentation are detailed by all of the methods of this class other than
+ * {@code evaluate} and {@code getTree}, such as {@link #sqrt(String)} and {@link #frac(String, String)}.
+ * </p>
+ * 
+ * <p>String expressions must not have leading, trailing, or intervening whitespace of any kind.</p>
+ * 
  * @author Sam Hooper
  *
  */
 public final class Evaluator {
-	
-	public static void main(String[] args) {
-		
-	}
 	
 	private static final class Token {
 		
@@ -484,6 +499,35 @@ public final class Evaluator {
 			}
 		}
 		return stack.pop();
+	}
+	
+	/**
+	 * <p>Evaluates to the square root of {@code radicand}, a non-negative real number.</p>
+	 * <p>The {@code sqrt} function produces a {@link SquareRootExpression} when
+	 * {@link #getTree(String) converted to a tree}.</p>
+	 * <p>The {@code sqrt} function does not support negative or non-real operands, but note that the
+	 * imaginary unit {@code i} may be used.</p>*/
+	public String sqrt(String radicand) {
+		return String.format("sqrt(%s)", radicand);
+	}
+	
+	/**
+	 * <p>Evaluates to {@code numerator/denominator}.</p> 
+	 * <p>The difference beteween {@code frac} and normal division (with the {@code /} binary operator) is that
+	 * {@code frac} produces a {@link FractionExpression} when {@link #getTree(String) converted to a tree}, whereas
+	 * normal division produces a {@link DivisionExpression}.</p>
+	 */
+	public String frac(String numerator, String denominator) {
+		return String.format("frac(%s,%s)", numerator, denominator);
+	}
+	
+	/**
+	 * <p>Evaluates to the absolute value of {@code operand}.</p> 
+	 * <p>The {@code abs} function produces a {@link AbsoluteValueExpression} when
+	 * {@link #getTree(String) converted to a tree}.</p>
+	 */
+	public String abs(String operand) {
+		return String.format("abs(%s)", operand);
 	}
 	
 }

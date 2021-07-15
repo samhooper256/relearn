@@ -1,6 +1,6 @@
 package utils;
 
-import java.math.BigInteger;
+import java.math.*;
 
 import math.Fraction;
 
@@ -16,6 +16,10 @@ public final class MathML {
 	}
 	
 	public static String integer(BigInteger integer) {
+		return String.format("<mn>%d</mn>", integer);
+	}
+	
+	public static String decimal(BigDecimal integer) {
 		return String.format("<mn>%d</mn>", integer);
 	}
 	
