@@ -80,7 +80,7 @@ public enum MathAnswerMode {
 		}
 		
 	},
-	REAL_PROPER_FRACTON(makeIcon("5/10", "Fractional answers are allowed. They do not need to be simplified, but they "
+	REAL_PROPER_FRACTION(makeIcon("5/10", "Fractional answers are allowed. They do not need to be simplified, but they "
 			+ "must be proper.")) {
 		
 		@Override
@@ -158,10 +158,12 @@ public enum MathAnswerMode {
 	public static void ensureValid(EnumSet<MathAnswerMode> modes) {
 		if(modes.isEmpty())
 			throw new IllegalArgumentException("Set of modes must not be empty");
-		if(modes.contains(REAL_FRACTION) && modes.contains(REAL_SIMPLIFIED_FRACTION))
-			throw new IllegalArgumentException("Cannot have both REAL_FRACTION and REAL_SIMPLIFIED_FRACTION modes");
+		if(Colls.countContains(modes, REAL_FRACTION, REAL_PROPER_FRACTION, REAL_SIMPLIFIED_FRACTION,
+			REAL_PROPER_SIMPLIFIED_FRACTION) > 1)
+			throw new IllegalArgumentException("Cannot have more than one XYZ_FRACTION mode");
 		if(Colls.countContains(modes, INTEGER, REAL_DECIMAL, COMPLEX_RECTANGULAR) > 1)
-			throw new IllegalArgumentException("Cannot have both REAL_DECIMAL and COMPLEX_RECTANGULAR modes");
+			throw new IllegalArgumentException("Cannot have more than one of: INTEGER, REAL_DECIMAL, and "
+					+ "COMPLEX_RECTANGULAR modes");
 	}
 	
 }
