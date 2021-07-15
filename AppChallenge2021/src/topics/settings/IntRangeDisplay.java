@@ -1,4 +1,4 @@
-package topics;
+package topics.settings;
 
 import base.*;
 import fxutils.IntField;

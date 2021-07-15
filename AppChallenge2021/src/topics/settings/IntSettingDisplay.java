@@ -1,7 +1,7 @@
 /**
  * 
  */
-package topics;
+package topics.settings;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;

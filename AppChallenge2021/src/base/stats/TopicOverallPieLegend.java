@@ -75,13 +75,18 @@ final class TopicOverallPieLegend extends VBox {
 	}
 	
 	void update() {
-		vBox.getChildren().clear();
-		DataMap map = Data.mapByTopics();
-		TopicUtils.streamNames().forEachOrdered(topicName -> {
-			ReadOnlyStats stats = map.get(topicName);
-			if(!stats.isEmpty())
-				vBox.getChildren().add(LegendItem.of(topicName));
-		});
+		if(Data.overall().isEmpty())
+			setVisible(false);
+		else {
+			setVisible(true);
+			vBox.getChildren().clear();
+			DataMap map = Data.mapByTopics();
+			TopicUtils.streamNames().forEachOrdered(topicName -> {
+				ReadOnlyStats stats = map.get(topicName);
+				if(!stats.isEmpty())
+					vBox.getChildren().add(LegendItem.of(topicName));
+			});
+		}
 	}
 	
 }

@@ -1,4 +1,4 @@
-package topics;
+package topics.settings;
 
 public final class IntRange implements TopicSetting {
 	

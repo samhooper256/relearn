@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.*;
 
 import javafx.beans.property.*;
+import topics.settings.TopicSetting;
 
 /**
  * @author Sam Hooper

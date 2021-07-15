@@ -9,6 +9,7 @@ import java.util.List;
 import base.*;
 import base.problems.Problem;
 import javafx.beans.property.*;
+import topics.settings.TopicSetting;
 
 /**
  * <p>Every implementing concrete class should have a {@code public static final} field named {@code FACTORY} that has

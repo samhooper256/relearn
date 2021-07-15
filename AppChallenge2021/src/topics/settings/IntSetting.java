@@ -1,7 +1,7 @@
 /**
  * 
  */
-package topics;
+package topics.settings;
 
 /**
  * @author Sam Hooper

@@ -6,6 +6,7 @@ package topics;
 import java.util.ArrayList;
 
 import base.problems.*;
+import topics.settings.IntSetting;
 import utils.RNG;
 
 /**

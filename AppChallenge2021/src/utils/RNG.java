@@ -6,7 +6,7 @@ package utils;
 import java.util.Random;
 
 import math.MathUtils;
-import topics.IntRange;
+import topics.settings.IntRange;
 
 /**
  * @author Sam Hooper

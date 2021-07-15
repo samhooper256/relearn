@@ -5,7 +5,7 @@ import java.util.List;
 import base.*;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import topics.TopicSetting;
+import topics.settings.TopicSetting;
 
 public class SettingsBox extends VBox implements IndependentlyVerifiable {
 	

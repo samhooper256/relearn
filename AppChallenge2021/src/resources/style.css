@@ -117,9 +117,13 @@
 	-fx-border-color: -app-green;
 	-fx-border-radius: 10px;
 	-fx-border-width: 4px;
-	-fx-font: 30 "Impact";
+	-fx-font: 36 "Riffic Free Medium";
 	-fx-text-fill: -app-white;
-	-fx-font-weight: 600;
+	/*-fx-font-weight: bold;*/
+}
+
+.sets-pane .header .create-button:hover {
+	-fx-background-color: -app-green-light-accent;
 }
 
 .sets-pane .scroll {
@@ -760,7 +764,7 @@
 
 .topic-overall-pie-legend .vbox {
 	-fx-spacing: 15;	
-	-fx-padding: 15 0 15 0;
+	-fx-padding: 15 10 15 10;
 }
 
 /* TopicSettings */

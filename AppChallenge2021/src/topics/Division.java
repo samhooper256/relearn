@@ -4,6 +4,7 @@
 package topics;
 
 import base.problems.*;
+import topics.settings.IntRange;
 import utils.RNG;
 
 /**

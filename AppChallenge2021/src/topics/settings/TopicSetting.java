@@ -1,7 +1,7 @@
 /**
  * 
  */
-package topics;
+package topics.settings;
 
 import java.io.Serializable;
 
@@ -17,12 +17,13 @@ public interface TopicSetting extends Named, Serializable {
 	String SETTING_SLIDER_CSS = "setting-slider";
 	
 	static Node settingNodeFor(TopicSetting setting) {
+		if(setting instanceof BooleanSetting bs)
+			return new BooleanSettingDisplay(bs);
 		if(setting instanceof IntSetting is)
 			return new IntSettingDisplay(is);
-		else if(setting instanceof IntRange ir)
+		if(setting instanceof IntRange ir)
 			return new IntRangeDisplay(ir);
-		else
-			throw new UnsupportedOperationException(String.format("Unrecognized setting : %s", setting.getClass()));
+		throw new UnsupportedOperationException(String.format("Unrecognized setting : %s", setting.getClass()));
 	}
 	
 }

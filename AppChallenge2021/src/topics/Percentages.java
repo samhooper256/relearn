@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import base.problems.*;
 import math.*;
+import topics.settings.*;
 import utils.RNG;
 
 /**

@@ -5,6 +5,7 @@ package topics;
 
 import base.problems.*;
 import math.Complex;
+import topics.settings.IntRange;
 import utils.RNG;
 
 /**
