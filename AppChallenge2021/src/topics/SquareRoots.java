@@ -1,7 +1,6 @@
 package topics;
 
 import base.problems.*;
-import math.*;
 import utils.RNG;
 
 /**
@@ -29,15 +28,9 @@ public class SquareRoots extends AbstractTopic {
 
 	@Override
 	public Problem generate() {
-//		int rootValue = RNG.intInclusive(root);
-//		return 	MathProblem.builder()
-//				.set(this, String.format("sqrt(%s)", rootValue * rootValue), MathAnswerMode.REAL_DECIMAL)
-//				.build();
-		return MathProblem.builder()
-				.setTopic(this)
-				.setAnswer(MixedNumber.of("2 1/2"))
-				.setStatement(Statement.ofText("Glloo"))
-				.setModes(MathAnswerMode.MIXED_NUMBER)
+		int rootValue = RNG.intInclusive(root);
+		return 	MathProblem.builder()
+				.set(this, String.format("sqrt(%s)", rootValue * rootValue), MathAnswerMode.REAL_DECIMAL)
 				.build();
 	}
 	

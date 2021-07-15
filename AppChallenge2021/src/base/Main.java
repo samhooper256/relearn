@@ -15,7 +15,7 @@ import utils.Assertions;
 
 public class Main extends Application {
 	
-	public static final String TITLE = "ReLearn";
+	public static final String TITLE = "relearn";
 	public static final double
 			MAIN_MENU_BUTTON_WIDTH = 500, MAIN_MENU_BUTTON_HEIGHT = 100,
 			MAIN_MENU_ICON_SIZE = 80,

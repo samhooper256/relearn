@@ -736,6 +736,33 @@
 	-fx-padding: 0 25 0 25;
 }
 
+.topic-overall-pie-legend {
+	-fx-alignment: center;
+}
+
+.topic-overall-pie-legend .scroll {
+	-fx-fit-to-width: true;
+	-fx-hbar-policy: never;
+	-fx-vbar-policy: never;	
+}
+
+.topic-overall-pie-legend .scroll .viewport {
+	-fx-background-color: -app-brown-dark-accent;
+}
+
+.topic-overall-pie-legend .legend-item {
+	-fx-spacing: 4;	
+}
+
+.topic-overall-pie-legend .legend-item .label {
+	-fx-font: 14 "Georgia";
+}
+
+.topic-overall-pie-legend .vbox {
+	-fx-spacing: 15;	
+	-fx-padding: 15 0 15 0;
+}
+
 /* TopicSettings */
 
 .int-range .label,

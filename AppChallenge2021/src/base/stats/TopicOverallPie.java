@@ -66,11 +66,11 @@ final class TopicOverallPie extends PieChart {
 		return t;
 	}
 	
-	final PieChart.Data dataFor(String topicName) {
+	private final PieChart.Data dataFor(String topicName) {
 		return sliceMap.get(topicName).data();
 	}
 	
-	final Tooltip tooltipFor(String topicName) {
+	private Tooltip tooltipFor(String topicName) {
 		return sliceMap.get(topicName).tooltip();
 	}
 	

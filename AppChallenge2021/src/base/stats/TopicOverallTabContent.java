@@ -1,5 +1,6 @@
 package base.stats;
 
+import javafx.scene.Node;
 import javafx.scene.layout.*;
 
 final class TopicOverallTabContent extends TopicTabContent {
@@ -12,6 +13,10 @@ final class TopicOverallTabContent extends TopicTabContent {
 	private final StackPane topicPieHolder;
 	private final GridPane gridPane;
 	private final AccuracyDisplay accuracy;
+	private final HBox hBox;
+	private final TopicOverallPieLegend legend;
+	
+	private AccuracyDisplay deadPie;
 	
 	TopicOverallTabContent() {
 		super("Overall");
@@ -19,12 +24,19 @@ final class TopicOverallTabContent extends TopicTabContent {
 		topicPieHolder = new StackPane(topicPie);
 		accuracy = new AccuracyDisplay();
 		gridPane = new GridPane();
-		initGridPane();
-		vBox.getChildren().add(gridPane);
-		VBox.setVgrow(gridPane, Priority.ALWAYS);
+		legend = new TopicOverallPieLegend();
+		hBox = new HBox(legend, gridPane);
+		initHBox();
+		vBox.getChildren().add(hBox);
+		VBox.setVgrow(hBox, Priority.ALWAYS);
 		getStyleClass().add(TOPIC_OVERALL_TAB_CONTENT_CSS);
 	}
-	
+
+
+	private void initHBox() {
+		HBox.setHgrow(gridPane, Priority.ALWAYS);
+		initGridPane();
+	}
 
 	private void initGridPane() {
 		RowConstraints r = new RowConstraints();
@@ -42,12 +54,32 @@ final class TopicOverallTabContent extends TopicTabContent {
 		gridPane.add(accuracy, 1, 0);
 	}
 
+	private AccuracyDisplay deadPie() {
+		if(deadPie == null)
+			deadPie = new AccuracyDisplay();
+		return deadPie;
+	}
+	
 	@Override
 	void updateStats() {
-		topicPie.update(Data.mapByTopics());
+		legend.update();
+		updateTopicPie();
 		updateOverallAccuracy(Data.overall());
 	}
 
+
+	private void updateTopicPie() {
+		if(Data.overall().isEmpty())
+			setLeft(deadPie());
+		else
+			setLeft(topicPie);
+		topicPie.update(Data.mapByTopics());
+	}
+
+	private void setLeft(Node left) {
+		topicPieHolder.getChildren().set(0, left);
+	}
+	
 	@Override
 	protected void updateOverallAccuracy(ReadOnlyStats stats) {
 		super.updateOverallAccuracy(stats);

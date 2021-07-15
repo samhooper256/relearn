@@ -41,6 +41,8 @@ final class AccuracyDisplay extends StackPane {
 		initVBox();
 		getChildren().addAll(circle, vBox);
 		getStyleClass().add(ACCURACY_DISPLAY_CSS);
+		
+		setToNone();
 	}
 
 	private void initCircle() {
