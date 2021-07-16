@@ -30,7 +30,6 @@ public class Header extends PolarizedPane {
 		initLeft();
 		
 		deleteButton = new DeleteSetButton();
-		initDeleteButton();
 		
 		getStyleClass().add(HEADER_CSS);
 		setLeft(left);
@@ -41,10 +40,6 @@ public class Header extends PolarizedPane {
 		left.getStyleClass().add(LEFT_CSS);
 		backArrow.setOnAction(() -> EditorPane.get().backArrowAction());
 		title.getStyleClass().add(TITLE_CSS);
-	}
-	
-	private void initDeleteButton() {
-		
 	}
 
 }

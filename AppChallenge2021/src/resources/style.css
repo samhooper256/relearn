@@ -61,10 +61,10 @@
 }
 
 .accuracy-pie .data0.chart-pie {
-	-fx-pie-color: -app-green;
+	-fx-pie-color: -app-red;
 }
 .accuracy-pie .data1.chart-pie {
-	-fx-pie-color: -app-red;
+	-fx-pie-color: -app-green;
 }
 
 .dead-pie .chart-pie {

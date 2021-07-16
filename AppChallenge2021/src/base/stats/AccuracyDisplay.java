@@ -109,6 +109,7 @@ final class AccuracyDisplay extends StackPane {
 		if(realPie == null)
 			realPie = new AccuracyPie();
 		realPie.setLabelsVisible(false);
+		realPie.setStartAngle(90);
 		return realPie;
 	}
 	

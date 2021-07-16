@@ -33,7 +33,7 @@ public class AccuracyPie extends PieChart {
 		correctData = new Data(String.valueOf(correct), correct);
 		incorrectData = new Data(String.valueOf(incorrect), incorrect);
 		
-		getData().addAll(correctData, incorrectData);
+		getData().addAll(incorrectData, correctData);
 		
 		getStyleClass().add(ACCURACY_PIE_CSS);
 	}

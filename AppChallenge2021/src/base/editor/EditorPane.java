@@ -74,7 +74,9 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	}
 	
 	void backArrowAction() {
-		if(verify().isSuccess())
+		if(!hasName() && !hasAnyTopics())
+			goBack();
+		else if(verify().isSuccess())
 			saveAndGoBack();
 	}
 
@@ -147,11 +149,21 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		return topicLayer.topicCount() > 0;
 	}
 	
+	private boolean hasName() {
+		return !nameLayer.name().isEmpty();
+	}
+	
 	void deleteSetButonAction() {
-		if(!hasAnyTopics())
+		if(isSafelyDeletable())
 			goBack();
 		else
 			fadeInDeletePopup();
+	}
+
+	/** {@code true} iff the current set in the editor can be deleted without needing the
+	 * {@link DeletePopup}.*/
+	private boolean isSafelyDeletable() {
+		return !hasAnyTopics();
 	}
 	
 	void deleteCurrentSet() {
