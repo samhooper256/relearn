@@ -30,36 +30,6 @@ final class MixedNumberImpl implements MixedNumber {
 	}
 
 	@Override
-	public Complex add(Complex c) {
-		if(c instanceof FractionConvertible f)
-			return toFraction().add(f.toFraction());
-		else
-			return Complex.of(real()).add(c);
-	}
-
-	@Override
-	public Complex subtract(Complex c) {
-		return add(c.negate());
-	}
-
-	@Override
-	public Complex multiply(Complex c) {
-		if(c instanceof FractionConvertible f)
-			return toFraction().multiply(f.toFraction());
-		else
-			return Complex.of(real()).multiply(c);
-	}
-
-	/** The result will be a {@link MixedNumber} whenever possible.*/
-	@Override
-	public Complex divide(Complex c) {
-		if(c instanceof FractionConvertible f)
-			return toFraction().divide(f.toFraction());
-		else
-			return Complex.of(real()).divide(c);
-	}
-
-	@Override
 	public Complex negate() {
 		BigInteger negatedInteger = integer().negate();
 		return of(negatedInteger, fraction);

@@ -41,4 +41,14 @@ public final class MathUtils {
 		return POWERS_OF_10[n];
 	}
 	
+	/**
+	 * Returns 10<sup>n</sup>.
+	 * @throws ArithmeticException if {@code (n < 0)}.
+	 */
+	public static BigInteger pow10big(int n) {
+		if(n < 0)
+			throw new ArithmeticException("n < 0");
+		return new BigInteger(String.format("1%s", "0".repeat(n)));
+	}
+	
 }

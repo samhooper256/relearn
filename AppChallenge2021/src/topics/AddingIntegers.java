@@ -13,21 +13,21 @@ import utils.RNG;
  * @author Sam Hooper and Ayuj Verma
  *
  */
-public class Addition extends AbstractTopic {
+public class AddingIntegers extends AbstractTopic {
 
 	private static final long serialVersionUID = 5163390070882430673L;
 	
-	public static final String NAME = "Addition";
-	public static final TopicFactory<Addition> FACTORY = new TopicFactory<>(NAME, Addition::new);
+	public static final String NAME = "Adding Integers";
+	public static final TopicFactory<AddingIntegers> FACTORY = new TopicFactory<>(NAME, AddingIntegers::new);
 	
 	private final IntSetting maxDigits;
 	private final IntSetting terms;
 	
-	public Addition() {
+	public AddingIntegers() {
 		this(DEFAULT_COUNT);
 	}
 	
-	public Addition(int count) {
+	public AddingIntegers(int count) {
 		super(count);
 		maxDigits = new IntSetting("Digits", 1, 4, 1);
 		terms = new IntSetting("Terms", 2, 4, 2);

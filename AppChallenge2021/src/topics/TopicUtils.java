@@ -29,10 +29,10 @@ public final class TopicUtils {
 	static {
 		List<TopicFactory<?>> factoryList = new ArrayList<>(6);
 		Collections.addAll(factoryList, 
-				Addition.FACTORY,
-				Subtraction.FACTORY,
-				Multiplication.FACTORY,
-				Division.FACTORY,
+				AddingIntegers.FACTORY,
+				SubtractingIntegers.FACTORY,
+				MultiplyingIntegers.FACTORY,
+				DividingIntegers.FACTORY,
 				PEMDAS.FACTORY,
 				Percentages.FACTORY,
 				Quadrants.FACTORY,

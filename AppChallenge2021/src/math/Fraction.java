@@ -7,14 +7,14 @@ import static utils.Parsing.*;
 
 import java.math.*;
 
+import utils.*;
+
 /**
  * <p>A real-valued fraction, represented as a non-negative numerator, a positive denominator, and a sign.</p>
  * @author Sam Hooper
  *
  */
 public interface Fraction extends Complex, FractionConvertible {
-	
-	ProperFraction ZERO = ProperFractionImpl.ZERO;
 	
 	char FRACTION_BAR_CHAR = '/';
 	
@@ -70,6 +70,10 @@ public interface Fraction extends Complex, FractionConvertible {
 			return of(new BigInteger(str), BigInteger.ONE);
 	}
 	
+	static Fraction of(long num) {
+		return of(num, 1);
+	}
+	
 	static Fraction of(long numerator, long denominator) {
 		return of(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
 	}
@@ -87,6 +91,28 @@ public interface Fraction extends Complex, FractionConvertible {
 			return new ProperFractionImpl(nonNegativeNumerator, positiveDenominator, isNegative);
 		else
 			return new ImproperFractionImpl(nonNegativeNumerator, positiveDenominator, isNegative);
+	}
+	
+	static Fraction fromDecimal(BigDecimal bd) {
+		return fromDecimal(BigUtils.toPrettyString(bd));
+	}
+	
+	/** Accepts a string containing a real integer or real terminating decimal, such as "1.23" "-7", or "-.22222".
+	 * There must not be any leading zeros in the whole part.*/
+	static Fraction fromDecimal(String str) {
+		int ptIndex = str.indexOf(Parsing.DECIMAL_POINT);
+		if(ptIndex == -1)
+			return of(new BigInteger(str), BigInteger.ONE);
+		int afterSign = Parsing.isSign(str.charAt(0)) ? 1 : 0;
+		String afterPoint = str.substring(ptIndex + 1);
+		BigInteger denominator = MathUtils.pow10big(afterPoint.length());
+		BigInteger whole = ptIndex == afterSign ?
+				BigInteger.ZERO : new BigInteger(str.substring(afterSign, ptIndex));
+		BigInteger afterBig = new BigInteger(afterPoint);
+		BigInteger numerator = whole.multiply(denominator).add(afterBig);
+		if(afterSign > 0 && str.charAt(0) == '-')
+			numerator = numerator.negate();
+		return of(numerator, denominator);
 	}
 	
 	static boolean isProper(BigInteger numerator, BigInteger denominator) {
@@ -156,5 +182,16 @@ public interface Fraction extends Complex, FractionConvertible {
 	default Fraction toFraction() {
 		return this;
 	}
+	
+	@Override
+	Fraction negate();
+	
+	Fraction addFraction(Fraction f);
+	
+	Fraction subtractFraction(Fraction f);
+	
+	Fraction multiplyFraction(Fraction f);
+	
+	Fraction divideFraction(Fraction f);
 	
 }

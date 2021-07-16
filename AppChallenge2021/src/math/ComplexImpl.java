@@ -34,42 +34,10 @@ class ComplexImpl implements Complex {
 	}
 
 	@Override
-	public Complex add(Complex c) {
-		return Complex.of(
-			real().add(c.real(), CONTEXT),
-			imaginary().add(c.imaginary(), CONTEXT)
-		);
-	}
-
-	@Override
 	public Complex subtract(Complex c) {
 		return add(c.negate());
 	}
 	
-	@Override
-	public Complex multiply(Complex other) {
-		if(isReal() && other.isReal())
-			return Complex.of(real().multiply(other.real(), CONTEXT));
-		BigDecimal a = real(), b = imaginary();
-		BigDecimal c = other.real(), d = other.imaginary();
-		BigDecimal s1 = a.multiply(c, CONTEXT);
-		BigDecimal s2 = b.multiply(d, CONTEXT);
-		BigDecimal s3 = a.add(b, CONTEXT).multiply(c.add(d, CONTEXT));
-		return Complex.of(
-			s1.subtract(s2, CONTEXT), s3.subtract(s1, CONTEXT).subtract(s2, CONTEXT)
-		);
-	}
-
-	@Override
-	public Complex divide(Complex denominator) {
-		if(isReal() && denominator.isReal())
-			return Complex.of(real().divide(denominator.real(), CONTEXT));
-		Complex conj = denominator.conjugate();
-		BigDecimal div = denominator.abs2();
-		Complex num = this.multiply(conj);
-		return Complex.of(num.real().divide(div, CONTEXT), num.imaginary().divide(div, CONTEXT));
-	}
-
 	@Override
 	public Complex negate() {
 		return Complex.of(real().negate(CONTEXT), imaginary().negate(CONTEXT));

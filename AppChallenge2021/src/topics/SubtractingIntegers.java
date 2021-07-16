@@ -13,20 +13,20 @@ import utils.RNG;
  * @author Sam Hooper and Ayuj Verma
  *
  */
-public class Subtraction extends AbstractTopic {
+public class SubtractingIntegers extends AbstractTopic {
 
 	private static final long serialVersionUID = 5803139330572684391L;
 	
-	public static final String NAME = "Subtraction";
-	public static final TopicFactory<Subtraction> FACTORY = new TopicFactory<>(NAME, Subtraction::new);
+	public static final String NAME = "Subtracting Integers";
+	public static final TopicFactory<SubtractingIntegers> FACTORY = new TopicFactory<>(NAME, SubtractingIntegers::new);
 	
 	private final IntSetting maxDigits;
 	private final IntSetting terms;
 	
-	public Subtraction() {
+	public SubtractingIntegers() {
 		this(DEFAULT_COUNT);	}
 	
-	public Subtraction(int count) {
+	public SubtractingIntegers(int count) {
 		super(count);
 		maxDigits = new IntSetting("Digits", 1, 4, 1);
 		terms = new IntSetting("Terms", 2, 4, 2);

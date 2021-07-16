@@ -13,21 +13,21 @@ import utils.RNG;
  * @author Sam Hooper and Ayuj Verma
  *
  */
-public class Multiplication extends AbstractTopic {
+public class MultiplyingIntegers extends AbstractTopic {
 
 	private static final long serialVersionUID = -4007988835323001312L;
 	
-	public static final String NAME = "Multiplication";
-	public static final TopicFactory<Multiplication> FACTORY = new TopicFactory<>(NAME, Multiplication::new);
+	public static final String NAME = "Multiplying Integers";
+	public static final TopicFactory<MultiplyingIntegers> FACTORY = new TopicFactory<>(NAME, MultiplyingIntegers::new);
 	
 	private final IntRange number;
 	private final IntSetting terms;
 	
-	public Multiplication() {
+	public MultiplyingIntegers() {
 		this(DEFAULT_COUNT);
 	}
 	
-	public Multiplication(int count) {
+	public MultiplyingIntegers(int count) {
 		super(count);
 		number = new IntRange("Term Values", 1, 12, 1, 12);
 		terms = new IntSetting("Term Count", 2, 3, 2);

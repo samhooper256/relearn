@@ -23,8 +23,10 @@ public final class BigUtils {
 		
 	}
 	
-	public static final BigDecimal HUNDRED = new BigDecimal("100");
-	public static final BigDecimal HUNDREDTH = new BigDecimal("0.01");
+	public static final BigDecimal
+			HUNDRED = new BigDecimal("100"),
+			HUNDREDTH = new BigDecimal("0.01");
+	public static final BigInteger NEGATIVE_ONE = BigInteger.valueOf(-1);
 	
 	public static boolean equals(BigInteger b1, BigInteger b2) {
 		return b1.compareTo(b2) == 0;

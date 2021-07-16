@@ -11,20 +11,20 @@ import utils.RNG;
  * @author Sam Hooper and Ayuj Verma
  *
  */
-public class Division extends AbstractTopic {
+public class DividingIntegers extends AbstractTopic {
 
 	private static final long serialVersionUID = 7496104666621702957L;
 
-	public static final String NAME = "Division";
-	public static final TopicFactory<Division> FACTORY = new TopicFactory<>(NAME, Division::new);
+	public static final String NAME = "Dividing Integers";
+	public static final TopicFactory<DividingIntegers> FACTORY = new TopicFactory<>(NAME, DividingIntegers::new);
 	
 	private final IntRange divisor;
 	
-	public Division() {
+	public DividingIntegers() {
 		this(DEFAULT_COUNT);
 	}
 	
-	public Division(int count) {
+	public DividingIntegers(int count) {
 		super(count);
 		divisor = new IntRange("Minimum Divisor", 1, 12);
 		createSettings(divisor);

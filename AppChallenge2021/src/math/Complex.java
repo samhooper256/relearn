@@ -16,8 +16,7 @@ import utils.*;
  */
 public interface Complex {
 	
-	Complex ONE = Complex.of("1");
-	Complex HALF = Complex.of(".5");
+	ProperFraction ZERO = ProperFractionImpl.ZERO;
 	
 	String IMAGINARY_UNIT = "i";
 	char IMAGINARY_UNIT_CHAR = 'i';
@@ -42,6 +41,10 @@ public interface Complex {
 	}
 	
 	static Complex of(String str) { //TODO support MixedNumbers as well
+		if(isValidBigDecimal(str))
+			return Fraction.fromDecimal(str);
+		if(Fraction.isValid(str))
+			return Fraction.of(str);
 		if(isValidInRectangularForm(str)) {
 			if(str.endsWith(IMAGINARY_UNIT)) {
 				int midSign = Strings.lastIndexOf(str, Parsing::isSign);
@@ -50,26 +53,27 @@ public interface Complex {
 			}
 			return of(new BigDecimal(str));
 		}
-		else if(Fraction.isValid(str)) {
-			return Fraction.of(str);
-		}
 		throw new IllegalArgumentException(String.format("Invalid Complex literal: %s", str));
 	}
 	
 	static Complex of(BigDecimal real) {
-		return new ComplexImpl(real, BigDecimal.ZERO);
+		return Fraction.fromDecimal(real);
 	}
 	
 	static Complex of(BigDecimal real, BigDecimal imaginary) {
+		if(BigUtils.isZero(imaginary))
+			return of(real);
 		return new ComplexImpl(real, imaginary);
 	}
 	
 	static Complex of(long real, long imaginary) {
+		if(imaginary == 0L)
+			return of(real);
 		return Complex.of(BigDecimal.valueOf(real), BigDecimal.valueOf(imaginary));
 	}
 	
 	static Complex of(long real) {
-		return Complex.of(BigDecimal.valueOf(real), BigDecimal.ZERO);
+		return Fraction.of(real);
 	}
 	
 	/**
@@ -86,13 +90,25 @@ public interface Complex {
 	
 	boolean isImaginary();
 	
-	Complex add(Complex c);
+	/** Should not be overridden. */
+	default Complex add(Complex c) {
+		return ComplexUtils.add(this, c);
+	}
 	
-	Complex subtract(Complex c);
+	/** Should not be overridden. */
+	default Complex subtract(Complex c) {
+		return ComplexUtils.subtract(this, c);
+	}
 	
-	Complex multiply(Complex c);
+	/** Should not be overridden.*/
+	default Complex multiply(Complex c) {
+		return ComplexUtils.multiply(this, c);
+	}
 	
-	Complex divide(Complex c);
+	/** Should not be overridden.*/
+	default Complex divide(Complex c) {
+		return ComplexUtils.divide(this, c);
+	}
 	
 	Complex negate();
 	

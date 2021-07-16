@@ -13,10 +13,6 @@ import math.*;
  */
 public interface ComplexValuedExpression extends Expression<Complex> {
 	
-	LiteralExpression
-		ONE = ExpressionUtils.literal(Complex.ONE),
-		HALF = ExpressionUtils.literal(Complex.HALF);
-	
 	static ComplexValuedExpression of(BigInteger value) {
 		return of(new BigDecimal(value));
 	}

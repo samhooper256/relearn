@@ -50,9 +50,7 @@ abstract class AbstractFraction implements Fraction {
 	}
 	
 	@Override
-	public Fraction add(Complex c) {
-		if(!(c instanceof Fraction f))
-			throw new IllegalArgumentException("Argument must be a Fraction");
+	public Fraction addFraction(Fraction f) {
 		BigInteger left = signedNumerator().multiply(f.denominator());
 		BigInteger right = f.signedNumerator().multiply(denominator());
 		BigInteger num = left.add(right);
@@ -61,8 +59,8 @@ abstract class AbstractFraction implements Fraction {
 	}
 	
 	@Override
-	public Fraction subtract(Complex c) {
-		return add(c.negate());
+	public Fraction subtractFraction(Fraction f) {
+		return addFraction(f.negate());
 	}
 	
 	@Override
@@ -73,17 +71,13 @@ abstract class AbstractFraction implements Fraction {
 	}
 	
 	@Override
-	public Fraction multiply(Complex c) {
-		if(!(c instanceof Fraction f))
-			throw new IllegalArgumentException("Argument must be a Fraction");
+	public Fraction multiplyFraction(Fraction f) {
 		return Fraction.of(signedNumerator().multiply(f.signedNumerator()), denominator().multiply(f.denominator()));
 	}
 
 	@Override
-	public Fraction divide(Complex c) {
-		if(!(c instanceof Fraction f))
-			throw new IllegalArgumentException("Argument must be a Fraction");
-		return multiply(f.reciprocal());
+	public Fraction divideFraction(Fraction f) {
+		return multiplyFraction(f.reciprocal());
 	}
 	
 	@Override
