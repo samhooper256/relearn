@@ -25,12 +25,18 @@ public interface ComplexValuedExpression extends Expression<Complex> {
 	}
 	
 	static ComplexValuedExpression of(Complex value) {
-		if(value instanceof Fraction f) {
+		System.out.printf("[enter] ComplexValuedExpression.of(value=%s)%n", value);
+		if(value instanceof Fraction f && !f.isInteger()) {
 			ComplexValuedExpression e = of(f.numerator()).over(of(f.denominator()));
 			if(f.isNegative())
 				e = e.negate();
 			return e;
 		}
+		System.out.printf("\tfromParts%n");
+		return fromParts(value);
+ 	}
+
+	private static ComplexValuedExpression fromParts(Complex value) {
 		if(	value.isReal() && isNonNegative(value.real()) ||
 			value.isImaginary() && isNonNegative(value.imaginary()))
 			return ExpressionUtils.literal(value);
@@ -40,7 +46,7 @@ public interface ComplexValuedExpression extends Expression<Complex> {
 			return of(value.real()).add(of(value.noReal())).parenthesized();
 		else //imaginary part is negative
 			return of(value.real()).subtract(of(value.noReal().negate())).parenthesized();
- 	}
+	}
 	
 	/** Returns a {@link ComplexValuedExpression} representing the given {@code expression}. If the expression contains
 	 * undefined constructs, such as dividing by zero, those constructs are not detected by this method. Instead,

@@ -1,22 +1,23 @@
 package math.expressions;
 
 import math.Complex;
+import utils.MathML;
 
 /**
  * 
  * @author Sam Hooper
  *
  */
-record RealLiteralExpression(Complex value) implements LiteralExpression {
+record LiteralExpressionImpl(Complex value) implements LiteralExpression {
 	
-	public RealLiteralExpression {
+	public LiteralExpressionImpl {
 		if(!value.isReal())
 			throw new IllegalArgumentException(String.format("Non-real value: %s", value));
 	}
 
 	@Override
 	public String toMathML() {
-		return String.format("<mn>%s</mn>", value);
+		return String.format(MathML.complex(value));
 	}
 	
 	@Override

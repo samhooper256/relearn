@@ -4,7 +4,7 @@ public record FractionExpressionImpl(ComplexValuedExpression numerator, ComplexV
 
 	@Override
 	public String toString() {
-		return String.format("frac(%s, %s)%n", numerator(), denominator());
+		return String.format("frac(%s, %s)", numerator(), denominator());
 	}
 	
 }

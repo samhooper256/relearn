@@ -15,7 +15,7 @@ final class ExpressionUtils {
 	static LiteralExpression literal(BigDecimal value) {
 		if(BigUtils.isNegative(value))
 			throw new IllegalArgumentException(String.format("Negative value: %s", value));
-		return new RealLiteralExpression(Complex.of(value));
+		return new LiteralExpressionImpl(Complex.of(value));
 	}
 	
 	/** The given {@link Complex} number must be either:
@@ -26,10 +26,8 @@ final class ExpressionUtils {
 	 * 	</ol>
 	 */
 	static LiteralExpression literal(Complex value) {
-		if(value.isReal())
-			return new RealLiteralExpression(value);
-		else if(value.isImaginary())
-			return new ImaginaryLiteralExpression(value);
+		if(value.isReal() || value.isImaginary())
+			return new LiteralExpressionImpl(value);
 		throw new IllegalArgumentException(String.format("Not entirely real nor entirely imaginary: %s", value));
 	}
 	

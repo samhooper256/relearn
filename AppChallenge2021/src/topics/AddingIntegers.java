@@ -53,12 +53,10 @@ public class AddingIntegers extends AbstractTopic {
 	
 	public ArrayList<Integer> termCreate() {
 		int numTerms = terms.value();
-		ArrayList<Integer> termValues = new ArrayList<Integer>();
+		ArrayList<Integer> termValues = new ArrayList<>();
 		
 		for(int i = 0; i < numTerms; i++)
-		{
 			termValues.add(RNG.intMaxDigits(maxDigits.value()));
-		}
 		
 		return termValues;
 	}

@@ -27,12 +27,13 @@ public final class TopicUtils {
 	private static final LinkedHashMap<String, Background> BACKGROUNDS;
 	
 	static {
-		List<TopicFactory<?>> factoryList = new ArrayList<>(6);
+		List<TopicFactory<?>> factoryList = new ArrayList<>();
 		Collections.addAll(factoryList, 
 				AddingIntegers.FACTORY,
 				SubtractingIntegers.FACTORY,
 				MultiplyingIntegers.FACTORY,
 				DividingIntegers.FACTORY,
+				AddingFractions.FACTORY,
 				PEMDAS.FACTORY,
 				Percentages.FACTORY,
 				Quadrants.FACTORY,

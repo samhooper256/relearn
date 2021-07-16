@@ -153,6 +153,10 @@ public interface Fraction extends Complex, FractionConvertible {
 		return !isProper();
 	}
 	
+	default boolean isInteger() {
+		return BigUtils.equals(denominator(), BigInteger.ONE);
+	}
+	
 	@Override
 	default BigDecimal real() {
 		return toBigDecimal(MathContext.DECIMAL128);
