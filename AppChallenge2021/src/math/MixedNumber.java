@@ -24,8 +24,9 @@ public interface MixedNumber extends Complex, FractionConvertible {
 	static MixedNumber of(String str) {
 		assert isValid(str);
 		int sepIndex = str.indexOf(SEPARATOR);
-		if(sepIndex == -1)
-			return of(new BigInteger(str), ProperFraction.ZERO);
+		if(sepIndex == -1) {
+			return of(new BigInteger(str), Complex.zero());
+		}
 		BigInteger integer = new BigInteger(str.substring(0, sepIndex));
 		ProperFraction fraction = ProperFraction.of(str.substring(sepIndex + 1));
 		return of(integer, fraction);

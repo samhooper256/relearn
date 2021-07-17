@@ -4,6 +4,7 @@
 package base.stats;
 
 import base.sets.ProblemSet;
+import javafx.scene.layout.*;
 
 /**
  * @author Sam Hooper
@@ -20,7 +21,7 @@ public class SetSingleTabContent extends StatsTabContent {
 		dist = new TopicAccuracyDistribution(set);
 		
 		vBox.getChildren().add(dist);
-		
+		VBox.setVgrow(dist, Priority.ALWAYS);
 		this.set = set;
 	}
 	

@@ -86,7 +86,7 @@ public interface Fraction extends Complex, FractionConvertible {
 		if(BigUtils.isNegative(nonNegativeNumerator) || BigUtils.isNonPositive(positiveDenominator))
 			throw new IllegalArgumentException("numerator must be non-negative; denominator must be positive");
 		if(BigUtils.isZero(nonNegativeNumerator))
-			return ZERO;
+			return Complex.zero();
 		if(isProper(nonNegativeNumerator, positiveDenominator))
 			return new ProperFractionImpl(nonNegativeNumerator, positiveDenominator, isNegative);
 		else

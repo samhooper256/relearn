@@ -16,11 +16,12 @@ import utils.*;
  */
 public interface Complex {
 	
-	ProperFraction ZERO = ProperFractionImpl.ZERO;
-	
 	String IMAGINARY_UNIT = "i";
 	char IMAGINARY_UNIT_CHAR = 'i';
 	
+	static ProperFraction zero() {
+		return ProperFractionImpl.zero();
+	}
 	/** Returns {@code true} if the given {@code String} could be passed to {@link #of(String)} without throwing
 	 * an exception. The given {@code String} must not contain any whitespace.*/
 	static boolean isValid(String str) {
