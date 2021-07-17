@@ -167,4 +167,8 @@ public interface Complex {
 			return this;
 		return of(BigDecimal.ZERO, imaginary());
 	}
+	
+	/** Returns a String that can be parsed by a method of the implementing class or extending interface.*/
+	String toParsableString();
+	
 }

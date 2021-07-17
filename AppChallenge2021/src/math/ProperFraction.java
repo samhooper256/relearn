@@ -49,6 +49,11 @@ public interface ProperFraction extends Fraction {
 	}
 	
 	@Override
+	default ProperFraction abs() {
+		return (ProperFraction) Fraction.super.abs();
+	}
+	
+	@Override
 	default boolean isProper() {
 		return true;
 	}

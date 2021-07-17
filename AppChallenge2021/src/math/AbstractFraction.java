@@ -94,7 +94,8 @@ abstract class AbstractFraction implements Fraction {
 
 	@Override
 	public String toString() {
-		return String.format("%s%d/%d", isNegative ? "-" : "", numerator(), denominator());
+		return 	String.format("%s[isNegative=%b, numerator=%d, denominator=%d]",
+				getClass().getSimpleName(), isNegative, numerator, denominator);
 	}
 
 	@Override

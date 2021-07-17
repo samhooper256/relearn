@@ -8,7 +8,7 @@ import topics.Topic;
 
 record MathProblemImpl
 		(Topic topic, Statement statement, Complex answer, boolean isTolerant, BigDecimal tolerance,
-		EnumSet<MathAnswerMode> answerModes) implements MathProblem {
+		EnumSet<MathAnswerMode> answerModes, MathAnswerMode canonicalMode) implements MathProblem {
 	
 	
 }

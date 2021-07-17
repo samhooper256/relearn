@@ -9,7 +9,7 @@ import java.math.*;
  * @author Sam Hooper
  * 
  */
-public interface MixedNumber extends Complex, FractionConvertible {
+public interface MixedNumber extends Complex, FractionConvertible, MixedNumberConvertible {
 	
 	char SEPARATOR = ' ';
 	
@@ -25,20 +25,29 @@ public interface MixedNumber extends Complex, FractionConvertible {
 		assert isValid(str);
 		int sepIndex = str.indexOf(SEPARATOR);
 		if(sepIndex == -1) {
-			return of(new BigInteger(str), Complex.zero());
+			BigInteger integer = new BigInteger(str);
+			return of(integer, Complex.zero(), BigUtils.isNegative(integer));
 		}
 		BigInteger integer = new BigInteger(str.substring(0, sepIndex));
 		ProperFraction fraction = ProperFraction.of(str.substring(sepIndex + 1));
-		return of(integer, fraction);
+		return of(integer, fraction, BigUtils.isNegative(integer));
 	}
 	
-	static MixedNumber of(BigInteger integer, ProperFraction fraction) {
-		return MixedNumberImpl.of(integer, fraction);
+	static MixedNumber of(BigInteger integer, ProperFraction fraction, boolean isNegative) {
+		return MixedNumberImpl.of(integer, fraction, isNegative);
+	}
+	
+	static MixedNumber from(ImproperFraction im) {
+		return MixedNumberImpl.from(im);
 	}
 	
 	BigInteger integer();
 	
 	ProperFraction fraction();
+	
+	boolean isNegative();
+	@Override
+	MixedNumber negate();
 	
 	@Override
 	default ImproperFraction toFraction() {
@@ -47,8 +56,16 @@ public interface MixedNumber extends Complex, FractionConvertible {
 	}
 	
 	@Override
+	default MixedNumber toMixedNumber() {
+		return this;
+	}
+	
+	@Override
 	default BigDecimal real() {
-		return new BigDecimal(integer()).add(fraction().real(), MathContext.DECIMAL128);
+		BigDecimal value = new BigDecimal(integer()).add(fraction().real());
+		if(isNegative())
+			value = value.negate();
+		return value;
 	}
 
 	@Override
@@ -92,6 +109,11 @@ public interface MixedNumber extends Complex, FractionConvertible {
 		if(!fraction().isZero())
 			throw new ArithmeticException("This MixedNumber has fractional part");
 		return integer().intValueExact();
+	}
+	
+	@Override
+	default String toParsableString() {
+		return String.format("%d %s", integer(), fraction().toParsableString());
 	}
 	
 }

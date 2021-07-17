@@ -4,14 +4,11 @@ import java.util.Map;
 
 import base.sets.ProblemSet;
 import base.stats.Data.DataMap;
-import fxutils.Backgrounds;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.collections.*;
 import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import topics.Topic;
 
 final class TopicAccuracyDistribution extends StackPane {

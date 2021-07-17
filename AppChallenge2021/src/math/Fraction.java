@@ -61,6 +61,12 @@ public interface Fraction extends Complex, FractionConvertible {
 		return BigUtils.equals(f.numerator(), numerator) && BigUtils.equals(f.denominator(), denominator);
 	}
 	
+	/** Accepts numbers in the following formats:
+	 * <ul>
+	 * <li>"X/Y", where X is an integer and Y is a natural number (Y must <em>not</em> be negative).</li>
+	 * <li>"X", where X is an integer</li>
+	 * </ul>
+	 * */
 	static Fraction of(String str) {
 		str = str.strip();
 		int barIndex = str.indexOf(FRACTION_BAR_CHAR);
@@ -185,6 +191,21 @@ public interface Fraction extends Complex, FractionConvertible {
 	@Override
 	default Fraction toFraction() {
 		return this;
+	}
+	
+	/**
+	 * Returns a {@link #isValid(String) valid} string representing the same number as {@code this}.
+	 */
+	@Override
+	default String toParsableString() {
+		if(isInteger())
+			return signedNumerator().toString();
+		return String.format("%d/%d", signedNumerator(), denominator());
+	}
+	
+	@Override
+	default Fraction abs() {
+		return isNegative() ? negate() : this;
 	}
 	
 	@Override

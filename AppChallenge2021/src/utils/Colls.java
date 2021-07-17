@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * <p>Utilities for working with {@link Collection Collections}.</p>
@@ -62,6 +63,15 @@ public final class Colls {
 		int count = 0;
 		for(Object item : items)
 			if(collection.contains(item))
+				count++;
+		return count;
+	}
+	
+	/** Returns the number of elements in the given {@link Collection} that satisfy the given {@link Predicate}. */
+	public static <E> int countSatisfying(Collection<E> collection, Predicate<? super E> condition) {
+		int count = 0;
+		for(E item : collection)
+			if(condition.test(item))
 				count++;
 		return count;
 	}

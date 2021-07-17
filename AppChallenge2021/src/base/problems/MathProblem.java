@@ -1,7 +1,7 @@
 package base.problems;
 
 import java.math.BigDecimal;
-import java.util.EnumSet;
+import java.util.*;
 
 import math.*;
 import math.expressions.*;
@@ -28,6 +28,7 @@ public interface MathProblem extends Problem {
 		private boolean isTolerant;
 		private BigDecimal tolerance;
 		private EnumSet<MathAnswerMode> modes;
+		private MathAnswerMode canonicalMode;
 		
 		/** Sets {@link MathProblem#isTolerant()} to {@code false}.*/
 		public Builder set
@@ -99,6 +100,14 @@ public interface MathProblem extends Problem {
 		
 		public Builder setModes(MathAnswerMode first, MathAnswerMode... rest) {
 			this.modes = EnumSet.of(first, rest);
+			if(canonicalMode == null)
+				canonicalMode = first;
+			return this;
+		}
+		
+		public Builder setCanonicalMode(MathAnswerMode mode) {
+			assert mode != null;
+			canonicalMode = mode;
 			return this;
 		}
 		
@@ -116,10 +125,10 @@ public interface MathProblem extends Problem {
 		}
 		
 		private void ensureFullyConfigured() {
-			if(topic == null || statement == null || answer == null || modes == null)
+			if(topic == null || statement == null || answer == null || modes == null || canonicalMode == null)
 				throw new IllegalStateException("This MathProblem.Builder is not fully configured");
-			MathAnswerMode.ensureValid(modes); //ensures that modes is not empty.
-			if(modes.stream().anyMatch(MathAnswerMode::allowsComplex) && isTolerant)
+			MathAnswerMode.ensureValid(modes, canonicalMode); //ensures that modes is not empty.
+			if(modes.stream().anyMatch(MathAnswerMode::allowsNonReals) && isTolerant)
 				throw new IllegalStateException("A MathProblem allowing complex answers cannot be tolerant");
 		}
 		
@@ -127,7 +136,7 @@ public interface MathProblem extends Problem {
 			ensureFullyConfigured();
 			if(tolerance == null)
 				tolerance = DEFAULT_TOLERANCE;
-			return new MathProblemImpl(topic, statement, answer, isTolerant, tolerance, modes);
+			return new MathProblemImpl(topic, statement, answer, isTolerant, tolerance, modes, canonicalMode);
 		}
 		
 	}
@@ -149,6 +158,10 @@ public interface MathProblem extends Problem {
 	 * set, and the returned set will never be modified by this {@link MathProblem}.*/
 	EnumSet<MathAnswerMode> answerModes();
 	
+	/** The {@link MathAnswerMode} to which the {@link #sampleAnswer()} is
+	 * {@link MathAnswerMode#adapt(Complex) adapted}.*/
+	MathAnswerMode canonicalMode();
+	
 	/** A {@link BigDecimal} representing the
 	 * {@link BigUtils#equalWithinTolerancePercent(BigDecimal, BigDecimal, BigDecimal) tolerance} of this
 	 * {@link MathProblem}. For example, if the tolerance is {@code 0.05}, then any guess that is within 5% of the
@@ -163,7 +176,7 @@ public interface MathProblem extends Problem {
 	
 	@Override
 	default String sampleAnswer() {
-		return answer().toString();
+		return canonicalMode().adapt(answer());
 	}
 
 	@Override

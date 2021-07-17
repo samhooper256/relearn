@@ -53,6 +53,7 @@ public class PEMDAS extends AbstractTopic {
 				.set(this, Statement.fromExpression(tree), answer,
 						BigUtils.HUNDREDTH,
 						MathAnswerMode.REAL_DECIMAL, MathAnswerMode.REAL_FRACTION, MathAnswerMode.MIXED_NUMBER)
+						.setCanonicalMode(MathAnswerMode.REAL_FRACTION)
 				.build();
 		//The tolerance allows for something like "1÷3" to be typed exactly, as "1/3"
 	}

@@ -67,19 +67,8 @@ class ComplexImpl implements Complex {
 
 	@Override
 	public String toString() {
-		if(isZero())
-			return "0";		
-		if(isReal()) {
-			return BigUtils.toPrettyString(real());
-		}
-		if(isImaginary()) {
-			return String.format("%si", BigUtils.toPrettyString(imaginary()));
-		}
-		String real = BigUtils.toPrettyString(real());
-		String im = String.format("%si", BigUtils.toPrettyString(imaginary()));
-		if(BigUtils.isPositive(imaginary()))
-			im = String.format("+%s", im);
-		return real + im;
+		return String.format("%s[real=%s, imaginary=%s]", getClass().getSimpleName(), BigUtils.toPrettyString(real),
+				BigUtils.toPrettyString(imaginary));
 	}
 
 	@Override
@@ -122,5 +111,21 @@ class ComplexImpl implements Complex {
 				BigUtils.equals(imaginary(), c.imaginary());
 	}
 	
+	/** Returns a string that is {@link Complex#isValidInRectangularForm(String) valid in rectangular form} and that
+	 * represents the same number as {@code this}.*/
+	@Override
+	public String toParsableString() {
+		if(isZero())
+			return "0";
+		if(isReal())
+			return BigUtils.toPrettyString(real());
+		if(isImaginary())
+			return String.format("%si", BigUtils.toPrettyString(imaginary()), "i");
+		StringBuilder result = new StringBuilder(BigUtils.toPrettyString(real()));
+		if(BigUtils.isNonNegative(imaginary()))
+			result.append('+');
+		return result.append(BigUtils.toPrettyString(imaginary())).append('i').toString();
+		
+	}
 	
 }
