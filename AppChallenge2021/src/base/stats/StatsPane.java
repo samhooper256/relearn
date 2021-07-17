@@ -97,5 +97,6 @@ public final class StatsPane extends StackPane {
 	
 	public void updateAllStats() {
 		TopicTabPane.get().updateAllStats();
+		SetsTabPane.get().updateAllStats();
 	}
 }

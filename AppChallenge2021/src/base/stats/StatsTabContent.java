@@ -4,7 +4,7 @@ import fxutils.PolarizedPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
-class StatsTabContent extends StackPane {
+abstract class StatsTabContent extends StackPane {
 	
 	private static final String
 			STATS_TAB_CONTENT_CSS = "stats-tab-content",
@@ -38,4 +38,6 @@ class StatsTabContent extends StackPane {
 			overallAccuracy.setText(String.format("%.1f%%", 100d * stats.accuracy()));
 	}
 
+	abstract void updateStats();
+	
 }

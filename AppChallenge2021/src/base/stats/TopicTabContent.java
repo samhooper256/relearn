@@ -21,8 +21,6 @@ abstract class TopicTabContent extends StatsTabContent implements Named {
 		getStyleClass().add(TOPIC_TAB_CONTENT_CSS);
 	}
 	
-	abstract void updateStats();
-	
 	@Override
 	public String name() {
 		return displayText;

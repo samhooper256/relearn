@@ -15,7 +15,7 @@ public class SetTab extends StatsTab {
 		super(set.name());
 	}
 	
-	public SetTabContent content() {
-		return (SetTabContent) getContent();
+	public SetSingleTabContent content() {
+		return (SetSingleTabContent) getContent();
 	}
 }

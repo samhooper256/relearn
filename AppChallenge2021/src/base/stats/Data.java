@@ -159,6 +159,10 @@ public final class Data {
 		return MAP_BY_TOPICS;
 	}
 	
+	public static DataMap mapForSet(ProblemSet set) {
+		return MAP_BY_SETS.getDataMap(set);
+	}
+
 	public static ReadOnlyStats overall() {
 		return OVERALL;
 	}
