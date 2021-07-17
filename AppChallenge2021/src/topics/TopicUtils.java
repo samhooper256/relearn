@@ -38,7 +38,8 @@ public final class TopicUtils {
 				Percentages.FACTORY,
 				Quadrants.FACTORY,
 				Squares.FACTORY,
-				SquareRoots.FACTORY
+				SquareRoots.FACTORY,
+				Fractions.FACTORY
 		);
 		Collections.sort(factoryList);
 		FACTORIES = new LinkedHashSet<>();
