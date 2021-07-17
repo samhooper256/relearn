@@ -11,11 +11,19 @@ import base.sets.ProblemSet;
  */
 public class SetTab extends StatsTab {
 	
+	private final ProblemSet set;
+	
 	public SetTab(ProblemSet set) {
 		super(set.name());
+		this.set = set;
 	}
 	
 	public SetSingleTabContent content() {
 		return (SetSingleTabContent) getContent();
 	}
+	
+	ProblemSet set() {
+		return set;
+	}
+	
 }

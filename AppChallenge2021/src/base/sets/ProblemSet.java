@@ -5,7 +5,6 @@ package base.sets;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Consumer;
 
 import base.Main;
 import base.stats.Data;
@@ -28,7 +27,6 @@ public final class ProblemSet implements Serializable {
 	private static int NEXT_ID;
 	
 	private static boolean loaded = false;
-	private static List<Consumer<ProblemSet>> onRegisterActions;
 	
 	public static synchronized void load() {
 		if(loaded)
@@ -77,13 +75,6 @@ public final class ProblemSet implements Serializable {
 	public static boolean isInUse(String name) {
 		return NAMES.contains(name);
 	}
-	
-	private static void runOnRegisterActions(ProblemSet set) {
-		if(onRegisterActions == null)
-			return;
-		for(Consumer<ProblemSet> action : onRegisterActions)
-			action.accept(set);
-	}
 
 	private transient StringProperty nameProperty;
 	
@@ -91,6 +82,7 @@ public final class ProblemSet implements Serializable {
 	private final int id;
 	
 	private String name;
+	private int practiceCount;
 	
 	/** <p>Creates a new {@link ProblemSet} whose {@link #name() name} is the empty string.</p> */
 	public ProblemSet() {
@@ -106,6 +98,7 @@ public final class ProblemSet implements Serializable {
 		this.name = Objects.requireNonNull(name);
 		nameProperty = new SimpleStringProperty(name);
 		this.config = config;
+		practiceCount = 0;
 	}
 	
 	public String name() {
@@ -160,9 +153,17 @@ public final class ProblemSet implements Serializable {
 		if(isRegistered())
 			throw new IllegalStateException("This ProblemSet is already registered");
 		SETS.add(this);
-		runOnRegisterActions(this);
 	}
 
+	/** Increments {@link #practiceCount()} by {@code 1}.*/
+	public void addPractice() {
+		practiceCount++;
+	}
+	
+	public int practiceCount() {
+		return practiceCount;
+	}
+	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		nameProperty = new SimpleStringProperty(name);

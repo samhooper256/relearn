@@ -162,6 +162,14 @@ public final class Data {
 	public static DataMap mapForSet(ProblemSet set) {
 		return MAP_BY_SETS.getDataMap(set);
 	}
+	
+	public static ReadOnlyStats overallStatsForSet(ProblemSet set) {
+		DataMap map = mapForSet(set);
+		Stats stats = new Stats();
+		for(Stats s : map.values())
+			stats.addStats(s);
+		return stats;
+	}
 
 	public static ReadOnlyStats overall() {
 		return OVERALL;

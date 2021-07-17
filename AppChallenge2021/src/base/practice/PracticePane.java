@@ -81,6 +81,7 @@ public final class PracticePane extends StackPane {
 		FinishPracticePopup.get().updateAccuracy(correctProblems.size(), incorrectProblems.size());
 		FinishPracticePopup.get().updateLongestStreak(streakBar.count().longest());
 		FinishPracticePopup.get().setTitle(set().name());
+		set().addPractice();
 		showFinishPopup();
 	}
 	

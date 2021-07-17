@@ -4,11 +4,14 @@ import java.util.Map;
 
 import base.sets.ProblemSet;
 import base.stats.Data.DataMap;
+import fxutils.Backgrounds;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.*;
 import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import topics.Topic;
 
 final class TopicAccuracyDistribution extends StackPane {
@@ -30,16 +33,12 @@ final class TopicAccuracyDistribution extends StackPane {
 			nameAxis.getCategories().add(t.name());
 		accuracyAxis = new NumberAxis(0, 1, 1);
 		accuracyAxis.getStyleClass().add(ACCURACY_AXIS_CSS);
-//		accuracyAxis.setVisible(false);
-//		accuracyAxis.setMinorTickVisible(false);
-//		accuracyAxis.setTickLabelsVisible(false);
 		chart = new StackedBarChart<>(accuracyAxis, nameAxis);
-		
 		setMaxCategoryWidth(MAX_CATEGORY_WIDTH, MIN_CATEGORY_GAP);
 		chart.widthProperty().addListener((obs, b, b1) -> {
 			Platform.runLater(() -> setMaxCategoryWidth(MAX_CATEGORY_WIDTH, MIN_CATEGORY_GAP));
 		});
-		
+		chart.setAnimated(false);
 		chart.getStyleClass().add(CHART_CSS);
 		getChildren().add(chart);
 	}
@@ -49,14 +48,17 @@ final class TopicAccuracyDistribution extends StackPane {
 		ObservableList<XYChart.Data<Number, String>> correctSeriesData = FXCollections.observableArrayList();
 		ObservableList<XYChart.Data<Number, String>> incorrectSeriesData = FXCollections.observableArrayList();
 		
+		int nonZeroTopicCount = 0;
 		for(Map.Entry<String, Stats> e : map.entrySet()) {
 			String name = e.getKey();
 			Stats s = e.getValue();
 			if(!s.isEmpty()) {
+				nonZeroTopicCount++;
 				correctSeriesData.add(new XYChart.Data<>(s.accuracy(), name));
 				incorrectSeriesData.add(new XYChart.Data<>(1 - s.accuracy(), name));
 			}
 		}
+		setMaxHeight(MAX_CATEGORY_WIDTH * nonZeroTopicCount + 50);
 		
 		ObservableList<Series<Number, String>> data = chart.getData();
 		data.clear();

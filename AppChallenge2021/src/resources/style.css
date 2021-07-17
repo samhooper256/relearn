@@ -705,7 +705,7 @@
 	-fx-padding: 10 0 10 10;
 }
 
-.topic-tab-pane .tab-header-background {
+.stats-tab-pane .tab-header-background {
 	-fx-background-color: -app-brown-highlight;
 	-fx-background-radius: 12 12 0 0;
 	-fx-border-color: -app-brown-light;
@@ -765,6 +765,10 @@
 .topic-overall-pie-legend .vbox {
 	-fx-spacing: 15;	
 	-fx-padding: 15 10 15 10;
+}
+
+.set-single-tab-content .practice-count {
+	-fx-font: 18 "Georgia";
 }
 
 .stacked-accuracy-chart {
