@@ -767,7 +767,7 @@
 	-fx-padding: 15 10 15 10;
 }
 
-.topic-accuracy-distribution {
+.stacked-accuracy-chart {
 	-fx-legend-visible: false;
 	-fx-alternative-column-fill-visible: false;
 	-fx-alternative-row-fill-visible: false;
@@ -777,31 +777,41 @@
 	-fx-vertical-zero-line-visible: false;
 }
 
-.topic-accuracy-distribution .chart-content {
-	-fx-background-color: purple;
+.stacked-accuracy-chart .chart-content {
+	-fx-background-color: transparent;
+	-fx-background-insets: 0;
+	-fx-border-color: transparent;
 }
 
-.topic-accuracy-distribution > .chart-content > .chart-plot-background {
-	-fx-background-color: pink;
+.stacked-accuracy-chart > .chart-content > .chart-plot-background {
+	-fx-background-color: transparent;
+	-fx-background-insets: 0;
+	-fx-border-color: transparent;
 }
 
-.topic-accuracy-distribution .chart-vertical-zero-line {
-	-fx-fill: blue;
-}
-
-.topic-accuracy-distribution .default-color0.chart-bar {
+.stacked-accuracy-chart .default-color0.chart-bar {
 	-fx-bar-fill: -app-green;
 }
 
-.topic-accuracy-distribution .default-color1.chart-bar {
+.stacked-accuracy-chart .default-color1.chart-bar {
 	-fx-bar-fill: -app-red;
 }
 
-.topic-accuracy-distribution .name-axis {
+.stacked-accuracy-chart .name-axis {
 	-fx-tick-length: 0;
 	-fx-tick-label-font: 18 "Georgia";
-	-fx-tick-label-gap: 4; /*The gap between the names of the topics and the bars in the bar chart */
+	-fx-tick-label-gap: 8; /*The gap between the names of the topics and the bars in the bar chart */
 	-fx-tick-mark-visible: false;
+	-fx-border-color: transparent;
+	-fx-border-width: 0;
+}
+
+.stacked-accuracy-chart .name-axis .axis-tick-mark {
+	-fx-opacity: 0;
+}
+
+.stacked-accuracy-chart .accuracy-axis {
+	-fx-opacity: 0;
 }
 
 /* TopicSettings */

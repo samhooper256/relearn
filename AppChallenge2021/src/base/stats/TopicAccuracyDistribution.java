@@ -6,7 +6,6 @@ import base.sets.ProblemSet;
 import base.stats.Data.DataMap;
 import javafx.application.Platform;
 import javafx.collections.*;
-import javafx.scene.*;
 import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.StackPane;
@@ -16,7 +15,7 @@ final class TopicAccuracyDistribution extends StackPane {
 	
 	private static final double MAX_CATEGORY_WIDTH = 100, MIN_CATEGORY_GAP = 10;
 	private static final String
-			TOPIC_ACCURACY_DISTRIBUTION_CSS = "topic-accuracy-distribution",
+			CHART_CSS = "stacked-accuracy-chart",
 			NAME_AXIS_CSS = "name-axis",
 			ACCURACY_AXIS_CSS = "accuracy-axis";
 	
@@ -41,20 +40,10 @@ final class TopicAccuracyDistribution extends StackPane {
 			Platform.runLater(() -> setMaxCategoryWidth(MAX_CATEGORY_WIDTH, MIN_CATEGORY_GAP));
 		});
 		
-		chart.getStyleClass().add(TOPIC_ACCURACY_DISTRIBUTION_CSS);
-		System.out.printf("chart style class: [%s]%n", chart.getStyleClass());
-		printChildren(chart, 1);
+		chart.getStyleClass().add(CHART_CSS);
 		getChildren().add(chart);
 	}
 	
-	private static void printChildren(Parent n, int numTabs) {
-		String tabs = "\t".repeat(numTabs);
-		for(Node child : n.getChildrenUnmodifiable()) {
-			System.out.printf("%s%s, {style: [%s]}%n", tabs, child, child.getStyleClass());
-			if(child instanceof Parent p)
-				printChildren(p, numTabs + 1);
-		}
-	}
 	@SuppressWarnings("unchecked")
 	void update(DataMap map) {
 		ObservableList<XYChart.Data<Number, String>> correctSeriesData = FXCollections.observableArrayList();
