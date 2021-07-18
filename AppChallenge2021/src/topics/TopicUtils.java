@@ -40,7 +40,9 @@ public final class TopicUtils {
 				Squares.FACTORY,
 				SquareRoots.FACTORY,
 				Fractions.FACTORY,
-				SubtractingFractions.FACTORY
+				SubtractingFractions.FACTORY,
+				MultiplyingFractions.FACTORY,
+				DividingFractions.FACTORY
 		);
 		Collections.sort(factoryList);
 		FACTORIES = new LinkedHashSet<>();
