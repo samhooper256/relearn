@@ -12,7 +12,7 @@ import topics.settings.*;
 import utils.RNG;
 
 /**
- * @author Sam Hooper and Ayuj Verma
+ * @author Ayuj Verma
  *
  */
 public class Percentages extends AbstractTopic {

@@ -13,7 +13,7 @@ import topics.settings.IntSetting;
 import utils.RNG;
 
 /**
- * @author Sam Hooper and Ayuj Verma
+ * @author Ayuj Verma
  *
  */
 public class Fractions extends AbstractTopic {
@@ -75,6 +75,7 @@ public class Fractions extends AbstractTopic {
 		int denominator = RNG.intInclusive(2, maxDenominator.value());
 		return denominator;
 	}
+	
 	public int number(int denom) 
 	{
 		int denominator = denom;

@@ -9,7 +9,7 @@ import topics.settings.IntRange;
 import utils.RNG;
 
 /**
- * @author Sam Hooper and Ayuj Verma
+ * @author Ayuj Verma
  *
  */
 public class Quadrants extends AbstractTopic {

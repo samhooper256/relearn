@@ -26,7 +26,7 @@ public class AddingFractions extends AbstractTopic {
 	
 	public AddingFractions(int count) {
 		super(count);
-		maxValue = new IntSetting("Maximum Denominator", 2, 20, 6);
+		maxValue = new IntSetting("Maximum Denominator", 2, 20, 12);
 		createSettings(maxValue);
 	}
 	
