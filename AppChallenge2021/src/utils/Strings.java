@@ -60,6 +60,19 @@ public final class Strings {
 		return contains(str, Parsing::isNonDigit);
 	}
 	
+	/** Returns {@code true} if {@code str} is empty.*/
+	public static boolean containsOnly(String str, char c) {
+		return containsOnly(str, c, 0, str.length());
+	}
+	
+	/** Returns {@code true} if {@code (startInclusive == endExclusive)}.*/
+	public static boolean containsOnly(String str, char c, int startInclusive, int endExclusive) {
+		for(int i = startInclusive; i < endExclusive; i++)
+			if(str.charAt(i) != c)
+				return false;
+		return true;
+	}
+	
 	public static String remove(String str, char c) {
 		return removeIf(str, CharPredicate.of(c));
 	}

@@ -6,7 +6,6 @@ import java.util.EnumSet;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 import math.*;
-import utils.Colls;
 
 public enum MathAnswerMode {
 	/* The ordering of the enum constants IS significant because it is the canonical order that the modes will be
@@ -57,7 +56,8 @@ public enum MathAnswerMode {
 		
 	},
 	/** Accepts all integers and all fractions. Fractions need not be simplified or proper.*/
-	REAL_FRACTION(makeIcon("12/4", "Fractional answers are allowed. They do not need to be simplified or proper.")) {
+	REAL_FRACTION(makeIcon("12/4", "Fractional and integer answers are allowed. Fractions do not need to be simplified "
+			+ "or proper.")) {
 		
 		@Override
 		public boolean isValid(String str) {
@@ -84,10 +84,10 @@ public enum MathAnswerMode {
 		}
 		
 	},
-	/** Accepts only {@link Fraction#isValidSimplified(String) simplified} fractions. The fractions do not need to be
-	 * proper.*/
-	REAL_SIMPLIFIED_FRACTION(makeIcon("5/3", "Fractional answers are allowed. They need to be in simplest form, but "
-			+ "they do not need to be proper.")) {
+	/** Accepts only {@link Fraction#isValidSimplified(String) simplified} fractions, which includes integers.
+	 * The fractions do not need to be proper.*/
+	REAL_SIMPLIFIED_FRACTION(makeIcon("5/3", "Fractional and integer answers are allowed. Fractions need to be in "
+			+ "simplest form, but they do not need to be proper.")) {
 		
 		@Override
 		public boolean isValid(String str) {
@@ -114,6 +114,8 @@ public enum MathAnswerMode {
 		}
 		
 	},
+	/** Allows any {@link MixedNumber#isValid(String) valid} {@link MixedNumber} <b>as well as zero</b>. Note that
+	 * zero is not usually considered to be a valid {@code MixedNumber}.*/
 	MIXED_NUMBER(makeIcon("4 6/8", "Mixed numbers and integers allowed. The fractional part does not need to be "
 			+ "simplified")) {
 
@@ -177,7 +179,7 @@ public enum MathAnswerMode {
 		throw new UnsupportedOperationException(String.format("Need adaptation code for: %s", this));
 	}
 	
-	boolean canAdapt(Complex answer) {
+	public boolean canAdapt(Complex answer) {
 		return switch(this) {
 			case INTEGER -> answer.isInteger();
 			case REAL_DECIMAL -> answer.isRealAndExactlyRepresentable();
@@ -185,6 +187,31 @@ public enum MathAnswerMode {
 			case REAL_FRACTION, REAL_PROPER_FRACTION, REAL_SIMPLIFIED_FRACTION, REAL_PROPER_SIMPLIFIED_FRACTION ->
 					answer instanceof FractionConvertible;
 			case MIXED_NUMBER -> answer instanceof MixedNumberConvertible;
+		};
+	}
+	
+	public boolean isOneOf(MathAnswerMode first, MathAnswerMode... rest) {
+		if(this == first)
+			return true;
+		for(MathAnswerMode mode : rest)
+			if(this == mode)
+				return true;
+		return false;
+	}
+	
+	/** Returns {@code true} iff the set of all possible strings that are {@link #isValid(String) valid} according
+	 * to {@code mode} is a proper subset of the set of all possible strings that are valid according to
+	 * {@code superset}.*/
+	public boolean isProperSubsetOf(MathAnswerMode superset) {
+		return switch(this) {
+			case INTEGER -> superset.isOneOf
+					(REAL_DECIMAL, COMPLEX_RECTANGULAR, REAL_FRACTION, REAL_SIMPLIFIED_FRACTION, MIXED_NUMBER);
+			case REAL_DECIMAL -> superset.isOneOf(COMPLEX_RECTANGULAR);
+			case COMPLEX_RECTANGULAR, REAL_FRACTION, MIXED_NUMBER -> false;
+			case REAL_PROPER_FRACTION -> superset.isOneOf(REAL_FRACTION);
+			case REAL_SIMPLIFIED_FRACTION -> superset.isOneOf(REAL_FRACTION);
+			case REAL_PROPER_SIMPLIFIED_FRACTION -> superset.isOneOf
+					(REAL_PROPER_FRACTION, REAL_SIMPLIFIED_FRACTION, REAL_FRACTION);
 		};
 	}
 	
@@ -217,12 +244,13 @@ public enum MathAnswerMode {
 	public static void ensureValid(EnumSet<MathAnswerMode> modes, MathAnswerMode canonicalMode) {
 		if(modes.isEmpty())
 			throw new IllegalArgumentException("Set of modes must not be empty");
-		if(Colls.countSatisfying(modes, MathAnswerMode::isFractionBased) > 1)
-			throw new IllegalArgumentException("Cannot have more than one fraction-based mode");
-		if(Colls.countSatisfying(modes, MathAnswerMode::isDecimalBased) > 1)
-			throw new IllegalArgumentException("Cannot have more than one decimal-based mode");
 		if(!modes.contains(canonicalMode))
 			throw new IllegalArgumentException("The set of MathAnswerModes does not contain the canonical mode");
+		for(MathAnswerMode mode1 : modes)
+			for(MathAnswerMode mode2 : modes)
+				if(mode1 != mode2 && mode1.isProperSubsetOf(mode2))
+					throw new IllegalArgumentException(String.format("Cannot have both %s and %s modes, since"
+							+ "%1$s is a subset of %2$s.", mode1.name(), mode2.name()));
 	}
 	
 }

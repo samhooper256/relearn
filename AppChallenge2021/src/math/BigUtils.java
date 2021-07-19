@@ -126,6 +126,34 @@ public final class BigUtils {
 		return containsOnlyDigits(str, startInclusive, endExclusive);
 	}
 	
+	public static boolean isZeroBigInteger(String str) {
+		return isZeroBigInteger(str, 0, str.length());
+	}
+	
+	public static boolean isZeroBigInteger(String str, int startInclusive, int endExclusive) {
+		if(isSign(str.charAt(startInclusive)))
+			return 	startInclusive + 1 != endExclusive /*ensures that this is not just a sign */
+					&& isUnsignedZeroBigInteger(str, startInclusive + 1, endExclusive);
+		return isUnsignedZeroBigInteger(str, startInclusive, endExclusive);
+	}
+	
+	public static boolean isUnsignedZeroBigInteger(String str) {
+		return isUnsignedZeroBigInteger(str, 0, str.length());
+	}
+	
+	public static boolean isUnsignedZeroBigInteger(String str, int startInclusive, int endExclusive) {
+		return Strings.containsOnly(str, '0', startInclusive, endExclusive);
+	}
+	
+	public static boolean isNonZeroBigInteger(String str) {
+		return 	isNonZeroBigInteger(str, 0, str.length());
+	}
+	
+	public static boolean isNonZeroBigInteger(String str, int startInclusive, int endExclusive) {
+		return 	!isZeroBigInteger(str, startInclusive, endExclusive) &&
+				isValidBigInteger(str, startInclusive, endExclusive);
+	}
+	
 	public static String toPrettyString(BigDecimal bd) {
 		String str = bd.toPlainString();
 		if(Strings.contains(str, Parsing.DECIMAL_POINT)) {

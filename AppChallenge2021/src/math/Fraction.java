@@ -34,7 +34,8 @@ public interface Fraction extends Complex, FractionConvertible {
 	}
 	
 	/** Returns {@code true} iff the given string represents a {@link #isValid(String) valid} {@link Fraction}
-	 * <em>and</em> that fraction is in simplest form.*/
+	 * <em>and</em> that fraction is in simplest form. Integers are considered to be valid simplified fractions by this
+	 * method.*/
 	static boolean isValidSimplified(String str) {
 		if(str.isEmpty())
 			return false;

@@ -8,7 +8,6 @@ import java.util.*;
 
 import base.problems.*;
 import math.*;
-import math.expressions.ComplexValuedExpression;
 import topics.settings.IntSetting;
 import utils.RNG;
 
@@ -41,7 +40,6 @@ public class Fractions extends AbstractTopic {
 		int numerator = numerator(denominator);
 		Fraction fraction = Fraction.of(numerator, denominator);
 		int number = number(denominator);
-		String problem = "What is " + fraction + " of " + number;
 		Complex answer = fraction.multiply(Complex.of(number));
 		return MathProblem.builder()
 				.set(this, 
@@ -53,7 +51,7 @@ public class Fractions extends AbstractTopic {
 						.addText("?")
 						.build(),
 						answer,
-						MathAnswerMode.INTEGER, MathAnswerMode.REAL_FRACTION, MathAnswerMode.MIXED_NUMBER)
+						MathAnswerMode.REAL_FRACTION, MathAnswerMode.MIXED_NUMBER)
 				.build();
 	}
 	
