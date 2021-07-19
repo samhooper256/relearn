@@ -8,7 +8,7 @@ import base.graphics.*;
 import base.practice.PracticePane;
 import base.sets.*;
 import base.settings.SettingsPane;
-import base.stats.StatsPane;
+import base.stats.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 
@@ -94,6 +94,7 @@ public final class MainScene extends Scene {
 	}
 	
 	public void edit(ProblemSet set) {
+		Data.eraseStatsFor(set);
 		EditorPane.get().edit(set);
 		setRoot(EditorPane.get());
 	}

@@ -36,20 +36,23 @@ public final class Settings {
 		return INSTANCE;
 	}
 	
-	private final BooleanProperty showEditEraseWarning;
+	private final BooleanProperty doNotShowEditWarning;
 	
 	private Settings(SettingsRecord record) {
-		System.out.printf("Settings created with: %s%n", record);
-		showEditEraseWarning = new SimpleBooleanProperty(record.showEditEraseWarning());
+		doNotShowEditWarning = new SimpleBooleanProperty(record.doNotShowEditWarning());
 	}
 	
-	public BooleanProperty showEditEraseWarning() {
-		return showEditEraseWarning;
+	public BooleanProperty doNotShowEditWarning() {
+		return doNotShowEditWarning;
+	}
+	
+	public boolean shouldShowEditWarning() {
+		return !doNotShowEditWarning().get();
 	}
 	
 	private SettingsRecord record() {
 		return new SettingsRecord(
-				showEditEraseWarning.get()
+				doNotShowEditWarning.get()
 		);
 	}
 	

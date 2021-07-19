@@ -62,6 +62,25 @@ final class Stats implements Serializable, ReadOnlyStats {
 		addIncorrect(s.incorrect());
 	}
 	
+	public void removeStats(Stats s) {
+		removeCorrect(s.correct());
+		removeIncorrect(s.incorrect());
+	}
+	
+	public void removeCorrect(int n) {
+		if(correct() - n < 0)
+			throw new IllegalArgumentException(
+					String.format("Cannot remove %d correct because count would be negative", n));
+		correct -= n;
+	}
+	
+	public void removeIncorrect(int n) {
+		if(incorrect() - n < 0)
+			throw new IllegalArgumentException(
+					String.format("Cannot remove %d incorrect because count would be negative", n));
+		incorrect -= n;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("{%d, %d}", correct(), incorrect());

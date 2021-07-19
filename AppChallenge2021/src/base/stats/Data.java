@@ -159,6 +159,7 @@ public final class Data {
 		return MAP_BY_TOPICS;
 	}
 	
+	/** The returned map <b>SHOULD NOT BE MODIFIED.</b>*/
 	public static DataMap mapForSet(ProblemSet set) {
 		return MAP_BY_SETS.getDataMap(set);
 	}
@@ -172,7 +173,21 @@ public final class Data {
 	}
 
 	public static ReadOnlyStats overall() {
+		return overallTrusted();
+	}
+	
+	private static Stats overallTrusted() {
 		return OVERALL;
+	}
+	/** This method also calls {@link ProblemSet#clearPractices()}.*/
+	public static void eraseStatsFor(ProblemSet set) {
+		DataMap map = mapForSet(set);
+		for(Map.Entry<String, Stats> e : map.entrySet()) {
+			statsForTopicTrusted(e.getKey()).removeStats(e.getValue());
+			overallTrusted().removeStats(e.getValue());
+		}
+		map.clear();
+		set.clearPractices();
 	}
 	
 	public static void debugPrint() {

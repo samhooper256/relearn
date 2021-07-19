@@ -167,6 +167,10 @@
 	-fx-font: 16 "Georgia";
 }
 
+.edit-warning .do-not-show {
+	-fx-font: 14 "Georgia";	
+}
+
 /* Practice */
 
 .practice-pane .header {
@@ -316,12 +320,14 @@
 	-fx-alignment: center;
 }
 
+.edit-warning .continue,
 .finish-practice-popup .exit-button {
 	-fx-border-color: -app-dark-orange;
 	-fx-background-color: -app-orange-accent;
 	-fx-text-fill: -app-dark-orange;
 }
 
+.edit-warning .continue:hover,
 .finish-practice-popup .exit-button:hover {
 	-fx-background-color: -app-orange-light-accent;
 }
@@ -350,18 +356,19 @@
 	-fx-text-fill: -app-crimson;
 }
 
-.delete-popup {
+.minimalistic-popup {
 	-fx-padding: 20;	
 }
-.delete-popup .sure {
+.minimalistic-popup .heading {
 	-fx-font: 36 "Georgia";
 }
 
-.delete-popup .info {
+.minimalistic-popup .subheading {
 	-fx-font: 18 "Georgia";
+	-fx-wrap-text: true;
 }
 
-.delete-popup .button-bar {
+.minimalistic-popup .button-bar {
 	-fx-alignment: center-right;
 	-fx-padding: 16 0 0 0;
 	-fx-spacing: 20;
@@ -468,7 +475,7 @@
 	-fx-spacing: 10;
 }
 
-.delete-popup,
+.minimalistic-popup,
 .topic-selection-popup {
 	-fx-background-color: -app-light;
 	-fx-background-radius: 8;
@@ -517,6 +524,8 @@
 
 .finish-practice-popup .exit-button,
 .finish-practice-popup .replay-button,
+.edit-warning .cancel,
+.edit-warning .continue,
 .editor-button {
 	-fx-border-radius: 4;
 	-fx-background-radius: 6;
@@ -526,6 +535,7 @@
 
 .finish-practice-popup .replay-button,
 .delete-popup .no,
+.edit-warning .cancel,
 .topic-management-box .add-topic-button,
 .topic-selection-popup .add-selected-button,
 .topic-selector .unselected-button {
@@ -536,6 +546,7 @@
 
 .finish-practice-popup .replay-button:hover,
 .delete-popup .no:hover,
+.edit-warning .cancel:hover,
 .topic-management-box .add-topic-button:hover,
 .topic-selector .unselected-button:hover,
 .topic-selection-popup .add-selected-button:hover {

@@ -3,9 +3,9 @@ package base.settings;
 import java.io.Serializable;
 
 record SettingsRecord(
-		boolean showEditEraseWarning
+		boolean doNotShowEditWarning
 ) implements Serializable {
 
-	static final SettingsRecord DEFAULT = new SettingsRecord(true);
+	static final SettingsRecord DEFAULT = new SettingsRecord(false);
 	
 }

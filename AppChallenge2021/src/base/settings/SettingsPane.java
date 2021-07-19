@@ -44,7 +44,7 @@ public final class SettingsPane extends StackPane {
 	
 	private void initSettings() {
 		vBox.getChildren().addAll(
-				createCheckBox("Show erase warning when editing a set", Settings.get().showEditEraseWarning())
+				createCheckBox("Don't show erase warning when editing a set", Settings.get().doNotShowEditWarning())
 		);
 	}
 	

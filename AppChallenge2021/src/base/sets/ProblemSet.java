@@ -164,6 +164,10 @@ public final class ProblemSet implements Serializable {
 		return practiceCount;
 	}
 	
+	public void clearPractices() {
+		practiceCount = 0;
+	}
+	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		nameProperty = new SimpleStringProperty(name);

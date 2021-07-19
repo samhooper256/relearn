@@ -87,8 +87,12 @@ public class SetCard extends StackPane {
 	}
 	
 	private void initPencil() {
-		pencilView.setOnMouseClicked(e -> Main.scene().edit(set));
+		pencilView.setOnMouseClicked(e -> requestEdit());
 		StackPane.setAlignment(pencilView, Pos.TOP_RIGHT);
+	}
+	
+	private void requestEdit() {
+		SetsPane.get().requestEdit(set());
 	}
 	
 	private void initPracticeButton() {

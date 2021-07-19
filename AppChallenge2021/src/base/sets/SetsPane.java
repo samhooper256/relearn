@@ -5,6 +5,7 @@ package base.sets;
 
 import base.*;
 import base.graphics.BackArrow;
+import base.settings.Settings;
 import fxutils.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -40,6 +41,7 @@ public class SetsPane extends StackPane {
 	private final BackArrow backArrow;
 	private final HBox backArrowBox;
 	private final Button createButton;
+	private final EditWarning editWarning;
 	
 	private SetsPane() {
 		title = new Label(TITLE);
@@ -51,6 +53,7 @@ public class SetsPane extends StackPane {
 		scroll = new ScrollPane(flow);
 		rootLayer = new VBox(backArrowBox, header, scroll);
 		initVBox();
+		editWarning = new EditWarning(this);
 		ProblemSet.all().addAddListener(ps -> addCardForSafe(ps));
 		ProblemSet.all().addRemoveListener(ps -> removeCardFor(ps));
 		getStyleClass().add(SETS_PANE_CSS);
@@ -114,6 +117,13 @@ public class SetsPane extends StackPane {
 	private void addCardSafe(SetCard card) {
 		flow.getStyleClass().add("flow");
 		flow.getChildren().addAll(card);
+	}
+	
+	void requestEdit(ProblemSet set) {
+		if(Settings.get().shouldShowEditWarning())
+			editWarning.requestEdit(set);
+		else
+			Main.scene().edit(set);
 	}
 	
 	void removeCardFor(ProblemSet set) {
