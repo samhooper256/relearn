@@ -7,6 +7,7 @@ import base.editor.EditorPane;
 import base.graphics.*;
 import base.practice.PracticePane;
 import base.sets.*;
+import base.settings.SettingsPane;
 import base.stats.StatsPane;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -63,6 +64,7 @@ public final class MainScene extends Scene {
 	private void initButtons() {
 		MainMenuButton.SETS.setOnAction(this::showSets);
 		MainMenuButton.STATS.setOnAction(this::showStats);
+		MainMenuButton.SETTINGS.setOnAction(this::showSettings);
 	}
 	
 	public StackPane mainMenu() {
@@ -80,6 +82,10 @@ public final class MainScene extends Scene {
 	public void showStats() {
 		StatsPane.get().updateAllStats();
 		setRoot(StatsPane.get());
+	}
+	
+	public void showSettings() {
+		setRoot(SettingsPane.get());
 	}
 	
 	public void startPractice(ProblemSet set) {

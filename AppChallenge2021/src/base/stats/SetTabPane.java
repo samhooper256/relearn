@@ -64,5 +64,6 @@ public final class SetTabPane extends StatsTabPane {
 	
 	private void setRemoved(ProblemSet set) {
 		removeTabForSetOrThrow(set);
+		overallTab.content().setRemoved(set);
 	}
 }

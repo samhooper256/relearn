@@ -86,6 +86,7 @@ final class SetBoard extends VBox {
 	void updateStats() {
 		for(Listing l : listingMap.values())
 			l.updateStats();
+		resize();
 	}
 	
 	void setAdded(ProblemSet set) {
@@ -99,7 +100,9 @@ final class SetBoard extends VBox {
 	}
 	
 	void setRemoved(ProblemSet set) {
-		getChildren().remove(getPaneFor(set));
+		System.out.printf("[enter] SetBoard.setRemoved(set=%s)%n", set);
+		boolean removed = getChildren().remove(getPaneFor(set));
+		assert removed;
 		listingMap.remove(set);
 		resize();
 	}
@@ -112,7 +115,7 @@ final class SetBoard extends VBox {
 		System.out.printf("maxPractices=%s%n", maxPractices);
 		for(Node n : getChildren())
 			if(n instanceof Listing l) {
-				double prop = l.set().practiceCount() / maxPractices;
+				double prop = maxPractices == 0 ? 0 : l.set().practiceCount() / maxPractices;
 				System.out.printf("\tl=%s, prop=%f%n", l, prop);
 				l.setFontSize((double) MIN_FONT + (MAX_FONT - MIN_FONT) * prop);
 			}

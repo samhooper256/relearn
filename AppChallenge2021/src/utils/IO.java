@@ -16,7 +16,7 @@ public final class IO {
 		
 	}
 	
-	public static void writeObject(File f, Object obj) throws IOException {
+	public static void writeObject(File f, Serializable obj) throws IOException {
 		writeObject(f, obj, false);
 	}
 	

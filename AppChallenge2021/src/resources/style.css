@@ -284,9 +284,9 @@
 
 .finish-practice-popup {
 	-fx-padding: 15 10 20 10;
-	-fx-background-color: -app-orange;
+	-fx-background-color: -app-accent;
 	-fx-background-radius: 16;
-	-fx-border-color: -app-dark-orange;
+	-fx-border-color: -app-dark;
 	-fx-border-width: 4;
 	-fx-border-radius: 10;
 }

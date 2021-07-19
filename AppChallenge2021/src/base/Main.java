@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import base.practice.*;
 import base.sets.*;
+import base.settings.Settings;
 import base.stats.Data;
 import fxutils.Images;
 import javafx.application.Application;
@@ -28,7 +29,10 @@ public class Main extends Application {
 			SETS_FOLDER = new File(USER_FOLDER, "Sets"),
 			SETS_FILE = new File(SETS_FOLDER, "sets.dat"),
 			STATS_FOLDER = new File(USER_FOLDER, "Stats"),
-			STATS_FILE = new File(STATS_FOLDER, "stats.dat"); //file is created by topics.Data
+			STATS_FILE = new File(STATS_FOLDER, "stats.dat"), //file is created by topics.Data
+			SETTINGS_FOLDER = new File(USER_FOLDER, "Settings"),
+			SETTINGS_FILE = new File(SETTINGS_FOLDER, "settings.dat");
+	
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
 	public static final Image 
@@ -60,13 +64,16 @@ public class Main extends Application {
 		USER_FOLDER.mkdir();
 		SETS_FOLDER.mkdir();
 		STATS_FOLDER.mkdir();
+		SETTINGS_FOLDER.mkdir();
 		try {
 			SETS_FILE.createNewFile();
+			SETTINGS_FILE.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace(); //TODO better error handling?
 		}
 		ProblemSet.load();
 		Data.load();
+		Settings.load();
 	}
 	
 	@Override
@@ -92,6 +99,7 @@ public class Main extends Application {
 		ProblemSet.save();
 	    Data.debugPrint();
 	    Data.save();
+	    Settings.save();
 	}
 	
 	public static Stage stage() {

@@ -4,7 +4,6 @@
 package base.sets;
 
 import base.*;
-import base.editor.EditorPane;
 import base.graphics.BackArrow;
 import fxutils.*;
 import javafx.scene.control.*;
@@ -28,18 +27,10 @@ public class SetsPane extends StackPane {
 	
 	private static final double FLOW_PADDING = 20, CREATE_BUTTON_SCALE_FACTOR = 1.05;
 	
-	private static SetsPane INSTANCE = null;
+	private static final SetsPane INSTANCE = new SetsPane();
 	
 	public static SetsPane get() {
-		//double-checked locking pattern
-		if(INSTANCE == null){
-	        synchronized (EditorPane.class) {
-	            if(INSTANCE == null){
-	            	INSTANCE = new SetsPane();
-	            }
-	        }
-	    }
-	    return INSTANCE;
+		return INSTANCE;
 	}
 	
 	private final ScrollPane scroll;
