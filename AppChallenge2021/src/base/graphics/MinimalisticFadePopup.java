@@ -4,12 +4,18 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextFlow;
 
+/**
+ * <p>The {@code protected} {@link VBox} {@link #extra} has the style class {@code extra}.</p>
+ * @author Sam Hooper
+ *
+ */
 public class MinimalisticFadePopup extends FadePopup {
 	
 	private static final String
 			MINIMALISTIC_FADE_POPUP_CSS = "minimalistic-popup",
 			HEADING_CSS = "heading",
 			SUBHEADING_CSS = "subheading",
+			EXTRA_CSS = "extra",
 			BUTTON_BAR_CSS = "button-bar";
 	
 	private final VBox vBox;
@@ -32,6 +38,7 @@ public class MinimalisticFadePopup extends FadePopup {
 	}
 	
 	private void initVBox() {
+		extra.getStyleClass().add(EXTRA_CSS);
 		buttonBar.getStyleClass().add(BUTTON_BAR_CSS);
 		initLabels();
 	}

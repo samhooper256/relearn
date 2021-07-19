@@ -167,6 +167,10 @@
 	-fx-font: 16 "Georgia";
 }
 
+.edit-warning .extra {
+	-fx-padding: 10 0 0 0;	
+}
+
 .edit-warning .do-not-show {
 	-fx-font: 14 "Georgia";	
 }
@@ -333,6 +337,7 @@
 }
 
 /* Editor */
+.settings-pane .header > .title,
 .practice-pane > .header .title,
 .editor-pane .header .title,
 .stats-pane .header .title {
@@ -827,6 +832,33 @@
 
 .stacked-accuracy-chart .accuracy-axis {
 	-fx-opacity: 0;
+}
+
+.set-board-container .header {
+	-fx-padding: 20 0 5 0;	
+}
+
+.set-overall-tab-content .empty-label,
+.set-board-container .header-label {
+	-fx-font: 36 "Georgia";
+	-fx-font-style: italic;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: black;
+}
+
+/* Settings */
+
+.settings-pane .header {
+	-fx-spacing: 10;
+}
+
+.settings-pane .vbox {
+	-fx-spacing: 10;
+	-fx-padding: 10;
+}
+
+.settings-pane .settings-box * {
+	-fx-font: 18 "Georgia";	
 }
 
 /* TopicSettings */
