@@ -12,13 +12,13 @@ import javafx.scene.layout.StackPane;
  * @author Sam Hooper
  *
  */
-public class StatsTab extends Tab {
+class StatsTab extends Tab {
 	
 	private static final String STATS_TAB_CSS = "stats-tab";
 	
 	private final Label title;
 	
-	public StatsTab(String text) {
+	StatsTab(String text) {
 		super("");
 		setClosable(false);
 		title = new Label(text);
@@ -31,6 +31,10 @@ public class StatsTab extends Tab {
 	
 	public StringProperty nameProperty() {
 		return title.textProperty();
+	}
+	
+	StatsTabContent content() {
+		return (StatsTabContent) getContent();
 	}
 	
 }

@@ -109,6 +109,11 @@ abstract class AbstractFraction implements Fraction {
 	}
 
 	@Override
+	public boolean isExactlyRepresentable() {
+		return isRealAndExactlyRepresentable();
+	}
+	
+	@Override
 	public int hashCode() {
 		return real().hashCode();
 	}
@@ -123,7 +128,7 @@ abstract class AbstractFraction implements Fraction {
 					Objects.equals(numerator(), f.numerator());
 		}
 		if(obj instanceof Complex c)
-			return c.isReal() && isExactlyRepresentable() && toBigDecimalExact().equals(c.real());
+			return c.isReal() && isRealAndExactlyRepresentable() && toBigDecimalExact().equals(c.real());
 		return false;
 	}
 	

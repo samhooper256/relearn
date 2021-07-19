@@ -76,6 +76,10 @@ public final class BigUtils {
 		return bi.compareTo(BigInteger.ZERO) <= 0;
 	}
 	
+	public static boolean isInteger(BigDecimal bd) {
+		return bd.stripTrailingZeros().scale() <= 0;
+	}
+	
 	public static boolean isValidBigDecimal(String str) {
 		if(str.isBlank())
 			return false;

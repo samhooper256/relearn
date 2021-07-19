@@ -25,14 +25,12 @@ public interface ComplexValuedExpression extends Expression<Complex> {
 	}
 	
 	static ComplexValuedExpression of(Complex value) {
-		System.out.printf("[enter] ComplexValuedExpression.of(value=%s)%n", value);
 		if(value instanceof Fraction f && !f.isInteger()) {
 			ComplexValuedExpression e = of(f.numerator()).over(of(f.denominator()));
 			if(f.isNegative())
 				e = e.negate();
 			return e;
 		}
-		System.out.printf("\tfromParts%n");
 		return fromParts(value);
  	}
 

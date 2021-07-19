@@ -41,7 +41,7 @@ public class MultiplyingFractions extends AbstractTopic {
 		
 		return 	MathProblem.builder().set(this, String.format("frac(%d,%d)*(frac(%d,%d)", 
 				numerator1, denominator1, numerator2, denominator2),
-				MathAnswerMode.INTEGER, MathAnswerMode.REAL_SIMPLIFIED_FRACTION, MathAnswerMode.MIXED_NUMBER).build();
+				MathAnswerMode.REAL_SIMPLIFIED_FRACTION, MathAnswerMode.MIXED_NUMBER).build();
 	}
 	
 	@Override

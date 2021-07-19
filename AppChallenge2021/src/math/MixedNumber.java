@@ -1,6 +1,6 @@
 package math;
 
-import static math.BigUtils.isValidBigDecimal;
+import static math.BigUtils.isValidBigInteger;
 
 import java.math.*;
 
@@ -16,8 +16,8 @@ public interface MixedNumber extends Complex, FractionConvertible, MixedNumberCo
 	static boolean isValid(String str) {
 		int sepIndex = str.indexOf(SEPARATOR);
 		if(sepIndex == -1)
-			return isValidBigDecimal(str);
-		return 	isValidBigDecimal(str.substring(0, sepIndex))
+			return isValidBigInteger(str);
+		return 	isValidBigInteger(str.substring(0, sepIndex))
 				&& ProperFraction.isValidUnsigned(str.substring(sepIndex + 1));
 	}
 	

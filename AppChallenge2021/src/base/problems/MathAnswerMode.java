@@ -84,7 +84,8 @@ public enum MathAnswerMode {
 		}
 		
 	},
-	/** Accepts only {@link Fraction#isValidSimplified(String) simplified} fractions.*/
+	/** Accepts only {@link Fraction#isValidSimplified(String) simplified} fractions. The fractions do not need to be
+	 * proper.*/
 	REAL_SIMPLIFIED_FRACTION(makeIcon("5/3", "Fractional answers are allowed. They need to be in simplest form, but "
 			+ "they do not need to be proper.")) {
 		
@@ -113,7 +114,8 @@ public enum MathAnswerMode {
 		}
 		
 	},
-	MIXED_NUMBER(makeIcon("4 6/8", "Mixed numbers are allowed. The fractional part does not need to be simplified")) {
+	MIXED_NUMBER(makeIcon("4 6/8", "Mixed numbers and integers allowed. The fractional part does not need to be "
+			+ "simplified")) {
 
 		@Override
 		public boolean isValid(String str) {
@@ -164,25 +166,26 @@ public enum MathAnswerMode {
 	/** Adapts the given {@link Complex} answer to one that would be {@link #isValid(String) valid} according to
 	 * this {@link MathAnswerMode}.*/
 	public String adapt(Complex answer) {
-		if(isFractionBased()) {
-			if(answer instanceof FractionConvertible fc)
-				return fc.toFraction().toParsableString();
-		}
-		else if(isDecimalBased()) {
-			if(answer instanceof FractionConvertible fc)
-				return BigUtils.toPrettyString(fc.toFraction().real());
-			return answer.toParsableString(); //assumes that math.ComplexImpl is the only other concrete class that
-			//implements math.Complex and is not covered by the above instanceof check.
-		}
-		else if(this == MIXED_NUMBER) {
-			if(answer instanceof MixedNumberConvertible mnc)
-				return mnc.toMixedNumber().toParsableString();
-		}
-		else {
-			throw new UnsupportedOperationException(String.format("Need adaptation code for: %s", this));
-		}
-		throw new IllegalArgumentException(String.format("The given answer, %s, is not adaptable to this mode (%s)",
-				answer, this));
+		if(!canAdapt(answer))
+			throw new IllegalArgumentException(String.format("%s is not adaptable to this mode (%s)", answer, this));
+		if(isFractionBased() && answer instanceof FractionConvertible fc)
+			return fc.toFraction().toParsableString();
+		else if(isDecimalBased())
+			return BigUtils.toPrettyString(answer.toBigDecimalExact());
+		else if(this == MIXED_NUMBER && answer instanceof MixedNumberConvertible mnc)
+			return mnc.toMixedNumber().toParsableString();
+		throw new UnsupportedOperationException(String.format("Need adaptation code for: %s", this));
+	}
+	
+	boolean canAdapt(Complex answer) {
+		return switch(this) {
+			case INTEGER -> answer.isInteger();
+			case REAL_DECIMAL -> answer.isRealAndExactlyRepresentable();
+			case COMPLEX_RECTANGULAR -> answer.isExactlyRepresentable();
+			case REAL_FRACTION, REAL_PROPER_FRACTION, REAL_SIMPLIFIED_FRACTION, REAL_PROPER_SIMPLIFIED_FRACTION ->
+					answer instanceof FractionConvertible;
+			case MIXED_NUMBER -> answer instanceof MixedNumberConvertible;
+		};
 	}
 	
 	/** Returns {@code true} iff {@code this} is one of the following:

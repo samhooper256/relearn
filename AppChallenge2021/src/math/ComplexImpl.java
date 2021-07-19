@@ -66,6 +66,11 @@ class ComplexImpl implements Complex {
 	}
 
 	@Override
+	public boolean isInteger() {
+		return isReal() && BigUtils.isInteger(real());
+	}
+	
+	@Override
 	public String toString() {
 		return String.format("%s[real=%s, imaginary=%s]", getClass().getSimpleName(), BigUtils.toPrettyString(real),
 				BigUtils.toPrettyString(imaginary));
@@ -94,6 +99,11 @@ class ComplexImpl implements Complex {
 	}
 
 	@Override
+	public boolean isExactlyRepresentable() {
+		return true;
+	}
+
+	@Override
 	public int hashCode() {
 		if(isReal())
 			return Objects.hashCode(real());
@@ -106,7 +116,7 @@ class ComplexImpl implements Complex {
 		if(this == obj)
 			return true;
 		if(obj instanceof Fraction f)
-			return isReal() && f.isExactlyRepresentable() && Objects.equals(f.toBigDecimalExact(), real());
+			return isReal() && f.isRealAndExactlyRepresentable() && Objects.equals(f.toBigDecimalExact(), real());
 		return 	obj instanceof Complex c && BigUtils.equals(real(), c.real()) &&
 				BigUtils.equals(imaginary(), c.imaginary());
 	}

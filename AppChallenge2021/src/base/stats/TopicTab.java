@@ -16,8 +16,4 @@ public class TopicTab extends StatsTab {
 		getStyleClass().add(TOPIC_TAB_CSS);
 	}
 	
-	public TopicTabContent content() {
-		return (TopicTabContent) getContent();
-	}
-	
 }

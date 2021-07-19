@@ -52,13 +52,23 @@ final class MixedNumberImpl implements MixedNumber {
 	}
 	
 	@Override
+	public boolean isInteger() {
+		return fraction().isZero();
+	}
+	
+	@Override
+	public boolean isExactlyRepresentable() {
+		return isRealAndExactlyRepresentable();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if(this == obj)
 			return true;
 		if(obj instanceof FractionConvertible fc)
 			return toFraction().equals(fc.toFraction());
 		if(obj instanceof Complex c)
-			return c.isReal() && isExactlyRepresentable() && toBigDecimalExact().equals(c.real());
+			return c.isReal() && isRealAndExactlyRepresentable() && toBigDecimalExact().equals(c.real());
 		return false;
 	}
 

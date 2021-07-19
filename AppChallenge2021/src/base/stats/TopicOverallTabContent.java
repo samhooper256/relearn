@@ -3,7 +3,7 @@ package base.stats;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 
-final class TopicOverallTabContent extends TopicTabContent {
+final class TopicOverallTabContent extends StatsTabContent {
 	
 	private static final String
 			TOPIC_OVERALL_TAB_CONTENT_CSS = "topic-overall-tab-content",

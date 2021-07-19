@@ -84,7 +84,7 @@ public final class StatsPane extends StackPane {
 	}
 	
 	private void switchToSets() {
-		switchTo(SetsTabPane.get());
+		switchTo(SetTabPane.get());
 	}
 	
 	private void switchToTopics() {
@@ -97,6 +97,6 @@ public final class StatsPane extends StackPane {
 	
 	public void updateAllStats() {
 		TopicTabPane.get().updateAllStats();
-		SetsTabPane.get().updateAllStats();
+		SetTabPane.get().updateAllStats();
 	}
 }

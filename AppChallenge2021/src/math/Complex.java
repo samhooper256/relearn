@@ -137,6 +137,8 @@ public interface Complex {
 	
 	boolean isZero();
 	
+	boolean isInteger();
+	
 	/** Converts and the {@link #real() real} part of this {@link Complex} to a {@link BigDecimal} using the given
 	 * {@link MathContext}. If this {@code Complex} has an {@link #imaginary() imaginary} component, it is silently
 	 * ignored.*/
@@ -149,7 +151,7 @@ public interface Complex {
 	int intValueExact();
 	
 	/** Returns {@code true} iff this {@link Complex} is exactly representable as a real terminating decimal.*/
-	default boolean isExactlyRepresentable() {
+	default boolean isRealAndExactlyRepresentable() {
 		//TODO do properly:
 		try {
 			toBigDecimalExact();
@@ -159,6 +161,10 @@ public interface Complex {
 		}
 		return true;
 	}
+	
+	/** Returns {@code true} if, for this {@link Complex} in the form {@code a+bi}, both {@code a} and {@code b}
+	 * can be exactly represented as a real terminating decimal. */
+	boolean isExactlyRepresentable();
 	
 	/** Returns a {@link Complex} with a a zero {@link #real() real} part and the same {@link #imaginary() imaginary}
 	 * part as {@code this}.*/

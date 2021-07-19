@@ -159,6 +159,7 @@ public interface Fraction extends Complex, FractionConvertible {
 		return !isProper();
 	}
 	
+	@Override
 	default boolean isInteger() {
 		return BigUtils.equals(denominator(), BigInteger.ONE);
 	}

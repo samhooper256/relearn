@@ -15,10 +15,10 @@ import topics.settings.TopicSetting;
  */
 abstract class AbstractTopic implements Topic {
 	
+	protected static final int DEFAULT_COUNT = 10;
+	
 	private static final long serialVersionUID = -3884983155589210552L;
 	
-	protected static final int DEFAULT_COUNT = 10;
-
 	private transient SimpleIntegerProperty countProperty;
 	
 	private List<TopicSetting> settings;
