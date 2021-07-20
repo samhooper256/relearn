@@ -5,10 +5,8 @@ package base.stats;
 
 import base.*;
 import base.graphics.BackArrow;
-import fxutils.Backgrounds;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 /**
  * @author Sam Hooper

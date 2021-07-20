@@ -50,6 +50,8 @@ public class TopicPortionBar extends GridPane {
 				label.setTextFill(Color.WHITE);
 			else
 				label.setTextFill(Color.BLACK);
+			setMinSize(0, 0);
+			setPrefSize(0, 0);
 			getChildren().add(label);
 		}
 
@@ -126,7 +128,8 @@ public class TopicPortionBar extends GridPane {
 		for(Topic t : topics) {
 			ColumnConstraints c = new ColumnConstraints();
 			getColumnConstraints().add(c);
-			c.setPercentWidth(100d * t.count() / total);
+			double value = 100d * t.count() / total;
+			c.setPercentWidth(value);
 			Segment seg = Segment.of(t.name());
 			add(seg, index, 0);
 			index++;

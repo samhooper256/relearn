@@ -2,11 +2,9 @@ package base.stats;
 
 import org.controlsfx.control.ToggleSwitch;
 
-import fxutils.Backgrounds;
 import javafx.css.PseudoClass;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 public class StatsToggle extends StackPane {
 	
