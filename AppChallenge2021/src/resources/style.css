@@ -697,6 +697,48 @@
 	-fx-spacing: 10;
 }
 
+.stats-pane .toggle-layer {
+	-fx-alignment: top-center;
+}
+
+.stats-pane .stats-toggle .hbox {
+	-fx-alignment: center;
+	-fx-spacing: 8;	
+	-fx-fill-height: false;
+}
+
+.stats-pane .stats-toggle .topics-label {
+	-fx-alignment: center-right;	
+}
+
+.stats-pane .stats-toggle .sets-label {
+	-fx-alignment: center-left;	
+}
+
+.stats-pane .stats-toggle .topics-label,
+.stats-pane .stats-toggle .sets-label {
+	-fx-font: 36 "Georgia";
+	-fx-text-fill: -app-brown-highlight;
+}
+
+.stats-pane .stats-toggle .topics-label:active,
+.stats-pane .stats-toggle .sets-label:active {
+	-fx-text-fill: -app-brown;
+}
+
+.stats-pane .stats-toggle .switch {
+	-fx-alignment: center;
+	-fx-padding: 0;
+}
+
+.stats-pane .stats-toggle .switch .thumb {
+	-fx-background-color: -app-brown;
+}
+
+.stats-pane .stats-toggle .switch .thumb-area {
+	-fx-background-color: -app-brown-dark-accent;
+}
+
 .stats-tab-content {
 	-fx-padding: 12;
 	-fx-background-color: -app-brown-light-accent;
@@ -842,6 +884,9 @@
 .set-board-container .header-label {
 	-fx-font: 36 "Georgia";
 	-fx-font-style: italic;
+}
+
+.set-board-container .header-label {
 	-fx-border-width: 0 0 1 0;
 	-fx-border-color: black;
 }

@@ -108,15 +108,12 @@ final class SetBoard extends VBox {
 	}
 	
 	private void resize() {
-		System.out.printf("[enter] SetBoard.resize()%n");
 		if(getChildren().isEmpty())
 			return;
 		double maxPractices = maxPractices();
-		System.out.printf("maxPractices=%s%n", maxPractices);
 		for(Node n : getChildren())
 			if(n instanceof Listing l) {
 				double prop = maxPractices == 0 ? 0 : l.set().practiceCount() / maxPractices;
-				System.out.printf("\tl=%s, prop=%f%n", l, prop);
 				l.setFontSize((double) MIN_FONT + (MAX_FONT - MIN_FONT) * prop);
 			}
 	}

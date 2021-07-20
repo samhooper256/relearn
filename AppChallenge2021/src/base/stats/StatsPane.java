@@ -5,10 +5,10 @@ package base.stats;
 
 import base.*;
 import base.graphics.BackArrow;
+import fxutils.Backgrounds;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
-import org.controlsfx.control.ToggleSwitch;
+import javafx.scene.paint.Color;
 
 /**
  * @author Sam Hooper
@@ -20,7 +20,8 @@ public final class StatsPane extends StackPane {
 		STATS_PANE_CSS = "stats-pane",
 		HEADER_CSS = "header",
 		TITLE_CSS = "title",
-		VBOX_CSS = "vbox";
+		VBOX_CSS = "vbox",
+		TOGGLE_LAYER_CSS = "toggle-layer";
 	private static final StatsPane INSTANCE = new StatsPane();
 	private static final String TITLE = "Stats";
 	
@@ -28,24 +29,25 @@ public final class StatsPane extends StackPane {
 		return INSTANCE;
 	}
 	
-	private final VBox vBox;
+	private final VBox vBox, toggleLayer;
 	private final HBox header;
 	private final BackArrow backArrow;
 	private final Label title;
-	private final ToggleSwitch toggle;
+	private final StatsToggle toggle;
 	private final StackPane tabPaneHolder;
 	
 	private StatsPane() {
 		backArrow = new BackArrow();
 		title = new Label(TITLE);
-		toggle = new ToggleSwitch("Goof");
-		header = new HBox(backArrow, title, toggle);
+		toggle = new StatsToggle();
+		toggleLayer = new VBox(toggle);
+		header = new HBox(backArrow, title);
 		tabPaneHolder = new StackPane(TopicTabPane.get());
 		vBox = new VBox(header, tabPaneHolder);
 		initVBox();
-		
+		initToggleLayer();
 		getStyleClass().add(STATS_PANE_CSS);
-		getChildren().add(vBox);
+		getChildren().addAll(vBox, toggleLayer);
 	}
 	
 	private void initVBox() {
@@ -58,7 +60,6 @@ public final class StatsPane extends StackPane {
 		header.getStyleClass().add(HEADER_CSS);
 		initBackArrow();
 		initTitle();
-		initToggle();
 	}
 	
 	private void initBackArrow() {
@@ -73,21 +74,16 @@ public final class StatsPane extends StackPane {
 		title.getStyleClass().add(TITLE_CSS);
 	}
 	
-	private void initToggle() {
-		toggle.selectedProperty().addListener(e -> {
-			boolean selected = toggle.isSelected();
-			if(selected)
-				switchToSets();
-			else
-				switchToTopics();
-		});
+	private void initToggleLayer() {
+		toggleLayer.getStyleClass().add(TOGGLE_LAYER_CSS);
+		toggleLayer.setPickOnBounds(false); //cannot be set from CSS.
 	}
 	
-	private void switchToSets() {
+	void switchToSets() {
 		switchTo(SetTabPane.get());
 	}
 	
-	private void switchToTopics() {
+	void switchToTopics() {
 		switchTo(TopicTabPane.get());
 	}
 	
@@ -99,4 +95,5 @@ public final class StatsPane extends StackPane {
 		TopicTabPane.get().updateAllStats();
 		SetTabPane.get().updateAllStats();
 	}
+	
 }
