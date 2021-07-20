@@ -175,11 +175,31 @@
 	-fx-font: 14 "Georgia";	
 }
 
-/* Practice */
+/* PracticePane */
 
 .practice-pane .header {
 	-fx-spacing: 10;
 	-fx-padding: 10 0 0 10;
+	-fx-alignment: top-left;
+}
+
+.practice-pane .progress-bar-layer {
+	-fx-padding: 10 0 0 0;
+	-fx-alignment: top-center;
+	-fx-fill-width: false;
+}
+
+.progress-bar .bar {
+	-fx-background-color: -app-green-accent;	
+	-fx-background-insets: 4;
+	-fx-background-radius: 6;
+}
+
+.progress-bar .border {
+	-fx-background-color: transparent;
+	-fx-border-color: -app-dark;
+	-fx-border-width: 3;
+	-fx-border-radius: 8;	
 }
 
 .practice-pane .streak-bar {

@@ -15,9 +15,9 @@ import javafx.util.Duration;
 public final class AccuracyBar extends Pane {
 	
 	public static final double ICON_SIZE = 32;
+	public static final Duration SLIDE_DURATION = Duration.millis(300);
 	
 	private static final double SPACING = 4;
-	private static final Duration SLIDE_DURATION = Duration.millis(300);
 	private static final Duration FADE_START = SLIDE_DURATION.divide(2);
 	
 	private static void addFade(Timeline timeline, ImageView iv, Duration start, Duration end) {

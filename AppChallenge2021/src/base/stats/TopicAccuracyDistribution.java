@@ -25,9 +25,7 @@ final class TopicAccuracyDistribution extends StackPane {
 	
 	TopicAccuracyDistribution(ProblemSet set) {
 		nameAxis = new CategoryAxis();
-		nameAxis.getStyleClass().add(NAME_AXIS_CSS);
-		for(Topic t : set.topics())
-			nameAxis.getCategories().add(t.name());
+		initNameAxis(set);
 		accuracyAxis = new NumberAxis(0, 1, 1);
 		accuracyAxis.getStyleClass().add(ACCURACY_AXIS_CSS);
 		chart = new StackedBarChart<>(accuracyAxis, nameAxis);
@@ -38,6 +36,12 @@ final class TopicAccuracyDistribution extends StackPane {
 		chart.setAnimated(false);
 		chart.getStyleClass().add(CHART_CSS);
 		getChildren().add(chart);
+	}
+	
+	private void initNameAxis(ProblemSet set) {
+		nameAxis.getStyleClass().add(NAME_AXIS_CSS);
+		for(Topic t : set.topics())
+			nameAxis.getCategories().add(t.name());
 	}
 	
 	@SuppressWarnings("unchecked")

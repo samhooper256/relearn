@@ -24,6 +24,7 @@ public final class PracticePane extends StackPane {
 	private static final PracticePane INSTANCE = new PracticePane();
 	private static final String
 			PRACTICE_PANE_CSS = "practice-pane",
+			PROGRESS_BAR_LAYER_CSS = "progress-bar-layer",
 			HEADER_CSS = "header",
 			TITLE_CSS = "title";
 	
@@ -36,9 +37,9 @@ public final class PracticePane extends StackPane {
 	private final HBox header;
 	private final BackArrow backArrow;
 	private final StreakBar streakBar;
-	
+	private final ProgressBar progressBar;
+	private final VBox progressBarLayer;
 	private final List<Problem> correctProblems, incorrectProblems;
-	
 	private ProblemSet set;
 	private Deck deck;
 	private int deckIndex;
@@ -54,9 +55,13 @@ public final class PracticePane extends StackPane {
 		
 		streakBar = new StreakBar();
 		
-		StackPane.setAlignment(header, Pos.TOP_LEFT);
+		progressBar = new ProgressBar();
+		progressBarLayer = new VBox(progressBar);
+		initProgressBarLayer();
+		
 		StackPane.setAlignment(streakBar, Pos.BOTTOM_LEFT);
-		getChildren().addAll(userArea, header, streakBar);
+		StackPane.setAlignment(progressBarLayer, Pos.TOP_CENTER);
+		getChildren().addAll(userArea, header, progressBarLayer, streakBar);
 		getStyleClass().add(PRACTICE_PANE_CSS);
 		
 		correctProblems = new ArrayList<>();
@@ -68,12 +73,17 @@ public final class PracticePane extends StackPane {
 	private void initHeader() {
 		backArrow.setOnAction(this::backArrowAction);
 		header.getStyleClass().add(HEADER_CSS);
-		header.setPickOnBounds(false);
+		header.setPickOnBounds(false); //cannot be set from CSS.
 		title.getStyleClass().add(TITLE_CSS);
 	}
 	
 	private void backArrowAction() {
 		Main.scene().showSets();
+	}
+	
+	private void initProgressBarLayer() {
+		progressBarLayer.getStyleClass().add(PROGRESS_BAR_LAYER_CSS);
+		progressBarLayer.setMouseTransparent(true); //cannot be set from CSS.
 	}
 	
 	private void deckFinished() {
@@ -88,6 +98,7 @@ public final class PracticePane extends StackPane {
 	void notifyCorrect(Problem p) {
 		recordCorrect(p);
 		streakBar.notifyCorrect();
+		notifyFinished();
 	}
 
 	private void recordCorrect(Problem p) {
@@ -98,11 +109,17 @@ public final class PracticePane extends StackPane {
 	void notifyIncorrect(Problem p) {
 		recordIncorrect(p);
 		streakBar.notifyIncorrect();
+		notifyFinished();
 	}
 
 	private void recordIncorrect(Problem p) {
 		incorrectProblems.add(p);
 		Data.addIncorrect(set(), p);
+	}
+	
+	/** Called whenever a problem is finished, whether it was correct or incorrect.*/
+	private void notifyFinished() {
+		progressBar.addFinished();
 	}
 	
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
@@ -130,6 +147,7 @@ public final class PracticePane extends StackPane {
 		incorrectProblems.clear();
 		userArea.focusOnField();
 		streakBar.resetAll();
+		progressBar.resetWithTotal(deck.size());
 		setup(deck.get(deckIndex));
 	}
 	

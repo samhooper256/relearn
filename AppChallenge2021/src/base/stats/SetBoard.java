@@ -33,7 +33,6 @@ final class SetBoard extends VBox {
 		}
 		
 		void setFontSizeInternal(double size) {
-			System.out.printf("\t\tsetFontSizeInternal(size=%f)%n", size);
 			leftLabel().setFont(Font.font(FONT_NAME, size));
 			rightLabel().setFont(Font.font(FONT_NAME, size));
 		}
@@ -100,7 +99,6 @@ final class SetBoard extends VBox {
 	}
 	
 	void setRemoved(ProblemSet set) {
-		System.out.printf("[enter] SetBoard.setRemoved(set=%s)%n", set);
 		boolean removed = getChildren().remove(getPaneFor(set));
 		assert removed;
 		listingMap.remove(set);
