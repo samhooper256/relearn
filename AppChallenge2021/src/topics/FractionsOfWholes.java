@@ -15,22 +15,22 @@ import utils.RNG;
  * @author Ayuj Verma
  *
  */
-public class Fractions extends AbstractTopic {
+public class FractionsOfWholes extends AbstractTopic {
 
 	private static final long serialVersionUID = 3689628391889552267L;
 	
-	public static final String NAME = "Fractions";
-	public static final TopicFactory<Fractions> FACTORY = new TopicFactory<>(NAME, Fractions::new);
+	public static final String NAME = "Fractions of Whole Numbers";
+	public static final TopicFactory<FractionsOfWholes> FACTORY = new TopicFactory<>(NAME, FractionsOfWholes::new);
 	
 	private final IntSetting maxDenominator;
 	
-	public Fractions() {
+	public FractionsOfWholes() {
 		this(DEFAULT_COUNT);
 	} 
 	
-	public Fractions(int count) {
+	public FractionsOfWholes(int count) {
 		super(count);
-		maxDenominator = new IntSetting("Maximum Denominator", 2, 10, 10);
+		maxDenominator = new IntSetting("Maximum Denominator", 2, 12, 12);
 		createSettings(maxDenominator);
 	}
 	
@@ -78,8 +78,9 @@ public class Fractions extends AbstractTopic {
 	{
 		int denominator = denom;
 		ArrayList<Integer> dividends = new ArrayList<Integer>();
+		int maxNumber = denominator * 12;
 		
-		for(int i = 0; i < 100; i++)
+		for(int i = 1; i < maxNumber; i++)
 		{
 			if(i % denominator == 0)
 			{
