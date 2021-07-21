@@ -202,10 +202,18 @@
 	-fx-border-radius: 8;	
 }
 
-.practice-pane .streak-bar {
+.practice-pane .stats-layer {
+	-fx-alignment: bottom-left;	
+	-fx-padding: 0 0 10 10;
+}
+
+.practice-pane .stats-layer .last-time-label {
+	-fx-font: 24 "Riffic Free Medium";	
+}
+
+.practice-pane .stats-layer .streak-bar {
 	-fx-alignment: bottom-left;
 	-fx-fill-height: false;
-	-fx-padding: 0 0 10 10;
 	-fx-spacing: 10;
 }
 

@@ -29,6 +29,7 @@ public class UserArea extends GridPane {
 	
 	private Problem problem;
 	private boolean incorrectAnswerGiven, answerShown;
+	private double startTime;
 	
 	public UserArea() {
 		
@@ -126,7 +127,7 @@ public class UserArea extends GridPane {
 		fieldRow.displayAsCorrect();
 		if(!hasMarkedIncorrect())
 			pane().notifyCorrect(problem());
-		pane().problemCompleted();
+		pane().problemCompleted(getElapsedTime());
 	}
 	
 	private void incorrectAnswerAction() {
@@ -155,6 +156,15 @@ public class UserArea extends GridPane {
 		fieldRow.clear();
 		fieldRow.setupProblem(problem);
 		setProblemHTML(problem.statement().html());
+		resetTimer(); //start the timer right after they can see the problem, and no sooner.
+	}
+	
+	private void resetTimer() {
+		startTime = System.currentTimeMillis();
+	}
+	
+	private double getElapsedTime() {
+		return System.currentTimeMillis() - startTime;
 	}
 	
 	void cleanUpOnFinish() {
