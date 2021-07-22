@@ -4,7 +4,7 @@ import static base.practice.PracticePane.formatTime;
 
 import base.stats.ReadOnlyTimedAccuracyStats;
 import fxutils.HalvedPane;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 /**
  * @author Sam Hooper
@@ -16,13 +16,15 @@ final class BottomInfoBar extends HalvedPane {
 			FASTEST_TIME_CSS = "fastest-time";
 	
 	private final Label averageTime, fastestTime;
+	private final Tooltip fastestTooltip;
 	
 	BottomInfoBar() {
 		averageTime = new Label();
 		initAverageTime();
 		fastestTime = new Label();
 		initFastestTime();
-		
+		fastestTooltip = new Tooltip("You did not solve any problems correctly, so you don't have a fastest correct "
+				+ "time");
 		setHalves(averageTime, fastestTime);
 	}
 
@@ -36,10 +38,14 @@ final class BottomInfoBar extends HalvedPane {
 	
 	void updateTimes(ReadOnlyTimedAccuracyStats stats) {
 		updateAverageTime(stats.averageTime());
-		if(stats.hasCorrect())
+		if(stats.hasCorrect()) {
+			Tooltip.uninstall(fastestTime, fastestTooltip);
 			updateFastestTime(stats.fastestCorrectTime());
-		else
+		}
+		else {
+			Tooltip.install(fastestTime, fastestTooltip);
 			fastestTime.setText("Fastest: N/A");
+		}
 	}
 	
 	private void updateAverageTime(double timeInMillis) {

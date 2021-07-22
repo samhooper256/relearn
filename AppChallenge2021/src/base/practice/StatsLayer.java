@@ -23,6 +23,7 @@ final class StatsLayer extends VBox {
 		averageTimeLabel = new Label("Average time: ---");
 		averageTimeLabel.getStyleClass().add(AVERAGE_TIME_LABEL_CSS);
 		bar = new StreakBar();
+		setMouseTransparent(true);
 		getStyleClass().add(STATS_LAYER_CSS);
 		getChildren().addAll(lastTimeLabel, averageTimeLabel, bar);
 	}
