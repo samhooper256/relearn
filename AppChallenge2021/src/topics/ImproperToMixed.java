@@ -3,9 +3,6 @@
  */
 package topics;
 
-import java.math.BigInteger;
-import java.util.*;
-
 import base.problems.*;
 import math.*;
 import topics.settings.IntSetting;

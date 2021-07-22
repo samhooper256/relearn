@@ -4,8 +4,6 @@
 package topics;
 
 import base.problems.*;
-import math.Complex;
-import math.Fraction;
 import topics.settings.IntSetting;
 import utils.RNG;
 
