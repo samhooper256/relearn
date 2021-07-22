@@ -50,9 +50,9 @@ final class TopicAccuracyDistribution extends StackPane {
 		ObservableList<XYChart.Data<Number, String>> incorrectSeriesData = FXCollections.observableArrayList();
 		
 		int nonZeroTopicCount = 0;
-		for(Map.Entry<String, Stats> e : map.entrySet()) {
+		for(Map.Entry<String, AccuracyStats> e : map.entrySet()) {
 			String name = e.getKey();
-			Stats s = e.getValue();
+			AccuracyStats s = e.getValue();
 			if(!s.isEmpty()) {
 				nonZeroTopicCount++;
 				correctSeriesData.add(new XYChart.Data<>(s.accuracy(), name));

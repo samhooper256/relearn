@@ -10,6 +10,9 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import math.BigUtils;
 
+/**
+ * @author Sam Hooper
+ */
 final class FieldRow extends HBox {
 	
 	static final double FIELD_WIDTH = 400;

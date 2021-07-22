@@ -3,13 +3,11 @@
  */
 package base.practice;
 
-import java.util.*;
-
 import base.*;
 import base.graphics.BackArrow;
 import base.problems.Problem;
 import base.sets.*;
-import base.stats.Data;
+import base.stats.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -32,6 +30,10 @@ public final class PracticePane extends StackPane {
 		return INSTANCE;
 	}
 	
+	static String formatTime(double timeInMillis) {
+		return String.format("%.2fs", timeInMillis / 1000);
+	}
+	
 	private final UserArea userArea;
 	private final Label title;
 	private final HBox header;
@@ -39,7 +41,8 @@ public final class PracticePane extends StackPane {
 	private final ProgressBar progressBar;
 	private final VBox progressBarLayer;
 	private final StatsLayer statsLayer;
-	private final List<Problem> correctProblems, incorrectProblems;
+	private final TimedAccuracyStats deckStats;
+	
 	private ProblemSet set;
 	private Deck deck;
 	private int deckIndex;
@@ -63,8 +66,7 @@ public final class PracticePane extends StackPane {
 		getChildren().addAll(userArea, header, progressBarLayer, statsLayer);
 		getStyleClass().add(PRACTICE_PANE_CSS);
 		
-		correctProblems = new ArrayList<>();
-		incorrectProblems = new ArrayList<>();
+		deckStats = new TimedAccuracyStats();
 		
 		deckIndex = -1;
 	}
@@ -92,39 +94,33 @@ public final class PracticePane extends StackPane {
 	
 	private void deckFinished() {
 		cleanUpOnFinish();
-		FinishPracticePopup.get().updateAccuracy(correctProblems.size(), incorrectProblems.size());
+		Data.addDeckTime(set(), deckStats.totalTime());
+		FinishPracticePopup.get().updateAccuracy(deckStats.correct(), deckStats.incorrect());
 		FinishPracticePopup.get().updateLongestStreak(statsLayer.longestStreak());
+		FinishPracticePopup.get().updateTimes(deckStats());
 		FinishPracticePopup.get().setTitle(set().name());
 		set().addPractice();
 		showFinishPopup();
 	}
 	
-	void notifyCorrect(Problem p) {
-		recordCorrect(p);
+	void notifyCorrect() {
 		statsLayer.notifyCorrect();
-		notifyFinished();
-	}
-
-	private void recordCorrect(Problem p) {
-		correctProblems.add(p);
-		Data.addCorrect(set(), p);
-	}
-	
-	void notifyIncorrect(Problem p) {
-		recordIncorrect(p);
-		statsLayer.notifyIncorrect();
-		notifyFinished();
-	}
-
-	private void recordIncorrect(Problem p) {
-		incorrectProblems.add(p);
-		Data.addIncorrect(set(), p);
-	}
-	
-	/** Called whenever a problem is finished, whether it was correct or incorrect. Should only be called by
-	 * {@link #notifyCorrect(Problem)} and {@link #notifyIncorrect(Problem)}.*/
-	private void notifyFinished() {
 		progressBar.addFinished();
+	}
+
+	void notifyIncorrect() {
+		statsLayer.notifyIncorrect();
+		progressBar.addFinished();
+	}
+
+	private void recordCorrect(String topicName, double timeInMillis) {
+		deckStats.addCorrect(timeInMillis);
+		Data.addCorrect(set(), topicName);
+	}
+	
+	private void recordIncorrect(String topicName, double timeInMillis) {
+		deckStats.addIncorrect(timeInMillis);
+		Data.addIncorrect(set(), topicName);
 	}
 	
 	/** Cleans up the {@link PracticePane} before the {@link #showFinishPopup() finish popup} is shown.*/
@@ -148,8 +144,7 @@ public final class PracticePane extends StackPane {
 	private void startDeck(Deck deck) {
 		this.deck = deck;
 		deckIndex = 0;
-		correctProblems.clear();
-		incorrectProblems.clear();
+		deckStats.reset();
 		userArea.focusOnField();
 		statsLayer.resetAll();
 		progressBar.resetWithTotal(deck.size());
@@ -181,14 +176,23 @@ public final class PracticePane extends StackPane {
 	/** Called by {@link UserArea} whenever a {@link Problem} is completed - that is, it is answered correctly.
 	 * This method assumes that the problem has already been recorded (see {@link #notifyCorrect(Problem)} and
 	 * {@link #notifyIncorrect(Problem)}).
-	 * @param time the duration (in milliseconds) it took the user to enter a correct answer
+	 * @param timeInMillis the duration (in milliseconds) it took the user to enter a correct answer
 	 * */
-	void problemCompleted(double time) {
-		statsLayer.setMostRecentTime(time);
+	void problemCompleted(Problem problem, double timeInMillis, boolean correct) {
+		String topicName = problem.topic().name();
+		if(correct)
+			recordCorrect(topicName, timeInMillis);
+		else
+			recordIncorrect(topicName, timeInMillis);
+		statsLayer.addTime(timeInMillis);
 		if(hasMoreProblemsInDeck())
 			setupNext();
 		else
 			deckFinished();
+	}
+	
+	ReadOnlyTimedAccuracyStats deckStats() {
+		return deckStats;
 	}
 	
 }

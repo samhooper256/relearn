@@ -81,7 +81,7 @@ final class TopicOverallTabContent extends StatsTabContent {
 	}
 	
 	@Override
-	protected void updateOverallAccuracy(ReadOnlyStats stats) {
+	protected void updateOverallAccuracy(ReadOnlyAccuracyStats stats) {
 		super.updateOverallAccuracy(stats);
 		accuracy.setAccuracy(Data.overall());
 	}

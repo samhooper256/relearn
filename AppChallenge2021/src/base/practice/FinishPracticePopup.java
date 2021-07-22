@@ -5,7 +5,7 @@ package base.practice;
 
 import base.*;
 import base.graphics.FadePopup;
-import base.stats.AccuracyPie;
+import base.stats.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -33,7 +33,8 @@ public final class FinishPracticePopup extends FadePopup {
 	
 	private final VBox vBox;
 	private final Label title;
-	private final InfoBar infoBar;
+	private final TopInfoBar topInfoBar;
+	private final BottomInfoBar bottomInfoBar;
 	private final HBox buttonBar, header;
 	private final Button exitButton, replayButton;
 	private final AccuracyPie pie;
@@ -44,7 +45,8 @@ public final class FinishPracticePopup extends FadePopup {
 		title = new Label();
 		header = new HBox(title);
 		
-		infoBar = new InfoBar();
+		topInfoBar = new TopInfoBar();
+		bottomInfoBar = new BottomInfoBar();
 		
 		exitButton = new Button("Back");
 		replayButton = new Button("Replay");
@@ -52,7 +54,7 @@ public final class FinishPracticePopup extends FadePopup {
 		
 		pie = new AccuracyPie(0, 0);
 		
-		vBox = new VBox(header, infoBar, pie, buttonBar);
+		vBox = new VBox(header, topInfoBar, pie, bottomInfoBar, buttonBar);
 		initVBox();
 		
 		setGlassCloseable(false);
@@ -104,11 +106,15 @@ public final class FinishPracticePopup extends FadePopup {
 
 	void updateAccuracy(int correct, int incorrect) {
 		pie.setAccuracy(correct, incorrect);
-		infoBar.updateAccuracy(correct, incorrect);
+		topInfoBar.updateAccuracy(correct, incorrect);
 	}
 	
 	void updateLongestStreak(int streak) {
-		infoBar.updateLongestStreak(streak);
+		topInfoBar.updateLongestStreak(streak);
+	}
+	
+	void updateTimes(ReadOnlyTimedAccuracyStats stats) {
+		bottomInfoBar.updateTimes(stats);
 	}
 	
 	void setTitle(String title) {

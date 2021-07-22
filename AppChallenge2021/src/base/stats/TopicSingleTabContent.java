@@ -12,12 +12,12 @@ final class TopicSingleTabContent extends StatsTabContent {
 		name = topicName;
 		display = new AccuracyDisplay();
 		VBox.setVgrow(display, Priority.ALWAYS);
-		getChildren().add(display);
+		vBox.getChildren().add(display);
 	}
 	
 	@Override
 	void updateStats() {
-		ReadOnlyStats stats = Data.statsForTopic(name);
+		ReadOnlyAccuracyStats stats = Data.accuracyStatsForTopic(name);
 		updateOverallAccuracy(stats);
 		display.setAccuracy(stats);
 	}

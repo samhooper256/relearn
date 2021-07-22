@@ -31,7 +31,7 @@ abstract class StatsTabContent extends StackPane {
 		overallAccuracy.getStyleClass().add(OVERALL_ACCURACY_CSS);
 	}
 	
-	protected void updateOverallAccuracy(ReadOnlyStats stats) {
+	protected void updateOverallAccuracy(ReadOnlyAccuracyStats stats) {
 		if(stats.isEmpty())
 			overallAccuracy.setText("");
 		else

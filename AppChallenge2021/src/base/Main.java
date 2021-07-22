@@ -48,8 +48,8 @@ public class Main extends Application {
 			INFO = Images.get("info.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			X_BOX = Images.get("x_box.png", AccuracyBar.ICON_SIZE, AccuracyBar.ICON_SIZE, false, true),
 			CHECK_BOX = Images.get("check_box.png", AccuracyBar.ICON_SIZE, AccuracyBar.ICON_SIZE, false, true),
-			TARGET = Images.get("target.png", InfoBar.ICON_SIZE, InfoBar.ICON_SIZE, false, true),
-			FIRE = Images.get("fire.png", InfoBar.ICON_SIZE, InfoBar.ICON_SIZE, false, true);
+			TARGET = Images.get("target.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true),
+			FIRE = Images.get("fire.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true);
 	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;

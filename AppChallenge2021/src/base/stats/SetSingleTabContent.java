@@ -45,8 +45,9 @@ public class SetSingleTabContent extends StatsTabContent {
 
 	@Override
 	void updateStats() {
+		System.out.printf("[enter] SetSingleTabContent.updateStats()%n");
 		practiceCount.setText(practiceString(set.practiceCount()));
-		updateOverallAccuracy(Data.overallStatsForSet(set));
+		updateOverallAccuracy(Data.accuracyStatsForSet(set));
 		dist.update(Data.mapForSet(set));
 	}
 	

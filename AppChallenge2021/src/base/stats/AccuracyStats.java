@@ -3,25 +3,20 @@
  */
 package base.stats;
 
-import java.io.Serializable;
-
-
 /**
  * @author Sam Hooper
- *
  */
-final class Stats implements Serializable, ReadOnlyStats {
+class AccuracyStats implements ReadOnlyAccuracyStats {
 	
 	private static final long serialVersionUID = -4346811725723203551L;
 	
-	private int correct;
-	private int incorrect;
+	private int correct, incorrect;
 	
-	public Stats() {
+	AccuracyStats() {
 		this(0, 0);
 	}
 	
-	public Stats(int correct, int incorrect) {
+	AccuracyStats(int correct, int incorrect) {
 		this.correct = correct;
 		this.incorrect = incorrect;
 	}
@@ -41,28 +36,28 @@ final class Stats implements Serializable, ReadOnlyStats {
 		return correct() + incorrect();
 	}
 	
-	public void addCorrect() {
+	void addCorrect() {
 		correct++;
 	}
 	
-	public void addIncorrect() {
+	void addIncorrect() {
 		incorrect++;
 	}
 	
-	public void addCorrect(int n) {
+	void addCorrect(int n) {
 		correct += n;
 	}
 	
-	public void addIncorrect(int n) {
+	void addIncorrect(int n) {
 		incorrect += n;
 	}
 	
-	public void addStats(Stats s) {
+	void addStats(AccuracyStats s) {
 		addCorrect(s.correct());
 		addIncorrect(s.incorrect());
 	}
 	
-	public void removeStats(Stats s) {
+	void removeStats(AccuracyStats s) {
 		removeCorrect(s.correct());
 		removeIncorrect(s.incorrect());
 	}
@@ -80,6 +75,7 @@ final class Stats implements Serializable, ReadOnlyStats {
 					String.format("Cannot remove %d incorrect because count would be negative", n));
 		incorrect -= n;
 	}
+	
 	
 	@Override
 	public String toString() {

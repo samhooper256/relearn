@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
  * @author Sam Hooper
  *
  */
-public final class InfoBar extends HalvedPane {
+public final class TopInfoBar extends HalvedPane {
 
 	public static final double ICON_SIZE = 32;
 	
@@ -20,7 +20,7 @@ public final class InfoBar extends HalvedPane {
 	
 	private final Label percentage, longestStreak;
 	
-	InfoBar() {
+	TopInfoBar() {
 		percentage = new Label();
 		initPercentage();
 		longestStreak = new Label("streek");

@@ -67,7 +67,7 @@ final class ProgressBar extends StackPane {
 	private final Fade fade;
 	
 	private double total;
-	private double finished;
+	private int finished;
 	
 	ProgressBar() {
 		bar = new Region();
@@ -98,6 +98,10 @@ final class ProgressBar extends StackPane {
 			slide.requestSlide(endWidth);
 	}
 
+	int finished() {
+		return finished;
+	}
+	
 	/** Assumes the bar is not visible. */
 	private void fadeIn(double endWidth) {
 		setBarWidth(endWidth);

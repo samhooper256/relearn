@@ -28,7 +28,7 @@ final class TopicOverallPie extends PieChart {
 	void update(DataMap map) {
 		if(sliceMap.isEmpty())
 			initSlices(map);
-		for(Map.Entry<String, Stats> e : map.entrySet())
+		for(Map.Entry<String, AccuracyStats> e : map.entrySet())
 			dataFor(e.getKey()).setPieValue(e.getValue().total());
 		getData().clear();
 		TopicUtils.streamNames().forEachOrdered(topicName -> {

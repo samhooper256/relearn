@@ -118,7 +118,7 @@ public class UserArea extends GridPane {
 	
 	private void showAnswerAction() {
 		if(!hasMarkedIncorrect())
-			pane().notifyIncorrect(problem());
+			pane().notifyIncorrect();
 		answerShown = true;
 		fieldRow.setText(problem().sampleAnswer());
 	}
@@ -126,13 +126,13 @@ public class UserArea extends GridPane {
 	private void correctAnswerAction() {
 		fieldRow.displayAsCorrect();
 		if(!hasMarkedIncorrect())
-			pane().notifyCorrect(problem());
-		pane().problemCompleted(getElapsedTime());
+			pane().notifyCorrect();
+		pane().problemCompleted(problem(), getElapsedTime(), !hasMarkedIncorrect());
 	}
 	
 	private void incorrectAnswerAction() {
 		if(!hasMarkedIncorrect())
-			pane().notifyIncorrect(problem());
+			pane().notifyIncorrect();
 		incorrectAnswerGiven = true;
 		fieldRow.displayAsIncorrect();
 	}

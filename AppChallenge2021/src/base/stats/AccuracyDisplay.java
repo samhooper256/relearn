@@ -64,7 +64,7 @@ final class AccuracyDisplay extends StackPane {
 		none.getStyleClass().add(NONE_CSS);
 	}
 
-	void setAccuracy(ReadOnlyStats stats) {
+	void setAccuracy(ReadOnlyAccuracyStats stats) {
 		if(stats.total() == 0)
 			setToNone();
 		else
@@ -78,7 +78,7 @@ final class AccuracyDisplay extends StackPane {
 		setPie(deadPie());
 	}
 	
-	private void setNonZeroAccuracy(ReadOnlyStats stats) {
+	private void setNonZeroAccuracy(ReadOnlyAccuracyStats stats) {
 		setFraction(stats);
 		total.setText(String.valueOf(stats.total()));
 		if(!vBox.getChildren().contains(total))
@@ -87,7 +87,7 @@ final class AccuracyDisplay extends StackPane {
 		setPie(realPie());
 	}
 	
-	private void setFraction(ReadOnlyStats stats) {
+	private void setFraction(ReadOnlyAccuracyStats stats) {
 		ObservableList<Node> children = fractionBox.getChildren();
 		if(children.size() != 3) {
 			children.clear();

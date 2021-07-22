@@ -207,6 +207,7 @@
 	-fx-padding: 0 0 10 10;
 }
 
+.practice-pane .stats-layer .average-time-label,
 .practice-pane .stats-layer .last-time-label {
 	-fx-font: 24 "Riffic Free Medium";	
 }
@@ -319,7 +320,7 @@
 }
 
 .finish-practice-popup {
-	-fx-padding: 15 10 20 10;
+	-fx-padding: 15 10 15 10;
 	-fx-background-color: -app-accent;
 	-fx-background-radius: 16;
 	-fx-border-color: -app-dark;
@@ -333,22 +334,24 @@
 }
 
 .finish-practice-popup .header {
-	-fx-padding: 0 0 15 0;
+	-fx-padding: 0 0 10 0;
 	-fx-alignment: center;
 }
 
 .finish-practice-popup .longest-streak,
-.finish-practice-popup .percentage {
-	-fx-font: 18 "Courier New";
-	-fx-font-weight: bold;
+.finish-practice-popup .percentage,
+.finish-practice-popup .average-time,
+.finish-practice-popup .fastest-time {
+	-fx-font: 18 "Riffic Free Medium";
 }
 
 .finish-practice-popup .accuracy-pie .chart-pie-label {
-	-fx-font: 14 "Georgia";
+	-fx-font: 14 "Riffic Free Medium";
 }
 
 .finish-practice-popup .button-bar {
 	-fx-spacing: 20;
+	-fx-padding: 10 0 0 0;
 	-fx-alignment: center;
 }
 

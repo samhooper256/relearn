@@ -82,7 +82,7 @@ final class TopicOverallPieLegend extends VBox {
 			vBox.getChildren().clear();
 			DataMap map = Data.mapByTopics();
 			TopicUtils.streamNames().forEachOrdered(topicName -> {
-				ReadOnlyStats stats = map.get(topicName);
+				ReadOnlyAccuracyStats stats = map.get(topicName);
 				if(!stats.isEmpty())
 					vBox.getChildren().add(LegendItem.of(topicName));
 			});
