@@ -1,6 +1,6 @@
 package base.practice;
 
-import static base.practice.PracticePane.formatTime;
+import static base.stats.Data.formatTime;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

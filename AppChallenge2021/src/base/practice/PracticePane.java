@@ -30,10 +30,6 @@ public final class PracticePane extends StackPane {
 		return INSTANCE;
 	}
 	
-	static String formatTime(double timeInMillis) {
-		return String.format("%.2fs", timeInMillis / 1000);
-	}
-	
 	private final UserArea userArea;
 	private final Label title;
 	private final HBox header;

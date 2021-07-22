@@ -32,21 +32,21 @@ public final class Data {
 		
 	}
 	
-	static final class BasicDataMap extends HashMap<String, AccuracyStats> implements DataMap {
+	static class BasicDataMap extends HashMap<String, AccuracyStats> implements DataMap {
 
 		private static final long serialVersionUID = 495053631322059137L;
 		
-		public void addCorrect(String topicName) {
+		void addCorrect(String topicName) {
 			getStats(topicName).addCorrect();
 		}
 		
-		public void addIncorrect(String topicName) {
+		void addIncorrect(String topicName) {
 			getStats(topicName).addIncorrect();
 		}
 
 	}
 	
-	static final class SetDataMap extends HashMap<String, AccuracyStats> implements DataMap {
+	static final class SetDataMap extends BasicDataMap implements DataMap {
 
 		private static final long serialVersionUID = -6636593044618879159L;
 
@@ -58,13 +58,15 @@ public final class Data {
 			deckTimes = new TimeStats();
 		}
 		
+		@Override
 		void addCorrect(String topicName) {
-			getStats(topicName).addCorrect();
+			super.addCorrect(topicName);
 			overallAccuracy.addCorrect();
 		}
 		
+		@Override
 		void addIncorrect(String topicName) {
-			getStats(topicName).addIncorrect();
+			super.addIncorrect(topicName);
 			overallAccuracy.addIncorrect();
 		}
 		
@@ -74,6 +76,10 @@ public final class Data {
 
 		ReadOnlyAccuracyStats overallAccuracy() {
 			return overallAccuracy;
+		}
+		
+		ReadOnlyTimeStats deckTimes() {
+			return deckTimes;
 		}
 
 	}
@@ -148,6 +154,10 @@ public final class Data {
 	
 	private static SetDataMap dataMapFor(ProblemSet set) {
 		return MAP_BY_SETS.getDataMap(set);
+	}
+	
+	public static String formatTime(double timeInMillis) {
+		return String.format("%.2fs", timeInMillis / 1000);
 	}
 	
 	public static void addCorrect(ProblemSet set, String topicName) {

@@ -18,6 +18,7 @@ final class TimeStats implements ReadOnlyTimeStats {
 	
 	void addTime(double timeInMillis) {
 		assert timeInMillis >= 0;
+		total++;
 		totalTime += timeInMillis;
 		fastestTime = Math.min(fastestTime, timeInMillis);
 	}
