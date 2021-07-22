@@ -17,9 +17,13 @@ import javafx.util.Duration;
  */
 public final class TitleBox extends HBox {
 	
-	private static final Duration CHARACTER_FADE_DURATION = Duration.millis(1000);
-	private static final Duration DELAY_BETWEEN_CHARACTERS = CHARACTER_FADE_DURATION.divide(2);
-	private static final String TITLE_CHARACTER_CSS = "title-character";
+	private static final double STARTING_TRANSLATE_Y = -20;
+	private static final Duration CHAR_DURATION = Duration.millis(500);
+	private static final Duration MOVE_DELAY = Duration.millis(200);
+	private static final Duration CHAR_DELAY = CHAR_DURATION.divide(4);
+	private static final String
+			TITLE_BOX_CSS = "title-box",
+			TITLE_CHARACTER_CSS = "title-character";
 	
 	private final String text;
 	private final Timeline timeline;
@@ -32,12 +36,15 @@ public final class TitleBox extends HBox {
 			l.getStyleClass().add(TITLE_CHARACTER_CSS);
 			getChildren().addAll(l);
 		}
-		timeline = Animations.animationWithDelay(
-				getChildren(), Node::opacityProperty, CHARACTER_FADE_DURATION, DELAY_BETWEEN_CHARACTERS, 0, 1);
+		timeline = Animations.animationWithDelay(getChildren(), Node::opacityProperty, CHAR_DURATION, CHAR_DELAY, 0, 1);
+		Animations.addAnimationWithDelay(timeline, getChildren(),
+				Node::translateYProperty, MOVE_DELAY, CHAR_DURATION, CHAR_DELAY, STARTING_TRANSLATE_Y, 0, Interpolator.EASE_OUT);
+		getStyleClass().add(TITLE_BOX_CSS);
 	}
 	
-	public void fadeIn() {
-		Nodes.setOpacities(getChildren(), 0);
+	public void animateIn() {
+		Nodes.setOpacity(getChildren(), 0);
+		Nodes.setTranslate(getChildren(), 0, STARTING_TRANSLATE_Y);
 		this.setVisible(true);
 		timeline.playFromStart();
 	}

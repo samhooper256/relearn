@@ -89,8 +89,7 @@ public class Main extends Application {
 		primaryStage.setMaximized(true);
 		primaryStage.show();
 		
-		MainScene.get().growth().fadeIn();
-		MainScene.get().title().fadeIn();
+		MainScene.get().animateIn();
 		
 	}
 	

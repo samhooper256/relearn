@@ -23,12 +23,17 @@ public final class Nodes {
 		s.setLayoutY(y);
 	}
 	
-	public static void setTranslate(Shape s, double x, double y) {
-		s.setLayoutX(x);
-		s.setLayoutY(y);
+	public static void setTranslate(Node s, double x, double y) {
+		s.setTranslateX(x);
+		s.setTranslateY(y);
 	}
 	
-	public static void setOpacities(Collection<? extends Node> nodes, double opacity) {
+	public static void setTranslate(Iterable<? extends Node> nodes, double x, double y) {
+		for(Node n : nodes)
+			setTranslate(n, x, y);
+	}
+	
+	public static void setOpacity(Collection<? extends Node> nodes, double opacity) {
 		for(Node n : nodes)
 			n.setOpacity(opacity);
 	}

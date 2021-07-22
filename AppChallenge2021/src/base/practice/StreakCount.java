@@ -42,7 +42,7 @@ final class StreakCount extends StackPane {
 
 	private void initCircle() {
 		circle.setRadius(CIRCLE_RADIUS);
-		Nodes.setTranslate(circle, CIRCLE_RADIUS, CIRCLE_RADIUS);
+		Nodes.setLayout(circle, CIRCLE_RADIUS, CIRCLE_RADIUS);
 		circle.getStyleClass().add(CIRCLE_CSS);
 	}
 	

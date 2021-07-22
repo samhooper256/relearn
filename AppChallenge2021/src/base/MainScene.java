@@ -9,8 +9,12 @@ import base.practice.PracticePane;
 import base.sets.*;
 import base.settings.SettingsPane;
 import base.stats.*;
+import fxutils.Borders;
+import javafx.animation.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 /**
  * @author Sam Hooper
@@ -21,7 +25,10 @@ public final class MainScene extends Scene {
 	private static final String
 			MAIN_MENU_CSS = "main-menu",
 			VBOX_CSS = "vbox";
-	
+	private static final Duration
+			GROWTH_START = Duration.seconds(1),
+			BUTTON_INTRO_START = Duration.millis(100),
+			BUTTON_INTRO_DELAY = Duration.millis(150);
 	private static final MainScene INSTANCE = new MainScene(new StackPane(), Main.MIN_WIDTH, Main.MIN_HEIGHT);
 	
 	public static MainScene get() {
@@ -32,6 +39,7 @@ public final class MainScene extends Scene {
 	private final TitleBox title;
 	private final Growth growth;
 	private final VBox vBox;
+	private final Timeline introTimeline;
 	
 	private MainScene(StackPane root, double width, double height) {
 		super(root, width, height);
@@ -43,9 +51,12 @@ public final class MainScene extends Scene {
 		
 		title = new TitleBox(Main.TITLE);
 		vBox = new VBox(title, MainMenuButton.SETS, MainMenuButton.STATS, MainMenuButton.SETTINGS);
-		
+		vBox.setBorder(Borders.of(Color.RED));
 		mainMenu.getChildren().addAll(growthPane, vBox);
 		initMainMenu();
+		
+		introTimeline = new Timeline();
+		initIntroTimeline();
 		
 		getStylesheets().add(Main.class.getResource(Main.RESOURCES_PREFIX + "style.css").toExternalForm());
 	}
@@ -65,6 +76,20 @@ public final class MainScene extends Scene {
 		MainMenuButton.SETS.setOnAction(this::showSets);
 		MainMenuButton.STATS.setOnAction(this::showStats);
 		MainMenuButton.SETTINGS.setOnAction(this::showSettings);
+	}
+	
+	private void initIntroTimeline() {
+		KeyFrame f1 = new KeyFrame(BUTTON_INTRO_START, e -> MainMenuButton.SETS.animateIn());
+		KeyFrame f2 = new KeyFrame(BUTTON_INTRO_START.add(BUTTON_INTRO_DELAY), e -> MainMenuButton.STATS.animateIn());
+		KeyFrame f3 = new KeyFrame(BUTTON_INTRO_START.add(BUTTON_INTRO_DELAY.multiply(2)),
+				e -> MainMenuButton.SETTINGS.animateIn());
+		KeyFrame growthFrame = new KeyFrame(GROWTH_START, e -> growth().animateIn());
+		introTimeline.getKeyFrames().addAll(f1, f2, f3, growthFrame);
+	}
+	
+	void animateIn() {
+		title().animateIn();
+		introTimeline.playFromStart();
 	}
 	
 	public StackPane mainMenu() {

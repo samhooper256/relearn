@@ -153,8 +153,8 @@ public class Growth extends Group {
 		return r.getLayoutY();
 	}
 	
-	public void fadeIn() {
-		Nodes.setOpacities(getChildren(), 0);
+	public void animateIn() {
+		Nodes.setOpacity(getChildren(), 0);
 		this.setVisible(true);
 	    timeline.play();
 	}

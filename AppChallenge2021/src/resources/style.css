@@ -81,6 +81,9 @@
 	-fx-focus-traversable: false;
 }
 
+.title-box {
+	-fx-padding: 0 0 0 50;
+}
 .title-character {
 	-fx-font: 72 "Riffic Free Medium";
 }
