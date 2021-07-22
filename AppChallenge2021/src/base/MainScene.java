@@ -51,7 +51,6 @@ public final class MainScene extends Scene {
 		
 		title = new TitleBox(Main.TITLE);
 		vBox = new VBox(title, MainMenuButton.SETS, MainMenuButton.STATS, MainMenuButton.SETTINGS);
-		vBox.setBorder(Borders.of(Color.RED));
 		mainMenu.getChildren().addAll(growthPane, vBox);
 		initMainMenu();
 		
