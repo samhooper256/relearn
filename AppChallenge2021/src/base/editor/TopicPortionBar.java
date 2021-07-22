@@ -6,9 +6,9 @@ package base.editor;
 import java.util.*;
 
 import base.Named;
+import fxutils.Colors;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import topics.*;
 
@@ -43,13 +43,8 @@ public class TopicPortionBar extends GridPane {
 			
 			tooltip = new Tooltip(topicName);
 			initTooltip();
-			Color color = TopicUtils.colorOf(topicName);
 			setBackground(TopicUtils.backgroundFor(topicName));
-			double red = color.getRed(), green = color.getGreen(), blue = color.getBlue();
-			if(256*(red*0.299 + green*0.587 + blue*0.114) <= 186)
-				label.setTextFill(Color.WHITE);
-			else
-				label.setTextFill(Color.BLACK);
+			label.setTextFill(Colors.getBlackOrWhiteContrasting(TopicUtils.colorOf(topicName)));
 			setMinSize(0, 0);
 			setPrefSize(0, 0);
 			getChildren().add(label);

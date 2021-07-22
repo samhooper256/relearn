@@ -3,10 +3,11 @@ package base;
 import java.io.*;
 import java.util.Optional;
 
+import base.editor.EditorPane;
 import base.practice.*;
 import base.sets.*;
 import base.settings.Settings;
-import base.stats.Data;
+import base.stats.*;
 import fxutils.Images;
 import javafx.application.Application;
 import javafx.scene.image.Image;
@@ -81,8 +82,11 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryScreen = Screen.getPrimary();
 		
-		PracticePane.get(); //The PracticePane takes a long time to load because it has a WebView, so we do it on
-		//application startup.
+		//load all the panes in advance so user has a smooth experience:
+		PracticePane.get();
+		StatsPane.get();
+		SetsPane.get();
+		EditorPane.get();
 		
 		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(MainScene.get());
