@@ -65,7 +65,7 @@ public final class Data {
 		
 		void addIncorrect(String topicName) {
 			getStats(topicName).addIncorrect();
-			overallAccuracy.addCorrect();
+			overallAccuracy.addIncorrect();
 		}
 		
 		void addTime(double timeInMillis) {
