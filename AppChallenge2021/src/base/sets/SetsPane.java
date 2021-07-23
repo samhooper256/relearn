@@ -9,6 +9,7 @@ import base.settings.Settings;
 import fxutils.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 /**
  * @author Sam Hooper
@@ -25,9 +26,8 @@ public class SetsPane extends StackPane {
 			SCROLL_CSS = "scroll",
 			ROOT_LAYER_CSS = "root-layer",
 			BACK_ARROW_BOX_CSS = "back-arrow-box";
-	
 	private static final double FLOW_PADDING = 20, CREATE_BUTTON_SCALE_FACTOR = 1.05;
-	
+	private static final Duration CREATE_BUTTON_SCALE_DURATION = Duration.millis(150);
 	private static final SetsPane INSTANCE = new SetsPane();
 	
 	public static SetsPane get() {
@@ -47,7 +47,7 @@ public class SetsPane extends StackPane {
 		title = new Label(TITLE);
 		backArrow = new BackArrow();
 		backArrowBox = new HBox(backArrow);
-		createButton = new HoverExpandButton("+ Create", CREATE_BUTTON_SCALE_FACTOR);
+		createButton = new HoverExpandButton("+ Create", CREATE_BUTTON_SCALE_FACTOR, CREATE_BUTTON_SCALE_DURATION);
 		header = new VBox(title, createButton);
 		flow = new FlowPane();
 		scroll = new ScrollPane(flow);
