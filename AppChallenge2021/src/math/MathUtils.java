@@ -4,6 +4,7 @@
 package math;
 
 import java.math.BigInteger;
+import java.util.*;
 
 /**
  * <p>Math-related utilities.</p>
@@ -49,6 +50,21 @@ public final class MathUtils {
 		if(n < 0)
 			throw new ArithmeticException("n < 0");
 		return new BigInteger(String.format("1%s", "0".repeat(n)));
+	}
+	
+	public static Set<Integer> factors(int n) {
+		if(n <= 0)
+			throw new IllegalArgumentException("n < 0");
+		Set<Integer> factors = new HashSet<>();
+		factors.add(1);
+		factors.add(n);
+		for(int i = 2; i * i <= n; i++) {
+			if(n % i == 0) {
+				factors.add(i);
+				factors.add(n / i);
+			}
+		}
+		return factors;
 	}
 	
 }
