@@ -9,11 +9,9 @@ import base.practice.PracticePane;
 import base.sets.*;
 import base.settings.SettingsPane;
 import base.stats.*;
-import fxutils.Borders;
 import javafx.animation.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**

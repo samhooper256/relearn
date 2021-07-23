@@ -21,7 +21,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 			EDITOR_PANE_CSS = "editor-pane",
 			PORTION_LAYER_CSS = "portion-layer";
 	private static final EditorPane INSTANCE = new EditorPane();
-	private static final double PORTION_BAR_HEIGHT = 200;
+	private static final double PORTION_LAYER_HEIGHT = 200, PORTION_LAYER_MIN_HEIGHT = 80;
 	
 	public static EditorPane get() {
 		return INSTANCE;
@@ -65,7 +65,8 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 	
 	private void initPortionLayer() {
 		HBox.setHgrow(TopicPortionBar.get(), Priority.ALWAYS);
-		portionLayer.setPrefHeight(PORTION_BAR_HEIGHT);
+		portionLayer.setPrefHeight(PORTION_LAYER_HEIGHT);
+		portionLayer.setMinHeight(PORTION_LAYER_MIN_HEIGHT);
 		portionLayer.getStyleClass().add(PORTION_LAYER_CSS);
 	}
 	

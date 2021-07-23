@@ -530,36 +530,38 @@
 	-fx-spacing: 8;
 }
 
-.topic-selection-popup .scroll {
+.editor-pane .scroll,
+.editor-pane .scroll:focused {
 	-fx-background-color: -app-base;
+	-fx-background-insets: 0;
 	-fx-background-radius: 6;
 	-fx-fit-to-width: true;
 	-fx-vbar-policy: always;
 }
 
-.topic-selection-popup .scroll .viewport {
+.editor-pane .scroll .viewport {
 	-fx-background-color: -app-base;
 	-fx-background-radius: 8;
 }
 
-.topic-selection-popup .scroll .scroll-bar:vertical {
+.editor-pane .scroll .scroll-bar:vertical {
 	-fx-background-color: -app-base;
 }
 
-.topic-selection-popup .scroll .scroll-bar:vertical .thumb {
+.editor-pane .scroll .scroll-bar:vertical .thumb {
 	-fx-background-color: -app-light;
 	-fx-border-radius: 8;
 }
 
-.topic-selection-popup .scroll .corner,
-.topic-selection-popup .scroll .scroll-bar:vertical .track,
-.topic-selection-popup .scroll .scroll-bar:vertical .increment-button,
-.topic-selection-popup .scroll .scroll-bar:vertical .decrement-button {
+.editor-pane .scroll .corner,
+.editor-pane .scroll .scroll-bar:vertical .track,
+.editor-pane .scroll .scroll-bar:vertical .increment-button,
+.editor-pane .scroll .scroll-bar:vertical .decrement-button {
 	-fx-background-color: -app-base;	
 }
 
-.topic-selection-popup .scroll .scroll-bar:vertical .increment-button .increment-arrow,
-.topic-selection-popup .scroll .scroll-bar:vertical .decrement-button .decrement-arrow {
+.editor-pane .scroll .scroll-bar:vertical .increment-button .increment-arrow,
+.editor-pane .scroll .scroll-bar:vertical .decrement-button .decrement-arrow {
 	visibility: false;
 }
 
