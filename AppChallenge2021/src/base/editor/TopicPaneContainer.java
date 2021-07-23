@@ -3,6 +3,8 @@
  */
 package base.editor;
 
+import java.util.stream.Stream;
+
 import base.*;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
@@ -85,6 +87,10 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 		for(Node n : getChildren())
 			if(n instanceof TopicPane p)
 				p.setTrashCanVisible(visible);
+	}
+	
+	Stream<TopicPane> topicPanes() {
+		return getChildren().stream().filter(n -> n instanceof TopicPane).map(n -> (TopicPane) n);
 	}
 	
 }

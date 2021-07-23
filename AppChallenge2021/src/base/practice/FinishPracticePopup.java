@@ -21,7 +21,7 @@ public final class FinishPracticePopup extends FadePopup {
 			BUTTON_BAR_CSS = "button-bar",
 			VBOX_CSS = "vbox",
 			HEADER_CSS = "header",
-			EXIT_BUTTON_CSS = "exit-button",
+			BACK_BUTTON_CSS = "back-button",
 			REPLAY_BUTTON_CSS = "replay-button";
 	
 	private static final double PIE_HEIGHT = 200, PIE_WIDTH = 300;
@@ -36,7 +36,7 @@ public final class FinishPracticePopup extends FadePopup {
 	private final TopInfoBar topInfoBar;
 	private final BottomInfoBar bottomInfoBar;
 	private final HBox buttonBar, header;
-	private final Button exitButton, replayButton;
+	private final Button backButton, replayButton;
 	private final AccuracyPie pie;
 	
 	private FinishPracticePopup() {
@@ -48,9 +48,9 @@ public final class FinishPracticePopup extends FadePopup {
 		topInfoBar = new TopInfoBar();
 		bottomInfoBar = new BottomInfoBar();
 		
-		exitButton = new Button("Back");
+		backButton = new Button("Back");
 		replayButton = new Button("Replay");
-		buttonBar = new HBox(exitButton, replayButton);
+		buttonBar = new HBox(backButton, replayButton);
 		
 		pie = new AccuracyPie(0, 0);
 		
@@ -82,8 +82,8 @@ public final class FinishPracticePopup extends FadePopup {
 	}
 	
 	private void initExitButton() {
-		exitButton.setOnAction(e -> exitButtonAction());
-		exitButton.getStyleClass().add(EXIT_BUTTON_CSS);
+		backButton.setOnAction(e -> exitButtonAction());
+		backButton.getStyleClass().add(BACK_BUTTON_CSS);
 	}
 	
 	private void exitButtonAction() {

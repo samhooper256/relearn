@@ -358,15 +358,17 @@
 	-fx-alignment: center;
 }
 
+.editor-pane .expansion-button,
 .edit-warning .continue,
-.finish-practice-popup .exit-button {
+.finish-practice-popup .back-button {
 	-fx-border-color: -app-dark-orange;
 	-fx-background-color: -app-orange-accent;
 	-fx-text-fill: -app-dark-orange;
 }
 
+.editor-pane .expansion-button:hover,
 .edit-warning .continue:hover,
-.finish-practice-popup .exit-button:hover {
+.finish-practice-popup .back-button:hover {
 	-fx-background-color: -app-orange-light-accent;
 }
 
@@ -475,7 +477,8 @@
 }
 
 .topic-pane {
-	-fx-background-color: transparent;
+	-fx-background-color: -app-light-accent;
+	-fx-background-radius: 8 8 5 5;
 	-fx-text-fill: black;
 }
 
@@ -483,12 +486,11 @@
 	-fx-font: 18 "Georgia";
 	-fx-background-color: -app-accent;
 	-fx-background-insets: 0;
-	-fx-background-radius: 5 5 5 5;
+	-fx-background-radius: 5;
 	-fx-padding: 5 10 5 10;
 }
 
 .topic-pane > *.content {
-	-fx-background-color: -app-light-accent;
 	-fx-border-width: 0;
 	-fx-background-insets: 0;
 	-fx-padding: 2 0 0 18;
@@ -561,7 +563,7 @@
 	visibility: false;
 }
 
-.finish-practice-popup .exit-button,
+.finish-practice-popup .back-button,
 .finish-practice-popup .replay-button,
 .edit-warning .cancel,
 .edit-warning .continue,

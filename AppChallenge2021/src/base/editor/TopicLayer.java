@@ -20,12 +20,15 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	private static final String
 		ADD_TEXT = "+ Add Topic",
 		NORMAL_MODE_REMOVE_TEXT = "- Remove Topic",
-		REMOVAL_MODE_REMOVE_TEXT = "Done";
+		REMOVAL_MODE_REMOVE_TEXT = "Done",
+		COLLAPSE_ALL_TEXT = "Collapse all",
+		EXPAND_ALL_TEXT = "Expand all";
 	private static final String
 			TOPIC_LAYER_CSS = "topic-layer",
 			TOPIC_MANAGEMENT_BOX_CSS = "topic-management-box",
 			ADD_TOPIC_BUTTON_CSS = "add-topic-button",
 			REMOVE_TOPIC_BUTTON_CSS = "remove-topic-button",
+			EXPANSION_BUTTON_CSS = "expansion-button",
 			SCROLL_CSS = "scroll";
 	
 	private static final double TOPIC_MANAGEMENT_BOX_WIDTH = 120;
@@ -35,7 +38,7 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	}
 	
 	private final VBox topicManagementBox;
-	private final Button addButton, removeButton;
+	private final Button addButton, removeButton, collapseAllButton, expandAllButton;
 	private final ScrollPane scroll;
 	private final TopicPaneContainer topicPaneContainer;
 	
@@ -46,7 +49,9 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 		
 		addButton = new Button(ADD_TEXT);
 		removeButton = new Button(NORMAL_MODE_REMOVE_TEXT);
-		topicManagementBox = new VBox(addButton, removeButton);
+		collapseAllButton = new Button(COLLAPSE_ALL_TEXT);
+		expandAllButton = new Button(EXPAND_ALL_TEXT);
+		topicManagementBox = new VBox(addButton, removeButton, collapseAllButton, expandAllButton);
 		initTopicManagementBox();
 		
 		topicPaneContainer = new TopicPaneContainer();
@@ -61,6 +66,8 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	private void initTopicManagementBox() {
 		initAddButton();
 		initRemoveButton();
+		initCollapseAllButton();
+		initExpandAllButton();
 		topicManagementBox.getStyleClass().add(TOPIC_MANAGEMENT_BOX_CSS);
 		topicManagementBox.setPrefWidth(TOPIC_MANAGEMENT_BOX_WIDTH);
 	}
@@ -87,6 +94,24 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 			case REMOVAL -> setMode(Mode.NORMAL);
 			default -> unsupported(mode());
 		}
+	}
+	
+	private void initCollapseAllButton() {
+		collapseAllButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, EXPANSION_BUTTON_CSS);
+		collapseAllButton.setOnAction(e -> collapseAllAction());
+	}
+	
+	private void collapseAllAction() {
+		topicPaneContainer.topicPanes().forEachOrdered(tp -> tp.setExpanded(false));
+	}
+	
+	private void initExpandAllButton() {
+		expandAllButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, EXPANSION_BUTTON_CSS);
+		expandAllButton.setOnAction(e -> expandAllAction());
+	}
+	
+	private void expandAllAction() {
+		topicPaneContainer.topicPanes().forEachOrdered(tp -> tp.setExpanded(true));
 	}
 	
 	private void initScroll() {

@@ -60,7 +60,7 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 		setGraphic(graphic);
 		getStyleClass().add(TOPIC_PANE_CSS);
 	}
-	
+
 	private void initGraphic() {
 		initField();
 		initTrashCan();
@@ -93,7 +93,7 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 	private void initEmptyFieldError() {
 		hideEmptyFieldError();
 	}
-
+	
 	private void hideEmptyFieldError() {
 		emptyFieldError.setVisible(false);
 	}
