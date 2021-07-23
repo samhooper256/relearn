@@ -572,6 +572,7 @@
 .editor-button {
 	-fx-border-radius: 4;
 	-fx-background-radius: 6;
+	-fx-background-insets: 0;
 	-fx-font: 14 "Georgia";
 	-fx-focus-traversable: false;
 }
