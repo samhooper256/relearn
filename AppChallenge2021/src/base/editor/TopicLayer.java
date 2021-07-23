@@ -2,6 +2,7 @@ package base.editor;
 
 import base.IndependentlyVerifiable;
 import base.sets.ProblemSet;
+import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import topics.Topic;
@@ -47,6 +48,8 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	public TopicLayer() {
 		mode = Mode.NORMAL;
 		
+		topicPaneContainer = new TopicPaneContainer(); //needs to be created before initTopicManagementBox() is called.
+		
 		addButton = new Button(ADD_TEXT);
 		removeButton = new Button(NORMAL_MODE_REMOVE_TEXT);
 		collapseAllButton = new Button(COLLAPSE_ALL_TEXT);
@@ -54,7 +57,7 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 		topicManagementBox = new VBox(addButton, removeButton, collapseAllButton, expandAllButton);
 		initTopicManagementBox();
 		
-		topicPaneContainer = new TopicPaneContainer();
+		
 		scroll = new ScrollPane(topicPaneContainer);
 		initScroll();
 		
@@ -66,8 +69,11 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	private void initTopicManagementBox() {
 		initAddButton();
 		initRemoveButton();
-		initCollapseAllButton();
-		initExpandAllButton();
+		initExpansionButtons();
+		BooleanBinding visibleBinding = topicPaneContainer.paneCountProperty().greaterThan(0);
+		collapseAllButton.visibleProperty().bind(visibleBinding);
+		expandAllButton.visibleProperty().bind(visibleBinding);
+		removeButton.visibleProperty().bind(visibleBinding);
 		topicManagementBox.getStyleClass().add(TOPIC_MANAGEMENT_BOX_CSS);
 		topicManagementBox.setPrefWidth(TOPIC_MANAGEMENT_BOX_WIDTH);
 	}
@@ -96,18 +102,15 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 		}
 	}
 	
-	private void initCollapseAllButton() {
+	private void initExpansionButtons() {
 		collapseAllButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, EXPANSION_BUTTON_CSS);
 		collapseAllButton.setOnAction(e -> collapseAllAction());
+		expandAllButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, EXPANSION_BUTTON_CSS);
+		expandAllButton.setOnAction(e -> expandAllAction());
 	}
 	
 	private void collapseAllAction() {
 		topicPaneContainer.topicPanes().forEachOrdered(tp -> tp.setExpanded(false));
-	}
-	
-	private void initExpandAllButton() {
-		expandAllButton.getStyleClass().addAll(EditorPane.EDITOR_BUTTON_CSS, EXPANSION_BUTTON_CSS);
-		expandAllButton.setOnAction(e -> expandAllAction());
 	}
 	
 	private void expandAllAction() {

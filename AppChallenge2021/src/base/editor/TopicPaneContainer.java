@@ -6,6 +6,7 @@ package base.editor;
 import java.util.stream.Stream;
 
 import base.*;
+import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
@@ -18,9 +19,11 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 	private static final String TOPIC_PANE_CONTAINER_CSS = "topic-pane-container";
 	
 	private final ErrorMessage noTopicError;
+	private final IntegerProperty paneCountProperty;
 	
 	public TopicPaneContainer() {
 		noTopicError = new ErrorMessage("No topics selected");
+		paneCountProperty = new SimpleIntegerProperty(0);
 		getStyleClass().add(TOPIC_PANE_CONTAINER_CSS);
 	}
 	
@@ -68,11 +71,13 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 	
 	void addTopicPane(TopicPane tp) {
 		getChildren().add(tp);
+		paneCountProperty.set(paneCountProperty.get() + 1);
 	}
 	
 	void removeTopicPane(TopicPane tp) {
 		boolean removed = getChildren().remove(tp);
 		assert removed;
+		paneCountProperty.set(paneCountProperty.get() - 1);
 	}
 	
 	void showTrashCans() {
@@ -91,6 +96,10 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 	
 	Stream<TopicPane> topicPanes() {
 		return getChildren().stream().filter(n -> n instanceof TopicPane).map(n -> (TopicPane) n);
+	}
+	
+	IntegerProperty paneCountProperty() {
+		return paneCountProperty;
 	}
 	
 }
