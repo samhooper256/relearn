@@ -30,6 +30,19 @@
 	-fx-background-color: -app-base;
 }
 
+/* Style all CheckBox marks the same way: */
+.check-box > .box {
+	-fx-background-color: -app-accent;
+	-fx-background-insets: 0;
+	-fx-border-width: 0;	
+}
+
+.check-box:selected > .box > .mark {
+	-fx-background-color: -app-dark;
+	-fx-background-insets: 0;
+	-fx-border-width: 0;
+}
+
 .main-menu .vbox {
 	-fx-alignment: center-left;
 	-fx-fill-width: false;
