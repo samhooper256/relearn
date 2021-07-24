@@ -958,6 +958,21 @@
 	-fx-font: 18 "Georgia";	
 }
 
+.settings-pane .button {
+	-fx-border-color: -app-dark;
+	-fx-background-color: -app-accent;
+	-fx-text-fill: -app-dark;
+	-fx-border-radius: 4;
+	-fx-background-radius: 6;
+	-fx-background-insets: 0;
+	-fx-font: 18 "Georgia";
+}
+
+.conversion-chart {
+	-fx-background-color: -app-grey-accent;
+	-fx-background-radius: 10;
+}
+
 /* TopicSettings */
 
 .int-range .label,

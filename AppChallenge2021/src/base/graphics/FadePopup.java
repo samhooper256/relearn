@@ -17,6 +17,7 @@ import javafx.util.Duration;
 public class FadePopup extends StackPane {
 	
 	public static final double DEFAULT_WIDTH = 400, DEFAULT_HEIGHT = 300;
+	public static final boolean DEFAULT_GLASS_CLOSEABLE = true;
 	
 	private static final Duration
 			RISING_DURATION = Duration.millis(200),
@@ -25,7 +26,6 @@ public class FadePopup extends StackPane {
 	private static final String GLASS_PANE_CSS = "glass-pane";
 	private static final double STARTING_OPACITY = 0, GLASS_PANE_OPACITY = 0.7;
 	private static final double START_SIZE_PERCENT = 0.70, PEAK_SIZE_PERCENT = 1.02;
-	private static final boolean DEFAULT_GLASS_CLOSEABLE = true;
 	
 	private final StackPane glassPane;
 	private final FadeTransition fadeIn, fadeOut, glassFadeIn, glassFadeOut;

@@ -29,17 +29,21 @@ public final class SettingsPane extends StackPane {
 	}
 	
 	private final BackArrow backArrow;
+	private final Button conversionChartButton;
+	private final ConversionChart conversionChart;
 	private final HBox header;
 	private final Label title;
-	private final VBox vBox;
-	private final VBox settingsBox;
+	private final VBox vBox, settingsBox, helpBox;
 	
 	private SettingsPane() {
 		backArrow = new BackArrow();
 		title = new Label("Settings");
 		header = new HBox(backArrow, title);
 		settingsBox = new VBox();
-		vBox = new VBox(header, settingsBox);
+		conversionChartButton = new Button("Show Conversion Chart");
+		conversionChart = new ConversionChart(this);
+		helpBox = new VBox(conversionChartButton);
+		vBox = new VBox(header, settingsBox, helpBox);
 		initVBox();
 		getStyleClass().add(SETTINGS_PANE_CSS);
 		getChildren().add(vBox);
@@ -49,10 +53,15 @@ public final class SettingsPane extends StackPane {
 		backArrow.setOnAction(this::backArrowAction);
 	}
 	
+	private void backArrowAction() {
+		Main.scene().showMainMenu();
+	}
+	
 	private void initVBox() {
 		vBox.getStyleClass().add(VBOX_CSS);
 		initHeader();
 		initSettingsBox();
+		initHelpBox();
 	}
 
 	private void initHeader() {
@@ -68,8 +77,15 @@ public final class SettingsPane extends StackPane {
 		);
 	}
 	
-	private void backArrowAction() {
-		Main.scene().showMainMenu();
+	private void initHelpBox() {
+		initConversionChartButton();
 	}
 	
+	private void initConversionChartButton() {
+		conversionChartButton.setOnAction(e -> conversionChartAction());
+	}
+	
+	private void conversionChartAction() {
+		conversionChart.fadeIn();
+	}
 }
