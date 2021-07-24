@@ -52,18 +52,23 @@ public final class MathUtils {
 		return new BigInteger(String.format("1%s", "0".repeat(n)));
 	}
 	
-	public static Set<Integer> factors(int n) {
+	/** The returned {@link List} will contain unique elements, but they will not be in any particular order.*/
+	public static List<Integer> factors(int n) {
 		if(n <= 0)
 			throw new IllegalArgumentException("n < 0");
-		Set<Integer> factors = new HashSet<>();
+		List<Integer> factors = new ArrayList<>();
 		factors.add(1);
-		factors.add(n);
-		for(int i = 2; i * i <= n; i++) {
-			if(n % i == 0) {
-				factors.add(i);
-				factors.add(n / i);
+		if(n > 1) {
+			factors.add(n);
+			for(int i = 2; i * i <= n; i++) {
+				if(n % i == 0) {
+					factors.add(i);
+					if(i * i != n)
+						factors.add(n / i);
+				}
 			}
 		}
+		assert new HashSet<>(factors).size() == factors.size();
 		return factors;
 	}
 	
