@@ -22,9 +22,7 @@ public class SetCard extends StackPane {
 	private static final String
 			SET_CARD_CSS = "set-card",
 			TITLE_CSS = "title";
-	private static final double PREF_WIDTH = 300;
-	private static final double PREF_HEIGHT = 150;
-	private static final double PENCIL_SIZE = 30;
+	private static final double PREF_WIDTH = 300, PREF_HEIGHT = 150, PENCIL_SIZE = 30;
 	private static final Image PENCIL_IMAGE = Images.get("pencil.png", PENCIL_SIZE, PENCIL_SIZE, false, true);
 	private static final IdentityHashMap<ProblemSet, SetCard> CACHE = new IdentityHashMap<>();
 	
@@ -54,7 +52,7 @@ public class SetCard extends StackPane {
 	private final ProblemSet set;
 	private final VBox vBox;
 	private final Button practiceButton;
-	private final ImageView pencilView;
+	private final ImageView pencilView, trashView;
 	private final Label title;
 	
 	private SetCard(ProblemSet set) {
@@ -72,8 +70,11 @@ public class SetCard extends StackPane {
 		pencilView = new ImageView(PENCIL_IMAGE);
 		initPencil();
 		
+		trashView = new ImageView(Main.BIG_TRASH_CAN_IMAGE);
+		initTrash();
+		
 		getStyleClass().add(SET_CARD_CSS);
-		getChildren().addAll(vBox, pencilView);
+		getChildren().addAll(vBox, pencilView, trashView);
 	}
 
 	private void initVBox() {
@@ -91,8 +92,17 @@ public class SetCard extends StackPane {
 		StackPane.setAlignment(pencilView, Pos.TOP_RIGHT);
 	}
 	
+	private void initTrash() {
+		trashView.setOnMouseClicked(e -> requestDelete());
+		StackPane.setAlignment(trashView, Pos.BOTTOM_RIGHT);
+	}
+	
 	private void requestEdit() {
 		SetsPane.get().requestEdit(set());
+	}
+	
+	private void requestDelete() {
+		SetsPane.get().requestDelete(set());
 	}
 	
 	private void initPracticeButton() {

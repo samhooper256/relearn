@@ -24,6 +24,7 @@ public class Main extends Application {
 			MIN_WIDTH = 600, MIN_HEIGHT = 400,
 			BACK_ARROW_SIZE = 40,
 			TRASH_CAN_SIZE = 20,
+			BIG_TRASH_CAN_SIZE = 32,
 			BUTTON_ICON_SIZE = 16;
 	public static final File 
 			USER_FOLDER = new File(System.getProperty("user.dir"), String.format("%s Data", TITLE)),
@@ -39,6 +40,7 @@ public class Main extends Application {
 	public static final Image 
 			BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
 			TRASH_CAN_IMAGE = Images.get("trash.png", TRASH_CAN_SIZE, TRASH_CAN_SIZE, false, true),
+			BIG_TRASH_CAN_IMAGE = Images.get("trash.png", BIG_TRASH_CAN_SIZE, BIG_TRASH_CAN_SIZE, false, true),
 			BANNER = Images.get("banner.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
 			SETS_ICON = Images.get("sets_icon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),
 			STATS_ICON = Images.get("stats_icon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),

@@ -42,6 +42,7 @@ public class SetsPane extends StackPane {
 	private final HBox backArrowBox;
 	private final Button createButton;
 	private final EditWarning editWarning;
+	private final DeletePopup deletePopup;
 	
 	private SetsPane() {
 		title = new Label(TITLE);
@@ -54,6 +55,7 @@ public class SetsPane extends StackPane {
 		rootLayer = new VBox(backArrowBox, header, scroll);
 		initVBox();
 		editWarning = new EditWarning(this);
+		deletePopup = new DeletePopup(this, this::afterDeletionAction);
 		ProblemSet.all().addAddListener(ps -> addCardForSafe(ps));
 		ProblemSet.all().addRemoveListener(ps -> removeCardFor(ps));
 		getStyleClass().add(SETS_PANE_CSS);
@@ -124,6 +126,14 @@ public class SetsPane extends StackPane {
 			editWarning.requestEdit(set);
 		else
 			Main.scene().edit(set);
+	}
+	
+	void requestDelete(ProblemSet set) {
+		deletePopup.fadeIn(set);
+	}
+	
+	private void afterDeletionAction() {
+		deletePopup.fadeOut();
 	}
 	
 	void removeCardFor(ProblemSet set) {

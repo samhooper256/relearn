@@ -134,10 +134,11 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 		topicPaneContainer.removeTopicPane(pane);
 	}
 	
+	/** First {@link #clearTopicPanes() clears}, then {@link #addTopicPanesFor(Iterable) adds topic panes} for each one
+	 * of the given {@link ProblemSet ProblemSet's} topics.*/
 	void loadPanesFor(ProblemSet set) {
 		clearTopicPanes();
-		for(Topic t : set.config().topics())
-			addTopicPaneFor(t);
+		addTopicPanesFor(set.config().topics());
 	}
 	
 	void clearTopicPanes() {

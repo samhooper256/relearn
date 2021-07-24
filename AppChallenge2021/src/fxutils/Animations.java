@@ -21,6 +21,16 @@ public final class Animations {
 		
 	}
 	
+	public static void setTo(ScaleTransition scale, double x, double y) {
+		scale.setToX(x);
+		scale.setToY(y);
+	}
+	
+	public static void setFrom(ScaleTransition scale, double x, double y) {
+		scale.setFromX(x);
+		scale.setFromY(y);
+	}
+	
 	/** If the {@link Animation} is currently playing with a positive {@link Animation#getRate() rate}, reverses its
 	 * direction (and lets it continue playing). Otherwise, does nothing.*/
 	public static void deactivate(Animation animation) {

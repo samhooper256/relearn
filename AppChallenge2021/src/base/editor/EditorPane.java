@@ -51,7 +51,7 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		primaryZLayer = new VBox(header, nameLayer, topicLayer, portionLayer);
 		initPrimaryZLayer();
 		
-		deletePopup = new DeletePopup(this);
+		deletePopup = new DeletePopup(this, this::afterDeletionAction);
 		initDeletePopup();
 		
 		getChildren().add(primaryZLayer);
@@ -167,19 +167,14 @@ public class EditorPane extends StackPane implements IndependentlyVerifiable {
 		return !hasAnyTopics();
 	}
 	
-	void deleteCurrentSet() {
-		assert deletePopup.isVisible() && getChildren().contains(deletePopup);
-		ProblemSet.remove(currentSet());
+	void afterDeletionAction() {
 		goBack();
 		deletePopup.hidePopup();
-		topicLayer.clearTopicPanes();
-		topicLayer.setMode(Mode.NORMAL);
-		nameLayer.clearName();
 		set = null;
 	}
 	
 	private void fadeInDeletePopup() {
-		deletePopup.fadeIn();
+		deletePopup.fadeIn(currentSet());
 	}
 	
 }
