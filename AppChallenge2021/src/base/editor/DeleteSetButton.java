@@ -18,7 +18,7 @@ public final class DeleteSetButton extends Button {
 	private final ImageView trashCanView;
 	
 	public DeleteSetButton() {
-		trashCanView = new ImageView(Main.TRASH_CAN_IMAGE);
+		trashCanView = new ImageView(Main.TRASH_CAN);
 		text = new Label("Delete Set");
 		vBox = new VBox(text, trashCanView);
 		initVBox();

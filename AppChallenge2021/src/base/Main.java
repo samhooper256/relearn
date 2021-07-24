@@ -38,9 +38,10 @@ public class Main extends Application {
 	public static final String RESOURCES_PREFIX = "/resources/";
 	
 	public static final Image 
-			BACK_ARROW_IMAGE = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
-			TRASH_CAN_IMAGE = Images.get("trash.png", TRASH_CAN_SIZE, TRASH_CAN_SIZE, false, true),
-			BIG_TRASH_CAN_IMAGE = Images.get("trash.png", BIG_TRASH_CAN_SIZE, BIG_TRASH_CAN_SIZE, false, true),
+			BACK_ARROW = Images.get("back.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
+			BACK_ARROW_HOVER = Images.get("back_hover.png", BACK_ARROW_SIZE, BACK_ARROW_SIZE, false, true),
+			TRASH_CAN = Images.get("trash.png", TRASH_CAN_SIZE, TRASH_CAN_SIZE, false, true),
+			BIG_TRASH_CAN = Images.get("trash.png", BIG_TRASH_CAN_SIZE, BIG_TRASH_CAN_SIZE, false, true),
 			BANNER = Images.get("banner.png", MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, false, true),
 			SETS_ICON = Images.get("sets_icon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),
 			STATS_ICON = Images.get("stats_icon.png", MAIN_MENU_ICON_SIZE, MAIN_MENU_ICON_SIZE, false, true),
@@ -48,6 +49,7 @@ public class Main extends Application {
 			GREEN_PLUS = Images.get("plus_green.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			BLUE_CHECK = Images.get("check_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			BLUE_X = Images.get("x_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
+			BLUE_TRIANGLE = Images.get("triangle_blue.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			INFO = Images.get("info.png", BUTTON_ICON_SIZE, BUTTON_ICON_SIZE, false, true),
 			X_BOX = Images.get("x_box.png", AccuracyBar.ICON_SIZE, AccuracyBar.ICON_SIZE, false, true),
 			CHECK_BOX = Images.get("check_box.png", AccuracyBar.ICON_SIZE, AccuracyBar.ICON_SIZE, false, true),

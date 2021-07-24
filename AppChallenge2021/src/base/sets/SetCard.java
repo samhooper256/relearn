@@ -21,7 +21,8 @@ public class SetCard extends StackPane {
 	
 	private static final String
 			SET_CARD_CSS = "set-card",
-			TITLE_CSS = "title";
+			TITLE_CSS = "title",
+			PRACTICE_BUTTON_CSS = "practice-button";
 	private static final double PREF_WIDTH = 300, PREF_HEIGHT = 150, PENCIL_SIZE = 30;
 	private static final Image PENCIL_IMAGE = Images.get("pencil.png", PENCIL_SIZE, PENCIL_SIZE, false, true);
 	private static final IdentityHashMap<ProblemSet, SetCard> CACHE = new IdentityHashMap<>();
@@ -70,7 +71,7 @@ public class SetCard extends StackPane {
 		pencilView = new ImageView(PENCIL_IMAGE);
 		initPencil();
 		
-		trashView = new ImageView(Main.BIG_TRASH_CAN_IMAGE);
+		trashView = new ImageView(Main.BIG_TRASH_CAN);
 		initTrash();
 		
 		getStyleClass().add(SET_CARD_CSS);
@@ -106,6 +107,8 @@ public class SetCard extends StackPane {
 	}
 	
 	private void initPracticeButton() {
+		practiceButton.setGraphic(new ImageView(Main.BLUE_TRIANGLE));
+		practiceButton.getStyleClass().add(PRACTICE_BUTTON_CSS);
 		practiceButton.setOnAction(e -> Main.scene().startPractice(set()));
 	}
 	

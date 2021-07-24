@@ -5,8 +5,9 @@
 .root {
 	-app-white: #F1F1F1;
 	-app-base: #DCE3F1;
-	-app-light-accent: #CBE0F5;
 	-app-accent: #A7C7E7;
+	-app-light-accent: #B0CDEB;
+	-app-highlight-accent: #CBE0F5;
 	-app-light: #A1B2C3;
 	-app-dark: #29527B;
 	-app-green: green;
@@ -174,13 +175,24 @@
 	-fx-spacing: 5px;
 }
 
+.set-card .practice-button {
+	-fx-border-color: -app-dark;
+	-fx-border-insets: 0;
+	-fx-background-color: -app-accent;
+	-fx-background-insets: 0;
+	-fx-background-radius: 6;
+	-fx-border-radius: 6;
+	-fx-text-fill: -app-dark;
+	-fx-font: 16 "Georgia";
+}
+
+.set-card .practice-button:hover {
+	-fx-background-color: -app-light-accent;
+}
+
 .finish-practice-popup .header .title,
 .set-card .title {
 	-fx-font: 24 "Georgia";
-}
-
-.set-card Button {
-	-fx-font: 16 "Georgia";
 }
 
 .edit-warning .extra {
@@ -263,7 +275,7 @@
 	-fx-font-weight: bold;
 	-fx-alignment: center;
 	-fx-padding: 4;
-	-fx-background-color: -app-light-accent;
+	-fx-background-color: -app-highlight-accent;
 	-fx-background-radius: 16;
 	-fx-border-color: -app-light;
 	-fx-border-width: 4;
@@ -330,9 +342,17 @@
 	-fx-background-color: -app-green-accent;
 }
 
+.practice-pane .submit-button:hover {
+	-fx-background-color: -app-green-light-accent;	
+}
+
 .practice-pane .show-answer-button {
 	-fx-border-color: -app-orange;
 	-fx-background-color: -app-orange-accent;	
+}
+
+.practice-pane .show-answer-button:hover {
+	-fx-background-color: -app-orange-light-accent;	
 }
 
 .finish-practice-popup {
@@ -458,7 +478,7 @@
 .name-input-field:focused {
 	-fx-border-width: 0 0 3 0;
 	-fx-padding: 10 10 7 10;
-	-fx-background-color: -app-light-accent;
+	-fx-background-color: -app-highlight-accent;
 }
 
 .editor-pane .topic-layer {
@@ -490,7 +510,7 @@
 }
 
 .topic-pane {
-	-fx-background-color: -app-light-accent;
+	-fx-background-color: -app-highlight-accent;
 	-fx-background-radius: 8 8 5 5;
 	-fx-text-fill: black;
 }
@@ -659,6 +679,7 @@
 	-fx-image: url("./plus_green.png");
 }
 
+/** Blue buttons */
 .topic-selector .selected-button {
 	-fx-border-color: -app-dark;
 	-fx-background-color: -app-accent;

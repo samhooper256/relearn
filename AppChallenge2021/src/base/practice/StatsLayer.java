@@ -2,7 +2,7 @@ package base.practice;
 
 import static base.stats.Data.formatTime;
 
-import javafx.scene.control.Label;
+import fxutils.AnimatedLabel;
 import javafx.scene.layout.VBox;
 
 final class StatsLayer extends VBox {
@@ -12,15 +12,15 @@ final class StatsLayer extends VBox {
 			LAST_TIME_LABEL_CSS = "last-time-label",
 			AVERAGE_TIME_LABEL_CSS = "average-time-label";
 	
-	private final Label lastTimeLabel, averageTimeLabel;
+	private final AnimatedLabel lastTimeLabel, averageTimeLabel;
 	private final StreakBar bar;
 	
 	private double totalTime;
 	
 	StatsLayer() {
-		lastTimeLabel = new Label("Last time: ---");
+		lastTimeLabel = new AnimatedLabel("Last time: ---");
 		lastTimeLabel.getStyleClass().add(LAST_TIME_LABEL_CSS);
-		averageTimeLabel = new Label("Average time: ---");
+		averageTimeLabel = new AnimatedLabel("Average time: ---");
 		averageTimeLabel.getStyleClass().add(AVERAGE_TIME_LABEL_CSS);
 		bar = new StreakBar();
 		setMouseTransparent(true);
@@ -52,11 +52,11 @@ final class StatsLayer extends VBox {
 	}
 	
 	private void setMostRecentTime(double timeInMillis) {
-		lastTimeLabel.setText(String.format("Last time: %s", formatTime(timeInMillis)));
+		lastTimeLabel.animateLRto(String.format("Last time: %s", formatTime(timeInMillis)));
 	}
 	
 	private void setAverageTime(double timeInMillis) {
-		averageTimeLabel.setText(String.format("Average time: %s", formatTime(timeInMillis)));
+		averageTimeLabel.animateLRto(String.format("Average time: %s", formatTime(timeInMillis)));
 	}
 	
 	private PracticePane pane() {

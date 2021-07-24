@@ -12,11 +12,11 @@ import base.graphics.ImageButton;
 public class TrashCan extends ImageButton {
 	
 	public TrashCan() {
-		super(Main.TRASH_CAN_IMAGE);
+		super(Main.TRASH_CAN);
 	}
 	
 	public TrashCan(Runnable action) {
-		super(Main.TRASH_CAN_IMAGE, action);
+		super(Main.TRASH_CAN, action);
 	}
 	
 }
