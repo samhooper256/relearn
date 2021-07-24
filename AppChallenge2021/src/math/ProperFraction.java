@@ -4,6 +4,11 @@ import static utils.Parsing.*;
 
 import java.math.BigInteger;
 
+/**
+ * <p>A proper fraction - specifically, any fraction <em>x</em> such that {@code |x| < 1}.</p>
+ * @author Sam Hooper
+ *
+ */
 public interface ProperFraction extends Fraction {
 	
 	static boolean isValid(String str) {

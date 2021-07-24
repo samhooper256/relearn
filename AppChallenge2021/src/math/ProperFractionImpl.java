@@ -3,7 +3,7 @@ package math;
 import java.math.BigInteger;
 
 /**
- * <p>A class representing a proper fraction - specifically, any fraction <em>x</em> such that {@code |x| < 1}.</p>
+ * 
  * @author Sam Hooper
  *
  */

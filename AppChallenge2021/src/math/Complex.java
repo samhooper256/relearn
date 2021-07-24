@@ -22,6 +22,11 @@ public interface Complex {
 	static ProperFraction zero() {
 		return ProperFractionImpl.zero();
 	}
+	
+	static ImproperFraction one() {
+		return ImproperFractionImpl.one();
+	}
+	
 	/** Returns {@code true} if the given {@code String} could be passed to {@link #of(String)} without throwing
 	 * an exception. The given {@code String} must not contain any whitespace.*/
 	static boolean isValid(String str) {

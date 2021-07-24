@@ -7,7 +7,13 @@ import java.math.BigInteger;
  * @author Sam Hooper
  *
  */
-public class ImproperFractionImpl extends AbstractFraction implements ImproperFraction {
+final class ImproperFractionImpl extends AbstractFraction implements ImproperFraction {
+	
+	private static final ImproperFractionImpl ONE = new ImproperFractionImpl(BigInteger.ONE, BigInteger.ONE, false);
+	
+	public static ImproperFractionImpl one() {
+		return ONE;
+	}
 	
 	ImproperFractionImpl(BigInteger numerator, BigInteger denominator, boolean isNegative) {
 		super(numerator, denominator, isNegative);

@@ -21,4 +21,10 @@ public final class Arrs {
 		return indexOf(arr, val) >= 0;
 	}
 	
+	public static void swap(Object[] arr, int i, int j) {
+		Object temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
+	
 }
