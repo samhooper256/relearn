@@ -58,6 +58,17 @@ public final class StatementBuilder {
 		return addOpeningMathTag().addDecimalWithoutMathTags(bd).addClosingMathTag();
 	}
 	
+	/**
+	 * If the given {@link Fraction} is an integer, displays it as one. Otherwise, displays it as if by
+	 * {@link #addFraction(Fraction)}.  
+	 */
+	public StatementBuilder addNumber(Fraction fraction) {
+		if(fraction.isInteger())
+			return addNumber(fraction.numerator());
+		else
+			return addFraction(fraction);
+	}
+	
 	private StatementBuilder addIntegerWithoutMathTags(BigInteger bi) {
 		html.append(integer(bi));
 		return this;
@@ -75,6 +86,7 @@ public final class StatementBuilder {
 				.addClosingMathTag();
 	}
 	
+	/** Displays as a numerator and denominator, even if the given {@link Fraction} is an integer.*/
 	public StatementBuilder addFraction(Fraction f) {
 		return addOpeningMathTag().addFractionWithoutMathTags(f).addClosingMathTag();
 	}
