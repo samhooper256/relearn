@@ -26,7 +26,7 @@ public class Squares extends AbstractTopic {
 	
 	public Squares(int count) {
 		super(count);
-		base = new IntRange("Base Value", 1, 12);
+		base = new IntRange("Base Value", 1, 100, 1, 12);
 		createSettings(base);
 	}
 	

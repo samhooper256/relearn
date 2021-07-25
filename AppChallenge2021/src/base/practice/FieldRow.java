@@ -1,7 +1,7 @@
 package base.practice;
 
 import base.problems.*;
-import fxutils.SeparatorHBox;
+import fxutils.*;
 import javafx.beans.binding.DoubleBinding;
 import javafx.css.PseudoClass;
 import javafx.scene.control.*;
@@ -15,6 +15,8 @@ import math.BigUtils;
  */
 final class FieldRow extends HBox {
 	
+	private static final KeyCode
+			SUBMIT_SHORTCUT = KeyCode.ENTER;
 	static final double FIELD_WIDTH = 400;
 	private static final PseudoClass FIELD_INCORRECT_PSEUDO_CLASS = PseudoClass.getPseudoClass("incorrect");
 	private static final String
@@ -55,10 +57,8 @@ final class FieldRow extends HBox {
 		field.setPrefWidth(FIELD_WIDTH);
 		field.pseudoClassStateChanged(FIELD_INCORRECT_PSEUDO_CLASS, false);
 		field.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-			if(e.getCode() == KeyCode.ENTER) {
-				e.consume();
+			if(e.getCode() == SUBMIT_SHORTCUT)
 				userArea().submitAction();
-			}
 		});
 		field.getStyleClass().add(FIELD_CSS);
 	}

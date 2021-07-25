@@ -6,7 +6,7 @@ package base.graphics;
 import javafx.animation.*;
 import javafx.animation.Animation.Status;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 

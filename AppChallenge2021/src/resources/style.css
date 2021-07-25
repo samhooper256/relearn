@@ -235,8 +235,11 @@
 	-fx-padding: 0 0 10 10;
 }
 
-.practice-pane .stats-layer .average-time-label,
-.practice-pane .stats-layer .last-time-label {
+.practice-pane .stats-layer .stats-time-box {
+	-fx-spacing: 10;	
+}
+
+.practice-pane .stats-layer .stats-time-box .label {
 	-fx-font: 24 "Riffic Free Medium";	
 }
 

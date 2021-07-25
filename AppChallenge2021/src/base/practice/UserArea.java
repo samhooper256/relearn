@@ -116,7 +116,7 @@ public class UserArea extends GridPane {
 		showAnswerButton.getStyleClass().add(SHOW_ANSWER_BUTTON_CSS);
 	}
 	
-	private void showAnswerAction() {
+	void showAnswerAction() {
 		if(!hasMarkedIncorrect())
 			pane().notifyIncorrect();
 		answerShown = true;

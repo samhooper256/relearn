@@ -1,31 +1,24 @@
 package base.practice;
 
-import static base.stats.Data.formatTime;
-
-import fxutils.AnimatedLabel;
 import javafx.scene.layout.VBox;
 
 final class StatsLayer extends VBox {
 	
-	private static final String
-			STATS_LAYER_CSS = "stats-layer",
-			LAST_TIME_LABEL_CSS = "last-time-label",
-			AVERAGE_TIME_LABEL_CSS = "average-time-label";
+	private static final String STATS_LAYER_CSS = "stats-layer";
 	
-	private final AnimatedLabel lastTimeLabel, averageTimeLabel;
+	private final StatsTimeBox lastTime, averageTime;
 	private final StreakBar bar;
 	
 	private double totalTime;
 	
 	StatsLayer() {
-		lastTimeLabel = new AnimatedLabel("Last time: ---");
-		lastTimeLabel.getStyleClass().add(LAST_TIME_LABEL_CSS);
-		averageTimeLabel = new AnimatedLabel("Average time: ---");
-		averageTimeLabel.getStyleClass().add(AVERAGE_TIME_LABEL_CSS);
+		
+		lastTime = new LastTimeBox();
+		averageTime = new AverageTimeBox();
 		bar = new StreakBar();
 		setMouseTransparent(true);
 		getStyleClass().add(STATS_LAYER_CSS);
-		getChildren().addAll(lastTimeLabel, averageTimeLabel, bar);
+		getChildren().addAll(lastTime, averageTime, bar);
 	}
 	
 	int longestStreak() {
@@ -42,6 +35,8 @@ final class StatsLayer extends VBox {
 	
 	void resetAll() {
 		bar.resetAll();
+		lastTime.reset();
+		averageTime.reset();
 	}
 	
 	void addTime(double timeInMillis) {
@@ -52,11 +47,11 @@ final class StatsLayer extends VBox {
 	}
 	
 	private void setMostRecentTime(double timeInMillis) {
-		lastTimeLabel.animateLRto(String.format("Last time: %s", formatTime(timeInMillis)));
+		lastTime.setTime(timeInMillis);
 	}
 	
 	private void setAverageTime(double timeInMillis) {
-		averageTimeLabel.animateLRto(String.format("Average time: %s", formatTime(timeInMillis)));
+		averageTime.setTime(timeInMillis);
 	}
 	
 	private PracticePane pane() {
