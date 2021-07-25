@@ -55,6 +55,10 @@ public final class TopicPane extends TitledPane implements IndependentlyVerifiab
 		settingsBox = new SettingsBox(topic.settings());
 		content = new StackPane(settingsBox);
 		
+		if(topic.settings().isEmpty()) {
+			setExpanded(false);
+			setCollapsible(false);
+		}
 		setContent(content);
 		setText("");
 		setGraphic(graphic);

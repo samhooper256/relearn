@@ -110,11 +110,18 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	}
 	
 	private void collapseAllAction() {
-		topicPaneContainer.topicPanes().forEachOrdered(tp -> tp.setExpanded(false));
+		setExpandedState(false);
+	}
+
+	private void expandAllAction() {
+		setExpandedState(true);
 	}
 	
-	private void expandAllAction() {
-		topicPaneContainer.topicPanes().forEachOrdered(tp -> tp.setExpanded(true));
+	private void setExpandedState(boolean expanded) {
+		topicPaneContainer.topicPanes().forEachOrdered(tp -> {
+			if(tp.isCollapsible())
+				tp.setExpanded(expanded);
+		});
 	}
 	
 	private void initScroll() {
