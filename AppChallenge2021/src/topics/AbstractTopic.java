@@ -65,6 +65,8 @@ abstract class AbstractTopic implements Topic {
 
 	@Override
 	public List<TopicSetting> settings() {
+		if(settings == null)
+			return Collections.emptyList();
 		return settings;
 	}
 	
