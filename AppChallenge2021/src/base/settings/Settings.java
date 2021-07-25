@@ -3,7 +3,6 @@ package base.settings;
 import java.io.IOException;
 
 import base.Main;
-import javafx.beans.property.*;
 import utils.IO;
 
 /**
@@ -37,7 +36,8 @@ public final class Settings {
 	
 	private static void create(SettingsRecord record) {
 		AnimationSettings.create(record.animationSettings());
-		INSTANCE = new Settings(record);
+		GeneralSettings.create(record.generalSettings());
+		INSTANCE = new Settings();
 	}
 	
 	public static Settings get() {
@@ -46,29 +46,23 @@ public final class Settings {
 		return INSTANCE;
 	}
 	
-	private final BooleanProperty doNotShowEditWarning;
-	
-	private Settings(SettingsRecord record) {
-		doNotShowEditWarning = new SimpleBooleanProperty(record.doNotShowEditWarning());
+	public static AnimationSettings animation() {
+		return AnimationSettings.get();
 	}
 	
-	public BooleanProperty doNotShowEditWarning() {
-		return doNotShowEditWarning;
+	public static GeneralSettings general() {
+		return GeneralSettings.get();
 	}
 	
-	public boolean shouldShowEditWarning() {
-		return !doNotShowEditWarning().get();
+	private Settings() {
+		
 	}
 	
 	private SettingsRecord record() {
 		return new SettingsRecord(
-				doNotShowEditWarning.get(),
+				GeneralSettings.get().record(),
 				AnimationSettings.get().record()
 		);
-	}
-	
-	public AnimationSettings animation() {
-		return AnimationSettings.get();
 	}
 	
 }

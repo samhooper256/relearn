@@ -8,10 +8,13 @@ import java.io.Serializable;
  *
  */
 record SettingsRecord(
-		boolean doNotShowEditWarning,
+		GeneralSettingsRecord generalSettings,
 		AnimationSettingsRecord animationSettings
 ) implements Serializable {
 
-	static final SettingsRecord DEFAULT = new SettingsRecord(false, AnimationSettingsRecord.DEFAULT);
+	static final SettingsRecord DEFAULT = new SettingsRecord(
+			GeneralSettingsRecord.DEFAULT,
+			AnimationSettingsRecord.DEFAULT
+	);
 	
 }

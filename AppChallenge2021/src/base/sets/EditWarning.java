@@ -32,7 +32,7 @@ public class EditWarning extends MinimalisticFadePopup {
 	}
 
 	private void initDoNotShow() {
-		doNotShow.selectedProperty().bindBidirectional(Settings.get().doNotShowEditWarning());
+		doNotShow.selectedProperty().bindBidirectional(Settings.general().doNotShowEditWarning());
 		doNotShow.getStyleClass().add(DO_NOT_SHOW_CSS);
 		extra.getChildren().add(doNotShow);
 	}

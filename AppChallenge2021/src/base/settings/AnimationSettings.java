@@ -17,7 +17,7 @@ public final class AnimationSettings {
 		INSTANCE = new AnimationSettings(record);
 	}
 	
-	public static AnimationSettings get() {
+	static AnimationSettings get() {
 		if(INSTANCE == null)
 			throw new IllegalStateException("AnimationSettings have not yet been loaded");
 		return INSTANCE;

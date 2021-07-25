@@ -5,7 +5,7 @@ package base.sets;
 
 import base.*;
 import base.graphics.BackArrow;
-import base.settings.Settings;
+import base.settings.*;
 import fxutils.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -122,7 +122,7 @@ public class SetsPane extends StackPane {
 	}
 	
 	void requestEdit(ProblemSet set) {
-		if(Settings.get().shouldShowEditWarning())
+		if(GeneralSettings.get().shouldShowEditWarning())
 			editWarning.requestEdit(set);
 		else
 			Main.scene().edit(set);

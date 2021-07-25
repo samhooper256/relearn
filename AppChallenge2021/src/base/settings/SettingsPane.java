@@ -12,8 +12,6 @@ import javafx.scene.layout.*;
  */
 public final class SettingsPane extends StackPane {
 	
-	public static final String TITLED_PANE_CSS = "settings-titled-pane";
-	
 	private static final String
 			SETTINGS_PANE_CSS = "settings-pane",
 			HEADER_CSS = "header",
