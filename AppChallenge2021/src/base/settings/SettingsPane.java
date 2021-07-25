@@ -2,18 +2,21 @@ package base.settings;
 
 import base.Main;
 import base.graphics.BackArrow;
-import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/**
+ * 
+ * @author Sam Hooper
+ *
+ */
 public final class SettingsPane extends StackPane {
 	
 	private static final String
 			SETTINGS_PANE_CSS = "settings-pane",
 			HEADER_CSS = "header",
 			TITLE_CSS = "title",
-			VBOX_CSS = "vbox",
-			SETTINGS_BOX_CSS = "settings-box";
+			VBOX_CSS = "vbox";
 	
 	private static final SettingsPane INSTANCE = new SettingsPane();
 	
@@ -21,25 +24,19 @@ public final class SettingsPane extends StackPane {
 		return INSTANCE;
 	}
 	
-	private static CheckBox createCheckBox(String name, BooleanProperty backingProperty) {
-		CheckBox box = new CheckBox(name);
-		box.setSelected(backingProperty.get());
-		box.selectedProperty().bindBidirectional(backingProperty);
-		return box;
-	}
-	
 	private final BackArrow backArrow;
 	private final Button conversionChartButton;
 	private final ConversionChart conversionChart;
 	private final HBox header;
 	private final Label title;
-	private final VBox vBox, settingsBox, helpBox;
+	private final VBox vBox, helpBox;
+	private final SettingsBox settingsBox;
 	
 	private SettingsPane() {
 		backArrow = new BackArrow();
 		title = new Label("Settings");
 		header = new HBox(backArrow, title);
-		settingsBox = new VBox();
+		settingsBox = new SettingsBox();
 		conversionChartButton = new Button("Show Conversion Chart");
 		conversionChart = new ConversionChart(this);
 		helpBox = new VBox(conversionChartButton);
@@ -60,7 +57,6 @@ public final class SettingsPane extends StackPane {
 	private void initVBox() {
 		vBox.getStyleClass().add(VBOX_CSS);
 		initHeader();
-		initSettingsBox();
 		initHelpBox();
 	}
 
@@ -68,13 +64,6 @@ public final class SettingsPane extends StackPane {
 		header.getStyleClass().add(HEADER_CSS);
 		title.getStyleClass().add(TITLE_CSS);
 		initBackArrow();
-	}
-	
-	private void initSettingsBox() {
-		settingsBox.getStyleClass().add(SETTINGS_BOX_CSS);
-		settingsBox.getChildren().addAll(
-				createCheckBox("Don't show erase warning when editing a set", Settings.get().doNotShowEditWarning())
-		);
 	}
 	
 	private void initHelpBox() {

@@ -1,5 +1,6 @@
 package base.practice;
 
+import base.settings.AnimationSettings;
 import base.stats.Data;
 import fxutils.AnimatedLabel;
 import javafx.scene.control.Label;
@@ -30,7 +31,11 @@ abstract class StatsTimeBox extends HBox {
 	}
 
 	void setTime(double timeInMillis) {
-		time.animateLRto(Data.formatTime(timeInMillis));
+		String timeString = Data.formatTime(timeInMillis);
+		if(AnimationSettings.get().timeInPracticePane().get())
+			time.animateLRto(timeString);
+		else
+			time.setText(timeString);
 	}
 	
 	/** Does not play any animations. */

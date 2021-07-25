@@ -37,6 +37,7 @@ final class StatsLayer extends VBox {
 		bar.resetAll();
 		lastTime.reset();
 		averageTime.reset();
+		totalTime = 0;
 	}
 	
 	void addTime(double timeInMillis) {

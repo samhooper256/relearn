@@ -6,6 +6,11 @@ import base.Main;
 import javafx.beans.property.*;
 import utils.IO;
 
+/**
+ * 
+ * @author Sam Hooper
+ *
+ */
 public final class Settings {
 
 	private static Settings INSTANCE;
@@ -19,7 +24,7 @@ public final class Settings {
 		} catch(Exception e) {
 			//TODO is there any error handling to be done here?
 		}
-		INSTANCE = new Settings(record);
+		create(record);
 	}
 	
 	public static synchronized void save() {
@@ -28,6 +33,11 @@ public final class Settings {
 		} catch(IOException e) {
 			e.printStackTrace(); //TODO better error handling?
 		}
+	}
+	
+	private static void create(SettingsRecord record) {
+		AnimationSettings.create(record.animationSettings());
+		INSTANCE = new Settings(record);
 	}
 	
 	public static Settings get() {
@@ -52,8 +62,13 @@ public final class Settings {
 	
 	private SettingsRecord record() {
 		return new SettingsRecord(
-				doNotShowEditWarning.get()
+				doNotShowEditWarning.get(),
+				AnimationSettings.get().record()
 		);
+	}
+	
+	public AnimationSettings animation() {
+		return AnimationSettings.get();
 	}
 	
 }
