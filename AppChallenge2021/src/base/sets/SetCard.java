@@ -107,7 +107,7 @@ public class SetCard extends StackPane {
 	}
 	
 	private void initPracticeButton() {
-		practiceButton.setGraphic(new ImageView(Main.BLUE_TRIANGLE));
+		practiceButton.setGraphic(new ImageView(Main.GREEN_TRIANGLE));
 		practiceButton.getStyleClass().add(PRACTICE_BUTTON_CSS);
 		practiceButton.setOnAction(e -> Main.scene().startPractice(set()));
 	}

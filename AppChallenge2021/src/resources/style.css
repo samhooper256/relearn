@@ -176,18 +176,18 @@
 }
 
 .set-card .practice-button {
-	-fx-border-color: -app-dark;
+	-fx-border-color: -app-green;
 	-fx-border-insets: 0;
-	-fx-background-color: -app-accent;
+	-fx-background-color: -app-green-accent;
 	-fx-background-insets: 0;
 	-fx-background-radius: 6;
 	-fx-border-radius: 6;
-	-fx-text-fill: -app-dark;
+	-fx-text-fill: -app-green;
 	-fx-font: 16 "Georgia";
 }
 
 .set-card .practice-button:hover {
-	-fx-background-color: -app-light-accent;
+	-fx-background-color: -app-green-light-accent;
 }
 
 .finish-practice-popup .header .title,
