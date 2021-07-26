@@ -23,19 +23,37 @@ public final class AnimationSettings {
 		return INSTANCE;
 	}
 	
-	private final BooleanProperty timeInPracticePane;
+	private final BooleanProperty timeInPracticePane, accuracyBar, progressBar, popups;
 	
 	private AnimationSettings(AnimationSettingsRecord record) {
 		timeInPracticePane = new SimpleBooleanProperty(record.timeInPracticePane());
+		accuracyBar = new SimpleBooleanProperty(record.accuracyBar());
+		progressBar = new SimpleBooleanProperty(record.progressBar());
+		popups = new SimpleBooleanProperty(record.popups());
 	}
 	
 	public BooleanProperty timeInPracticePane() {
 		return timeInPracticePane;
 	}
 	
+	public BooleanProperty accuracyBar() {
+		return accuracyBar;
+	}
+	
+	public BooleanProperty progressBar() {
+		return progressBar;
+	}
+	
+	public BooleanProperty popups() {
+		return popups;
+	}
+	
 	AnimationSettingsRecord record() {
 		return new AnimationSettingsRecord(
-				timeInPracticePane.get()
+				timeInPracticePane.get(),
+				accuracyBar.get(),
+				progressBar.get(),
+				popups.get()
 		);
 	}
 	

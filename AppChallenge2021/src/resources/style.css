@@ -993,6 +993,13 @@
 	-fx-border-radius: 4;
 	-fx-background-radius: 6;
 	-fx-background-insets: 0;
+}
+
+.settings-pane .button:hover {
+	-fx-background-color: -app-light-accent;
+}
+
+.settings-pane .conversion-chart-button {
 	-fx-font: 18 "Georgia";
 }
 
@@ -1021,6 +1028,19 @@
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
     -fx-background-insets: 1 0 -1 0, 0;
 	-fx-effect: null;
+}
+
+.settings-titled-pane .vbox {
+	-fx-spacing: 4;
+}
+
+.settings-titled-pane .button-box {
+	-fx-spacing: 6;
+	-fx-padding: 0 0 6 0;
+}
+
+.settings-titled-pane .button-box .button {
+	-fx-font: 14 "Georgia";	
 }
 
 .conversion-chart {

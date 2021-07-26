@@ -3,6 +3,7 @@
  */
 package base.graphics;
 
+import base.settings.*;
 import javafx.animation.*;
 import javafx.animation.Animation.Status;
 import javafx.event.EventHandler;
@@ -92,22 +93,43 @@ public class FadePopup extends StackPane {
 		scaleOut.setOnFinished(e -> hidePopup());
 	}
 	
+	/** Only plays an animation if {@link AnimationSettings#popups()} is {@code true}.*/
 	public void fadeIn() {
-		this.setMouseTransparent(true);
-		this.setOpacity(STARTING_OPACITY);
-		over.getChildren().add(glassPane);
-		over.getChildren().add(this);
-		
-		glassFadeIn.play();
-		fadeIn.play();
-		rise.play();
+		if(Settings.animation().popups().get()) {
+			this.setMouseTransparent(true);
+			this.setOpacity(STARTING_OPACITY);
+			glassPane.setOpacity(STARTING_OPACITY);
+			over.getChildren().add(glassPane);
+			over.getChildren().add(this);
+			glassFadeIn.play();
+			fadeIn.play();
+			rise.play();
+		}
+		else {
+			showPopup();
+		}
 	}
 	
-	/** Does <em>not</em> run the {@link #getGlassCloseAction() glass close action}.*/
+	/** Does not play any animations. */
+	public void showPopup() {
+		this.setMouseTransparent(false);
+		this.setOpacity(1);
+		glassPane.setOpacity(GLASS_PANE_OPACITY);
+		over.getChildren().add(glassPane);
+		over.getChildren().add(this);
+	}
+	
+	/** Only plays an animation if {@link AnimationSettings#popups()} is {@code true}.
+	 * Does <em>not</em> run the {@link #getGlassCloseAction() glass close action}.*/
 	public void fadeOut() {
-		glassFadeOut.play();
-		fadeOut.play();
-		scaleOut.play();
+		if(Settings.animation().popups().get()) {
+			glassFadeOut.play();
+			fadeOut.play();
+			scaleOut.play();
+		}
+		else {
+			hidePopup();
+		}
 	}
 	
 	/** Hides this {@link FadePopup}.

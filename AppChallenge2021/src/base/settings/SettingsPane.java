@@ -16,7 +16,9 @@ public final class SettingsPane extends StackPane {
 			SETTINGS_PANE_CSS = "settings-pane",
 			HEADER_CSS = "header",
 			TITLE_CSS = "title",
-			VBOX_CSS = "vbox";
+			VBOX_CSS = "vbox",
+			CONVERSION_CHART_BUTTON_CSS = "conversion-chart-button";
+	
 	private static final SettingsPane INSTANCE = new SettingsPane();
 	
 	public static SettingsPane get() {
@@ -70,6 +72,7 @@ public final class SettingsPane extends StackPane {
 	}
 	
 	private void initConversionChartButton() {
+		conversionChartButton.getStyleClass().add(CONVERSION_CHART_BUTTON_CSS);
 		conversionChartButton.setOnAction(e -> conversionChartAction());
 	}
 	

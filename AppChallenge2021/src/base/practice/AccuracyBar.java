@@ -1,6 +1,7 @@
 package base.practice;
 
 import base.*;
+import base.settings.Settings;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.image.*;
@@ -49,6 +50,13 @@ public final class AccuracyBar extends Pane {
 	
 	private void addIcon(Image icon) {
 		ImageView iv = new ImageView(icon);
+		if(Settings.animation().accuracyBar().get())
+			addIconWithAnimation(iv);
+		else
+			addIconWithoutAnimation(iv);
+	}
+	
+	private void addIconWithAnimation(ImageView iv) {
 		if(hasIcon()) {
 			iv.setLayoutX(-group.getTranslateX() - ICON_SIZE - SPACING);
 			startTransition(iv);
@@ -62,6 +70,16 @@ public final class AccuracyBar extends Pane {
 		}
 	}
 	
+	private void addIconWithoutAnimation(ImageView iv) {
+		if(hasIcon()) {
+			iv.setLayoutX(-group.getTranslateX() - ICON_SIZE - SPACING);
+			group.setTranslateX(group.getTranslateX() + ICON_SIZE + SPACING);
+			group.getChildren().add(iv);
+		}
+		else {
+			group.getChildren().add(iv);
+		}
+	}
 	private boolean hasIcon() {
 		return group.getChildren().size() > 0;
 	}

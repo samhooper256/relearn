@@ -1,5 +1,6 @@
 package base.practice;
 
+import base.settings.Settings;
 import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
@@ -92,14 +93,23 @@ final class ProgressBar extends StackPane {
 	void addFinished() {
 		finished++;
 		double endWidth = WIDTH * finished / total;
+		if(Settings.animation().progressBar().get())
+			increaseBarWithAnimation(endWidth);
+		else
+			increaseBarWithoutAnimation(endWidth);
+	}
+
+	private void increaseBarWithAnimation(double endWidth) {
 		if(finished == 1)
 			fadeIn(endWidth);
 		else
 			slide.requestSlide(endWidth);
 	}
 
-	int finished() {
-		return finished;
+	private void increaseBarWithoutAnimation(double endWidth) {
+		setBarWidth(endWidth);
+		if(finished == 1)
+			bar.setVisible(true);
 	}
 	
 	/** Assumes the bar is not visible. */
@@ -107,6 +117,10 @@ final class ProgressBar extends StackPane {
 		setBarWidth(endWidth);
 		fade.requestFade();
 		bar.setVisible(true);
+	}
+	
+	int finished() {
+		return finished;
 	}
 	
 	private void setBarWidth(double width) {

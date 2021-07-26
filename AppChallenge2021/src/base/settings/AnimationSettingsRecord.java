@@ -8,9 +8,12 @@ import java.io.Serializable;
  *
  */
 record AnimationSettingsRecord(
-		boolean timeInPracticePane
+		boolean timeInPracticePane,
+		boolean accuracyBar,
+		boolean progressBar,
+		boolean popups
 ) implements Serializable {
 
-	static final AnimationSettingsRecord DEFAULT = new AnimationSettingsRecord(true);
+	static final AnimationSettingsRecord DEFAULT = new AnimationSettingsRecord(true, true, true, true);
 	
 }
