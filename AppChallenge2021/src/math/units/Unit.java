@@ -28,7 +28,12 @@ public interface Unit<E extends Enum<E> & Unit<E>> {
 	}
 	
 	static <U extends Enum<U> & Unit<U>> String pluralize(U unit) {
-		return unit.name().toLowerCase() + "s"; 
+		String name = unit.name();
+		if(name.equals("foot"))
+			return "feet";
+		if(name.endsWith("s"))
+			return name + "es";
+		return name.toLowerCase() + "s"; 
 	}
 	
 }
