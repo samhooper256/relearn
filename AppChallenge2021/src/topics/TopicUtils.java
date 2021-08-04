@@ -3,12 +3,27 @@
  */
 package topics;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import base.problems.MathAnswerMode;
+import base.problems.MathProblem;
+import base.problems.Problem;
+import base.problems.Statement;
 import fxutils.Backgrounds;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
+import math.Complex;
+import math.units.Unit;
+import utils.RNG;
 
 /**
  * @author Sam Hooper
@@ -44,7 +59,11 @@ public final class TopicUtils {
 				MultiplyingFractions.FACTORY,
 				DividingFractions.FACTORY,
 				MixedToImproper.FACTORY,
-				ImproperToMixed.FACTORY
+				ImproperToMixed.FACTORY,
+				MetricLengthConversions.FACTORY,
+				CustomaryLengthConversions.FACTORY,
+				CustomaryVolumeConversions.FACTORY,
+				TimeConversions.FACTORY
 		);
 		Collections.sort(factoryList);
 		FACTORIES = new LinkedHashSet<>();
@@ -88,6 +107,25 @@ public final class TopicUtils {
 	
 	public static Background backgroundFor(String topicName) {
 		return BACKGROUNDS.get(topicName);
+	}
+	
+	public static <E extends Enum<E> & Unit<E>> Problem generateConversionProblem(Topic topic, E[] arr)
+	{
+		List<E>list = RNG.pick2Unique(arr);
+		E from = list.get(0);
+		E to = list.get(1);
+		
+		Complex answer = Unit.converter(from, to).to(Complex.one());
+		
+		return MathProblem.builder()
+				.set(topic, 
+						Statement.builder()
+						.addText(String.format("1 %s is how many %s?", Unit.unitName(Complex.one(), from), 
+								Unit.pluralize(to)))
+						.build(),
+						answer,
+						MathAnswerMode.REAL_SIMPLIFIED_FRACTION, MathAnswerMode.REAL_DECIMAL)
+				.build();
 	}
 	
 }
