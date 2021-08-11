@@ -29,7 +29,7 @@ public class MultiplyingIntegers extends AbstractTopic {
 	
 	public MultiplyingIntegers(int count) {
 		super(count);
-		number = new IntRange("Term Values", 1, 12, 1, 12);
+		number = new IntRange("Term Values", 0, 999, 1, 12);
 		terms = new IntSetting("Term Count", 2, 3, 2);
 		createSettings(number, terms);
 	}
