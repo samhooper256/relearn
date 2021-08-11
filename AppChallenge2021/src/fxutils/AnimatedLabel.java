@@ -21,6 +21,7 @@ public class AnimatedLabel extends Label {
 
 		LRAnimation(Duration duration, AnimatedLabel label) {
 			setCycleDuration(duration);
+			setOnFinished(e -> label.setText(destText));
 			this.label = label;
 		}
 		
