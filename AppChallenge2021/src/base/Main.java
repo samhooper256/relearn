@@ -18,6 +18,7 @@ import utils.Assertions;
 public class Main extends Application {
 	
 	public static final String TITLE = "relearn";
+	
 	public static final double
 			MAIN_MENU_BUTTON_WIDTH = 500, MAIN_MENU_BUTTON_HEIGHT = 100,
 			MAIN_MENU_ICON_SIZE = 80,
@@ -56,11 +57,14 @@ public class Main extends Application {
 			TARGET = Images.get("target.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true),
 			FIRE = Images.get("fire.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true);
 	
+	private static final boolean ASSERTIONS_REQUIRED = false;
+	
 	private static Stage primaryStage;
 	private static Screen primaryScreen;
 	
 	public static void main(String[] args) {
-		Assertions.require();
+		if(ASSERTIONS_REQUIRED)
+			Assertions.require();
 		preLaunchInit();
 		Application.launch(args);
 	}
