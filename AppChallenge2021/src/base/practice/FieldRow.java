@@ -81,7 +81,8 @@ final class FieldRow extends HBox {
 	void setupProblem(Problem problem) {
 		right.clearChildren();
 		left.getChildren().clear();
-		if(problem instanceof MathProblem mp) {
+		if(problem instanceof MathProblem) {
+			MathProblem mp = (MathProblem) problem;
 			for(MathAnswerMode mode : mp.answerModes()) {
 				Label icon = mode.icon();
 				right.addChild(icon);

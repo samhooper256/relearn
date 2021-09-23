@@ -110,7 +110,8 @@ final class SetBoard extends VBox {
 			return;
 		double maxPractices = maxPractices();
 		for(Node n : getChildren())
-			if(n instanceof Listing l) {
+			if(n instanceof Listing) {
+				Listing l = (Listing) n;
 				double prop = maxPractices == 0 ? 0 : l.set().practiceCount() / maxPractices;
 				l.setFontSize((double) MIN_FONT + (MAX_FONT - MIN_FONT) * prop);
 			}

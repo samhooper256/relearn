@@ -20,12 +20,14 @@ public class SettingsBox extends VBox implements IndependentlyVerifiable {
 	@Override
 	public VerificationResult verify() {
 		VerificationResult result = VerificationResult.success();
-		for(Node node : getChildren())
-			if(node instanceof Verifiable)
-				if(!(node instanceof IndependentlyVerifiable iv))
+		for(Node node : getChildren()) {
+			if(node instanceof Verifiable) {
+				if(!(node instanceof IndependentlyVerifiable))
 					throw new IllegalStateException(String.format("No context to give to %s", node));
-				else
-					result = result.and(iv.verify());
+				IndependentlyVerifiable iv = (IndependentlyVerifiable) node;
+				result = result.and(iv.verify());
+			}
+		}
 		return result;
 	}
 	

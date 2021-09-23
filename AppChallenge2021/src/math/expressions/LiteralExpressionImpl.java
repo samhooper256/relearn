@@ -8,11 +8,14 @@ import utils.MathML;
  * @author Sam Hooper
  *
  */
-record LiteralExpressionImpl(Complex value) implements LiteralExpression {
+final class LiteralExpressionImpl implements LiteralExpression {
 	
-	public LiteralExpressionImpl {
+	private final Complex value;
+	
+	public LiteralExpressionImpl(Complex value) {
 		if(!value.isReal())
 			throw new IllegalArgumentException(String.format("Non-real value: %s", value));
+		this.value = value;
 	}
 
 	@Override
@@ -23,6 +26,11 @@ record LiteralExpressionImpl(Complex value) implements LiteralExpression {
 	@Override
 	public String toString() {
 		return value().toString();
+	}
+	
+	@Override
+	public Complex value() {
+		return value;
 	}
 	
 }

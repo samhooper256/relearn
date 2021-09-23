@@ -2,15 +2,22 @@ package math.expressions;
 
 import java.util.*;
 
-record ListExpressionImpl(List<ComplexValuedExpression> value) implements ListExpression {
+final class ListExpressionImpl implements ListExpression {
 	
-	ListExpressionImpl {
-		value = Collections.unmodifiableList(new ArrayList<>(value));
+	private final List<ComplexValuedExpression> value;
+	
+	ListExpressionImpl(List<ComplexValuedExpression> value){
+		this.value = Collections.unmodifiableList(new ArrayList<>(value));
 	}
 	
 	@Override
 	public String toString() {
 		return value().toString();
+	}
+
+	@Override
+	public List<ComplexValuedExpression> value() {
+		return value;
 	}
 	
 }

@@ -48,8 +48,8 @@ public final class Nodes {
 		String tabs = "\t".repeat(childTabCount);
 		for(Node child : parent.getChildrenUnmodifiable()) {
 			System.out.printf("%s%s%n", tabs, child);
-			if(child instanceof Parent p)
-				printChildren(p, childTabCount + 1);
+			if(child instanceof Parent)
+				printChildren((Parent) child, childTabCount + 1);
 		}
 	}
 }

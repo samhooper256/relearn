@@ -27,6 +27,8 @@ public class Main extends Application {
 			TRASH_CAN_SIZE = 20,
 			BIG_TRASH_CAN_SIZE = 32,
 			BUTTON_ICON_SIZE = 16;
+	public static final String PROBLEM_DISPLAY_STYLESHEET =
+			Main.class.getResource(Main.RESOURCES_PREFIX + "problemdisplay.css").toExternalForm();
 	public static final File 
 			USER_FOLDER = new File(System.getProperty("user.dir"), String.format("%s Data", TITLE)),
 			SETS_FOLDER = new File(USER_FOLDER, "Sets"),
@@ -108,7 +110,7 @@ public class Main extends Application {
 	@Override
 	public void stop() {
 		ProblemSet.save();
-	    Data.debugPrint();
+//	    Data.debugPrint();
 	    Data.save();
 	    Settings.save();
 	}

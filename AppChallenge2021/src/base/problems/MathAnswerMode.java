@@ -170,24 +170,32 @@ public enum MathAnswerMode {
 	public String adapt(Complex answer) {
 		if(!canAdapt(answer))
 			throw new IllegalArgumentException(String.format("%s is not adaptable to this mode (%s)", answer, this));
-		if(isFractionBased() && answer instanceof FractionConvertible fc)
+		if(isFractionBased() && answer instanceof FractionConvertible) {
+			FractionConvertible fc = (FractionConvertible) answer;
 			return fc.toFraction().toParsableString();
+		}
 		else if(isDecimalBased())
 			return BigUtils.toPrettyString(answer.toBigDecimalExact());
-		else if(this == MIXED_NUMBER && answer instanceof MixedNumberConvertible mnc)
+		else if(this == MIXED_NUMBER && answer instanceof MixedNumberConvertible) {
+			MixedNumberConvertible mnc = (MixedNumberConvertible) answer;
 			return mnc.toMixedNumber().toParsableString();
+		}
 		throw new UnsupportedOperationException(String.format("Need adaptation code for: %s", this));
 	}
 	
 	public boolean canAdapt(Complex answer) {
-		return switch(this) {
-			case INTEGER -> answer.isInteger();
-			case REAL_DECIMAL -> answer.isRealAndExactlyRepresentable();
-			case COMPLEX_RECTANGULAR -> answer.isExactlyRepresentable();
-			case REAL_FRACTION, REAL_PROPER_FRACTION, REAL_SIMPLIFIED_FRACTION, REAL_PROPER_SIMPLIFIED_FRACTION ->
-					answer instanceof FractionConvertible;
-			case MIXED_NUMBER -> answer instanceof MixedNumberConvertible;
-		};
+		if(this == INTEGER)
+			return answer.isInteger();
+		if(this == REAL_DECIMAL)
+			return answer.isRealAndExactlyRepresentable();
+		if(this == COMPLEX_RECTANGULAR)
+			return answer.isExactlyRepresentable();
+		if(this == REAL_FRACTION || this == REAL_PROPER_FRACTION || this == REAL_SIMPLIFIED_FRACTION ||
+				this == REAL_PROPER_SIMPLIFIED_FRACTION)
+			return answer instanceof FractionConvertible;
+		if(this == MIXED_NUMBER)
+			return answer instanceof MixedNumberConvertible;
+		throw new UnsupportedOperationException(String.format("this=%s", this));
 	}
 	
 	public boolean isOneOf(MathAnswerMode first, MathAnswerMode... rest) {
@@ -203,16 +211,19 @@ public enum MathAnswerMode {
 	 * to {@code mode} is a proper subset of the set of all possible strings that are valid according to
 	 * {@code superset}.*/
 	public boolean isProperSubsetOf(MathAnswerMode superset) {
-		return switch(this) {
-			case INTEGER -> superset.isOneOf
+		switch(this) {
+			case INTEGER: return superset.isOneOf
 					(REAL_DECIMAL, COMPLEX_RECTANGULAR, REAL_FRACTION, REAL_SIMPLIFIED_FRACTION, MIXED_NUMBER);
-			case REAL_DECIMAL -> superset.isOneOf(COMPLEX_RECTANGULAR);
-			case COMPLEX_RECTANGULAR, REAL_FRACTION, MIXED_NUMBER -> false;
-			case REAL_PROPER_FRACTION -> superset.isOneOf(REAL_FRACTION);
-			case REAL_SIMPLIFIED_FRACTION -> superset.isOneOf(REAL_FRACTION);
-			case REAL_PROPER_SIMPLIFIED_FRACTION -> superset.isOneOf
+			case REAL_DECIMAL: return superset.isOneOf(COMPLEX_RECTANGULAR);
+			case COMPLEX_RECTANGULAR: return false;
+			case REAL_FRACTION: return false;
+			case MIXED_NUMBER: return false;
+			case REAL_PROPER_FRACTION: return superset.isOneOf(REAL_FRACTION);
+			case REAL_SIMPLIFIED_FRACTION: return superset.isOneOf(REAL_FRACTION);
+			case REAL_PROPER_SIMPLIFIED_FRACTION: return superset.isOneOf
 					(REAL_PROPER_FRACTION, REAL_SIMPLIFIED_FRACTION, REAL_FRACTION);
-		};
+			default: throw new UnsupportedOperationException(String.format("this=%s", this));
+		}
 	}
 	
 	/** Returns {@code true} iff {@code this} is one of the following:

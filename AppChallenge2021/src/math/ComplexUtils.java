@@ -11,8 +11,11 @@ final class ComplexUtils {
 	private static final MathContext CONTEXT = MathContext.DECIMAL128;
 	
 	public static Complex add(Complex a, Complex b) {
-		if(a instanceof FractionConvertible ac && b instanceof FractionConvertible bc)
+		if(a instanceof FractionConvertible && b instanceof FractionConvertible) {
+			FractionConvertible ac = (FractionConvertible) a;
+			FractionConvertible bc = (FractionConvertible) b;
 			return ac.toFraction().addFraction(bc.toFraction());
+		}
 		return Complex.of(
 			a.real().add(b.real(), CONTEXT),
 			a.imaginary().add(b.imaginary(), CONTEXT)
@@ -24,8 +27,11 @@ final class ComplexUtils {
 	}
 	
 	public static Complex multiply(Complex a, Complex b) {
-		if(a instanceof FractionConvertible ac && b instanceof FractionConvertible bc)
+		if(a instanceof FractionConvertible && b instanceof FractionConvertible) {
+			FractionConvertible ac = (FractionConvertible) a;
+			FractionConvertible bc = (FractionConvertible) b;
 			return ac.toFraction().multiplyFraction(bc.toFraction());
+		}
 		return multiplyRectangular(a, b);
 	}
 
@@ -43,8 +49,11 @@ final class ComplexUtils {
 	}
 	
 	public static Complex divide(Complex a, Complex b) {
-		if(a instanceof FractionConvertible ac && b instanceof FractionConvertible bc)
+		if(a instanceof FractionConvertible && b instanceof FractionConvertible) {
+			FractionConvertible ac = (FractionConvertible) a;
+			FractionConvertible bc = (FractionConvertible) b;
 			return ac.toFraction().divideFraction(bc.toFraction());
+		}
 		return divideRectangular(a, b);
 	}
 	

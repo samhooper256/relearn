@@ -27,14 +27,17 @@ public final class MathML {
 	 * integer without a denominator, even if the given object is a {@link Fraction}. Otherwise, if the given object
 	 * is a {@code Fraction}, it will be displayed as if by a call to {@link #fraction(Fraction)}.*/
 	public static String complex(Complex c) {
-		if(c instanceof Fraction f) {
+		if(c instanceof Fraction) {
+			Fraction f = (Fraction) c;
 			if(f.isInteger())
 				return integer(f.signedNumerator());
 			else
 				return fraction(f);
 		}
-		else if(c instanceof MixedNumber mn)
+		else if(c instanceof MixedNumber) {
+			MixedNumber mn = (MixedNumber) c;
 			return mixedNumber(mn);
+		}
 		else if(c.isReal())
 			return decimal(c.real());
 		else if(c.isImaginary())

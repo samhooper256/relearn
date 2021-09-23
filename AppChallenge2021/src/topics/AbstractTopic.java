@@ -60,7 +60,7 @@ abstract class AbstractTopic implements Topic {
 
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof Topic t && Objects.equals(name(), t.name());
+		return o instanceof Topic && Objects.equals(name(), ((Topic) o).name());
 	}
 
 	@Override

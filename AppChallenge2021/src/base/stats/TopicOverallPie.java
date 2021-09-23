@@ -12,7 +12,25 @@ import topics.TopicUtils;
 
 final class TopicOverallPie extends PieChart {
 	
-	private record SliceInfo(PieChart.Data data, Tooltip tooltip) {};
+	private static final class SliceInfo {
+		
+		private final PieChart.Data data;
+		private final Tooltip tooltip;
+		
+		SliceInfo(PieChart.Data data, Tooltip tooltip) {
+			this.data = data;
+			this.tooltip = tooltip;
+		}
+		
+		PieChart.Data data() {
+			return data;
+		}
+		
+		Tooltip tooltip() {
+			return tooltip;
+		}
+		
+	}
 	
 	private static final String TOOLTIP_CSS = "topic-overall-pie-tooltip";
 	private static final Duration TOOLTIP_DELAY = Duration.ZERO;
@@ -50,7 +68,8 @@ final class TopicOverallPie extends PieChart {
 			Tooltip tool = tooltipFor(topicName);
 			if(oldNode != null)
 				Tooltip.uninstall(oldNode, tool);
-			if(newNode instanceof Region r) {
+			if(newNode instanceof Region) {
+				Region r = (Region) newNode;
 				r.setBackground(TopicUtils.backgroundFor(topicName));
 				Tooltip.install(r, tool);
 			}

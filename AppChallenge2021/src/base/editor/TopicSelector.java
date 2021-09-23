@@ -103,8 +103,10 @@ public class TopicSelector extends PolarizedPane {
 	}
 
 	private void notifySelectorBox() {
-		if(getParent() instanceof TopicSelectorBox b)
+		if(getParent() instanceof TopicSelectorBox) {
+			TopicSelectorBox b = (TopicSelectorBox) getParent();
 			b.notifySelectorChanged();
+		}
 	}
 	
 	public boolean isAdded() {

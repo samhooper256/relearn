@@ -45,15 +45,15 @@ public final class SetTabPane extends StatsTabPane {
 	
 	SetSingleTab tabForSetOrThrow(ProblemSet set) {
 		for(Tab t : getTabs())
-			if(t instanceof SetSingleTab st && st.set() == set)
-				return st;
+			if(t instanceof SetSingleTab && ((SetSingleTab) t).set() == set)
+				return ((SetSingleTab) t);
 		throw new IllegalArgumentException(String.format("The SetsTabPane does not contain the set: %s", set));
 	}
 
 	void updateAllStats() {
 		for(Tab t : getTabs())
-			if(t instanceof StatsTab st)
-				st.content().updateStats();
+			if(t instanceof StatsTab)
+				((StatsTab) t).content().updateStats();
 	}
 
 	private void setAdded(ProblemSet set) {

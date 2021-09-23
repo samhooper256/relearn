@@ -34,7 +34,7 @@ public final class TopicTabPane extends StatsTabPane {
 	
 	public void updateAllStats() {
 		for(Tab t : getTabs())
-			if(t instanceof TopicTab tt)
-				tt.content().updateStats();
+			if(t instanceof TopicTab)
+				((TopicTab) t).content().updateStats();
 	}
 }

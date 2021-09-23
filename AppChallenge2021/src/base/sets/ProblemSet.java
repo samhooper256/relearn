@@ -185,7 +185,7 @@ public final class ProblemSet implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		return this == obj || obj instanceof ProblemSet p && id() == p.id();
+		return this == obj || obj instanceof ProblemSet && id() == ((ProblemSet) obj).id();
 	}
 	
 }

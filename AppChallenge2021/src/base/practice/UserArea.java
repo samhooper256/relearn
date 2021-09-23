@@ -1,5 +1,6 @@
 package base.practice;
 
+import base.Main;
 import base.problems.Problem;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -79,7 +80,12 @@ public class UserArea extends GridPane {
 	}
 	
 	private void initProblemDisplay() {
-		problemDisplay.getEngine().setUserStyleSheetLocation(getClass().getResource("problemdisplay.css").toString());
+		try {
+			problemDisplay.getEngine().setUserStyleSheetLocation(Main.PROBLEM_DISPLAY_STYLESHEET);
+		}
+		catch(Exception e) {
+//			System.out.println("BADNESS AND SADNESS");
+		}
 		problemDisplayWrap.setPrefSize(FieldRow.FIELD_WIDTH, 100);
 		problemDisplay.getStyleClass().add(PROBLEM_DISPLAY_CSS);
 		problemDisplay.setMouseTransparent(true); //cannot be set from CSS

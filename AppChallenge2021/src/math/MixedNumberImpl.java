@@ -65,10 +65,14 @@ final class MixedNumberImpl implements MixedNumber {
 	public boolean equals(Object obj) {
 		if(this == obj)
 			return true;
-		if(obj instanceof FractionConvertible fc)
+		if(obj instanceof FractionConvertible) {
+			FractionConvertible fc = (FractionConvertible) obj;
 			return toFraction().equals(fc.toFraction());
-		if(obj instanceof Complex c)
+		}
+		if(obj instanceof Complex) {
+			Complex c = (Complex) obj;
 			return c.isReal() && isRealAndExactlyRepresentable() && toBigDecimalExact().equals(c.real());
+		}
 		return false;
 	}
 

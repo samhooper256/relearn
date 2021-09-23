@@ -64,8 +64,10 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 	private VerificationResult verifyTopicPanes() {
 		VerificationResult result = VerificationResult.success();
 		for(Node node : getChildren())
-			if(node instanceof TopicPane p)
+			if(node instanceof TopicPane) {
+				TopicPane p = (TopicPane) node;
 				result = result.and(p.verify());
+			}
 		return result;
 	}
 	
@@ -90,8 +92,10 @@ public class TopicPaneContainer extends VBox implements IndependentlyVerifiable 
 	
 	private void setTrashCanVisibilities(boolean visible) {
 		for(Node n : getChildren())
-			if(n instanceof TopicPane p)
+			if(n instanceof TopicPane) {
+				TopicPane p = (TopicPane) n;
 				p.setTrashCanVisible(visible);
+			}
 	}
 	
 	Stream<TopicPane> topicPanes() {

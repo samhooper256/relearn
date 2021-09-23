@@ -68,13 +68,14 @@ public final class Evaluator {
 		public int precedence() {
 			if(!isOperator())
 				throw new IllegalStateException(String.format("This token ('%s') is not an operator", text()));
-			return switch(text) {
-				case "+" -> 1;
-				case "-" -> type() == TokenType.UNARY_OPERATOR ? 3 : 1;
-				case "*", "/" -> 2;
-				case "^" -> 4;
-				default -> throw new IllegalStateException(String.format("Unrecognized operator: %s", text()));
-			};
+			switch(text) {
+				case "+": return 1;
+				case "-": return type() == TokenType.UNARY_OPERATOR ? 3 : 1;
+				case "*": return 2;
+				case "/": return 2;
+				case "^": return 4;
+				default: throw new IllegalStateException(String.format("Unrecognized operator: %s", text()));
+			}
 		}
 		
 		public boolean isOperator() {
@@ -95,7 +96,7 @@ public final class Evaluator {
 		
 		public Associativity associativity() {
 			if(!isOperator())
-				System.out.printf("this token ('%s') is not an operator.%n", text());
+				throw new IllegalStateException(String.format("this token ('%s') is not an operator.%n", text()));
 			return associativity;
 		}
 		
@@ -319,10 +320,13 @@ public final class Evaluator {
 					}
 					else {
 						Token prev = tokens.get(i - 1);
-						type = switch(prev.type()) {
-							case OPEN_PARENTHESIS, BINARY_OPERATOR, UNARY_OPERATOR, COMMA -> TokenType.UNARY_OPERATOR;
-							default -> TokenType.BINARY_OPERATOR;
-						};
+						if(prev.type() == TokenType.OPEN_PARENTHESIS || prev.type() == TokenType.BINARY_OPERATOR ||
+								prev.type() == TokenType.UNARY_OPERATOR || prev.type() == TokenType.COMMA) {
+							type = TokenType.UNARY_OPERATOR;
+						}
+						else {
+							type = TokenType.BINARY_OPERATOR;
+						}
 					}
 				}
 				else {
@@ -336,62 +340,61 @@ public final class Evaluator {
 	}
 	
 	private static Associativity findAssociativity(String op, TokenType type) {
-		return switch(op) {
-			case "-" -> type == TokenType.UNARY_OPERATOR ? Associativity.RIGHT : Associativity.LEFT;
-			case "/" -> Associativity.LEFT;
-			case "^" -> Associativity.RIGHT;
-			case "+", "*" -> Associativity.BOTH;
-			default -> throw new UnsupportedOperationException("Unrecognized operator: " + op);
-		};
+		switch(op) {
+			case "-": return type == TokenType.UNARY_OPERATOR ? Associativity.RIGHT : Associativity.LEFT;
+			case "/": return Associativity.LEFT;
+			case "^": return Associativity.RIGHT;
+			case "*": return Associativity.BOTH;
+			case "+": return Associativity.BOTH;
+			default: throw new UnsupportedOperationException("Unrecognized operator: " + op);
+		}
 	}
 	
 	private static List<Token> toPostfix(List<Token> infix) {
 		List<Token> postfix = new ArrayList<>();
 		Stack<Token> operatorStack = new Stack<>();
 		for(Token t : infix) {
-//			System.out.printf("t=%s, postfix=%s, operatorStack=%s%n", t, postfix, operatorStack);
 			switch(t.type()) {
-				case LITERAL -> postfix.add(t);
-				case COMMA -> {
+				case LITERAL: postfix.add(t); break;
+				case COMMA: 
 					Token top = operatorStack.peek();
 					while(!top.isOpenParenthesis()) {
 						postfix.add(operatorStack.pop());
 						top = operatorStack.peek();
 					}
-				}
-				case FUNCTION -> operatorStack.add(t);
-				case OPEN_PARENTHESIS -> {
+					break;
+				case FUNCTION: operatorStack.add(t); break;
+				case OPEN_PARENTHESIS:
 					operatorStack.push(t);
 					postfix.add(t);
-				}
-				case CLOSE_PARENTHESIS -> {
-					Token top = operatorStack.peek();
-					while(!top.isOpenParenthesis() && !top.isComma()) {
+					break;
+				case CLOSE_PARENTHESIS:
+					Token top2 = operatorStack.peek();
+					while(!top2.isOpenParenthesis() && !top2.isComma()) {
 						postfix.add(operatorStack.pop());
-						top = operatorStack.peek();
+						top2 = operatorStack.peek();
 					}
 					operatorStack.pop(); //get rid of open parenthesis or comma
-					if(top.isOpenParenthesis()) {
+					if(top2.isOpenParenthesis()) {
 						postfix.add(t); //add the closing parenthesis 
 						if(!operatorStack.isEmpty() && operatorStack.peek().type() == TokenType.FUNCTION)
 							postfix.add(operatorStack.pop());
 					}
+					break;
+			}
+			if(t.type() == TokenType.BINARY_OPERATOR || t.type() == TokenType.UNARY_OPERATOR) {
+				Token o1 = t, o2;
+				while(!operatorStack.isEmpty() && !(o2 = operatorStack.peek()).isHardStart() &&
+						(
+							o2.precedence() > o1.precedence() ||
+							o1.precedence() == o2.precedence() && o1.isLeftAssociative()
+						)
+				) {
+					postfix.add(operatorStack.pop());
 				}
-				case BINARY_OPERATOR, UNARY_OPERATOR -> {
-					Token o1 = t, o2;
-					while(!operatorStack.isEmpty() && !(o2 = operatorStack.peek()).isHardStart() &&
-							(
-								o2.precedence() > o1.precedence() ||
-								o1.precedence() == o2.precedence() && o1.isLeftAssociative()
-							)
-					) {
-						postfix.add(operatorStack.pop());
-					}
-					operatorStack.push(t);
-				}
+				operatorStack.push(t);
 			}
 		}
-//		System.out.printf("finished reading tokens, postfix=%s, operatorStack=%s%n", postfix, operatorStack);
 		while(!operatorStack.isEmpty()) {
 			postfix.add(operatorStack.pop());
 		}
@@ -405,14 +408,14 @@ public final class Evaluator {
 	}
 	
 	private static BinaryExpression binaryExpressionFrom(Token operator, ComplexValuedExpression left, ComplexValuedExpression right) {
-		return switch(operator.text()) {
-			case "+" -> left.add(right);
-			case "-" -> left.subtract(right);
-			case "*" -> left.multiply(right);
-			case "/" -> left.divide(right);
-			case "^" -> left.pow(right);
-			default -> throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
-		};
+		switch(operator.text()) {
+			case "+": return left.add(right);
+			case "-": return left.subtract(right);
+			case "*": return left.multiply(right);
+			case "/": return left.divide(right);
+			case "^": return left.pow(right);
+			default: throw new UnsupportedOperationException(String.format("Unrecognized operator: %s", operator));
+		}
 	}
 	
 	private static boolean isOpenParenthesis(String str) {
@@ -468,21 +471,21 @@ public final class Evaluator {
 		for (int i = 0; i < postfix.size(); i++) {
 			Token t = postfix.get(i);
 			switch(t.type()) {
-				case OPEN_PARENTHESIS -> { continue; }
-				case CLOSE_PARENTHESIS -> {
+				case OPEN_PARENTHESIS: continue; 
+				case CLOSE_PARENTHESIS:
 					if(i != postfix.size() - 1 && postfix.get(i + 1).type() == TokenType.FUNCTION)
 						continue;
 					else 
 						stack.push(stack.pop().parenthesized());
-				}
-				case LITERAL -> stack.add(ComplexValuedExpression.of(parseLiteral(t)));
-				case UNARY_OPERATOR -> stack.push(unaryExpressionFrom(t, stack.pop()));
-				case BINARY_OPERATOR -> {
+					break;
+				case LITERAL: stack.add(ComplexValuedExpression.of(parseLiteral(t))); break;
+				case UNARY_OPERATOR: stack.push(unaryExpressionFrom(t, stack.pop())); break;
+				case BINARY_OPERATOR:
 					ComplexValuedExpression right = stack.pop();
 					ComplexValuedExpression left = stack.pop();
 					stack.push(binaryExpressionFrom(t, left, right));
-				}
-				case FUNCTION -> {
+					break;
+				case FUNCTION:
 					FunctionData data = dataFor(t.text());
 					if(data.isUnary()) {
 						stack.push(data.applyFunction(stack.pop()));
@@ -494,8 +497,8 @@ public final class Evaluator {
 						Collections.reverse(arguments);
 						stack.push(data.applyFunction(arguments));
 					}
-				}
-				default -> throw new IllegalStateException(String.format("Invalid token: %s", t));
+					break;
+				default: throw new IllegalStateException(String.format("Invalid token: %s", t));
 			}
 		}
 		return stack.pop();

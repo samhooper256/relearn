@@ -115,10 +115,12 @@ class ComplexImpl implements Complex {
 	public boolean equals(Object obj) {
 		if(this == obj)
 			return true;
-		if(obj instanceof Fraction f)
+		if(obj instanceof Fraction) {
+			Fraction f = (Fraction) obj;
 			return isReal() && f.isRealAndExactlyRepresentable() && Objects.equals(f.toBigDecimalExact(), real());
-		return 	obj instanceof Complex c && BigUtils.equals(real(), c.real()) &&
-				BigUtils.equals(imaginary(), c.imaginary());
+		}
+		return 	obj instanceof Complex && BigUtils.equals(real(), ((Complex) obj).real()) &&
+				BigUtils.equals(imaginary(), ((Complex) obj).imaginary());
 	}
 	
 	/** Returns a string that is {@link Complex#isValidInRectangularForm(String) valid in rectangular form} and that

@@ -4,7 +4,7 @@
 package base.editor;
 
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 import base.Main;
 import base.graphics.FadePopup;
@@ -88,7 +88,7 @@ public class TopicSelectionPopup extends FadePopup {
 	}
 	
 	private void addSelectedButtonAction() {
-		List<Topic> topics = selectedTopics().toList();
+		List<Topic> topics = selectedTopics().collect(Collectors.toList());
 		EditorPane.get().addTopics(topics); //The TopicSelectors will automatically have their buttons updated,
 		//since they are listening to the their set's topics (which is a ReadOnlyAudibleSet<Topic>).
 		EditorPane.get().fadeOutTopicSelectionPane();

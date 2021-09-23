@@ -96,9 +96,9 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 	
 	private void removeAction() {
 		switch(mode()) {
-			case NORMAL -> setMode(Mode.REMOVAL);
-			case REMOVAL -> setMode(Mode.NORMAL);
-			default -> unsupported(mode());
+			case NORMAL: setMode(Mode.REMOVAL); break;
+			case REMOVAL: setMode(Mode.NORMAL); break;
+			default: unsupported(mode());
 		}
 	}
 	
@@ -160,9 +160,9 @@ public class TopicLayer extends HBox implements IndependentlyVerifiable {
 		if(mode() == newMode)
 			return;
 		switch(newMode) {
-			case REMOVAL -> setToRemovalMode();
-			case NORMAL -> setToNormalMode();
-			default -> unsupported(newMode);
+			case REMOVAL: setToRemovalMode(); break;
+			case NORMAL: setToNormalMode(); break;
+			default: unsupported(newMode);
 		}
 	}
 

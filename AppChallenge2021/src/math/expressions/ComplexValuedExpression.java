@@ -25,7 +25,8 @@ public interface ComplexValuedExpression extends Expression<Complex> {
 	}
 	
 	static ComplexValuedExpression of(Complex value) {
-		if(value instanceof Fraction f && !f.isInteger()) {
+		if(value instanceof Fraction && !((Fraction) value).isInteger()) {
+			Fraction f = ((Fraction) value);
 			ComplexValuedExpression e = of(f.numerator()).over(of(f.denominator()));
 			if(f.isNegative())
 				e = e.negate();

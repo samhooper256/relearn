@@ -1,10 +1,28 @@
 package math.expressions;
 
-record AdditionExpressionImpl(ComplexValuedExpression first, ComplexValuedExpression second) implements AdditionExpression {
+final class AdditionExpressionImpl implements AdditionExpression {
+
+	private final ComplexValuedExpression first;
+	private final ComplexValuedExpression second;
+	
+	public AdditionExpressionImpl(ComplexValuedExpression first, ComplexValuedExpression second) {
+		this.first = first;
+		this.second = second;
+	}
 
 	@Override
 	public String toString() {
 		return String.format("%s+%s", first(), second());
+	}
+
+	@Override
+	public ComplexValuedExpression first() {
+		return first;
+	}
+
+	@Override
+	public ComplexValuedExpression second() {
+		return second;
 	}
 	
 }

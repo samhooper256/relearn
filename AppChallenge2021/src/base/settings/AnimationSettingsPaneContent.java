@@ -54,8 +54,8 @@ public class AnimationSettingsPaneContent extends SettingsTitledPaneContent {
 	
 	private void setCheckBoxesSelected(boolean selected) {
 		for(Node n : vBox.getChildren())
-			if(n instanceof CheckBox cb)
-				cb.setSelected(selected);
+			if(n instanceof CheckBox)
+				((CheckBox) n).setSelected(selected);
 	}
 	
 }

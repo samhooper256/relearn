@@ -3,24 +3,72 @@
   <groupId>AppChallenge2021</groupId>
   <artifactId>AppChallenge2021</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>appchallenge2021</name>
+  <name>relearn</name>
   
   <properties>
-    <java.version>16</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
   
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <!--  
+    <resources>
+      <resource>
+        <directory>src/resources</directory>
+      </resource>
+    </resources>
+    -->
+    <plugins>
+    
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+      </plugin>
+      
+      <plugin>
+	    <artifactId>maven-assembly-plugin</artifactId>
+	    <executions>
+	        <execution>
+	        	<id>make-assembly</id>
+	            <phase>package</phase>
+	            <goals>
+	                <goal>single</goal>
+	            </goals>
+	            <configuration>
+	                <archive>
+	                <manifest>
+	                    <mainClass>
+	                       base.RealMain
+	                    </mainClass>
+	                </manifest>
+	                </archive>
+	                <descriptorRefs>
+	                    <descriptorRef>jar-with-dependencies</descriptorRef>
+	                </descriptorRefs>
+	            </configuration>
+	        </execution>
+	    </executions>
+	  </plugin>
+      
+    </plugins>
+    
+  </build> 
+  
   <dependencies>
+  
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>16</version>
+      <version>11.0.2</version>
     </dependency>
     
     <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-web -->
 	<dependency>
 	    <groupId>org.openjfx</groupId>
 	    <artifactId>javafx-web</artifactId>
-	    <version>16</version>
+	    <version>11.0.2</version>
 	</dependency>
 	
 	<dependency>
@@ -30,26 +78,5 @@
 	</dependency>
 	
   </dependencies>
-  
-  <build>
-    <finalName>appchallenge2021</finalName>
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src/images</directory>
-      </resource>
-    </resources>
-    
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <release>${java.version}</release>
-        </configuration>
-      </plugin> 
-      
-    </plugins>
-  </build> 
   
 </project>

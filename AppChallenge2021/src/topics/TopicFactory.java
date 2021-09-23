@@ -14,8 +14,15 @@ import base.Named;
  * @author Sam Hooper
  *
  */
-public record TopicFactory<T extends Topic>(String name, Supplier<T> generator)
-		implements Named, Comparable<TopicFactory<?>> {
+public final class TopicFactory<T extends Topic> implements Named, Comparable<TopicFactory<?>> {
+	
+	private final String name;
+	private final Supplier<T> generator;
+	
+	public TopicFactory(String name, Supplier<T> generator) {
+		this.name = name;
+		this.generator = generator;
+	}
 	
 	private static final Comparator<TopicFactory<?>> COMPARATOR = Comparator.comparing(TopicFactory::name);
 	
@@ -26,6 +33,15 @@ public record TopicFactory<T extends Topic>(String name, Supplier<T> generator)
 	@Override
 	public int compareTo(TopicFactory<?> o) {
 		return COMPARATOR.compare(this, o);
+	}
+	
+	@Override
+	public String name() {
+		return name;
+	}
+	
+	public Supplier<T> generator() {
+		return generator;
 	}
 	
 }

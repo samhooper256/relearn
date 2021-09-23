@@ -37,12 +37,16 @@ public class AddingIntegers extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		ArrayList<Integer> termList = termCreate();
-		String expression = switch(termList.size()) {
-			case 2 -> String.format("%d+%d", termList.get(0), termList.get(1));
-			case 3 -> String.format("%d+%d+%d", termList.get(0), termList.get(1), termList.get(2));
-			case 4 -> String.format("%d+%d+%d+%d", termList.get(0), termList.get(1), termList.get(2), termList.get(3));
-			default -> throw new IllegalStateException();
-		};
+		String expression;
+		if(termList.size() == 2)
+			expression = String.format("%d+%d", termList.get(0), termList.get(1));
+		else if(termList.size() == 3)
+			expression = String.format("%d+%d+%d", termList.get(0), termList.get(1), termList.get(2));
+		else if(termList.size() == 4)
+			expression = String.format(
+					"%d+%d+%d+%d", termList.get(0), termList.get(1), termList.get(2), termList.get(3));
+		else
+			throw new IllegalStateException();
 		return MathProblem.builder().set(this, expression, MathAnswerMode.REAL_DECIMAL).build();
 	}
 	

@@ -37,11 +37,13 @@ public class MultiplyingIntegers extends AbstractTopic {
 	@Override
 	public Problem generate() {
 		ArrayList<Integer> termList = termCreate();
-		String expression = switch(termList.size()) {
-			case 2 -> String.format("%d*%d", termList.get(0), termList.get(1));
-			case 3 -> String.format("%d*%d*%d", termList.get(0), termList.get(1), termList.get(2));
-			default -> throw new IllegalStateException();
-		};
+		String expression;
+		if(termList.size() == 2)
+			expression = String.format("%d*%d", termList.get(0), termList.get(1));
+		else if(termList.size() == 3)
+			expression = String.format("%d*%d*%d", termList.get(0), termList.get(1), termList.get(2));
+		else
+			throw new IllegalStateException();
 		return MathProblem.builder().set(this, expression, MathAnswerMode.REAL_DECIMAL).build();
 	}
 	
