@@ -16,4 +16,21 @@ public enum Time implements Unit<Time> {
 		return factor;
 	}
 	
+	@Override
+	public int sizeIndex() {
+		switch(this) {
+			case MILLISECOND: return 0;
+			case SECOND: return 1;
+			case MINUTE: return 2;
+			case HOUR: return 3;
+			case DAY: return 4;
+		};
+		throw new UnsupportedOperationException(String.format("Need size index for: %s", this));
+	}
+	
+	@Override
+	public String singularName() {
+		return name().toLowerCase();
+	}
+	
 }

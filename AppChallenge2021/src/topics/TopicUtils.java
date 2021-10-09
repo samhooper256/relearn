@@ -110,9 +110,15 @@ public final class TopicUtils {
 	}
 	
 	public static <E extends Enum<E> & Unit<E>> Problem generateConversionProblem(Topic topic, E[] arr) {
-		List<E> list = RNG.pick2Unique(arr);
-		E from = list.get(0);
-		E to = list.get(1);
+		E from, to;
+		do {
+			List<E> list = RNG.pick2Unique(arr);
+			
+			from = list.get(0);
+			to = list.get(1);
+		}
+		while(Math.abs(from.sizeIndex() - to.sizeIndex()) > 2); //prevents you from getting ridiculous conversions,
+		//such as inches to miles.
 		
 		Complex answer = Unit.converter(from, to).to(Complex.one());
 		

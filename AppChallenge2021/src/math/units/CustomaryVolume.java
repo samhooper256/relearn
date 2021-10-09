@@ -16,4 +16,23 @@ public enum CustomaryVolume implements Unit<CustomaryVolume> {
 		return factor;
 	}
 	
+	@Override
+	public int sizeIndex() {
+		switch(this) {
+			case FLUIDOUNCE: return 0;
+			case CUP: return 1;
+			case PINT: return 2;
+			case QUART: return 3;
+			case GALLON: return 4;
+		};
+		throw new UnsupportedOperationException(String.format("Need size index for: %s", this));
+	}
+	
+	@Override
+	public String singularName() {
+		if(this == FLUIDOUNCE)
+			return "fluid ounce";
+		return name().toLowerCase();
+	}
+	
 }
