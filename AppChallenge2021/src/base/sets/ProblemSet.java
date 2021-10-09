@@ -21,6 +21,7 @@ import utils.*;
  *
  */
 public final class ProblemSet implements Serializable {
+	
 	private static final long serialVersionUID = 415601596062566192L;
 	private static final AudibleSet<ProblemSet> SETS = AudibleSet.create(LinkedHashSet::new);
 	private static final Set<String> NAMES = new HashSet<>();

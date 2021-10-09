@@ -57,7 +57,8 @@ public class Main extends Application {
 			X_BOX = Images.get("x_box.png", AccuracyBar.ICON_SIZE, AccuracyBar.ICON_SIZE, false, true),
 			CHECK_BOX = Images.get("check_box.png", AccuracyBar.ICON_SIZE, AccuracyBar.ICON_SIZE, false, true),
 			TARGET = Images.get("target.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true),
-			FIRE = Images.get("fire.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true);
+			FIRE = Images.get("fire.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true),
+			LOGO = Images.get("logo.png", TopInfoBar.ICON_SIZE, TopInfoBar.ICON_SIZE, false, true);
 	
 	private static final boolean ASSERTIONS_REQUIRED = false;
 	
@@ -101,9 +102,9 @@ public class Main extends Application {
 		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(MainScene.get());
 		primaryStage.setMaximized(true);
+		primaryStage.getIcons().add(LOGO);
+		primaryStage.setFullScreen(true);
 		primaryStage.show();
-		
-		MainScene.get().animateIn();
 		
 	}
 	

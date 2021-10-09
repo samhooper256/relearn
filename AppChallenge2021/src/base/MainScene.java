@@ -39,6 +39,8 @@ public final class MainScene extends Scene {
 	private final VBox vBox;
 	private final Timeline introTimeline;
 	
+	private boolean animatedIn;
+	
 	private MainScene(StackPane root, double width, double height) {
 		super(root, width, height);
 		this.mainMenu = root;
@@ -54,6 +56,15 @@ public final class MainScene extends Scene {
 		
 		introTimeline = new Timeline();
 		initIntroTimeline();
+		
+		animatedIn = false;
+		
+		this.setOnMouseClicked(eh -> {
+			if(!animatedIn) {
+				animatedIn = true;
+				animateIn();
+			}
+		});
 		
 		getStylesheets().add(Main.class.getResource(Main.RESOURCES_PREFIX + "style.css").toExternalForm());
 	}

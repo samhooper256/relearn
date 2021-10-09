@@ -117,8 +117,7 @@ public class SetsPane extends StackPane {
 	
 	/** Assumes that the given {@link SetCard} is not already displayed by the {@link SetsPane}.*/
 	private void addCardSafe(SetCard card) {
-		flow.getStyleClass().add("flow");
-		flow.getChildren().addAll(card);
+		flow.getChildren().add(0, card);
 	}
 	
 	void requestEdit(ProblemSet set) {

@@ -109,9 +109,8 @@ public final class TopicUtils {
 		return BACKGROUNDS.get(topicName);
 	}
 	
-	public static <E extends Enum<E> & Unit<E>> Problem generateConversionProblem(Topic topic, E[] arr)
-	{
-		List<E>list = RNG.pick2Unique(arr);
+	public static <E extends Enum<E> & Unit<E>> Problem generateConversionProblem(Topic topic, E[] arr) {
+		List<E> list = RNG.pick2Unique(arr);
 		E from = list.get(0);
 		E to = list.get(1);
 		
